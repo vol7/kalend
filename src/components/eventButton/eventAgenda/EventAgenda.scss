@@ -1,0 +1,9 @@
+@import '../../../styles/colors';
+
+.Agenda__container {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  justify-content: center;
+  align-items: flex-start;
+}

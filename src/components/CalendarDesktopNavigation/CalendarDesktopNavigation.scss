@@ -1,0 +1,47 @@
+@import '../../styles/colors';
+
+.CalendarDesktopNavigation__container {
+  border-radius: 8px;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+  width: auto;
+  padding-left: 12px;
+  align-items: center;
+  //box-shadow: 0 5px 5px -5px #333;
+  @media (max-width: 750px) {
+    //width: 100%;
+    flex-direction: column;
+    padding-right: 12px;
+  }
+  }
+
+.CalendarDesktopNavigation__container-dark {
+  @extend .CalendarDesktopNavigation__container;
+  background-color: $MODAL_DARK;
+}
+
+.CalendarDesktopNavigation__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 750px) {
+    justify-content: flex-end;
+  }
+}
+
+.calendarButtonToday {
+  display: flex;
+  padding: 6px 4px 6px 4px;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  border: solid 0.4px $GRAY_300;
+  margin-right: 12px;
+  margin-left: 12px;
+}

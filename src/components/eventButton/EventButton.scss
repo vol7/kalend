@@ -1,0 +1,52 @@
+@import '../../styles/colors';
+
+.Event {
+  border-radius: 4px;
+  z-index: 2;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  color: white;
+  opacity: 1 !important;
+  animation-duration: 0.8s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-name: EventDetail_animationShow;
+  animation-delay: 0s;
+
+  &-month {
+    @extend .Event;
+    padding: 1px;
+    margin-bottom: 2px;
+  }
+
+  &-normal {
+    @extend .Event;
+  }
+
+  &-header {
+    @extend .Event;
+    padding: 1px;
+    padding-left: 3px;
+  }
+
+  &-agenda {
+    @extend .Event;
+    height: 100% !important;
+  }
+}
+
+
+@keyframes EventDetail_animationShow {
+  0% {
+    opacity: 0;
+    min-height: 0 !important;
+  }
+  100% {
+    opacity: 1;
+    min-height: 20px!important;
+    //height: 100%;
+  }
+}

@@ -1,0 +1,28 @@
+@import '../../../../styles/colors';
+
+.Event__time {
+  display: -webkit-box;
+  webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-size: 1rem;
+  margin: 0;
+  padding: 3px 1px 1px 2px;
+  opacity: 1;
+  overflow: hidden;
+  color: $GRAY_300;
+}
+
+.Event__time__type {
+  &-header {
+    padding: 1px;
+  }
+
+  &-month {
+    padding: 1px;
+  }
+
+  &-agenda {
+    font-size: 1.3rem;
+    padding: 0 8px 8px 8px;
+  }
+}

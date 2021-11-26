@@ -1,0 +1,34 @@
+@import '../../../../styles/colors';
+
+.Event__summary {
+  display: -webkit-box;
+  webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-size: 1rem;
+  margin: 0;
+  padding: 5px 1px 6px 4px;
+  opacity: 1;
+  overflow: hidden;
+  color: $GRAY_100;
+  @media (min-width: 750px) {
+    font-size: 1.2rem;
+  }
+}
+
+.Event__summary__type {
+  &-header {
+    padding: 1px;
+    padding-left: 3px;
+  }
+
+  &-month {
+    padding: 1px;
+    padding-left: 3px;
+  }
+
+  &-agenda {
+    font-size: 1.4rem;
+    padding: 8px;
+    font-weight: 600;
+  }
+}

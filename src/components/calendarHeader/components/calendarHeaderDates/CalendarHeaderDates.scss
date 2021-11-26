@@ -1,0 +1,66 @@
+@import '../../../../styles/colors';
+
+.CalendarHeaderDates__col {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.CalendarHeaderDates__circle {
+  height: 32px;
+  width: 32px;
+  padding: 0;
+  margin: 0;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text;
+
+  &-selected {
+    @extend .CalendarHeaderDates__circle;
+    background: $text;
+
+    &-dark {
+      @extend .CalendarHeaderDates__circle-selected;
+      background: $GRAY_200;
+    }
+  }
+
+  &-today {
+    @extend .CalendarHeaderDates__circle;
+    background: $PRIMARY_LIGHT;
+
+    &-dark {
+      @extend .CalendarHeaderDates__circle-today;
+      background: $PRIMARY_DARK;
+    }
+  }
+}
+
+.CalendarHeaderDates__text {
+  margin: 0;
+  padding: 1px;
+  font-size: 1.5rem;
+  align-self: center;
+  text-align: center;
+  font-weight: 500;
+  color: $GRAY_800;
+
+  &-dark {
+    @extend .CalendarHeaderDates__text;
+    color: $GRAY_300;
+  }
+
+  &-today {
+    @extend .CalendarHeaderDates__text;
+    color: $textDark;
+
+    &-dark {
+      @extend .CalendarHeaderDates__text-today;
+      color: $text;
+    }
+  }
+}
