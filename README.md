@@ -1,12 +1,16 @@
 # Calend  - calendar component for React
 
 Support for:
- - day view
- - three days view
- - week view
- - month view
+- day view
+- three days view
+- week view
+- month view
 
-If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui
+###LIVE DEMO: https://calend.nibdo.com
+
+![Alt text](screenshot.png?raw=true "Title")
+
+If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui.
 
 TODO:
 - dragging events
