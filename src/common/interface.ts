@@ -18,6 +18,7 @@ export interface Config {
 }
 
 export interface CalendarEvent {
+  id: any;
   startAt: string;
   endAt: string;
   timezoneStartAt: string;

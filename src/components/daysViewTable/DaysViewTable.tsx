@@ -1,6 +1,6 @@
 import './DaysViewTable.scss';
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
@@ -46,7 +46,8 @@ const DaysViewTable = (props: CalendarBodyProps) => {
   const { handleNewEventClick, handleEventClick } = props;
 
   const [store] = useContext(Context);
-  const { calendarDays, width, height, events, selectedView } = store;
+  const { hourHeight, calendarDays, width, height, events, selectedView } =
+    store;
 
   const headerEventRowsCount = 0;
 
@@ -81,6 +82,12 @@ const DaysViewTable = (props: CalendarBodyProps) => {
     }
   };
 
+  const adjustScrollPosition = () => {
+    const currentElement: any = document.getElementById(`timetable`);
+
+    currentElement.scrollTop = DateTime.now().hour * hourHeight - hourHeight;
+  };
+
   // Debounce scroll function
   // Turn off for desktop layout as there is just one active screen
   // const handleScroll = _.debounce(() => {
@@ -89,6 +96,10 @@ const DaysViewTable = (props: CalendarBodyProps) => {
   //   }
   //   setCurrentOffset();
   // }, 50);
+
+  useEffect(() => {
+    adjustScrollPosition();
+  }, []);
 
   const onPageChange = async (isGoingForward?: boolean) => {
     await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
