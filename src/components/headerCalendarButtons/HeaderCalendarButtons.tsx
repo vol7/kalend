@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import './HeaderCalendarButtons.scss';
 
-import { parseCssDark } from '../../utils/common';
+import { parseClassName, parseCssDark } from '../../utils/common';
 import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import ButtonBase from '../buttonBase/ButtonBase';
@@ -9,12 +9,13 @@ import ButtonBase from '../buttonBase/ButtonBase';
 interface HeaderCalendarButtonProps {
   buttonData: { label: string; value: CALENDAR_VIEW };
   setViewChanged: any;
+  handleClose?: any;
 }
 const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
-  const { buttonData, setViewChanged } = props;
+  const { buttonData, setViewChanged, handleClose } = props;
 
   const [store, dispatch] = useContext(Context);
-  const { isDark, calendarDays, selectedView } = store;
+  const { isDark, calendarDays, selectedView, isMobile } = store;
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
@@ -28,6 +29,9 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
   }`;
 
   const navigateFunction = (): void => {
+    if (handleClose) {
+      handleClose();
+    }
     // prevent flickering
     setViewChanged(buttonData.value);
     // setContext('calendarDays', calendarDays[0]);
@@ -37,10 +41,12 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
   return (
     <ButtonBase
       isDark={isDark}
-      className={parseCssDark(buttonClassName, isDark)}
+      className={parseClassName(buttonClassName, isMobile, isDark)}
       onClick={navigateFunction}
     >
-      <p className={parseCssDark(textClassName, isDark)}>{buttonData.label}</p>
+      <p className={parseClassName(textClassName, isMobile, isDark)}>
+        {buttonData.label}
+      </p>
     </ButtonBase>
   );
 };
@@ -48,48 +54,60 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
 interface HeaderCalendarButtonsProps {
   disabledViews?: CALENDAR_VIEW[];
   setViewChanged: any;
+  handleClose?: any;
 }
 /**
  * Buttons for switching calendar view in desktop layout
  * @constructor
  */
 const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
-  const { disabledViews, setViewChanged } = props;
+  const { disabledViews, setViewChanged, handleClose } = props;
   const [store] = useContext(Context);
 
-  const { isDark } = store;
+  const { isDark, isMobile } = store;
 
   return disabledViews &&
     disabledViews?.length + 1 === Object.values(CALENDAR_VIEW).length ? null : (
-    <div className={parseCssDark('header_calendar_buttons__container', isDark)}>
+    <div
+      className={parseClassName(
+        'header_calendar_buttons__container',
+        isMobile,
+        isDark
+      )}
+    >
       {!disabledViews?.includes(CALENDAR_VIEW.AGENDA) ? (
         <HeaderCalendarButton
           buttonData={{ label: 'Agenda', value: CALENDAR_VIEW.AGENDA }}
           setViewChanged={setViewChanged}
+          handleClose={handleClose}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.DAY) ? (
         <HeaderCalendarButton
           buttonData={{ label: 'Day', value: CALENDAR_VIEW.DAY }}
           setViewChanged={setViewChanged}
+          handleClose={handleClose}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.THREE_DAYS) ? (
         <HeaderCalendarButton
           buttonData={{ label: '3 Days', value: CALENDAR_VIEW.THREE_DAYS }}
           setViewChanged={setViewChanged}
+          handleClose={handleClose}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.WEEK) ? (
         <HeaderCalendarButton
           buttonData={{ label: 'Week', value: CALENDAR_VIEW.WEEK }}
           setViewChanged={setViewChanged}
+          handleClose={handleClose}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.MONTH) ? (
         <HeaderCalendarButton
           buttonData={{ label: 'Month', value: CALENDAR_VIEW.MONTH }}
           setViewChanged={setViewChanged}
+          handleClose={handleClose}
         />
       ) : null}
     </div>

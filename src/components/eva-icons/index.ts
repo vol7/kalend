@@ -24,10 +24,12 @@ import Calendar from './calendar';
 import ChevronRight from './chevron-right';
 import ChevronDown from './chevron-down';
 import ChevronLeft from './chevron-left';
+import More from './more';
 
 export const EvaIcons = {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   Calendar,
+  More,
 };

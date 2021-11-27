@@ -4,7 +4,7 @@ import './CalendarDesktopNavigation.scss';
 import HeaderCalendarTitle from '../headerCalendarTitle/HeaderCalendarTitle';
 import { Context } from '../../context/store';
 import HeaderCalendarButtons from '../headerCalendarButtons/HeaderCalendarButtons';
-import { parseCssDark } from '../../utils/common';
+import { parseClassName, parseCssDark } from '../../utils/common';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
 import { EvaIcons } from '../eva-icons';
 import { getNewCalendarDays } from '../../utils/getCalendarDays';
@@ -13,10 +13,12 @@ import { CALENDAR_VIEW } from '../../common/enums';
 import DesktopLayout from '../desktopLayout/DesktopLayout';
 import MobileLayout from '../mobileLayout/MobileLayout';
 import ButtonBase from '../buttonBase/ButtonBase';
+import MobileDropdown from '../mobileDropdown/MobileDropdown';
 
 interface CalendarDesktopNavigationProps {
   disabledViews?: CALENDAR_VIEW[];
   setViewChanged: any;
+  disableMobileDropdown?: boolean;
 }
 
 /**
@@ -30,7 +32,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
     dispatch({ type, payload });
   };
 
-  const { isDark, calendarDays, selectedView, selectedDate } = store;
+  const { isDark, calendarDays, selectedView, selectedDate, isMobile } = store;
 
   const title: string = DateTime.fromISO(selectedDate).toFormat('MMMM');
 
@@ -44,7 +46,11 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
 
   return (
     <div
-      className={parseCssDark('CalendarDesktopNavigation__container', isDark)}
+      className={parseClassName(
+        'CalendarDesktopNavigation__container',
+        isMobile,
+        isDark
+      )}
     >
       <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
         <DesktopLayout>
@@ -109,6 +115,11 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                   className={parseCssDark('icon-svg', isDark)}
                 />
               </ButtonIcon>
+              <MobileDropdown
+                disabledViews={props.disabledViews}
+                setViewChanged={props.setViewChanged}
+                disableMobileDropdown={props.disableMobileDropdown}
+              />
             </>
           </div>
         </MobileLayout>
@@ -118,7 +129,8 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
           display: 'flex',
           flexDirection: 'row',
           width: '100%',
-          marginRight: 40,
+          marginRight: 12,
+          justifyContent: 'flex-end',
         }}
       >
         <DesktopLayout>
