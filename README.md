@@ -5,10 +5,15 @@ Support for:
 - three days view
 - week view
 - month view
+#
 
-###LIVE DEMO: https://calend.nibdo.com
+### LIVE DEMO: https://calend.nibdo.com
+
+#
 
 ![Alt text](screenshot.png?raw=true "Title")
+
+#
 
 If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui.
 
