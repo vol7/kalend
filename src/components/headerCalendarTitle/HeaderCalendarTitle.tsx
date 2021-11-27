@@ -2,7 +2,7 @@ import './HeaderCalendarTitle.scss';
 
 import React, { useContext } from 'react';
 import { Context } from '../../context/store';
-import { parseCssDark } from '../../utils/common';
+import { parseClassName, parseCssDark } from '../../utils/common';
 import ButtonBase from '../buttonBase/ButtonBase';
 
 interface HeaderCalendarTitleProps {
@@ -18,11 +18,13 @@ const HeaderCalendarTitle = (props: HeaderCalendarTitleProps) => {
   const { title } = props;
 
   const [store] = useContext(Context);
-  const { isDark, selectedView } = store;
+  const { isDark, isMobile } = store;
 
   return (
-    <div className={`HeaderCalendarTitle__container`}>
-      <p className={parseCssDark('HeaderCalendarTitle', isDark)}>{title}</p>
+    <div className={parseClassName(`HeaderCalendarTitle__container`, isMobile)}>
+      <p className={parseClassName('HeaderCalendarTitle', isMobile, isDark)}>
+        {title}
+      </p>
     </div>
   );
 };

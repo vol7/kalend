@@ -1,12 +1,21 @@
 # Calend  - calendar component for React
 
 Support for:
- - day view
- - three days view
- - week view
- - month view
+- day view
+- three days view
+- week view
+- month view
+#
 
-If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui
+### LIVE DEMO: https://calend.nibdo.com
+
+#
+
+![Alt text](screenshot.png?raw=true "Title")
+
+#
+
+If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui.
 
 TODO:
 - dragging events
@@ -45,6 +54,7 @@ prop      | type             | default     | required      |  desc
 `onSelectView` | `callback func` | | false | callback for view change event
 `onPageChange` | `callback func` | | false | callback for navigating through calendar pages
 `showMoreMonth` | `callback func` | | false | callback for accessing events which didn't fit in month view
+`disableMobileDropdown` | `boolean` | | false | disable button for triggering mobile dropdown with views
 
 
 # Usage
@@ -52,10 +62,22 @@ prop      | type             | default     | required      |  desc
 ### Events
 
 Before passing events to calendar, adjust data to this format:
+Date key has to be in dd-MM-yyyy format 
 
     const events = {
+        '01-11-2021': [
+            {
+            id: 1,
+            startAt: '2021-11-21T18:00:00.000Z',
+            endAt: '2021-11-21T19:00:00.000Z',
+            timezoneStartAt: 'Europe/Berlin', // optional
+            summary: 'test',
+            color: 'blue',
+            }
+        ],
         '21-11-2021': [
             {
+            id: 2,
             startAt: '2021-11-21T18:00:00.000Z',
             endAt: '2021-11-21T19:00:00.000Z',
             timezoneStartAt: 'Europe/Berlin', // optional

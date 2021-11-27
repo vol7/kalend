@@ -13,6 +13,15 @@
   width: auto;
   //box-shadow: 0 5px 5px -5px #333;
 
+  &-mobile {
+    @extend .header_calendar_buttons__container;
+    flex-direction: column;
+    height: 100%;
+    background: whitesmoke;
+    width: 100%;
+    min-width: 80px;
+  }
+
   &-dark {
     @extend .header_calendar_buttons__container;
     background-color: $GRAY_600;
@@ -32,7 +41,16 @@
     @extend .header_calendar_button;
   }
 
-  &-dark {
+  &-mobile {
+    @extend .header_calendar_button;
+    background: whitesmoke;
+    border: none;
+    font-size: 1.5rem;
+    width: 100%;
+    padding: 8px;
+  }
+
+    &-dark {
     @extend .header_calendar_button;
     background-color: $GRAY_600;
     border: $GRAY_600 solid 0.5px;
@@ -42,6 +60,16 @@
 .header_calendar_button-selected {
   @extend .header_calendar_button;
   background: $SURFACE_LIGHT;
+
+  &-mobile {
+    @extend .header_calendar_button;
+    background: whitesmoke;
+    border: none;
+    font-size: 1.5rem;
+    width: 100%;
+    padding: 8px;
+  }
+
   &:hover {
     @extend .header_calendar_button-selected;
   }

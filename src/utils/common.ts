@@ -9,6 +9,22 @@ export const parseCssDark = (
   isDark: boolean | undefined
 ): string => (isDark ? `${className}-dark` : className);
 
+export const parseIsMobile = (className: string, isMobile: boolean): string => {
+  return isMobile ? `${className}-mobile` : className;
+};
+
+export const parseClassName = (
+  className: string,
+  isMobile?: boolean,
+  isDark?: boolean
+): string => {
+  let classNameParsed = className;
+  classNameParsed = isMobile ? `${classNameParsed}-mobile` : classNameParsed;
+  classNameParsed = isDark ? `${classNameParsed}-dark` : classNameParsed;
+
+  return classNameParsed;
+};
+
 export const formatTimestampToDate = (dateObj: any): string =>
   dateObj.isValid
     ? dateObj.toFormat('dd-MM-yyyy')
