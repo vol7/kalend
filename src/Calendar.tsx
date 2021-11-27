@@ -17,6 +17,7 @@ import CalendarTableLayoutLayer from './CalendarTableLayoutLayer';
 import { CALENDAR_VIEW } from './common/enums';
 import MonthView from './components/monthView/MonthView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
+import { DEFAULT_HOUR_HEIGHT } from './common/constants';
 
 interface CalendarProps {
   config: Config;
@@ -27,9 +28,16 @@ interface CalendarProps {
   selectedView?: CALENDAR_VIEW;
   showMoreMonth?: (data: CalendarEvent[]) => void;
   onPageChange?: (data: OnPageChangeData) => void;
+  disableMobileDropdown?: boolean;
 }
 const Calendar = (props: CalendarProps) => {
-  const { onNewEventClick, onEventClick, config, onSelectView } = props;
+  const {
+    onNewEventClick,
+    onEventClick,
+    config,
+    onSelectView,
+    disableMobileDropdown,
+  } = props;
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -55,20 +63,38 @@ const Calendar = (props: CalendarProps) => {
   // init context
   useEffect(() => {
     setContext('isDark', config.isDark);
-    setContext('events', config.events);
-    setContext('initialView', props.selectedView || config.initialView);
-    setContext('selectedView', props.selectedView || config.initialView);
-    setContext('selectedDate', config.initialDate);
-    setContext('hourHeight', config.hourHeight);
+    setContext('events', config.events || []);
+    setContext(
+      'initialView',
+      props.selectedView || config.initialView || CALENDAR_VIEW.WEEK
+    );
+    setContext(
+      'selectedView',
+      props.selectedView || config.initialView || CALENDAR_VIEW.WEEK
+    );
+    setContext('selectedDate', config.initialDate || new Date().toISOString());
+    setContext('hourHeight', config.hourHeight || DEFAULT_HOUR_HEIGHT);
     setContext('height', height);
     setContext(
       'width',
       width - getTableOffset(props.selectedView || config.initialView)
     );
+
+    if (width < 750) {
+      setContext('isMobile', true);
+    } else {
+      setContext('isMobile', false);
+    }
   }, []);
 
   useEffect(() => {
     setContext('width', getWidth() - getTableOffset(selectedView));
+
+    if (width < 750) {
+      setContext('isMobile', true);
+    } else {
+      setContext('isMobile', false);
+    }
   }, [width]);
   useEffect(() => {
     setContext('height', getHeight());
@@ -192,6 +218,7 @@ const Calendar = (props: CalendarProps) => {
       <CalendarDesktopNavigation
         disabledViews={props.disabledViews}
         setViewChanged={setViewChanged}
+        disableMobileDropdown={disableMobileDropdown}
       />
       <CalendarHeader handleEventClick={handleEventClick} />
       <div className={'Calendar__table'}>

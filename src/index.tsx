@@ -23,6 +23,7 @@ export interface CalendProps {
   onSelectView?: (view: CALENDAR_VIEW) => void;
   showMoreMonth?: (data: CalendarEvent[]) => void;
   onPageChange?: (data: OnPageChangeData) => void;
+  disableMobileDropdown?: boolean;
 }
 const Calend = (props: CalendProps) => {
   return (
@@ -44,6 +45,7 @@ const Calend = (props: CalendProps) => {
             selectedView={props.selectedView}
             showMoreMonth={props.showMoreMonth}
             onPageChange={props.onPageChange}
+            disableMobileDropdown={props.disableMobileDropdown}
           />
         </RootLayoutLayer>
       </StoreProvider>

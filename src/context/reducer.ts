@@ -16,6 +16,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         selectedView: action.payload,
       };
+    case 'isMobile':
+      return {
+        ...state,
+        isMobile: action.payload,
+      };
     case 'selectedDate':
       return {
         ...state,

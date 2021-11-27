@@ -45,6 +45,7 @@ prop      | type             | default     | required      |  desc
 `onSelectView` | `callback func` | | false | callback for view change event
 `onPageChange` | `callback func` | | false | callback for navigating through calendar pages
 `showMoreMonth` | `callback func` | | false | callback for accessing events which didn't fit in month view
+`disableMobileDropdown` | `boolean` | | false | disable button for triggering mobile dropdown with views
 
 
 # Usage
