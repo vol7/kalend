@@ -53,10 +53,22 @@ prop      | type             | default     | required      |  desc
 ### Events
 
 Before passing events to calendar, adjust data to this format:
+Date key has to be in dd-MM-yyyy format 
 
     const events = {
+        '01-11-2021': [
+            {
+            id: 1,
+            startAt: '2021-11-21T18:00:00.000Z',
+            endAt: '2021-11-21T19:00:00.000Z',
+            timezoneStartAt: 'Europe/Berlin', // optional
+            summary: 'test',
+            color: 'blue',
+            }
+        ],
         '21-11-2021': [
             {
+            id: 2,
             startAt: '2021-11-21T18:00:00.000Z',
             endAt: '2021-11-21T19:00:00.000Z',
             timezoneStartAt: 'Europe/Berlin', // optional

@@ -54,7 +54,10 @@ export const hoursArrayString = [
 export const parseEventColor = (
   colorString: string,
   isDark?: boolean
-): string => calendarColors[colorString][isDark ? 'dark' : 'light'];
+): string =>
+  calendarColors[colorString]
+    ? calendarColors[colorString][isDark ? 'dark' : 'light']
+    : colorString;
 
 export const calendarColors: any = {
   red: { dark: '#ef9a9a', light: '#e53935' },
