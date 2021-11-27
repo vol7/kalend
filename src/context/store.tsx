@@ -16,6 +16,7 @@ interface InitialContext {
   calendarDays: DateTime[];
   width: number;
   height: number;
+  isMobile: boolean;
 }
 
 const initialContext: InitialContext = {
@@ -30,6 +31,7 @@ const initialContext: InitialContext = {
   calendarDays: [],
   width: 0,
   height: 0,
+  isMobile: false,
 };
 
 const StoreProvider = ({ children }: any) => {

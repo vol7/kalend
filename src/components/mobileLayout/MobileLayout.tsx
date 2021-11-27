@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './MobileLayout.scss';
+import { Context } from '../../context/store';
 
 interface MobileLayoutProps {
   children: any;
@@ -7,12 +8,14 @@ interface MobileLayoutProps {
 }
 const MobileLayout = (props: MobileLayoutProps) => {
   const { children, style } = props;
+  const [store] = useContext(Context);
+  const { isMobile } = store;
 
-  return (
+  return isMobile ? (
     <div className={'MobileLayout'} style={style}>
       {children}
     </div>
-  );
+  ) : null;
 };
 
 export default MobileLayout;
