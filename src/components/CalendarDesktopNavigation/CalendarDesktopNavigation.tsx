@@ -34,7 +34,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
 
   const { isDark, calendarDays, selectedView, selectedDate, isMobile } = store;
 
-  const title: string = DateTime.fromISO(selectedDate).toFormat('MMMM');
+  const title: string = DateTime.fromISO(selectedDate).toFormat('MMMM yyyy');
 
   const navigateBackwards = async (): Promise<void> =>
     await getNewCalendarDays(calendarDays, selectedView, false, setContext);
@@ -52,7 +52,13 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
         isDark
       )}
     >
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          width: isMobile ? '100%' : 'auto',
+        }}
+      >
         <DesktopLayout>
           <div className={'CalendarDesktopNavigation__buttons'}>
             <>
@@ -128,9 +134,10 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
         style={{
           display: 'flex',
           flexDirection: 'row',
-          width: '100%',
+          // width: '100%',
           marginRight: 12,
           justifyContent: 'flex-end',
+          flex: 'auto',
         }}
       >
         <DesktopLayout>
