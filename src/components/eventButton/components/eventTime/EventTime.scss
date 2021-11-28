@@ -4,12 +4,12 @@
   display: -webkit-box;
   webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  font-size: 1rem;
   margin: 0;
-  padding: 3px 1px 1px 2px;
+  padding: 2px 1px 2px 4px;
   opacity: 1;
   overflow: hidden;
-  color: $GRAY_300;
+  color: white;
+  font-size: 1.2rem;
 }
 
 .Event__time__type {

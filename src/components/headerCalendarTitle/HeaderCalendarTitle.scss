@@ -24,7 +24,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
-  word-break: break-all;
+  //word-break: break-all;
 
   &-mobile {
     @extend .HeaderCalendarTitle;
@@ -32,11 +32,11 @@
     margin: 0;
     padding: 0;
     //text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
-    word-break: break-all;
+    //word-break: break-all;
   }
 
   &-dark {
