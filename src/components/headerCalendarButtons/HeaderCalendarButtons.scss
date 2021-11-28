@@ -20,9 +20,9 @@
     @extend .header_calendar_buttons__container;
     flex-direction: column;
     height: 100%;
-    background: whitesmoke;
     width: 100%;
     min-width: 80px;
+    border: none;
   }
 
   &-dark {
@@ -32,16 +32,16 @@
 }
 
 .header_calendar_button {
-  //background: $GRAY_300;
-  //border: $GRAY_300 solid 0.5px;
+  display: flex;
+  padding: 6px 4px 6px 4px;
+  justify-content: center;
+  align-items: center;
   width: auto;
   display: flex;
-
-
-  font-size: 1.4rem;
+  //font-size: 1.4rem;
   align-items: center;
   display: flex;
-  padding: 8px 4px 8px 4px;
+  //padding: 8px 4px 8px 4px;
   justify-content: center;
   align-items: center;
   //width: 60px;
@@ -52,7 +52,6 @@
 
   &-mobile {
     @extend .header_calendar_button;
-    background: whitesmoke;
     border: none;
     font-size: 1.5rem;
     width: 100%;
