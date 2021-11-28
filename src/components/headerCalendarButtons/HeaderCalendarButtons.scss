@@ -6,12 +6,15 @@
   padding: 0;
   //margin: 0 24px 0 24px;
   display: flex;
+  flex: none;
   flex-direction: row;
   align-items: center;
-  height: 26px;
-  background-color: $GRAY_300;
-  width: auto;
+  //height: 26px;
+  //background-color: $GRAY_300;
+  width: 100%;
   //box-shadow: 0 5px 5px -5px #333;
+  border-radius: 8px;
+  border: solid 0.4px $GRAY_300;
 
   &-mobile {
     @extend .header_calendar_buttons__container;
@@ -29,13 +32,19 @@
 }
 
 .header_calendar_button {
-  background: $GRAY_300;
-  border: $GRAY_300 solid 0.5px;
+  //background: $GRAY_300;
+  //border: $GRAY_300 solid 0.5px;
   width: auto;
   display: flex;
-  border-radius: 8px;
+
+
   font-size: 1.4rem;
   align-items: center;
+  display: flex;
+  padding: 8px 4px 8px 4px;
+  justify-content: center;
+  align-items: center;
+  //width: 60px;
 
   &:hover {
     @extend .header_calendar_button;
@@ -59,7 +68,7 @@
 
 .header_calendar_button-selected {
   @extend .header_calendar_button;
-  background: $SURFACE_LIGHT;
+  //background: $SURFACE_LIGHT;
 
   &-mobile {
     @extend .header_calendar_button;
