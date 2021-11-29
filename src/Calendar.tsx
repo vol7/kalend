@@ -203,13 +203,13 @@ const Calendar = (props: CalendarProps) => {
         rangeFrom: calendarDays?.[0]
           ?.set({ hour: 0, minute: 0 })
           .minus({ days: 1 })
-          .toUtc()
-          .toISOString(),
+          .toUTC()
+          .toString(),
         rangeTo: calendarDays?.[calendarDays?.length - 1]
           ?.set({ hour: 23, minute: 59, second: 59 })
           .plus({ days: 2 })
-          ?.toJSDate()
-          .toISOString(),
+          ?.toUTC()
+          .toString(),
       });
     }
   }, [
