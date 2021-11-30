@@ -21,6 +21,20 @@ const formatEventTime = (event: CalendarEvent): string => {
   )}`;
 };
 
+const formatEventTimeV2 = (
+  event: CalendarEvent
+): { start: string; end: string } => {
+  const { startAt, endAt, timezoneStart } = event;
+
+  const startAtDateTime: DateTime = parseToDateTime(startAt, timezoneStart);
+  const endAtDateTime: DateTime = parseToDateTime(endAt, timezoneStart);
+
+  return {
+    start: `${startAtDateTime.toFormat(TIME_FORMAT)}`,
+    end: `${endAtDateTime.toFormat(TIME_FORMAT)}`,
+  };
+};
+
 interface EventTimeProps {
   isDark: boolean;
   event: CalendarEvent;
@@ -30,8 +44,8 @@ interface EventTimeProps {
 const EventTime = (props: EventTimeProps) => {
   const { isDark, event, type } = props;
 
-  const time: string = formatEventTime(event);
-
+  const timeV2: any = formatEventTimeV2(event);
+  // const time: string = formatEventTime(event);
   return (
     <p
       className={`${parseCssDark(
@@ -39,7 +53,9 @@ const EventTime = (props: EventTimeProps) => {
         isDark
       )} Event__time__type-${type}`}
     >
-      {time}
+      {timeV2.start}
+      <br />
+      {timeV2.end}
     </p>
   );
 };

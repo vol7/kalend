@@ -35,6 +35,7 @@ export interface NormalEventPosition {
   width: number;
   offsetLeft: number;
   zIndex: number;
+  meta?: EventLayoutMeta;
 }
 
 export interface NewEventClickData {
@@ -46,4 +47,10 @@ export interface NewEventClickData {
 export interface OnPageChangeData {
   rangeFrom: string;
   rangeTo: string;
+}
+
+export interface EventLayoutMeta {
+  showTime: boolean;
+  isFullWidth: boolean;
+  centerText: boolean;
 }
