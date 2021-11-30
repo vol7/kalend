@@ -7,7 +7,7 @@ import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
 import EventAgenda from './eventAgenda/EventAgenda';
 import { EVENT_TYPE } from '../../common/enums';
-import { CalendarEvent } from '../../common/interface';
+import { CalendarEvent, EventLayoutMeta } from '../../common/interface';
 import ButtonBase from '../buttonBase/ButtonBase';
 import { Context } from '../../context/store';
 
@@ -23,6 +23,7 @@ interface EventStyle {
   transition?: string;
   zIndex?: number;
   border: string;
+  alignItems?: string;
 }
 
 interface EventProps {
@@ -35,6 +36,7 @@ interface EventProps {
   handleEventClick: (data: CalendarEvent) => void;
   zIndex: number;
   border?: string;
+  meta?: EventLayoutMeta;
 }
 const EventButton = (props: EventProps) => {
   const {
@@ -46,6 +48,7 @@ const EventButton = (props: EventProps) => {
     type,
     handleEventClick,
     zIndex,
+    meta,
   } = props;
 
   const [store] = useContext(Context);
@@ -68,6 +71,7 @@ const EventButton = (props: EventProps) => {
     zIndex,
     border: zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
     backgroundColor: /*dragging ? 'blue' : */ eventColor,
+    alignItems: meta?.centerText ? 'center' : 'inherit',
   };
 
   const onEventClick = (e: any) => {
@@ -93,7 +97,7 @@ const EventButton = (props: EventProps) => {
         <EventMonth event={event} isDark={isDark} type={type} />
       ) : null}
       {type === EVENT_TYPE.NORMAL ? (
-        <EventNormal event={event} isDark={isDark} type={type} />
+        <EventNormal event={event} isDark={isDark} type={type} meta={meta} />
       ) : null}
       {type === EVENT_TYPE.AGENDA ? (
         <EventAgenda event={event} isDark={isDark} type={type} />

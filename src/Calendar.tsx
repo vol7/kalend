@@ -200,11 +200,16 @@ const Calendar = (props: CalendarProps) => {
       calendarDays.length > 0
     ) {
       props.onPageChange({
-        rangeFrom: calendarDays?.[0]?.toJSDate().toISOString(),
+        rangeFrom: calendarDays?.[0]
+          ?.set({ hour: 0, minute: 0 })
+          .minus({ days: 1 })
+          .toUTC()
+          .toString(),
         rangeTo: calendarDays?.[calendarDays?.length - 1]
+          ?.set({ hour: 23, minute: 59, second: 59 })
           .plus({ days: 2 })
-          ?.toJSDate()
-          .toISOString(),
+          ?.toUTC()
+          .toString(),
       });
     }
   }, [

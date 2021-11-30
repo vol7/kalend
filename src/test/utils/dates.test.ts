@@ -5,7 +5,7 @@ import {
   isEventInRange,
 } from '../../utils/eventLayout';
 
-const assert = require('assert');
+import assert from 'assert';
 
 const baseDate = '2021-11-07';
 

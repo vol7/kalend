@@ -44,6 +44,7 @@ const renderEvents = (
       type={EVENT_TYPE.NORMAL}
       handleEventClick={handleEventClick}
       zIndex={item.zIndex}
+      meta={item.meta}
     />
   ));
 };

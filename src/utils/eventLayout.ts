@@ -6,12 +6,47 @@
  * @param isDark
  * @param defaultTimezone
  */
-import { EVENT_TABLE_DELIMITER_SPACE } from '../common/constants';
+import {
+  EVENT_MIN_HEIGHT,
+  EVENT_TABLE_DELIMITER_SPACE,
+  SHOW_TIME_THRESHOLD,
+} from '../common/constants';
 import { CalendarEvent, NormalEventPosition } from '../common/interface';
 import { parseToDateTime } from './dateTimeParser';
 import { DateTime, Interval } from 'luxon';
 import { getDaysNum, parseToDate } from './calendarDays';
 import { CALENDAR_VIEW } from '../common/enums';
+import LuxonHelper from './luxonHelper';
+
+const adjustForMinimalHeight = (
+  eventA: any,
+  eventB: any
+): { eventA: any; eventB: any } => {
+  const result: any = {
+    eventA: { ...eventA },
+    eventB: { ...eventB },
+  };
+
+  const eventADiff: number = DateTime.fromISO(eventA.endAt).diff(
+    DateTime.fromISO(eventA.startAt)
+  ).minutes;
+  const eventBDiff: number = DateTime.fromISO(eventB.endAt).diff(
+    DateTime.fromISO(eventB.startAt)
+  ).minutes;
+
+  if (eventADiff < EVENT_MIN_HEIGHT) {
+    result.eventA.endAt = DateTime.fromISO(result.eventA.endAt).plus({
+      minutes: EVENT_MIN_HEIGHT - eventADiff,
+    });
+  }
+  if (eventBDiff < EVENT_MIN_HEIGHT) {
+    result.eventB.endAt = DateTime.fromISO(result.eventB.endAt).plus({
+      minutes: EVENT_MIN_HEIGHT - eventBDiff,
+    });
+  }
+
+  return result;
+};
 
 export const calculateNormalEventPositions = (
   events: any,
@@ -44,12 +79,16 @@ export const calculateNormalEventPositions = (
         // Compare events
         events.forEach((item2: any) => {
           if (event.id !== item2.id && !item2.allDay) {
+            // adjust events to have at least minimal height to check
+            // overlapping
+            const { eventA, eventB } = adjustForMinimalHeight(event, item2);
+
             if (
-              checkOverlappingEvents(event, item2) &&
+              checkOverlappingEvents(eventA, eventB) &&
               // @ts-ignore
-              parseToDateTime(item2.endAt, item2.timezoneStart)
+              parseToDateTime(eventB.endAt, eventB.timezoneStart)
                 .diff(
-                  parseToDateTime(item2.startAt, item2.timezoneStart),
+                  parseToDateTime(eventB.startAt, eventB.timezoneStart),
                   'days'
                 )
                 .toObject().days < 1
@@ -108,11 +147,19 @@ export const calculateNormalEventPositions = (
 
         result.push({
           event,
-          height: eventHeight,
-          width: Math.round(eventWidth),
+          height:
+            eventHeight < EVENT_MIN_HEIGHT ? EVENT_MIN_HEIGHT : eventHeight,
+          width: eventWidth,
           offsetLeft,
           offsetTop,
           zIndex: 2,
+          meta: {
+            isFullWidth: width === 1,
+            showTime:
+              eventWidth >= SHOW_TIME_THRESHOLD &&
+              eventHeight >= SHOW_TIME_THRESHOLD,
+            centerText: eventHeight <= SHOW_TIME_THRESHOLD,
+          },
         });
       });
   }
@@ -120,20 +167,20 @@ export const calculateNormalEventPositions = (
   const partialResult: NormalEventPosition[] = result.map(
     (item: NormalEventPosition, index: number) => {
       // full event width
-      if (item.width === tableWidth) {
+      if (item.meta?.isFullWidth) {
         return {
           ...item,
-          width: item.width - tableSpace, // add some padding,
+          width: Math.round(item.width - tableSpace), // add some padding,
         };
       } else if (item.offsetLeft > 0) {
         return {
           ...item,
-          width: item.width,
+          width: Math.round(item.width),
           offsetLeft: item.offsetLeft - tableSpace,
           zIndex: item.zIndex ? item.zIndex + 2 : 2,
         };
       } else {
-        return item;
+        return { ...item, width: Math.round(item.width) };
       }
     }
   );

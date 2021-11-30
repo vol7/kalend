@@ -40,7 +40,7 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
 
   return (
     <ButtonBase
-      className={buttonClassName}
+      className={parseClassName(buttonClassName, isMobile)}
       isDark={isDark}
       onClick={navigateFunction}
     >
