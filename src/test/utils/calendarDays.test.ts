@@ -6,7 +6,7 @@ import {
 import { DateTime } from 'luxon';
 import { CALENDAR_VIEW } from '../../common/enums';
 
-const assert = require('assert');
+import assert from 'assert';
 
 describe(`calendarDays funcs`, function () {
   it('calculateOneDay func: forward', function () {

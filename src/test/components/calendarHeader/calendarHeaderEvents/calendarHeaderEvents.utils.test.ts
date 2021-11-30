@@ -1,6 +1,6 @@
 import { NormalEventPosition } from '../../../../common/interface';
 
-const assert = require('assert');
+import assert from 'assert';
 
 import { calculatePositionForHeaderEvents } from '../../../../components/calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { DateTime } from 'luxon';

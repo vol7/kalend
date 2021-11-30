@@ -2,15 +2,15 @@ import {
   CalendarEvent,
   NormalEventPosition,
 } from '../../../../common/interface';
-import { calculateNormalEventPositions } from '../../../../utils/eventLayout';
 import { CALENDAR_VIEW } from '../../../../common/enums';
 import {
   EVENT_MIN_HEIGHT,
   EVENT_TABLE_DELIMITER,
   TABLE_COL_SPACE,
 } from '../../../../common/constants';
+import { calculateNormalEventPositions } from '../../../../utils/eventLayout';
 
-const assert = require('assert');
+import assert from 'assert';
 
 const baseDate = '2021-11-07';
 
@@ -75,12 +75,12 @@ describe(`Calendar Body One day normal event positions`, function () {
     assert.equal(result.length, 2);
 
     // height
-    assert.equal(event1.height, EVENT_MIN_HEIGHT);
-    assert.equal(event2.height, EVENT_MIN_HEIGHT);
+    assert.equal(event1.height, 40);
+    assert.equal(event2.height, 40);
 
     // width
-    assert.equal(event1.width, 71);
-    assert.equal(event2.width, 71);
+    assert.equal(event1.width, 66);
+    assert.equal(event2.width, 66);
 
     // offset left
     assert.equal(event1.offsetLeft, 0);
@@ -107,7 +107,7 @@ describe(`Calendar Body One day normal event positions`, function () {
     assert.equal(result.length, 2);
 
     // height
-    assert.equal(event1.height, EVENT_MIN_HEIGHT);
+    assert.equal(event1.height, 40);
     assert.equal(event2.height, 140);
 
     // width
@@ -143,14 +143,14 @@ describe(`Calendar Body One day normal event positions`, function () {
       assert.equal(result.length, 3);
 
       // height
-      assert.equal(event1.height, EVENT_MIN_HEIGHT);
+      assert.equal(event1.height, 40);
       assert.equal(event2.height, 140);
-      assert.equal(event3.height, EVENT_MIN_HEIGHT);
+      assert.equal(event3.height, 40);
 
       // width
       assert.equal(event1.width, 36);
       assert.equal(event2.width, 36);
-      assert.equal(event3.width, 71);
+      assert.equal(event3.width, 66);
 
       // offset left
       assert.equal(event1.offsetLeft, 0);

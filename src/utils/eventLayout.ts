@@ -180,7 +180,7 @@ export const calculateNormalEventPositions = (
           zIndex: item.zIndex ? item.zIndex + 2 : 2,
         };
       } else {
-        return item;
+        return { ...item, width: Math.round(item.width) };
       }
     }
   );
