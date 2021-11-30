@@ -71,7 +71,7 @@ const EventButton = (props: EventProps) => {
     zIndex,
     border: zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
     backgroundColor: /*dragging ? 'blue' : */ eventColor,
-    alignItems: meta?.centerText ? 'center' : 'inherit',
+    // alignItems: meta?.centerText ? 'center' : 'inherit',
   };
 
   const onEventClick = (e: any) => {

@@ -20,6 +20,7 @@ const EventNormal = (props: EventNormalProps) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
+        maxWidth: '-webkit-fill-available',
       }}
     >
       <EventSummary summary={event.summary} isDark={isDark} type={type} />

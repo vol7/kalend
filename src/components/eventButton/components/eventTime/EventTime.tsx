@@ -53,9 +53,7 @@ const EventTime = (props: EventTimeProps) => {
         isDark
       )} Event__time__type-${type}`}
     >
-      {timeV2.start}
-      <br />
-      {timeV2.end}
+      {timeV2.start} - {timeV2.end}
     </p>
   );
 };
