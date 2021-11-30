@@ -118,7 +118,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
     : 'ButtonBase';
 
   return (
-    <div
+    <button
       id={id}
       ref={buttonRef}
       onClick={onButtonClick}
@@ -135,7 +135,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
       {isPressed && !disabled ? (
         <span style={spanStyle} className={'ButtonBase__animation'} />
       ) : null}
-    </div>
+    </button>
   );
 };
 

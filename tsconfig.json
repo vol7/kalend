@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["es2015", "dom"],
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "module": "commonjs",
     "target": "ES6",
     "declaration": true,
     "outDir": "dist",
@@ -10,7 +14,6 @@
     "allowJs": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
