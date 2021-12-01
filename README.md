@@ -23,6 +23,9 @@ TODO:
 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 
+# Install
+    npm i calend
+
 # Example
     import Calend from 'calend'
 
