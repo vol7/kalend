@@ -71,7 +71,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
                 width: '100%',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'flex-start',
+                alignItems: 'center',
               }}
               onClick={handleShowMore}
             >
