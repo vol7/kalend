@@ -11,6 +11,10 @@ import LuxonHelper from '../../../utils/luxonHelper';
 import { parseCssDark } from '../../../utils/common';
 import { CalendarEvent } from '../../../common/interface';
 import ButtonBase from '../../buttonBase/ButtonBase';
+import {
+  MONTH_DAY_HEADER_HEIGHT,
+  MONTH_EVENT_HEIGHT,
+} from '../../../common/constants';
 
 const DAY_TABLE_WIDTH = '90%';
 
@@ -29,8 +33,8 @@ const MonthOneDay = (props: MonthOneDayProps) => {
 
   const renderEvents = (dataset: any) => {
     const tableWidth: string = DAY_TABLE_WIDTH;
-    const tableHeight: number = height / 6 - 25; // height of one day
-    const maxEvents = Math.floor(Number(String(tableHeight / 24)));
+    const tableHeight: number = height / 6 - MONTH_DAY_HEADER_HEIGHT; // height of one day
+    const maxEvents = Number((tableHeight / MONTH_EVENT_HEIGHT).toFixed(0)) - 1;
 
     const eventsCount: any = [];
 
@@ -42,11 +46,8 @@ const MonthOneDay = (props: MonthOneDayProps) => {
 
     if (dataset) {
       return dataset.map((event: any, index: number) => {
-        //event.left
-        // BUG/TODO break event if continues next day
-        // Current status: events is displayed in wrong place
         eventsCount.push('one');
-        if (eventsCount.length < maxEvents || maxEvents === dataset.length) {
+        if (eventsCount.length < maxEvents) {
           return (
             <EventButton
               key={event.id}
@@ -65,11 +66,12 @@ const MonthOneDay = (props: MonthOneDayProps) => {
             <ButtonBase
               key={day.toString()}
               isDark={isDark}
+              className={'Monthview_Event'}
               style={{
                 width: '100%',
                 display: 'flex',
                 justifyContent: 'center',
-                alignItems: 'center',
+                alignItems: 'flex-start',
               }}
               onClick={handleShowMore}
             >
