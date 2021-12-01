@@ -18,9 +18,10 @@
 
   &-month {
     @extend .Event;
-    padding: 1px;
-    margin-bottom: 2px;
+    padding-left: 1px;
+    margin-bottom: 1px;
     align-items: center;
+    min-height: auto !important;
   }
 
   &-normal {

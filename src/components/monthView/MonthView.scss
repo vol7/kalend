@@ -18,3 +18,9 @@ $month_view__height: 100%/6;
   left: 0;
   right: 0;
 }
+
+.Monthview_Event {
+  max-height: 16px !important;
+  min-height: 16px;
+  margin-top: 1px;
+}
