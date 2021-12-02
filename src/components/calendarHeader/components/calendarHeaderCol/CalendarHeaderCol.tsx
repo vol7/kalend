@@ -12,7 +12,9 @@ const CalendarHeaderCol = (props: CalendarHeaderColProps) => {
   const { isDark } = store;
 
   return (
-    <div className={parseCssDark('CalendarHeaderCol', isDark)}>{children}</div>
+    <div className={parseCssDark('Calend__CalendarHeaderCol', isDark)}>
+      {children}
+    </div>
   );
 };
 

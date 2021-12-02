@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 
-.CalendarDesktopNavigation__container {
+.Calend__CalendarDesktopNavigation__container {
   border-radius: 8px;
   left: 0;
   padding: 0;
@@ -15,30 +15,30 @@
   align-items: center;
   //box-shadow: 0 5px 5px -5px #333;
   &-mobile {
-    @extend .CalendarDesktopNavigation__container;
+    @extend .Calend__CalendarDesktopNavigation__container;
     //width: 100%;
     flex-direction: column;
   }
   }
 
-.CalendarDesktopNavigation__container-dark {
-  @extend .CalendarDesktopNavigation__container;
+.Calend__CalendarDesktopNavigation__container-dark {
+  @extend .Calend__CalendarDesktopNavigation__container;
   background-color: $MODAL_DARK;
 }
 
-.CalendarDesktopNavigation__buttons {
+.Calend__CalendarDesktopNavigation__buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 
   &-mobile {
-    @extend .CalendarDesktopNavigation__buttons;
+    @extend .Calend__CalendarDesktopNavigation__buttons;
     justify-content: flex-end;
   }
 }
 
-.calendarButtonToday {
+.Calend__calendarButtonToday {
   display: flex;
   padding: 6px 4px 6px 4px;
   justify-content: center;

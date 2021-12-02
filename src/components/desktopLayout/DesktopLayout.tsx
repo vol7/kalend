@@ -9,7 +9,9 @@ const DesktopLayout = (props: DesktopLayoutProps) => {
   const [store] = useContext(Context);
   const { isMobile } = store;
 
-  return !isMobile ? <div className={'DesktopLayout'}>{children}</div> : null;
+  return !isMobile ? (
+    <div className={'Calend__DesktopLayout'}>{children}</div>
+  ) : null;
 };
 
 export default DesktopLayout;

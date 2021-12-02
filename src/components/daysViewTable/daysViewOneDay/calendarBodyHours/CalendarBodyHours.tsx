@@ -11,20 +11,28 @@ const renderHours = (width: number, hourHeight: number, isDark: boolean) =>
     hour === '00' || hour === '24' ? (
       <div
         key={hour}
-        className={'CalendarBodyHours__container'}
+        className={'Calend__CalendarBodyHours__container'}
         style={{ minHeight: hourHeight }}
       />
     ) : (
       <div
         key={hour}
-        className={'CalendarBodyHours__container'}
+        className={'Calend__CalendarBodyHours__container'}
         style={{ minHeight: hourHeight }}
       >
-        <p className={parseCssDark('CalendarBodyHours__text', isDark)}>
+        <p
+          className={parseCssDark(
+            'Calend__text Calend__CalendarBodyHours__text',
+            isDark
+          )}
+        >
           {hour}
         </p>
         <div
-          className={parseCssDark('CalendarBodyHours__line', isDark)}
+          className={parseCssDark(
+            'Calend__text Calend__CalendarBodyHours__line',
+            isDark
+          )}
           style={{ width: width - CALENDAR_OFFSET_LEFT }}
         />
       </div>
@@ -38,7 +46,7 @@ const CalendarBodyHours = () => {
   const hours: any = renderHours(width, hourHeight, isDark);
 
   return (
-    <div className={'CalendarBodyHours__wrapper'} style={{ height }}>
+    <div className={'Calend__CalendarBodyHours__wrapper'} style={{ height }}>
       {hours}
     </div>
   );

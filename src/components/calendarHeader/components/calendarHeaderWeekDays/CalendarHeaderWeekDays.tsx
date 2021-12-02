@@ -35,10 +35,12 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderDaysTextProps) => {
       return daysText.map((day: string) => (
         <div
           key={day}
-          className={'CalendarHeaderWeekDays__col'}
+          className={'Calend__CalendarHeaderWeekDays__col'}
           style={dayTextColumnWidth}
         >
-          <p className={'CalendarHeaderWeekDays__text'}>{day}</p>
+          <p className={'Calend__text Calend__CalendarHeaderWeekDays__text'}>
+            {day}
+          </p>
         </div>
       ));
     }
@@ -46,18 +48,22 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderDaysTextProps) => {
     return days.map((day: DateTime) => (
       <div
         key={day.toString()}
-        className={'CalendarHeaderWeekDays__col'}
+        className={'Calend__CalendarHeaderWeekDays__col'}
         style={dayTextColumnWidth}
       >
-        <p className={'CalendarHeaderWeekDays__text'}>{day.toFormat('EEE')}</p>
+        <p className={'Calend__text Calend__CalendarHeaderWeekDays__text'}>
+          {day.toFormat('EEE')}
+        </p>
       </div>
     ));
   };
   const namesForDays: any = renderDaysText();
 
   return (
-    <div className={'CalendarHeaderWeekDays__wrapper'}>
-      <div className={'CalendarHeaderWeekDays__container'}>{namesForDays}</div>
+    <div className={'Calend__CalendarHeaderWeekDays__wrapper'}>
+      <div className={'Calend__CalendarHeaderWeekDays__container'}>
+        {namesForDays}
+      </div>
     </div>
   );
 };

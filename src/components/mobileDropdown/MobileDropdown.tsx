@@ -30,17 +30,20 @@ const MobileDropdown = (props: MobileDropdownProps) => {
 
   return disableMobileDropdown ? null : (
     <>
-      <div className={'MobileDropdown__wrapper'}>
+      <div className={'Calend__MobileDropdown__wrapper'}>
         <ButtonIcon isDark={isDark} key={'calendar'} onClick={handleOpen}>
           <EvaIcons.More className={parseCssDark('icon-svg', isDark)} />
         </ButtonIcon>
         {isOpen ? (
-          <div className={'MobileDropdown__backdrop'} onClick={handleClose} />
+          <div
+            className={'Calend__MobileDropdown__backdrop'}
+            onClick={handleClose}
+          />
         ) : null}
         {isOpen ? (
-          <div className={'MobileDropdown__container'}>
+          <div className={'Calend__MobileDropdown__container'}>
             <div
-              className={'MobileDropdown__container-content'}
+              className={'Calend__MobileDropdown__container-content'}
               onClick={preventDefault}
             >
               <HeaderCalendarButtons

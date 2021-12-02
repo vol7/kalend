@@ -61,7 +61,7 @@ const MonthView = (props: MonthViewProps) => {
 
   return (
     // <Carousel onPageChange={onPageChange}>
-    <div className={'MonthView__container'} style={daysWrapper}>
+    <div className={'Calend__MonthView__container'} style={daysWrapper}>
       {days}
     </div>
     // </Carousel>

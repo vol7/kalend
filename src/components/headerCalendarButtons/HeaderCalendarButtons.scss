@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 
-.header_calendar_buttons__container {
+.Calend__header_calendar_buttons__container {
   border-radius: 8px;
   left: 0;
   padding: 0;
@@ -17,7 +17,7 @@
   border: solid 0.4px $GRAY_300;
 
   &-mobile {
-    @extend .header_calendar_buttons__container;
+    @extend .Calend__header_calendar_buttons__container;
     flex-direction: column;
     height: 100%;
     width: 100%;
@@ -26,12 +26,12 @@
   }
 
   &-dark {
-    @extend .header_calendar_buttons__container;
+    @extend .Calend__header_calendar_buttons__container;
     background-color: $GRAY_600;
   }
 }
 
-.header_calendar_button {
+.Calend__header_calendar_button {
   display: flex;
   padding: 6px 4px 6px 4px;
   justify-content: center;
@@ -47,61 +47,61 @@
   //width: 60px;
 
   &:hover {
-    @extend .header_calendar_button;
+    @extend .Calend__header_calendar_button;
   }
 
   &-mobile {
-    @extend .header_calendar_button;
+    @extend .Calend__header_calendar_button;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     width: 100%;
     padding: 8px;
   }
 
     &-dark {
-    @extend .header_calendar_button;
+    @extend .Calend__header_calendar_button;
     background-color: $GRAY_600;
     border: $GRAY_600 solid 0.5px;
   }
 }
 
-.header_calendar_button-selected {
-  @extend .header_calendar_button;
+.Calend__header_calendar_button-selected {
+  @extend .Calend__header_calendar_button;
   //background: $SURFACE_LIGHT;
 
   &-mobile {
-    @extend .header_calendar_button;
+    @extend .Calend__header_calendar_button;
     background: whitesmoke;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.5em;
     width: 100%;
     padding: 8px;
   }
 
   &:hover {
-    @extend .header_calendar_button-selected;
+    @extend .Calend__header_calendar_button-selected;
   }
 }
-.header_calendar_button-selected-dark {
-  @extend .header_calendar_button-selected;
+.Calend__header_calendar_button-selected-dark {
+  @extend .Calend__header_calendar_button-selected;
 }
 
-.header_calendar_button-text {
+.Calend__header_calendar_button-text {
   padding: 0 10px 0 10px !important;
   color: $GRAY_800;
 
   &-dark {
-    @extend .header_calendar_button-text;
+    @extend .Calend__header_calendar_button-text;
     color: $GRAY_200;
   }
 }
 
-.header_calendar_button-text-selected {
-  @extend .header_calendar_button-text;
+.Calend__header_calendar_button-text-selected {
+  @extend .Calend__header_calendar_button-text;
   color: $PRIMARY_LIGHT !important;
 
   &-dark {
-    @extend .header_calendar_button-text-selected;
+    @extend .Calend__header_calendar_button-text-selected;
     color: $PRIMARY_DARK;
   }
 }

@@ -1,9 +1,9 @@
 @import '../../styles/colors';
 
-.MobileDropdown__wrapper {
+.Calend__MobileDropdown__wrapper {
   position: relative;
 }
-.MobileDropdown__backdrop {
+.Calend__MobileDropdown__backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 
-.MobileDropdown__container {
+.Calend__MobileDropdown__container {
   position: absolute;
   top: 50px;
   right: 4px;
@@ -27,7 +27,7 @@
   border-radius: 8px;
 }
 
-.MobileDropdown__container-content {
+.Calend__MobileDropdown__container-content {
   display: flex;
   flex-direction: column;
   height: 100%;

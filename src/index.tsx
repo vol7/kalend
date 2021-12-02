@@ -26,7 +26,7 @@ export interface CalendProps {
 }
 const Calend = (props: CalendProps) => {
   return (
-    <div className={'Calendar__root'}>
+    <div className={'Calend__Calendar__root Calend__main'}>
       <StoreProvider>
         <RootLayoutLayer>
           <Calendar
