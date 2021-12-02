@@ -1,7 +1,4 @@
-import './CalendarBodyHours.scss';
-
 import React, { useContext } from 'react';
-import { Config } from '../../../../common/interface';
 import { parseCssDark } from '../../../../utils/common';
 import {
   CALENDAR_OFFSET_LEFT,

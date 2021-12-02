@@ -1,5 +1,3 @@
-import './MobileDropdown.scss';
-
 import React, { useContext, useState } from 'react';
 import { Context } from '../../context/store';
 import { parseCssDark } from '../../utils/common';

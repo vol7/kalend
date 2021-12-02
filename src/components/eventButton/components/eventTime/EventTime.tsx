@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './EventTime.scss';
-
 import { DateTime } from 'luxon';
 import { CalendarEvent } from '../../../../common/interface';
 import { parseToDateTime } from '../../../../utils/dateTimeParser';

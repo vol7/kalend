@@ -1,5 +1,3 @@
-import './CalendarHeaderColText.scss';
-
 import React from 'react';
 
 interface CalendarHeaderColTextProps {

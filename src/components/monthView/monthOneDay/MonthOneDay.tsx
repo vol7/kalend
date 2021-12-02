@@ -1,5 +1,3 @@
-import './MonthOneDay.scss';
-
 import React, { useContext } from 'react';
 import { DateTime } from 'luxon';
 

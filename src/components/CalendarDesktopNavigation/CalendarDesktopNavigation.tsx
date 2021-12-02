@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './CalendarDesktopNavigation.scss';
 
 import HeaderCalendarTitle from '../headerCalendarTitle/HeaderCalendarTitle';
 import { Context } from '../../context/store';

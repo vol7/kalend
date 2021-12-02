@@ -1,11 +1,8 @@
-import './MonthView.scss';
-
 import React, { useContext } from 'react';
 import MonthOneDay from './monthOneDay/MonthOneDay';
 import { formatTimestampToDate } from '../../utils/common';
 import { Context } from '../../context/store';
 import { getNewCalendarDays } from '../../utils/getCalendarDays';
-import Carousel from '../carousel/carousel';
 import { CALENDAR_VIEW } from '../../common/enums';
 import { CalendarEvent } from '../../common/interface';
 

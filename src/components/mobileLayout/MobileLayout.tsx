@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './MobileLayout.scss';
 import { Context } from '../../context/store';
 
 interface MobileLayoutProps {

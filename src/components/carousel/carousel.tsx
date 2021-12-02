@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './carousel.scss';
 import { useWidth } from '../../utils/layout';
 import { EvaIcons } from '../eva-icons';
 

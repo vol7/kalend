@@ -1,5 +1,3 @@
-import './CalendarHeaderDates.scss';
-
 import React, { useContext } from 'react';
 import { DateTime } from 'luxon';
 
