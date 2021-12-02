@@ -1,5 +1,3 @@
-import './EventAgenda.scss';
-
 import React from 'react';
 
 import EventSummary from '../components/eventSummary/EventSummary';

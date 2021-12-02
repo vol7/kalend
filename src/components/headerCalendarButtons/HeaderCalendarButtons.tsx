@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './HeaderCalendarButtons.scss';
 
 import { parseClassName, parseCssDark } from '../../utils/common';
 import { CALENDAR_VIEW } from '../../common/enums';

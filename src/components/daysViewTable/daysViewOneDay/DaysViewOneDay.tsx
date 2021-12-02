@@ -1,5 +1,3 @@
-import './DaysViewOneDay.scss';
-
 import React, { useContext, useEffect } from 'react';
 import { DateTime } from 'luxon';
 import { parseCssDark } from '../../../utils/common';

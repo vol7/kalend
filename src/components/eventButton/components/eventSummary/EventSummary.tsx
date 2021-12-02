@@ -1,6 +1,5 @@
 import React from 'react';
 
-import './EventSummary.scss';
 import { EVENT_TYPE } from '../../../../common/enums';
 import { parseCssDark } from '../../../../utils/common';
 

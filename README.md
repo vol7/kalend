@@ -27,7 +27,8 @@ If you have any suggestion, feel free to open discussion or contact me directly 
     npm i calend
 
 # Example
-    import Calend from 'calend'
+    import Calend from 'calend' // import component
+    import 'calend/styles/index.css'; // import styles
 
         <Calend
           onEventClick={onEventClick}

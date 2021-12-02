@@ -1,5 +1,3 @@
-import './DaysViewTable.scss';
-
 import React, { useContext, useEffect } from 'react';
 import { DateTime } from 'luxon';
 

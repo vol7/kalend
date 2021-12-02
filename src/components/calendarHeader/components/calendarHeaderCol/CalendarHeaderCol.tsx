@@ -1,5 +1,3 @@
-import './CalendarHeaderCol.scss';
-
 import React, { useContext } from 'react';
 import { Context } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';

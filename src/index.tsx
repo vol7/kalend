@@ -1,6 +1,5 @@
 import React from 'react';
 import Calendar from './Calendar';
-import './index.scss';
 import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
 import {

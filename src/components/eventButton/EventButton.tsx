@@ -1,5 +1,3 @@
-import './EventButton.scss';
-
 import React, { useContext, useEffect, useState } from 'react';
 
 import { parseEventColor } from '../../utils/calendarDays';

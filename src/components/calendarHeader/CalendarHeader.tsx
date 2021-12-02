@@ -1,5 +1,3 @@
-import './CalendarHeader.scss';
-
 import React, { useContext } from 'react';
 import CalendarHeaderDays from './calendarHeaderDays/CalendarHeaderDays';
 import CalendarHeaderEvents from './calendarHeaderEvents/CalendarHeaderEvents';

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './DestopLayout.scss';
 import { Context } from '../../context/store';
 
 interface DesktopLayoutProps {
