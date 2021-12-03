@@ -226,7 +226,7 @@ const Calendar = (props: CalendarProps) => {
         disableMobileDropdown={disableMobileDropdown}
       />
       <CalendarHeader handleEventClick={handleEventClick} />
-      <div className={'Calendar__table'}>
+      <div className={'Calend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
             <MonthView

@@ -48,6 +48,7 @@
   "scripts": {
     "start": "BROWSER=none PORT=4103 react-scripts start",
     "build": "npm run compile && npm run copy && npm run compile-scss && gulp && rm -r ./dist/styles/tmp",
+    "dev": "touch index.css && cp index.css ./dist/styles && npm run compile && npm run copy && npm run compile-scss && gulp && rm -r ./dist/styles/tmp",
     "compile": "tsc --module commonjs",
     "compile-scss": "node-sass ./src/ --output ./dist/styles/tmp",
     "copy-style": "copyfiles -u 1 \"./src/**/*.scss\" \"dist\"",

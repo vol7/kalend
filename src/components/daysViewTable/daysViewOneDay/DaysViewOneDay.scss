@@ -3,17 +3,17 @@
 $BORDER_COLOR: $GRAY_300;
 $BORDER_DARK_COLOR: $GRAY_900;
 
-.DayViewOneDay {
+.Calend__DayViewOneDay {
   //height: 960px;
   position: relative;
   flex-direction: column;
 }
 
-.DayViewOneDay__border-left {
+.Calend__DayViewOneDay__border-left {
   border-left: solid 0.6px $BORDER_COLOR;
 
   &-dark {
-    @extend .DayViewOneDay__border-left;
+    @extend .Calend__DayViewOneDay__border-left;
     border-left: solid 0.6px $BORDER_DARK_COLOR;
   }
 }

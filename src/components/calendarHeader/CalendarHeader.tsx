@@ -19,7 +19,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
 
   return (
     <div
-      className={`CalendarHeader${!isMonthView ? '-tall' : ''}${
+      className={`Calend__CalendarHeader${!isMonthView ? '-tall' : ''}${
         isDayView ? '-day' : ''
       }${isMonthView ? '-small' : ''}${isDark ? '-dark' : ''}`}
     >

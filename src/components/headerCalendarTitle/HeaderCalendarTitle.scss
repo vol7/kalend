@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 
-.HeaderCalendarTitle__container {
+.Calend__HeaderCalendarTitle__container {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -8,13 +8,13 @@
   width: 100%;
 
   &-mobile {
-    @extend .HeaderCalendarTitle__container;
+    @extend .Calend__HeaderCalendarTitle__container;
     width: 100%;
   }
 }
 
-.HeaderCalendarTitle {
-  font-size: 2rem;
+.Calend__HeaderCalendarTitle {
+  font-size: 2em;
   font-weight: 700;
   margin: 0;
   padding: 0;
@@ -27,12 +27,12 @@
   //word-break: break-all;
 
   &-mobile {
-    @extend .HeaderCalendarTitle;
+    @extend .Calend__HeaderCalendarTitle;
     width: 100%;
     margin: 0;
     padding: 0;
     //text-align: center;
-    font-size: 1.6rem;
+    font-size: 1.6em;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -40,7 +40,7 @@
   }
 
   &-dark {
-    @extend .HeaderCalendarTitle;
+    @extend .Calend__HeaderCalendarTitle;
     color: $textDark;
   }
 }

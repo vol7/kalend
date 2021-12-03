@@ -67,7 +67,7 @@ const DaysViewTable = (props: CalendarBodyProps) => {
    * @param currentIndex
    */
   const setCurrentOffset = (): void => {
-    const currentElement: any = document.getElementById(`timetable`);
+    const currentElement: any = document.getElementById(`Calend__timetable`);
 
     // Have to set middle clone for last screen manually to get correct current offset
     const currentOffset: number = currentElement.scrollTop;
@@ -81,7 +81,7 @@ const DaysViewTable = (props: CalendarBodyProps) => {
   };
 
   const adjustScrollPosition = () => {
-    const currentElement: any = document.getElementById(`timetable`);
+    const currentElement: any = document.getElementById(`Calend__timetable`);
 
     currentElement.scrollTop = DateTime.now().hour * hourHeight - hourHeight;
   };
@@ -107,8 +107,8 @@ const DaysViewTable = (props: CalendarBodyProps) => {
     // <Carousel onPageChange={onPageChange}>
     <div
       style={style}
-      className={'CalendarBody'}
-      id={`timetable`}
+      className={'Calend__CalendarBody'}
+      id={`Calend__timetable`}
       // onScroll={handleScroll}
     >
       <CalendarBodyHours />

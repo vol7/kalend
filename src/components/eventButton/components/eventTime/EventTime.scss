@@ -1,6 +1,6 @@
 @import '../../../../styles/colors';
 
-.Event__time {
+.Calend__Event__time {
   display: -webkit-box;
   webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -9,10 +9,10 @@
   opacity: 1;
   overflow: hidden;
   color: #f6f4f4;
-  font-size: 1.1rem;
+  font-size: 0.7em;
 }
 
-.Event__time__type {
+.Calend__Event__time__type {
   &-header {
     padding: 1px;
   }
@@ -22,7 +22,7 @@
   }
 
   &-agenda {
-    font-size: 1.3rem;
+    font-size: 1.3em;
     padding: 0 8px 8px 8px;
   }
 }

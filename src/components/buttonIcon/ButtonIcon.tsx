@@ -35,19 +35,23 @@ const ButtonIcon = (props: ButtonIconProps) => {
   const handleTouchOff = (e: any): void => setIsPressed(false);
 
   const containerClassName: string = !size
-    ? 'ButtonIcon__container'
-    : `ButtonIcon__container-${size}`;
+    ? 'Calend__ButtonIcon__container'
+    : `Calend__ButtonIcon__container-${size}`;
 
   const backdropClassNameString: string = backdropClassName
     ? backdropClassName
-    : 'ButtonIcon__backdrop';
+    : 'Calend__ButtonIcon__backdrop';
 
   const buttonClassName: string = noActive
-    ? `${disabled ? 'ButtonIcon__disabled ' : ''}ButtonIcon-inactive`
-    : `${disabled ? 'ButtonIcon__disabled ' : ''}ButtonIcon`;
+    ? `${
+        disabled ? 'Calend__ButtonIcon__disabled ' : ''
+      }Calend__ButtonIcon-inactive`
+    : `${disabled ? 'Calend__ButtonIcon__disabled ' : ''}Calend__ButtonIcon`;
 
   const IconElement: any = React.cloneElement(children, {
-    className: `ButtonIcon__svg${iconSize ? `-${iconSize}` : '-normal'}`,
+    className: `Calend__ButtonIcon__svg${
+      iconSize ? `-${iconSize}` : '-normal'
+    }`,
   });
 
   return (

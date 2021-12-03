@@ -1,6 +1,6 @@
 @import '../../../../styles/colors';
 
-.CalendarBodyHours__wrapper {
+.Calend__CalendarBodyHours__wrapper {
   position: absolute;
   z-index: 2;
   left: 0;
@@ -14,7 +14,7 @@
   width: 40px;
 }
 
-.CalendarBodyHours__container {
+.Calend__CalendarBodyHours__container {
   flex-direction: row;
   display: flex;
   //height: 40px !important;
@@ -22,12 +22,12 @@
   width: 100%;
 }
 
-.CalendarBodyHours__text {
+.Calend__CalendarBodyHours__text {
   position: absolute;
   text-align-vertical: top;
   z-index: 10;
   color: $GRAY_600;
-  font-size: 0.9rem;
+  font-size: 0.9em;
   margin: 0;
   padding: 0;
   margin-left: 8px;
@@ -36,12 +36,12 @@
   text-align: center;
 
   &-dark {
-    @extend .CalendarBodyHours__text;
+    @extend .Calend__CalendarBodyHours__text;
     color: $GRAY_400;
   }
 }
 
-.CalendarBodyHours__line {
+.Calend__CalendarBodyHours__line {
   position: absolute;
   left: 40px;
   width: 100vw !important;
@@ -51,7 +51,7 @@
   z-index: 2;
 
   &-dark {
-    @extend .CalendarBodyHours__line;
+    @extend .Calend__CalendarBodyHours__line;
     background: $GRAY_900;
   }
 }
