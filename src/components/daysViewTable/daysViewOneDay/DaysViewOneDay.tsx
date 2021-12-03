@@ -59,7 +59,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   const { day, index, data, handleNewEventClick, handleEventClick } = props;
 
   const [store] = useContext(Context);
-  const { isDark, width, selectedView, hourHeight } = store;
+  const { isDark, width, selectedView, hourHeight, timezone } = store;
 
   const oneDayStyle: any = {
     width: width / getDaysNum(selectedView),
@@ -93,7 +93,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   const eventNodes: any = renderEvents(
     dataForDay,
     width,
-    'Europe/Vienna',
+    timezone,
     selectedView,
     hourHeight,
     handleEventClick

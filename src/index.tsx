@@ -23,6 +23,7 @@ export interface CalendProps {
   showMoreMonth?: (data: CalendarEvent[]) => void;
   onPageChange?: (data: OnPageChangeData) => void;
   disableMobileDropdown?: boolean;
+  timezone?: string;
 }
 const Calend = (props: CalendProps) => {
   return (
@@ -45,6 +46,7 @@ const Calend = (props: CalendProps) => {
             showMoreMonth={props.showMoreMonth}
             onPageChange={props.onPageChange}
             disableMobileDropdown={props.disableMobileDropdown}
+            timezone={props.timezone}
           />
         </RootLayoutLayer>
       </StoreProvider>
