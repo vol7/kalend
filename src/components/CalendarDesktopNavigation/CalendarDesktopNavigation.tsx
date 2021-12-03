@@ -40,8 +40,27 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   const navigateForward = async (): Promise<void> =>
     await getNewCalendarDays(calendarDays, selectedView, true, setContext);
 
-  const navigateToToday = async (): Promise<void> =>
-    await getNewCalendarDays([DateTime.now()], selectedView, false, setContext);
+  const navigateToToday = async (): Promise<void> => {
+    // temp fix for navigation to correct date
+    if (
+      selectedView === CALENDAR_VIEW.DAY ||
+      selectedView === CALENDAR_VIEW.THREE_DAYS
+    ) {
+      await getNewCalendarDays(
+        [DateTime.now().minus({ days: 1 })],
+        selectedView,
+        true,
+        setContext
+      );
+    } else {
+      await getNewCalendarDays(
+        [DateTime.now()],
+        selectedView,
+        false,
+        setContext
+      );
+    }
+  };
 
   return (
     <div

@@ -87,7 +87,7 @@ export const calculateOneDay = (
 ): DateTime => {
   let refDate: DateTime;
 
-  if (isGoingForward === null) {
+  if (isGoingForward === null || isGoingForward === undefined) {
     refDate = date;
   } else if (isGoingForward) {
     refDate = date.plus({ days: 1 });
@@ -106,7 +106,9 @@ const getOneDay = (
   const refDate: DateTime = calculateOneDay(date, isGoingForward);
 
   // Set state
-  setSelectedDate(refDate);
+  if (setSelectedDate) {
+    setSelectedDate(refDate);
+  }
 
   return [refDate];
 };
@@ -221,7 +223,7 @@ export const getThreeDays = (
 ): DateTime[] => {
   const days = [];
 
-  if (isGoingForward === null) {
+  if (isGoingForward === null || isGoingForward === undefined) {
     for (let i = 0; i <= 2; i++) {
       days.push(date.plus({ days: i }));
     }
