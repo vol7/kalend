@@ -25,7 +25,7 @@ const Carousel = (props: CarouselProps) => {
   // Scroll to middle screen
   useEffect(() => {
     // @ts-ignore
-    document.getElementById('carousel').scrollTo(baseWidth / 2, 0);
+    document.getElementById('Calend__carousel').scrollTo(baseWidth / 2, 0);
   }, []);
 
   const handleTouchStart = (e: any) => {
@@ -41,11 +41,11 @@ const Carousel = (props: CarouselProps) => {
     // Going forward
     if (touchDiff > OFFSET_FOR_TRIGGER) {
       onPageChange(true);
-      setSwipeAnimation('carousel-swipe-right');
+      setSwipeAnimation('Calend__carousel-swipe-right');
       // scrollBack();
     } else if (touchDiff * -1 > OFFSET_FOR_TRIGGER) {
       // Going back
-      setSwipeAnimation('carousel-swipe-left');
+      setSwipeAnimation('Calend__carousel-swipe-left');
       onPageChange(false);
       // scrollBack();
     } else {
@@ -84,19 +84,25 @@ const Carousel = (props: CarouselProps) => {
       onTouchMove={handleMove}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className={`carousel__wrapper ${swipeAnimation}`}
-      id={'carousel'}
+      className={`Calend__carousel__wrapper ${swipeAnimation}`}
+      id={'Calend__carousel'}
     >
       {props.children}
       {isSwiping > 0 ? (
-        <div className={'carousel__control-right'} style={baseStyleRight}>
-          <EvaIcons.ChevronRight className={'svg-icon'} />
+        <div
+          className={'Calend__carousel__control-right'}
+          style={baseStyleRight}
+        >
+          <EvaIcons.ChevronRight className={'Calend__svg-icon'} />
         </div>
       ) : null}
       {isSwiping < 0 ? (
-        <div className={'carousel__control-left'} style={baseStyleRight}>
+        <div
+          className={'Calend__carousel__control-left'}
+          style={baseStyleRight}
+        >
           <EvaIcons.ChevronLeft
-            className={'svg-icon'}
+            className={'Calend__svg-icon'}
             style={{ width: 50, height: 50 }}
           />
         </div>

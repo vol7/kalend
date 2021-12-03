@@ -113,8 +113,11 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       style={oneDayStyle}
       className={
         !isFirstDay
-          ? parseCssDark('DayViewOneDay DayViewOneDay__border-left', isDark)
-          : 'DayViewOneDay'
+          ? parseCssDark(
+              'Calend__DayViewOneDay Calend__DayViewOneDay__border-left',
+              isDark
+            )
+          : 'Calend__DayViewOneDay'
       }
       onClick={handleEventClickInternal}
     >

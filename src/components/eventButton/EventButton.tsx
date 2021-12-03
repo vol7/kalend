@@ -88,7 +88,7 @@ const EventButton = (props: EventProps) => {
       isDark={isDark}
       //Dragging func {...panResponder.panHandlers}
       style={style}
-      className={`Event-${type}`}
+      className={`Calend__Event-${type}`}
       onClick={onEventClick}
     >
       {type === EVENT_TYPE.MONTH || type === EVENT_TYPE.HEADER ? (
@@ -218,64 +218,7 @@ export default EventButton;
     setState('currentIndex', index);
     setState('startAt', startAt);
   };
-  //
-  // const convertToText = (timestamp: any) => {
-  //   let valueForEncryption: any = {
-  //     id: props.event.id,
-  //     startDate: state.startDate.toString(),
-  //     endDate: state.endDate.toString(),
-  //     allDay: props.event.allDay.toString(),
-  //     timezone: props.event.timezone.toString(),
-  //     text: props.event.text,
-  //     location: props.event.location,
-  //     notes: props.event.notes,
-  //     reminder: props.event.reminder,
-  //     calendar: props.event.calendar,
-  //     repeat: props.event.repeat,
-  //     repeatCount: props.event.repeatCount,
-  //     remindBefore: props.event.reminderValue,
-  //     updated: timestamp.toString(),
-  //     isFavourite: props.event.isFavourite,
-  //   };
-  //   return valueForEncryption;
-  // };
-  //
-  // const editEvent = () => {
-  //   let timestamp: any = new Date();
-  //   let dataForEncryption: any = JSON.stringify(convertToText(timestamp));
-  //   let encryptedData: any = encryptData(dataForEncryption, props.cryptoPassword);
-  //   props.editItem(
-  //     {
-  //       id: props.event.id,
-  //       data: encryptedData,
-  //       updated: timestamp.toString(),
-  //       parrent: props.event.calendar,
-  //       shared: '',
-  //       type: 'events',
-  //       isLocal: 'true',
-  //       needSync: 'true',
-  //     },
-  //     {
-  //       startDate: state.startDate.toString(),
-  //       endDate: state.endDate.toString(),
-  //       id: props.event.id,
-  //       allDay: props.event.allDay.toString(),
-  //       timezone: props.event.timezone.toString(),
-  //       text: props.event.text,
-  //       location: props.event.location,
-  //       notes: props.event.notes,
-  //       reminder: props.event.reminder,
-  //       calendar: props.event.calendar,
-  //       isFavourite: props.event.isFavourite,
-  //       updated: timestamp.toString(),
-  //       repeat: props.event.repeat,
-  //       repeatCount: props.event.repeatCount,
-  //       remindBefore: props.event.reminderValue,
-  //     },
-  //     'events',
-  //     'Event created'
-  //   );
-  // };
+
   //
   // const getNewTime = (offsetTop) => {
   //   //hour * minutes / 1.5 is offsetTop
