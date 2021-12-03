@@ -1,7 +1,5 @@
 import React, { useRef, useState } from 'react';
 
-import './ButtonBase.scss';
-
 let timeout: any;
 
 interface ButtonBaseProps {
@@ -114,8 +112,8 @@ const ButtonBase = (props: ButtonBaseProps) => {
 
   const buttonText: string = text ? text : '';
   const buttonClassName: string = className
-    ? `${className} ButtonBase`
-    : 'ButtonBase';
+    ? `Calend__button ${className} Calend__ButtonBase`
+    : 'Calend__button Calend__ButtonBase';
 
   return (
     <button
@@ -133,7 +131,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
     >
       {children ? children : buttonText}
       {isPressed && !disabled ? (
-        <span style={spanStyle} className={'ButtonBase__animation'} />
+        <span style={spanStyle} className={'Calend__ButtonBase__animation'} />
       ) : null}
     </button>
   );

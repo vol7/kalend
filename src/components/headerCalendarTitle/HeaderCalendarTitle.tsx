@@ -1,5 +1,3 @@
-import './HeaderCalendarTitle.scss';
-
 import React, { useContext } from 'react';
 import { Context } from '../../context/store';
 import { parseClassName, parseCssDark } from '../../utils/common';
@@ -21,8 +19,19 @@ const HeaderCalendarTitle = (props: HeaderCalendarTitleProps) => {
   const { isDark, isMobile } = store;
 
   return (
-    <div className={parseClassName(`HeaderCalendarTitle__container`, isMobile)}>
-      <p className={parseClassName('HeaderCalendarTitle', isMobile, isDark)}>
+    <div
+      className={parseClassName(
+        `Calend__HeaderCalendarTitle__container`,
+        isMobile
+      )}
+    >
+      <p
+        className={parseClassName(
+          'Calend__text Calend__HeaderCalendarTitle',
+          isMobile,
+          isDark
+        )}
+      >
         {title}
       </p>
     </div>

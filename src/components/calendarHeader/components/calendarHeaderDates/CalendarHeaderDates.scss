@@ -1,6 +1,6 @@
 @import '../../../../styles/colors';
 
-.CalendarHeaderDates__col {
+.Calend__CalendarHeaderDates__col {
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -8,7 +8,7 @@
   align-items: center;
 }
 
-.CalendarHeaderDates__circle {
+.Calend__CalendarHeaderDates__circle {
   height: 32px;
   width: 32px;
   padding: 0;
@@ -20,46 +20,46 @@
   color: $text;
 
   &-selected {
-    @extend .CalendarHeaderDates__circle;
+    @extend .Calend__CalendarHeaderDates__circle;
     background: $text;
 
     &-dark {
-      @extend .CalendarHeaderDates__circle-selected;
+      @extend .Calend__CalendarHeaderDates__circle-selected;
       background: $GRAY_200;
     }
   }
 
   &-today {
-    @extend .CalendarHeaderDates__circle;
+    @extend .Calend__CalendarHeaderDates__circle;
     background: $PRIMARY_LIGHT;
 
     &-dark {
-      @extend .CalendarHeaderDates__circle-today;
+      @extend .Calend__CalendarHeaderDates__circle-today;
       background: $PRIMARY_DARK;
     }
   }
 }
 
-.CalendarHeaderDates__text {
+.Calend__CalendarHeaderDates__text {
   margin: 0;
   padding: 1px;
-  font-size: 1.5rem;
+  font-size: 1.5em;
   align-self: center;
   text-align: center;
   font-weight: 500;
   color: $GRAY_800;
 
   &-dark {
-    @extend .CalendarHeaderDates__text;
+    @extend .Calend__CalendarHeaderDates__text;
     color: $GRAY_300;
   }
 
   &-today {
-    @extend .CalendarHeaderDates__text;
-    color: $textDark;
+    @extend .Calend__CalendarHeaderDates__text;
+    color: $textDark !important;
 
     &-dark {
-      @extend .CalendarHeaderDates__text-today;
+      @extend .Calend__CalendarHeaderDates__text-today;
       color: $text;
     }
   }

@@ -17,6 +17,7 @@ interface InitialContext {
   width: number;
   height: number;
   isMobile: boolean;
+  timezone: string;
 }
 
 const initialContext: InitialContext = {
@@ -32,6 +33,7 @@ const initialContext: InitialContext = {
   width: 0,
   height: 0,
   isMobile: false,
+  timezone: '',
 };
 
 const StoreProvider = ({ children }: any) => {

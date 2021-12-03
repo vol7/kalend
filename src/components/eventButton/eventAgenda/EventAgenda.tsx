@@ -1,5 +1,3 @@
-import './EventAgenda.scss';
-
 import React from 'react';
 
 import EventSummary from '../components/eventSummary/EventSummary';
@@ -17,7 +15,7 @@ const EventAgenda = (props: EventAgendaProps) => {
   const { isDark, event, type } = props;
 
   return (
-    <div className={'Agenda__container'}>
+    <div className={'Calend__Agenda__container'}>
       <EventSummary summary={event.summary} isDark={isDark} type={type} />
       <EventTime isDark={isDark} event={event} type={type} />
     </div>

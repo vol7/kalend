@@ -63,14 +63,14 @@ export const parseToDateTime = (
 
   const thisDate: DateTime = DateTime.fromISO(dateString);
 
-  let result;
-
-  // Adjust datetime to device timezone
-  if (deviceTimezone) {
-    result = thisDate.setZone(zone).setZone(deviceTimezone);
-  } else {
-    result = thisDate.setZone(zone);
+  if (!zone) {
+    // Adjust datetime to device timezone
+    if (deviceTimezone) {
+      return thisDate.setZone(deviceTimezone);
+    } else {
+      return thisDate;
+    }
   }
 
-  return result;
+  return thisDate.setZone(zone);
 };

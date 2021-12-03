@@ -1,5 +1,3 @@
-import './CalendarHeader.scss';
-
 import React, { useContext } from 'react';
 import CalendarHeaderDays from './calendarHeaderDays/CalendarHeaderDays';
 import CalendarHeaderEvents from './calendarHeaderEvents/CalendarHeaderEvents';
@@ -21,7 +19,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
 
   return (
     <div
-      className={`CalendarHeader${!isMonthView ? '-tall' : ''}${
+      className={`Calend__CalendarHeader${!isMonthView ? '-tall' : ''}${
         isDayView ? '-day' : ''
       }${isMonthView ? '-small' : ''}${isDark ? '-dark' : ''}`}
     >

@@ -29,6 +29,7 @@ interface CalendarProps {
   showMoreMonth?: (data: CalendarEvent[]) => void;
   onPageChange?: (data: OnPageChangeData) => void;
   disableMobileDropdown?: boolean;
+  timezone?: string;
 }
 const Calendar = (props: CalendarProps) => {
   const {
@@ -37,6 +38,7 @@ const Calendar = (props: CalendarProps) => {
     config,
     onSelectView,
     disableMobileDropdown,
+    timezone,
   } = props;
 
   const [store, dispatch] = useContext(Context);
@@ -85,7 +87,23 @@ const Calendar = (props: CalendarProps) => {
     } else {
       setContext('isMobile', false);
     }
+
+    // handle timezone
+    if (timezone) {
+      setContext('timezone', timezone);
+    } else {
+      // set system timezone
+      setContext('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    }
   }, []);
+
+  useEffect(() => {
+    if (timezone) {
+      setContext('timezone', timezone);
+    } else {
+      setContext('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
+    }
+  }, [timezone]);
 
   useEffect(() => {
     setContext('width', getWidth() - getTableOffset(selectedView));
@@ -226,7 +244,7 @@ const Calendar = (props: CalendarProps) => {
         disableMobileDropdown={disableMobileDropdown}
       />
       <CalendarHeader handleEventClick={handleEventClick} />
-      <div className={'Calendar__table'}>
+      <div className={'Calend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
             <MonthView

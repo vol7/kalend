@@ -1,12 +1,11 @@
-import React from 'react';
-
-import './EventTime.scss';
+import React, { useContext } from 'react';
 
 import { DateTime } from 'luxon';
 import { CalendarEvent } from '../../../../common/interface';
 import { parseToDateTime } from '../../../../utils/dateTimeParser';
 import { EVENT_TYPE } from '../../../../common/enums';
 import { parseCssDark } from '../../../../utils/common';
+import { Context } from '../../../../context/store';
 
 const TIME_FORMAT = 'HH:mm';
 
@@ -22,12 +21,21 @@ const formatEventTime = (event: CalendarEvent): string => {
 };
 
 const formatEventTimeV2 = (
-  event: CalendarEvent
+  event: CalendarEvent,
+  timezone?: string
 ): { start: string; end: string } => {
   const { startAt, endAt, timezoneStart } = event;
 
-  const startAtDateTime: DateTime = parseToDateTime(startAt, timezoneStart);
-  const endAtDateTime: DateTime = parseToDateTime(endAt, timezoneStart);
+  const startAtDateTime: DateTime = parseToDateTime(
+    startAt,
+    timezoneStart,
+    timezone
+  );
+  const endAtDateTime: DateTime = parseToDateTime(
+    endAt,
+    timezoneStart,
+    timezone
+  );
 
   return {
     start: `${startAtDateTime.toFormat(TIME_FORMAT)}`,
@@ -44,14 +52,17 @@ interface EventTimeProps {
 const EventTime = (props: EventTimeProps) => {
   const { isDark, event, type } = props;
 
-  const timeV2: any = formatEventTimeV2(event);
+  const [store] = useContext(Context);
+  const { timezone } = store;
+
+  const timeV2: any = formatEventTimeV2(event, timezone);
   // const time: string = formatEventTime(event);
   return (
     <p
-      className={`${parseCssDark(
-        'Event__time',
+      className={`Calend__text ${parseCssDark(
+        'Calend__Event__time',
         isDark
-      )} Event__time__type-${type}`}
+      )} Calend__Event__time__type-${type}`}
     >
       {timeV2.start} - {timeV2.end}
     </p>

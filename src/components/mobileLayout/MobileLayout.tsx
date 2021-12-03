@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './MobileLayout.scss';
 import { Context } from '../../context/store';
 
 interface MobileLayoutProps {
@@ -12,7 +11,7 @@ const MobileLayout = (props: MobileLayoutProps) => {
   const { isMobile } = store;
 
   return isMobile ? (
-    <div className={'MobileLayout'} style={style}>
+    <div className={'Calend__MobileLayout'} style={style}>
       {children}
     </div>
   ) : null;

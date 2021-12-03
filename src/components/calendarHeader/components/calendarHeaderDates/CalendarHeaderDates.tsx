@@ -1,5 +1,3 @@
-import './CalendarHeaderDates.scss';
-
 import React, { useContext } from 'react';
 import { DateTime } from 'luxon';
 
@@ -41,16 +39,16 @@ const CalendarHeaderDates = (props: CalendarHeaderDatesProps) => {
       return (
         <div
           key={day.toString()}
-          className={'CalendarHeaderDates__col'}
+          className={'Calend__CalendarHeaderDates__col'}
           style={dayTextColumnWidth}
         >
           <div
-            className={`CalendarHeaderDates__circle${
+            className={`Calend__CalendarHeaderDates__circle${
               isDayToday ? '-today' : ''
             }${isSelected ? '-selected' : ''}${isDark ? '-dark' : ''}`}
           >
             <p
-              className={`CalendarHeaderDates__text${
+              className={`Calend__text Calend__CalendarHeaderDates__text${
                 isDayToday || isSelected ? '-today' : ''
               }${isDark ? '-dark' : ''}`}
             >

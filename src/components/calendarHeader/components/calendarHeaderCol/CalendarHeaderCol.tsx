@@ -1,5 +1,3 @@
-import './CalendarHeaderCol.scss';
-
 import React, { useContext } from 'react';
 import { Context } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';
@@ -14,7 +12,9 @@ const CalendarHeaderCol = (props: CalendarHeaderColProps) => {
   const { isDark } = store;
 
   return (
-    <div className={parseCssDark('CalendarHeaderCol', isDark)}>{children}</div>
+    <div className={parseCssDark('Calend__CalendarHeaderCol', isDark)}>
+      {children}
+    </div>
   );
 };
 

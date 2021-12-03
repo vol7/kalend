@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './CalendarDesktopNavigation.scss';
 
 import HeaderCalendarTitle from '../headerCalendarTitle/HeaderCalendarTitle';
 import { Context } from '../../context/store';
@@ -41,13 +40,32 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   const navigateForward = async (): Promise<void> =>
     await getNewCalendarDays(calendarDays, selectedView, true, setContext);
 
-  const navigateToToday = async (): Promise<void> =>
-    await getNewCalendarDays([DateTime.now()], selectedView, false, setContext);
+  const navigateToToday = async (): Promise<void> => {
+    // temp fix for navigation to correct date
+    if (
+      selectedView === CALENDAR_VIEW.DAY ||
+      selectedView === CALENDAR_VIEW.THREE_DAYS
+    ) {
+      await getNewCalendarDays(
+        [DateTime.now().minus({ days: 1 })],
+        selectedView,
+        true,
+        setContext
+      );
+    } else {
+      await getNewCalendarDays(
+        [DateTime.now()],
+        selectedView,
+        false,
+        setContext
+      );
+    }
+  };
 
   return (
     <div
       className={parseClassName(
-        'CalendarDesktopNavigation__container',
+        'Calend__CalendarDesktopNavigation__container',
         isMobile,
         isDark
       )}
@@ -60,10 +78,10 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
         }}
       >
         <DesktopLayout>
-          <div className={'CalendarDesktopNavigation__buttons'}>
+          <div className={'Calend__CalendarDesktopNavigation__buttons'}>
             <>
               <ButtonBase
-                className={'calendarButtonToday'}
+                className={'Calend__calendarButtonToday'}
                 isDark={isDark}
                 onClick={navigateToToday}
               >
@@ -75,7 +93,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateBackwards}
               >
                 <EvaIcons.ChevronLeft
-                  className={parseCssDark('icon-svg', isDark)}
+                  className={parseCssDark('Calend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <ButtonIcon
@@ -84,7 +102,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateForward}
               >
                 <EvaIcons.ChevronRight
-                  className={parseCssDark('icon-svg', isDark)}
+                  className={parseCssDark('Calend__icon-svg', isDark)}
                 />
               </ButtonIcon>
             </>
@@ -92,7 +110,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
         </DesktopLayout>
         <HeaderCalendarTitle title={title} />
         <MobileLayout style={{ width: '100%' }}>
-          <div className={'CalendarDesktopNavigation__buttons'}>
+          <div className={'Calend__CalendarDesktopNavigation__buttons'}>
             <>
               <ButtonIcon
                 isDark={isDark}
@@ -100,7 +118,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateBackwards}
               >
                 <EvaIcons.ChevronLeft
-                  className={parseCssDark('icon-svg', isDark)}
+                  className={parseCssDark('Calend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <ButtonIcon
@@ -109,7 +127,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateForward}
               >
                 <EvaIcons.ChevronRight
-                  className={parseCssDark('icon-svg', isDark)}
+                  className={parseCssDark('Calend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <ButtonIcon
@@ -118,7 +136,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateToToday}
               >
                 <EvaIcons.Calendar
-                  className={parseCssDark('icon-svg', isDark)}
+                  className={parseCssDark('Calend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <MobileDropdown

@@ -1,5 +1,3 @@
-import './CalendarHeaderColText.scss';
-
 import React from 'react';
 
 interface CalendarHeaderColTextProps {
@@ -8,7 +6,9 @@ interface CalendarHeaderColTextProps {
 const CalendarHeaderColText = (props: CalendarHeaderColTextProps) => {
   const { children } = props;
 
-  return <div className={'CalendarHeaderColText__container'}>{children}</div>;
+  return (
+    <div className={'Calend__CalendarHeaderColText__container'}>{children}</div>
+  );
 };
 
 export default CalendarHeaderColText;

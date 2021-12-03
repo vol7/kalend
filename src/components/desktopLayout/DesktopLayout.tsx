@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './DestopLayout.scss';
 import { Context } from '../../context/store';
 
 interface DesktopLayoutProps {
@@ -10,7 +9,9 @@ const DesktopLayout = (props: DesktopLayoutProps) => {
   const [store] = useContext(Context);
   const { isMobile } = store;
 
-  return !isMobile ? <div className={'DesktopLayout'}>{children}</div> : null;
+  return !isMobile ? (
+    <div className={'Calend__DesktopLayout'}>{children}</div>
+  ) : null;
 };
 
 export default DesktopLayout;

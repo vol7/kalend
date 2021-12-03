@@ -3,7 +3,7 @@
 $month_view__width: 100%/7;
 $month_view__height: 100%/6;
 
-.MonthView__container {
+.Calend__MonthView__container {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
@@ -19,7 +19,7 @@ $month_view__height: 100%/6;
   right: 0;
 }
 
-.Monthview_Event {
+.Calend__Monthview_Event {
   max-height: 16px !important;
   min-height: 16px;
   margin-top: 1px;

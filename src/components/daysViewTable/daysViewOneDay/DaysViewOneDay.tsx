@@ -1,5 +1,3 @@
-import './DaysViewOneDay.scss';
-
 import React, { useContext, useEffect } from 'react';
 import { DateTime } from 'luxon';
 import { parseCssDark } from '../../../utils/common';
@@ -61,7 +59,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   const { day, index, data, handleNewEventClick, handleEventClick } = props;
 
   const [store] = useContext(Context);
-  const { isDark, width, selectedView, hourHeight } = store;
+  const { isDark, width, selectedView, hourHeight, timezone } = store;
 
   const oneDayStyle: any = {
     width: width / getDaysNum(selectedView),
@@ -95,7 +93,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   const eventNodes: any = renderEvents(
     dataForDay,
     width,
-    'Europe/Vienna',
+    timezone,
     selectedView,
     hourHeight,
     handleEventClick
@@ -115,8 +113,11 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       style={oneDayStyle}
       className={
         !isFirstDay
-          ? parseCssDark('DayViewOneDay DayViewOneDay__border-left', isDark)
-          : 'DayViewOneDay'
+          ? parseCssDark(
+              'Calend__DayViewOneDay Calend__DayViewOneDay__border-left',
+              isDark
+            )
+          : 'Calend__DayViewOneDay'
       }
       onClick={handleEventClickInternal}
     >

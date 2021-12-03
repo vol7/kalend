@@ -1,5 +1,3 @@
-import './CalendarHeaderEvents.scss';
-
 import React, { useContext, useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 
@@ -64,7 +62,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   };
 
   const [animation, setAnimation] = useState(
-    'CalendarHeaderEvents_animationExpand'
+    'Calend__CalendarHeaderEvents_animationExpand'
   );
 
   const renderEvents = (baseWidth: number, rows: any) => {
@@ -89,7 +87,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
       return (
         <div
           key={row?.[0]?.event.id}
-          className={'CalendarHeaderEvents__eventRow'}
+          className={'Calend__CalendarHeaderEvents__eventRow'}
         >
           {rowEvents(row)}
         </div>
@@ -107,7 +105,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
     return (
       <div
         key={day.toString()}
-        className={'CalendarHeaderEvents__col-wrapper'}
+        className={'Calend__CalendarHeaderEvents__col-wrapper'}
         style={colWidthStyle}
       ></div>
     );
@@ -141,7 +139,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
 
   useEffect(() => {
     // set animation
-    setAnimation('CalendarHeaderEvents_animationExpand');
+    setAnimation('Calend__CalendarHeaderEvents_animationExpand');
     // clean animation
     setTimeout(() => {
       setAnimation('');
@@ -150,11 +148,11 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
 
   return (
     <div
-      className={`CalendarHeaderEvents__container ${animation}`}
+      className={`Calend__CalendarHeaderEvents__container ${animation}`}
       style={headerStyle}
     >
-      <div className={'CalendarHeaderEvents__row'}>{daysNumbers}</div>
-      <div className={`CalendarHeaderEvents__rows ${animation}`}>
+      <div className={'Calend__CalendarHeaderEvents__row'}>{daysNumbers}</div>
+      <div className={`Calend__CalendarHeaderEvents__rows ${animation}`}>
         {headerEvents}
       </div>
     </div>

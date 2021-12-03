@@ -56,6 +56,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isDark: action.payload,
       };
+    case 'timezone':
+      return {
+        ...state,
+        timezone: action.payload,
+      };
     case 'headerEventRowsCount':
       return {
         ...state,

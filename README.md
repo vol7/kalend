@@ -27,7 +27,8 @@ If you have any suggestion, feel free to open discussion or contact me directly 
     npm i calend
 
 # Example
-    import Calend from 'calend'
+    import Calend from 'calend' // import component
+    import 'calend/styles/index.css'; // import styles
 
         <Calend
           onEventClick={onEventClick}
@@ -58,6 +59,7 @@ prop      | type             | default     | required      |  desc
 `onPageChange` | `callback func` | | false | callback for navigating through calendar pages
 `showMoreMonth` | `callback func` | | false | callback for accessing events which didn't fit in month view
 `disableMobileDropdown` | `boolean` | | false | disable button for triggering mobile dropdown with views
+`timezone` | `string` | | false | IANA timezone format, if not provided, system timezone will be used
 
 
 # Usage
@@ -90,7 +92,12 @@ Date key has to be in dd-MM-yyyy format
         ]
     }
 
-Group events array under day when they occur and pass starting and ending date in ISO string format. You can keep other event properties, those will be ignored.
+Group events array under day when they occur and pass starting and ending date in ISO string format in UTC timezone. 
+
+According to your needs, you can set timezone for each event and also set default timezone with "timezone" prop in IANA format.
+If you don't provide timezone prop, your system default timezone will be used.
+
+You can keep other event properties, those will be ignored.
 
 ## Callbacks
 Create functions and handle data from callback in your application

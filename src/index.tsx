@@ -1,6 +1,5 @@
 import React from 'react';
 import Calendar from './Calendar';
-import './index.scss';
 import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
 import {
@@ -24,10 +23,11 @@ export interface CalendProps {
   showMoreMonth?: (data: CalendarEvent[]) => void;
   onPageChange?: (data: OnPageChangeData) => void;
   disableMobileDropdown?: boolean;
+  timezone?: string;
 }
 const Calend = (props: CalendProps) => {
   return (
-    <div className={'Calendar__root'}>
+    <div className={'Calend__Calendar__root Calend__main'}>
       <StoreProvider>
         <RootLayoutLayer>
           <Calendar
@@ -46,6 +46,7 @@ const Calend = (props: CalendProps) => {
             showMoreMonth={props.showMoreMonth}
             onPageChange={props.onPageChange}
             disableMobileDropdown={props.disableMobileDropdown}
+            timezone={props.timezone}
           />
         </RootLayoutLayer>
       </StoreProvider>
