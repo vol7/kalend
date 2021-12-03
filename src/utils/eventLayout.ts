@@ -69,8 +69,15 @@ export const calculateNormalEventPositions = (
         (item: any) =>
           !item.allDay &&
           // @ts-ignore
-          parseToDateTime(item.endAt, item.timezoneStart)
-            .diff(parseToDateTime(item.startAt, item.timezoneStart), 'days')
+          parseToDateTime(item.endAt, item.timezoneStart, defaultTimezone)
+            .diff(
+              parseToDateTime(
+                item.startAt,
+                item.timezoneStart,
+                defaultTimezone
+              ),
+              'days'
+            )
             .toObject().days < 1
       )
       .map((event: any) => {
@@ -86,9 +93,17 @@ export const calculateNormalEventPositions = (
             if (
               checkOverlappingEvents(eventA, eventB) &&
               // @ts-ignore
-              parseToDateTime(eventB.endAt, eventB.timezoneStart)
+              parseToDateTime(
+                eventB.endAt,
+                eventB.timezoneStart,
+                defaultTimezone
+              )
                 .diff(
-                  parseToDateTime(eventB.startAt, eventB.timezoneStart),
+                  parseToDateTime(
+                    eventB.startAt,
+                    eventB.timezoneStart,
+                    defaultTimezone
+                  ),
                   'days'
                 )
                 .toObject().days < 1
