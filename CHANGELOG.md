@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4
+- hide dropdown icon when no options are available
+- add validation to check if css file is imported
+
 ## 0.0.3
 - add prefix to all classnames to prevent conflicts
 - fix bug with timezone in events
