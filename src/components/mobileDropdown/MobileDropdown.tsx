@@ -3,7 +3,9 @@ import { Context } from '../../context/store';
 import { parseCssDark } from '../../utils/common';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
 import { EvaIcons } from '../eva-icons';
-import HeaderCalendarButtons from '../headerCalendarButtons/HeaderCalendarButtons';
+import HeaderCalendarButtons, {
+  isSingleView,
+} from '../headerCalendarButtons/HeaderCalendarButtons';
 import { CALENDAR_VIEW } from '../../common/enums';
 
 interface MobileDropdownProps {
@@ -28,7 +30,7 @@ const MobileDropdown = (props: MobileDropdownProps) => {
     e.stopPropagation();
   };
 
-  return disableMobileDropdown ? null : (
+  return disableMobileDropdown || isSingleView(disabledViews) ? null : (
     <>
       <div className={'Calend__MobileDropdown__wrapper'}>
         <ButtonIcon isDark={isDark} key={'calendar'} onClick={handleOpen}>
