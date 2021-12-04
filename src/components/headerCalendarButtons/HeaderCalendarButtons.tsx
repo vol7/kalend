@@ -50,6 +50,18 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
   );
 };
 
+export const isSingleView = (disabledViews?: CALENDAR_VIEW[]): boolean => {
+  if (
+    !disabledViews ||
+    (disabledViews &&
+      disabledViews?.length + 1 !== Object.values(CALENDAR_VIEW).length)
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 interface HeaderCalendarButtonsProps {
   disabledViews?: CALENDAR_VIEW[];
   setViewChanged: any;
@@ -65,8 +77,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
 
   const { isDark, isMobile } = store;
 
-  return disabledViews &&
-    disabledViews?.length + 1 === Object.values(CALENDAR_VIEW).length ? null : (
+  return isSingleView(disabledViews) ? null : (
     <div
       className={parseClassName(
         'Calend__header_calendar_buttons__container',

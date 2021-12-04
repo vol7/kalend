@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Calendar from './Calendar';
 import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
@@ -8,6 +8,7 @@ import {
   OnPageChangeData,
 } from './common/interface';
 import { CALENDAR_VIEW } from './common/enums';
+import { validateProps, validateStyle } from './utils/validator';
 
 export interface CalendProps {
   initialDate?: string;
@@ -26,6 +27,12 @@ export interface CalendProps {
   timezone?: string;
 }
 const Calend = (props: CalendProps) => {
+  // basic validation
+  useEffect(() => {
+    validateProps(props);
+    validateStyle();
+  }, []);
+
   return (
     <div className={'Calend__Calendar__root Calend__main'}>
       <StoreProvider>
