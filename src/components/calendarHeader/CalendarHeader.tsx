@@ -3,10 +3,10 @@ import CalendarHeaderDays from './calendarHeaderDays/CalendarHeaderDays';
 import CalendarHeaderEvents from './calendarHeaderEvents/CalendarHeaderEvents';
 import { Context } from '../../context/store';
 import { CALENDAR_VIEW } from '../../common/enums';
-import { CalendarEvent } from '../../common/interface';
+import { OnEventClickFunc } from '../../common/interface';
 
 interface CalendarHeaderProps {
-  handleEventClick: (data: CalendarEvent) => void;
+  handleEventClick: OnEventClickFunc;
 }
 const CalendarHeader = (props: CalendarHeaderProps) => {
   const { handleEventClick } = props;

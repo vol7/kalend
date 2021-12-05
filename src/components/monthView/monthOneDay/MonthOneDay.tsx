@@ -7,7 +7,7 @@ import { EVENT_TYPE } from '../../../common/enums';
 import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
 import { parseCssDark } from '../../../utils/common';
-import { CalendarEvent } from '../../../common/interface';
+import { OnEventClickFunc, ShowMoreMonthFunc } from '../../../common/interface';
 import ButtonBase from '../../buttonBase/ButtonBase';
 import {
   MONTH_DAY_HEADER_HEIGHT,
@@ -20,8 +20,8 @@ interface MonthOneDayProps {
   index: number;
   data: any;
   day: any;
-  handleEventClick: (data: CalendarEvent) => void;
-  showMoreMonth?: (data: CalendarEvent[]) => void;
+  handleEventClick: OnEventClickFunc;
+  showMoreMonth?: ShowMoreMonthFunc;
 }
 const MonthOneDay = (props: MonthOneDayProps) => {
   const { index, data, day, handleEventClick, showMoreMonth } = props;

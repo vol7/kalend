@@ -1,5 +1,9 @@
 import React, { useContext } from 'react';
-import { CalendarEvent, HandleEventClickFunc } from '../../common/interface';
+import {
+  CalendarEvent,
+  HandleEventClickFunc,
+  OnEventClickFunc,
+} from '../../common/interface';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
@@ -8,7 +12,7 @@ import AgendaDayRow from './agendaDayRow/AgendaDayRow';
 const renderAgendaEvents = (
   events: any,
   calendarDays: DateTime[],
-  handleEventClick: HandleEventClickFunc
+  handleEventClick: OnEventClickFunc
 ) => {
   return calendarDays.map((day: DateTime) => {
     const hasEvents = !!events[day.toFormat(EVENTS_DAY_FORMAT)];
@@ -26,7 +30,7 @@ const renderAgendaEvents = (
 };
 
 interface AgendaViewProps {
-  handleEventClick: HandleEventClickFunc;
+  handleEventClick: OnEventClickFunc;
 }
 
 const AgendaView = (props: AgendaViewProps) => {

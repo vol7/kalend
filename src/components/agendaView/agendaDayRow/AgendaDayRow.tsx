@@ -1,14 +1,14 @@
 import React from 'react';
 import { DateTime } from 'luxon';
 import DateWeekDay from '../../dateWeekDay/DateWeekDay';
-import { CalendarEvent, HandleEventClickFunc } from '../../../common/interface';
+import { CalendarEvent, OnEventClickFunc } from '../../../common/interface';
 import EventButton from '../../eventButton/EventButton';
 import { EVENT_TYPE } from '../../../common/enums';
 import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
 
 const renderEvents = (
   events: CalendarEvent[],
-  handleEventClick: HandleEventClickFunc
+  handleEventClick: OnEventClickFunc
 ) => {
   return events.map((event) => {
     return (
@@ -27,7 +27,7 @@ const renderEvents = (
 interface AgendaDayRowProps {
   day: DateTime;
   events: CalendarEvent[];
-  handleEventClick: HandleEventClickFunc;
+  handleEventClick: OnEventClickFunc;
 }
 const AgendaDayRow = (props: AgendaDayRowProps) => {
   const { day, events, handleEventClick } = props;

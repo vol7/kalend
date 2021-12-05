@@ -4,7 +4,11 @@ import {
   CalendarEvent,
   Config,
   NewEventClickData,
-  OnPageChangeData,
+  OnEventClickFunc,
+  OnNewEventClickFunc,
+  OnPageChangeFunc,
+  OnSelectViewFunc,
+  ShowMoreMonthFunc,
 } from './common/interface';
 import DaysViewTable from './components/daysViewTable/DaysViewTable';
 import { getHeight, getWidth, useHeight, useWidth } from './utils/layout';
@@ -22,13 +26,13 @@ import AgendaView from './components/agendaView/AgendaView';
 
 interface CalendarProps {
   config: Config;
-  onNewEventClick: (data: NewEventClickData) => void;
-  onEventClick: (data: CalendarEvent) => void;
+  onNewEventClick: OnNewEventClickFunc;
+  onEventClick: OnEventClickFunc;
   disabledViews?: CALENDAR_VIEW[];
-  onSelectView?: (view: CALENDAR_VIEW) => void;
+  onSelectView?: OnSelectViewFunc;
   selectedView?: CALENDAR_VIEW;
-  showMoreMonth?: (data: CalendarEvent[]) => void;
-  onPageChange?: (data: OnPageChangeData) => void;
+  showMoreMonth?: ShowMoreMonthFunc;
+  onPageChange?: OnPageChangeFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
 }

@@ -6,6 +6,8 @@ import {
   Config,
   NewEventClickData,
   NormalEventPosition,
+  OnEventClickFunc,
+  OnNewEventClickFunc,
 } from '../../../common/interface';
 import LuxonHelper from '../../../utils/luxonHelper';
 import { CALENDAR_VIEW, EVENT_TYPE } from '../../../common/enums';
@@ -20,7 +22,7 @@ const renderEvents = (
   defaultTimezone: string,
   selectedView: CALENDAR_VIEW,
   hourHeight: number,
-  handleEventClick: (data: CalendarEvent) => void
+  handleEventClick: OnEventClickFunc
 ) => {
   const calculatedResults: NormalEventPosition[] =
     calculateNormalEventPositions(
@@ -51,9 +53,9 @@ interface DaysViewOneDayProps {
   key: string;
   day: DateTime;
   index: number;
-  handleNewEventClick: (data: NewEventClickData) => void;
+  handleNewEventClick: OnNewEventClickFunc;
   data: any;
-  handleEventClick: (data: CalendarEvent) => void;
+  handleEventClick: OnEventClickFunc;
 }
 const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   const { day, index, data, handleNewEventClick, handleEventClick } = props;
