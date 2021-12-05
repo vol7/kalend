@@ -54,3 +54,10 @@ export interface EventLayoutMeta {
   isFullWidth: boolean;
   centerText: boolean;
 }
+
+// functions
+export type OnPageChangeFunc = (data: OnPageChangeData) => void;
+export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;
+export type OnSelectViewFunc = (view: CALENDAR_VIEW) => void;
+export type OnEventClickFunc = (data: CalendarEvent) => void;
+export type OnNewEventClickFunc = (data: NewEventClickData) => void;

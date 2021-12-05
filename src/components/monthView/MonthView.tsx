@@ -4,15 +4,15 @@ import { formatTimestampToDate } from '../../utils/common';
 import { Context } from '../../context/store';
 import { getNewCalendarDays } from '../../utils/getCalendarDays';
 import { CALENDAR_VIEW } from '../../common/enums';
-import { CalendarEvent } from '../../common/interface';
+import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
 
 const renderOneDay = (
   data: any,
   prefix: string,
   tableHeight: number,
   events: any,
-  handleEventClick: (data: CalendarEvent) => void,
-  showMoreMonth?: (data: CalendarEvent[]) => void
+  handleEventClick: OnEventClickFunc,
+  showMoreMonth?: ShowMoreMonthFunc
 ) =>
   data.map((day: any, index: number) => {
     const formattedDayString: string = formatTimestampToDate(day);
@@ -30,8 +30,8 @@ const renderOneDay = (
   });
 
 interface MonthViewProps {
-  handleEventClick: (data: CalendarEvent) => void;
-  showMoreMonth?: (data: CalendarEvent[]) => void;
+  handleEventClick: OnEventClickFunc;
+  showMoreMonth?: ShowMoreMonthFunc;
 }
 const MonthView = (props: MonthViewProps) => {
   const [store] = useContext(Context);

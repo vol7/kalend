@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { Context } from '../../../../context/store';
 import { daysText } from '../../../../utils/calendarDays';
 import { CALENDAR_VIEW } from '../../../../common/enums';
+import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
 
 interface CalendarHeaderDaysTextProps {
   daysNum: number;
@@ -46,15 +47,7 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderDaysTextProps) => {
     }
 
     return days.map((day: DateTime) => (
-      <div
-        key={day.toString()}
-        className={'Calend__CalendarHeaderWeekDays__col'}
-        style={dayTextColumnWidth}
-      >
-        <p className={'Calend__text Calend__CalendarHeaderWeekDays__text'}>
-          {day.toFormat('EEE')}
-        </p>
-      </div>
+      <DayOfWeekText key={day.toString()} day={day} width={colWidth} />
     ));
   };
   const namesForDays: any = renderDaysText();

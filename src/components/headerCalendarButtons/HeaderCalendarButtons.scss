@@ -36,7 +36,7 @@
   padding: 6px 4px 6px 4px;
   justify-content: center;
   align-items: center;
-  width: auto;
+  //width: 100%;
   display: flex;
   //font-size: 1.4rem;
   align-items: center;
@@ -56,6 +56,7 @@
     font-size: 1.5em;
     width: 100%;
     padding: 8px;
+    justify-content: flex-start;
   }
 
     &-dark {
@@ -76,6 +77,7 @@
     font-size: 1.5em;
     width: 100%;
     padding: 8px;
+    justify-content: flex-start;
   }
 
   &:hover {

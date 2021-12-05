@@ -6,7 +6,11 @@ import { CALENDAR_OFFSET_LEFT, getDaysNum } from '../../../utils/calendarDays';
 import { calculatePositionForHeaderEvents } from './CalendarHeaderEvents.utils';
 import { EVENT_TYPE } from '../../../common/enums';
 import EventButton from '../../eventButton/EventButton';
-import { CalendarEvent, NormalEventPosition } from '../../../common/interface';
+import {
+  CalendarEvent,
+  NormalEventPosition,
+  OnEventClickFunc,
+} from '../../../common/interface';
 import { getHeight, useHeight } from '../../../utils/layout';
 
 // TODO REMOVE
@@ -51,7 +55,7 @@ import { getHeight, useHeight } from '../../../utils/layout';
 // };
 
 interface CalendarHeaderEventsProps {
-  handleEventClick: (data: CalendarEvent) => void;
+  handleEventClick: OnEventClickFunc;
 }
 const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   const [store, dispatch] = useContext(Context);

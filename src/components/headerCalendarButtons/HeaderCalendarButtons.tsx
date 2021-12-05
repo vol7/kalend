@@ -9,15 +9,13 @@ interface HeaderCalendarButtonProps {
   buttonData: { label: string; value: CALENDAR_VIEW };
   setViewChanged: any;
   handleClose?: any;
+  isForcedMobile?: boolean;
 }
 const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
-  const { buttonData, setViewChanged, handleClose } = props;
+  const { buttonData, setViewChanged, handleClose, isForcedMobile } = props;
 
-  const [store, dispatch] = useContext(Context);
-  const { isDark, calendarDays, selectedView, isMobile } = store;
-  const setContext = (type: string, payload: any) => {
-    dispatch({ type, payload });
-  };
+  const [store] = useContext(Context);
+  const { isDark, selectedView, isMobile } = store;
 
   const isSelected: boolean = buttonData.value === selectedView;
   const buttonClassName = `Calend__header_calendar_button${
@@ -31,15 +29,12 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
     if (handleClose) {
       handleClose();
     }
-    // prevent flickering
     setViewChanged(buttonData.value);
-    // setContext('calendarDays', calendarDays[0]);
-    // setContext('selectedView', buttonData.value);
   };
 
   return (
     <ButtonBase
-      className={parseClassName(buttonClassName, isMobile)}
+      className={parseClassName(buttonClassName, isMobile || isForcedMobile)}
       isDark={isDark}
       onClick={navigateFunction}
     >
@@ -66,13 +61,14 @@ interface HeaderCalendarButtonsProps {
   disabledViews?: CALENDAR_VIEW[];
   setViewChanged: any;
   handleClose?: any;
+  isForcedMobile?: boolean; // force mobile layout for dropdown
 }
 /**
  * Buttons for switching calendar view in desktop layout
  * @constructor
  */
 const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
-  const { disabledViews, setViewChanged, handleClose } = props;
+  const { disabledViews, setViewChanged, handleClose, isForcedMobile } = props;
   const [store] = useContext(Context);
 
   const { isDark, isMobile } = store;
@@ -81,7 +77,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
     <div
       className={parseClassName(
         'Calend__header_calendar_buttons__container',
-        isMobile,
+        !!(isMobile || isForcedMobile),
         isDark
       )}
     >
@@ -90,6 +86,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
           buttonData={{ label: 'Agenda', value: CALENDAR_VIEW.AGENDA }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
+          isForcedMobile={isForcedMobile}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.DAY) ? (
@@ -97,6 +94,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
           buttonData={{ label: 'Day', value: CALENDAR_VIEW.DAY }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
+          isForcedMobile={isForcedMobile}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.THREE_DAYS) ? (
@@ -104,6 +102,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
           buttonData={{ label: '3 Days', value: CALENDAR_VIEW.THREE_DAYS }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
+          isForcedMobile={isForcedMobile}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.WEEK) ? (
@@ -111,6 +110,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
           buttonData={{ label: 'Week', value: CALENDAR_VIEW.WEEK }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
+          isForcedMobile={isForcedMobile}
         />
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.MONTH) ? (
@@ -118,6 +118,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
           buttonData={{ label: 'Month', value: CALENDAR_VIEW.MONTH }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
+          isForcedMobile={isForcedMobile}
         />
       ) : null}
     </div>

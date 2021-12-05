@@ -4,7 +4,11 @@ import {
   CalendarEvent,
   Config,
   NewEventClickData,
-  OnPageChangeData,
+  OnEventClickFunc,
+  OnNewEventClickFunc,
+  OnPageChangeFunc,
+  OnSelectViewFunc,
+  ShowMoreMonthFunc,
 } from './common/interface';
 import DaysViewTable from './components/daysViewTable/DaysViewTable';
 import { getHeight, getWidth, useHeight, useWidth } from './utils/layout';
@@ -18,16 +22,17 @@ import { CALENDAR_VIEW } from './common/enums';
 import MonthView from './components/monthView/MonthView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
 import { DEFAULT_HOUR_HEIGHT } from './common/constants';
+import AgendaView from './components/agendaView/AgendaView';
 
 interface CalendarProps {
   config: Config;
-  onNewEventClick: (data: NewEventClickData) => void;
-  onEventClick: (data: CalendarEvent) => void;
+  onNewEventClick: OnNewEventClickFunc;
+  onEventClick: OnEventClickFunc;
   disabledViews?: CALENDAR_VIEW[];
-  onSelectView?: (view: CALENDAR_VIEW) => void;
+  onSelectView?: OnSelectViewFunc;
   selectedView?: CALENDAR_VIEW;
-  showMoreMonth?: (data: CalendarEvent[]) => void;
-  onPageChange?: (data: OnPageChangeData) => void;
+  showMoreMonth?: ShowMoreMonthFunc;
+  onPageChange?: OnPageChangeFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
 }
@@ -243,7 +248,9 @@ const Calendar = (props: CalendarProps) => {
         setViewChanged={setViewChanged}
         disableMobileDropdown={disableMobileDropdown}
       />
-      <CalendarHeader handleEventClick={handleEventClick} />
+      {selectedView !== CALENDAR_VIEW.AGENDA ? (
+        <CalendarHeader handleEventClick={handleEventClick} />
+      ) : null}
       <div className={'Calend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
@@ -251,12 +258,20 @@ const Calendar = (props: CalendarProps) => {
               handleEventClick={handleEventClick}
               showMoreMonth={props.showMoreMonth}
             />
-          ) : (
+          ) : null}
+
+          {selectedView === CALENDAR_VIEW.DAY ||
+          selectedView === CALENDAR_VIEW.THREE_DAYS ||
+          selectedView === CALENDAR_VIEW.WEEK ? (
             <DaysViewTable
               handleNewEventClick={handleNewEventClick}
               handleEventClick={handleEventClick}
             />
-          )}
+          ) : null}
+
+          {selectedView === CALENDAR_VIEW.AGENDA ? (
+            <AgendaView handleEventClick={handleEventClick} />
+          ) : null}
         </CalendarTableLayoutLayer>
       </div>
     </>

@@ -1,9 +1,9 @@
 @import '../../styles/colors';
 
-.Calend__MobileDropdown__wrapper {
+.Calend__CalendarViewDropdown__wrapper {
   position: relative;
 }
-.Calend__MobileDropdown__backdrop {
+.Calend__CalendarViewDropdown__backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,12 +13,13 @@
   overflow: hidden;
 }
 
-.Calend__MobileDropdown__container {
+.Calend__CalendarViewDropdown__container {
   position: absolute;
   top: 50px;
   right: 4px;
   display: flex;
-  width: auto;
+  flex-direction: column;
+  //width: 100%;
   height: auto;
   padding: 16px;
   z-index: 20;
@@ -27,7 +28,7 @@
   border-radius: 8px;
 }
 
-.Calend__MobileDropdown__container-content {
+.Calend__CalendarViewDropdown__container-content {
   display: flex;
   flex-direction: column;
   height: 100%;

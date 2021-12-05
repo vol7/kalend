@@ -1,26 +1,27 @@
 import React, { useContext, useState } from 'react';
 import { Context } from '../../context/store';
-import { parseCssDark } from '../../utils/common';
+import { parseCalendarViewToText, parseCssDark } from '../../utils/common';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
 import { EvaIcons } from '../eva-icons';
 import HeaderCalendarButtons, {
   isSingleView,
 } from '../headerCalendarButtons/HeaderCalendarButtons';
 import { CALENDAR_VIEW } from '../../common/enums';
+import ButtonBase from '../buttonBase/ButtonBase';
 
-interface MobileDropdownProps {
+interface CalendarViewDropdownProps {
   disableMobileDropdown?: boolean;
   disabledViews?: CALENDAR_VIEW[];
   setViewChanged: any;
 }
 
-const MobileDropdown = (props: MobileDropdownProps) => {
+const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
   const { disableMobileDropdown, setViewChanged, disabledViews } = props;
 
   const [isOpen, setOpen] = useState(false);
 
   const [store] = useContext(Context);
-  const { isDark } = store;
+  const { isDark, isMobile, selectedView } = store;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -30,28 +31,39 @@ const MobileDropdown = (props: MobileDropdownProps) => {
     e.stopPropagation();
   };
 
-  return disableMobileDropdown || isSingleView(disabledViews) ? null : (
+  return (isMobile && (disableMobileDropdown || isSingleView(disabledViews))) ||
+    isSingleView(disabledViews) ? null : (
     <>
-      <div className={'Calend__MobileDropdown__wrapper'}>
-        <ButtonIcon isDark={isDark} key={'calendar'} onClick={handleOpen}>
-          <EvaIcons.More className={parseCssDark('icon-svg', isDark)} />
-        </ButtonIcon>
+      <div className={'Calend__CalendarViewDropdown__wrapper'}>
+        {isMobile ? (
+          <ButtonIcon isDark={isDark} key={'calendar'} onClick={handleOpen}>
+            <EvaIcons.More className={parseCssDark('icon-svg', isDark)} />
+          </ButtonIcon>
+        ) : (
+          <ButtonBase
+            isDark={isDark}
+            className={'Calend__ButtonBase-border'}
+            onClick={handleOpen}
+            text={parseCalendarViewToText(selectedView)}
+          />
+        )}
         {isOpen ? (
           <div
-            className={'Calend__MobileDropdown__backdrop'}
+            className={'Calend__CalendarViewDropdown__backdrop'}
             onClick={handleClose}
           />
         ) : null}
         {isOpen ? (
-          <div className={'Calend__MobileDropdown__container'}>
+          <div className={'Calend__CalendarViewDropdown__container'}>
             <div
-              className={'Calend__MobileDropdown__container-content'}
+              className={'Calend__CalendarViewDropdown__container-content'}
               onClick={preventDefault}
             >
               <HeaderCalendarButtons
                 disabledViews={disabledViews}
                 setViewChanged={setViewChanged}
                 handleClose={handleClose}
+                isForcedMobile={true}
               />
             </div>
           </div>
@@ -61,4 +73,4 @@ const MobileDropdown = (props: MobileDropdownProps) => {
   );
 };
 
-export default MobileDropdown;
+export default CalendarViewDropdown;

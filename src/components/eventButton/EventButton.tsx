@@ -5,7 +5,11 @@ import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
 import EventAgenda from './eventAgenda/EventAgenda';
 import { EVENT_TYPE } from '../../common/enums';
-import { CalendarEvent, EventLayoutMeta } from '../../common/interface';
+import {
+  CalendarEvent,
+  EventLayoutMeta,
+  OnEventClickFunc,
+} from '../../common/interface';
 import ButtonBase from '../buttonBase/ButtonBase';
 import { Context } from '../../context/store';
 
@@ -31,7 +35,7 @@ interface EventProps {
   offsetLeft?: number;
   height?: number;
   type: EVENT_TYPE;
-  handleEventClick: (data: CalendarEvent) => void;
+  handleEventClick: OnEventClickFunc;
   zIndex: number;
   border?: string;
   meta?: EventLayoutMeta;
