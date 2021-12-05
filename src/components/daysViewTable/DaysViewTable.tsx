@@ -2,20 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
-import {
-  CalendarEvent,
-  Config,
-  HandleEventClickFunc,
-  NewEventClickData,
-  OnEventClickFunc,
-  OnNewEventClickFunc,
-} from '../../common/interface';
+import { OnEventClickFunc, OnNewEventClickFunc } from '../../common/interface';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import { formatTimestampToDate } from '../../utils/common';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import { Context } from '../../context/store';
 import { getNewCalendarDays } from '../../utils/getCalendarDays';
-import Carousel from '../carousel/carousel';
 
 const renderOneDay = (
   calendarDays: DateTime[],

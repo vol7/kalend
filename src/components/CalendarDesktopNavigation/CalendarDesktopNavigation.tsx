@@ -6,7 +6,10 @@ import HeaderCalendarButtons from '../headerCalendarButtons/HeaderCalendarButton
 import { parseClassName, parseCssDark } from '../../utils/common';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
 import { EvaIcons } from '../eva-icons';
-import { getNewCalendarDays } from '../../utils/getCalendarDays';
+import {
+  getNewCalendarDays,
+  navigateToToday,
+} from '../../utils/getCalendarDays';
 import { DateTime } from 'luxon';
 import { CALENDAR_VIEW } from '../../common/enums';
 import DesktopLayout from '../desktopLayout/DesktopLayout';
@@ -43,26 +46,8 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   const navigateForward = async (): Promise<void> =>
     await getNewCalendarDays(calendarDays, selectedView, true, setContext);
 
-  const navigateToToday = async (): Promise<void> => {
-    // temp fix for navigation to correct date
-    if (
-      selectedView === CALENDAR_VIEW.DAY ||
-      selectedView === CALENDAR_VIEW.THREE_DAYS
-    ) {
-      await getNewCalendarDays(
-        [DateTime.now().minus({ days: 1 })],
-        selectedView,
-        true,
-        setContext
-      );
-    } else {
-      await getNewCalendarDays(
-        [DateTime.now()],
-        selectedView,
-        true,
-        setContext
-      );
-    }
+  const navigateToTodayDate = async (): Promise<void> => {
+    await navigateToToday(selectedView, setContext, DateTime.now());
   };
 
   // handle showing  full desktop navigation panel or dropdown for
@@ -104,7 +89,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
               <ButtonBase
                 className={'Calend__ButtonBase-border'}
                 isDark={isDark}
-                onClick={navigateToToday}
+                onClick={navigateToTodayDate}
               >
                 Today
               </ButtonBase>
@@ -154,7 +139,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
               <ButtonIcon
                 isDark={isDark}
                 key={'calendar'}
-                onClick={navigateToToday}
+                onClick={navigateToTodayDate}
               >
                 <EvaIcons.Calendar
                   className={parseCssDark('Calend__icon-svg', isDark)}

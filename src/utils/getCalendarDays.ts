@@ -55,3 +55,27 @@ export const getNewCalendarDays = async (
     // reduxStore.dispatch(setRangeFrom(rangeFromFetch));
   }
 };
+
+export const navigateToToday = async (
+  selectedView: CALENDAR_VIEW,
+  setContext: any,
+  dateNow: DateTime = DateTime.now()
+): Promise<void> => {
+  // temp fix for navigation to correct date
+  // TODO refactor for one option for all views
+  if (
+    selectedView === CALENDAR_VIEW.DAY ||
+    selectedView === CALENDAR_VIEW.THREE_DAYS
+  ) {
+    await getNewCalendarDays(
+      [dateNow.minus({ days: 1 })],
+      selectedView,
+      true,
+      setContext
+    );
+  } else if (selectedView === CALENDAR_VIEW.AGENDA) {
+    await getNewCalendarDays([dateNow], selectedView, true, setContext);
+  } else {
+    await getNewCalendarDays([dateNow], selectedView, false, setContext);
+  }
+};

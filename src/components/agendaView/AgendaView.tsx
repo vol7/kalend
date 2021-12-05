@@ -1,9 +1,5 @@
 import React, { useContext } from 'react';
-import {
-  CalendarEvent,
-  HandleEventClickFunc,
-  OnEventClickFunc,
-} from '../../common/interface';
+import { OnEventClickFunc } from '../../common/interface';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';

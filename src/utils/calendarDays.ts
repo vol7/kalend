@@ -223,7 +223,7 @@ export const getWeekDays = (
 ): DateTime[] => {
   // Get reference date for calculating new week
   const dateForNewWeek: any =
-    isGoingForward !== null
+    isGoingForward !== null && isGoingForward !== undefined
       ? isGoingForward
         ? date.plus({ days: 1 })
         : date.minus({ days: 1 })
