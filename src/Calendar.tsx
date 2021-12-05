@@ -18,6 +18,7 @@ import { CALENDAR_VIEW } from './common/enums';
 import MonthView from './components/monthView/MonthView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
 import { DEFAULT_HOUR_HEIGHT } from './common/constants';
+import AgendaView from './components/agendaView/AgendaView';
 
 interface CalendarProps {
   config: Config;
@@ -243,7 +244,9 @@ const Calendar = (props: CalendarProps) => {
         setViewChanged={setViewChanged}
         disableMobileDropdown={disableMobileDropdown}
       />
-      <CalendarHeader handleEventClick={handleEventClick} />
+      {selectedView !== CALENDAR_VIEW.AGENDA ? (
+        <CalendarHeader handleEventClick={handleEventClick} />
+      ) : null}
       <div className={'Calend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
@@ -251,12 +254,20 @@ const Calendar = (props: CalendarProps) => {
               handleEventClick={handleEventClick}
               showMoreMonth={props.showMoreMonth}
             />
-          ) : (
+          ) : null}
+
+          {selectedView === CALENDAR_VIEW.DAY ||
+          selectedView === CALENDAR_VIEW.THREE_DAYS ||
+          selectedView === CALENDAR_VIEW.WEEK ? (
             <DaysViewTable
               handleNewEventClick={handleNewEventClick}
               handleEventClick={handleEventClick}
             />
-          )}
+          ) : null}
+
+          {selectedView === CALENDAR_VIEW.AGENDA ? (
+            <AgendaView handleEventClick={handleEventClick} />
+          ) : null}
         </CalendarTableLayoutLayer>
       </div>
     </>

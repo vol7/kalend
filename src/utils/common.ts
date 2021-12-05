@@ -65,3 +65,22 @@ export const isAllDayEvent = (item: CalendarEvent): boolean => {
       .toObject().days > 1
   );
 };
+
+export const parseCalendarViewToText = (
+  calendarView: CALENDAR_VIEW
+): string => {
+  switch (calendarView) {
+    case CALENDAR_VIEW.AGENDA:
+      return 'Agenda';
+    case CALENDAR_VIEW.DAY:
+      return 'Day';
+    case CALENDAR_VIEW.THREE_DAYS:
+      return '3 days';
+    case CALENDAR_VIEW.WEEK:
+      return 'Week';
+    case CALENDAR_VIEW.MONTH:
+      return 'Month';
+    default:
+      return '';
+  }
+};

@@ -54,3 +54,6 @@ export interface EventLayoutMeta {
   isFullWidth: boolean;
   centerText: boolean;
 }
+
+// functions
+export type HandleEventClickFunc = (data: CalendarEvent) => void;

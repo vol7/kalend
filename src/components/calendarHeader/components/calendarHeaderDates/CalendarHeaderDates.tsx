@@ -6,6 +6,7 @@ import CalendarHeaderColText from '../calendarHeaderColText/CalendarHeaderColTex
 import CalendarHeaderCol from '../calendarHeaderCol/CalendarHeaderCol';
 import LuxonHelper from '../../../../utils/luxonHelper';
 import { CALENDAR_VIEW } from '../../../../common/enums';
+import DateWeekDay from '../../../dateWeekDay/DateWeekDay';
 
 interface CalendarHeaderDatesProps {
   daysNum: number;
@@ -24,10 +25,6 @@ const CalendarHeaderDates = (props: CalendarHeaderDatesProps) => {
 
   const colWidth: number = width / daysNum;
 
-  const dayTextColumnWidth: any = {
-    width: colWidth,
-  };
-
   const renderNumericDays = () =>
     calendarDays.map((day: DateTime) => {
       const isDayToday: boolean = LuxonHelper.isToday(day);
@@ -37,25 +34,12 @@ const CalendarHeaderDates = (props: CalendarHeaderDatesProps) => {
         !isDayToday;
 
       return (
-        <div
+        <DateWeekDay
           key={day.toString()}
-          className={'Calend__CalendarHeaderDates__col'}
-          style={dayTextColumnWidth}
-        >
-          <div
-            className={`Calend__CalendarHeaderDates__circle${
-              isDayToday ? '-today' : ''
-            }${isSelected ? '-selected' : ''}${isDark ? '-dark' : ''}`}
-          >
-            <p
-              className={`Calend__text Calend__CalendarHeaderDates__text${
-                isDayToday || isSelected ? '-today' : ''
-              }${isDark ? '-dark' : ''}`}
-            >
-              {day.day}
-            </p>
-          </div>
-        </div>
+          width={colWidth}
+          day={day}
+          isSelected={isSelected}
+        />
       );
     });
 
