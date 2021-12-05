@@ -1,5 +1,5 @@
 import { CALENDAR_VIEW } from './common/enums';
-import { CalendarEvent, Config, NewEventClickData } from './common/interface';
+import { OnEventClickFunc, OnNewEventClickFunc } from './common/interface';
 
 export interface CalendProps {
   initialDate?: string;
@@ -7,6 +7,6 @@ export interface CalendProps {
   events: any;
   isDark?: boolean;
   hourHeight?: number;
-  onNewEventClick: (data: NewEventClickData) => void;
-  onEventClick: (data: CalendarEvent) => void;
+  onNewEventClick: OnNewEventClickFunc;
+  onEventClick: OnEventClickFunc;
 }

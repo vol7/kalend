@@ -37,7 +37,10 @@
 
   &-agenda {
     @extend .Calend__Event;
-    height: 100% !important;
+    height: 65px !important;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 12px;
   }
 }
 

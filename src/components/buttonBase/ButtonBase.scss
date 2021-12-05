@@ -145,3 +145,16 @@
     @extend .Calend__Button-long;
   }
 }
+
+.Calend__ButtonBase-border {
+  @extend .Calend__ButtonBase;
+  display: flex;
+  padding: 6px 8px 6px 8px;
+  justify-content: center;
+  align-items: center;
+  min-width: 60px;
+  width: auto;
+  border: solid 0.4px $GRAY_300;
+  margin-right: 12px;
+  margin-left: 12px;
+}

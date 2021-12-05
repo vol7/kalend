@@ -113,6 +113,28 @@ const getOneDay = (
   return [refDate];
 };
 
+export const calculateAgendaDays = (
+  date: DateTime,
+  isGoingForward?: boolean | null,
+  disableDispatch?: boolean
+): DateTime[] => {
+  const refDate =
+    isGoingForward || isGoingForward === undefined || isGoingForward === null
+      ? date
+      : date.minus({ months: 1 });
+  const firstDayInMonth: DateTime = LuxonHelper.getFirstDayOfMonth(refDate);
+  const daysInMonth: number = refDate.daysInMonth;
+  const monthDays: DateTime[] = [];
+
+  // Add missing days to month view
+  for (let i = 0; i <= daysInMonth; i += 1) {
+    const day: DateTime = firstDayInMonth.plus({ days: i });
+    monthDays.push(day);
+  }
+
+  return monthDays;
+};
+
 export const calculateMonthDays = (
   date: DateTime,
   isGoingForward?: boolean | null,
@@ -137,6 +159,31 @@ export const calculateMonthDays = (
   for (let i = 1; i < FIVE_WEEKS_DAYS_COUNT; i += 1) {
     const day: DateTime = firstWeekOfCurrentMonth[6].plus({ days: i });
     monthDays.push(day);
+  }
+
+  return monthDays;
+};
+
+export const getAgendaDays = (
+  date: DateTime,
+  setSelectedDate: any,
+  isGoingForward?: boolean | null,
+  isCurrent?: boolean,
+  disableDispatch?: boolean
+) => {
+  const monthDays: DateTime[] = calculateAgendaDays(
+    date,
+    isGoingForward,
+    disableDispatch
+  );
+
+  if (disableDispatch) {
+    return monthDays;
+  }
+
+  // Set state
+  if (isCurrent && setSelectedDate) {
+    setSelectedDate(monthDays[15]);
   }
 
   return monthDays;
@@ -176,7 +223,7 @@ export const getWeekDays = (
 ): DateTime[] => {
   // Get reference date for calculating new week
   const dateForNewWeek: any =
-    isGoingForward !== null
+    isGoingForward !== null && isGoingForward !== undefined
       ? isGoingForward
         ? date.plus({ days: 1 })
         : date.minus({ days: 1 })
@@ -261,6 +308,8 @@ export const getCalendarDays = (
       return getOneDay(date, setSelectedDate, isGoingForward);
     case CALENDAR_VIEW.MONTH:
       return getMonthDays(date, setSelectedDate, isGoingForward, isCurrent);
+    case CALENDAR_VIEW.AGENDA:
+      return getAgendaDays(date, setSelectedDate, isGoingForward, isCurrent);
     default:
       return getWeekDays(date, calendarView, setSelectedDate, isGoingForward);
   }
@@ -312,6 +361,8 @@ export const chooseSelectedDateIndex = (
 ): number => {
   switch (calendarView) {
     case CALENDAR_VIEW.MONTH:
+      return 15;
+    case CALENDAR_VIEW.AGENDA:
       return 15;
     case CALENDAR_VIEW.WEEK:
       return 2;

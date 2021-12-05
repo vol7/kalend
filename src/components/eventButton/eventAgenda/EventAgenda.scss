@@ -1,9 +1,11 @@
 @import '../../../styles/colors';
 
-.Calend__Agenda__container {
+.Calend__EventAgenda__container {
   display: flex;
   flex-direction: column;
   padding: 8px;
   justify-content: center;
   align-items: flex-start;
+  margin-top: 4px;
+  margin-bottom: 4px;
 }

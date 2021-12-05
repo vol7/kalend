@@ -2,24 +2,18 @@ import React, { useContext, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
-import {
-  CalendarEvent,
-  Config,
-  NewEventClickData,
-} from '../../common/interface';
+import { OnEventClickFunc, OnNewEventClickFunc } from '../../common/interface';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import { formatTimestampToDate } from '../../utils/common';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import { Context } from '../../context/store';
 import { getNewCalendarDays } from '../../utils/getCalendarDays';
-import { CALENDAR_VIEW } from '../../common/enums';
-import Carousel from '../carousel/carousel';
 
 const renderOneDay = (
   calendarDays: DateTime[],
-  handleNewEventClick: (data: NewEventClickData) => void,
+  handleNewEventClick: OnNewEventClickFunc,
   events: any,
-  handleEventClick: (data: CalendarEvent) => void
+  handleEventClick: OnEventClickFunc
 ) =>
   calendarDays.map((day: DateTime, index: number) => {
     const formattedDayString: string = formatTimestampToDate(day);
@@ -37,8 +31,8 @@ const renderOneDay = (
   });
 
 interface CalendarBodyProps {
-  handleNewEventClick: (data: NewEventClickData) => void;
-  handleEventClick: (data: CalendarEvent) => void;
+  handleNewEventClick: OnNewEventClickFunc;
+  handleEventClick: OnEventClickFunc;
 }
 const DaysViewTable = (props: CalendarBodyProps) => {
   const { handleNewEventClick, handleEventClick } = props;

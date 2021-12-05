@@ -3,9 +3,11 @@ import Calendar from './Calendar';
 import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
 import {
-  CalendarEvent,
-  NewEventClickData,
-  OnPageChangeData,
+  OnEventClickFunc,
+  OnNewEventClickFunc,
+  OnPageChangeFunc,
+  OnSelectViewFunc,
+  ShowMoreMonthFunc,
 } from './common/interface';
 import { CALENDAR_VIEW } from './common/enums';
 import { validateProps, validateStyle } from './utils/validator';
@@ -18,11 +20,11 @@ export interface CalendProps {
   events: any;
   isDark?: boolean;
   hourHeight?: number;
-  onNewEventClick: (data: NewEventClickData) => void;
-  onEventClick: (data: CalendarEvent) => void;
-  onSelectView?: (view: CALENDAR_VIEW) => void;
-  showMoreMonth?: (data: CalendarEvent[]) => void;
-  onPageChange?: (data: OnPageChangeData) => void;
+  onNewEventClick: OnNewEventClickFunc;
+  onEventClick: OnEventClickFunc;
+  onSelectView?: OnSelectViewFunc;
+  showMoreMonth?: ShowMoreMonthFunc;
+  onPageChange?: OnPageChangeFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
 }
