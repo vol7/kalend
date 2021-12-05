@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.0
+- new agenda list view
+
 ## 0.0.4
 - hide dropdown icon when no options are available
 - add validation to check if css file is imported

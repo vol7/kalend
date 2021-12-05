@@ -5,6 +5,7 @@ Support for:
 - three days view
 - week view
 - month view
+- agenda list view
 #
 
 ### LIVE DEMO: https://calend.nibdo.com
@@ -19,7 +20,6 @@ If given interface and controls is not enough for you, you can use callbacks to 
 
 TODO:
 - dragging events
-- agenda list view
 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 
