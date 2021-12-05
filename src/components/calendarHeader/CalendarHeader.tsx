@@ -3,13 +3,18 @@ import CalendarHeaderDays from './calendarHeaderDays/CalendarHeaderDays';
 import CalendarHeaderEvents from './calendarHeaderEvents/CalendarHeaderEvents';
 import { Context } from '../../context/store';
 import { CALENDAR_VIEW } from '../../common/enums';
-import { OnEventClickFunc } from '../../common/interface';
+import {
+  OnEventClickFunc,
+  OnEventDragFinishFunc,
+} from '../../common/interface';
 
 interface CalendarHeaderProps {
   handleEventClick: OnEventClickFunc;
+  onEventDragFinish?: OnEventDragFinishFunc;
+  events: any;
 }
 const CalendarHeader = (props: CalendarHeaderProps) => {
-  const { handleEventClick } = props;
+  const { handleEventClick, events, onEventDragFinish } = props;
 
   const [store] = useContext(Context);
   const { isDark, width, selectedView } = store;
@@ -25,7 +30,11 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     >
       <CalendarHeaderDays width={width} isMonthView={isMonthView} />
       {!isMonthView ? (
-        <CalendarHeaderEvents handleEventClick={handleEventClick} />
+        <CalendarHeaderEvents
+          handleEventClick={handleEventClick}
+          events={events}
+          onEventDragFinish={onEventDragFinish}
+        />
       ) : null}
     </div>
   );

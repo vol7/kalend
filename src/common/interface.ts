@@ -55,9 +55,23 @@ export interface EventLayoutMeta {
   centerText: boolean;
 }
 
+export interface EventStyle {
+  position: string;
+  height: number;
+  width: string | number;
+  top: number;
+  left: number;
+  backgroundColor: string;
+  transition?: string;
+  zIndex?: number;
+  border: string;
+  alignItems?: string;
+}
+
 // functions
 export type OnPageChangeFunc = (data: OnPageChangeData) => void;
 export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;
 export type OnSelectViewFunc = (view: CALENDAR_VIEW) => void;
 export type OnEventClickFunc = (data: CalendarEvent) => void;
+export type OnEventDragFinishFunc = (data: CalendarEvent) => void;
 export type OnNewEventClickFunc = (data: NewEventClickData) => void;

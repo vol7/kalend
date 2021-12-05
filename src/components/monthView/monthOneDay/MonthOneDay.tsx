@@ -54,6 +54,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
               type={EVENT_TYPE.MONTH}
               handleEventClick={handleEventClick}
               zIndex={2}
+              day={day}
             />
           );
         } else if (

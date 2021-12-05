@@ -4,7 +4,11 @@ import { formatTimestampToDate } from '../../utils/common';
 import { Context } from '../../context/store';
 import { getNewCalendarDays } from '../../utils/getCalendarDays';
 import { CALENDAR_VIEW } from '../../common/enums';
-import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
+import {
+  CalendarEvent,
+  OnEventClickFunc,
+  ShowMoreMonthFunc,
+} from '../../common/interface';
 
 const renderOneDay = (
   data: any,
@@ -32,12 +36,13 @@ const renderOneDay = (
 interface MonthViewProps {
   handleEventClick: OnEventClickFunc;
   showMoreMonth?: ShowMoreMonthFunc;
+  events: any;
 }
 const MonthView = (props: MonthViewProps) => {
   const [store] = useContext(Context);
-  const { height, width, calendarDays, events } = store;
+  const { height, width, calendarDays } = store;
 
-  const { handleEventClick, showMoreMonth } = props;
+  const { handleEventClick, showMoreMonth, events } = props;
 
   // Calculate height for days table
 

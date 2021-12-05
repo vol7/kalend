@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { OnEventClickFunc } from '../../common/interface';
+import { CalendarEvent, OnEventClickFunc } from '../../common/interface';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
@@ -27,13 +27,14 @@ const renderAgendaEvents = (
 
 interface AgendaViewProps {
   handleEventClick: OnEventClickFunc;
+  events: any;
 }
 
 const AgendaView = (props: AgendaViewProps) => {
-  const { handleEventClick } = props;
+  const { handleEventClick, events } = props;
   const [store] = useContext(Context);
 
-  const { events, calendarDays, height } = store;
+  const { calendarDays, height } = store;
 
   const agendaEvents: any = renderAgendaEvents(
     events,

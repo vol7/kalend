@@ -6,11 +6,8 @@ import EventButton from '../../eventButton/EventButton';
 import { EVENT_TYPE } from '../../../common/enums';
 import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
 
-const renderEvents = (
-  events: CalendarEvent[],
-  handleEventClick: OnEventClickFunc
-) => {
-  return events.map((event) => {
+const renderEvents = (events: any, handleEventClick: OnEventClickFunc) => {
+  return events.map((event: any) => {
     return (
       <EventButton
         key={event.id}
@@ -26,7 +23,7 @@ const renderEvents = (
 
 interface AgendaDayRowProps {
   day: DateTime;
-  events: CalendarEvent[];
+  events: any;
   handleEventClick: OnEventClickFunc;
 }
 const AgendaDayRow = (props: AgendaDayRowProps) => {

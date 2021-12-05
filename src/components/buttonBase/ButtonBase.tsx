@@ -14,6 +14,12 @@ interface ButtonBaseProps {
   id?: string;
   propagation?: boolean;
   onClickFromParent?: any;
+  onMouseDown?: any;
+  onMouseUp?: any;
+  onMouseMove?: any;
+  onTouchStart?: any;
+  onTouchEnd?: any;
+  onTouchMove?: any;
 }
 const ButtonBase = (props: ButtonBaseProps) => {
   const {
@@ -27,6 +33,10 @@ const ButtonBase = (props: ButtonBaseProps) => {
     propagation,
     disabled,
     onClickFromParent,
+    onMouseDown,
+    onMouseUp,
+    onMouseMove,
+    onTouchEnd,
   } = props;
 
   const buttonRef: any = useRef(null);
@@ -85,6 +95,10 @@ const ButtonBase = (props: ButtonBaseProps) => {
     if (!propagation) {
       e.stopPropagation();
     }
+
+    if (props.onTouchStart) {
+      props.onTouchStart(e);
+    }
     // e.preventDefault();
     if (isPressed) {
       setIsPressed(false);
@@ -106,6 +120,10 @@ const ButtonBase = (props: ButtonBaseProps) => {
     if (!propagation) {
       e.stopPropagation();
     }
+
+    if (props.onTouchMove) {
+      props.onTouchMove(e);
+    }
     // e.preventDefault();
     clearTimeout(timeout);
   };
@@ -122,6 +140,10 @@ const ButtonBase = (props: ButtonBaseProps) => {
       onClick={onButtonClick}
       onTouchMove={onTouchMove}
       onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onMouseMove={onMouseMove}
       // onTouchStart={handleTouchStart}
       // onMouseLeave={handleTouchOff}
       // onTouchEnd={handleTouchOff}

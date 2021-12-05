@@ -7,6 +7,7 @@ import {
   NewEventClickData,
   NormalEventPosition,
   OnEventClickFunc,
+  OnEventDragFinishFunc,
   OnNewEventClickFunc,
 } from '../../../common/interface';
 import LuxonHelper from '../../../utils/luxonHelper';
@@ -22,7 +23,9 @@ const renderEvents = (
   defaultTimezone: string,
   selectedView: CALENDAR_VIEW,
   hourHeight: number,
-  handleEventClick: OnEventClickFunc
+  handleEventClick: OnEventClickFunc,
+  day: DateTime,
+  onEventDragFinish?: OnEventDragFinishFunc
 ) => {
   const calculatedResults: NormalEventPosition[] =
     calculateNormalEventPositions(
@@ -36,7 +39,7 @@ const renderEvents = (
   return calculatedResults.map((item: NormalEventPosition) => (
     <EventButton
       key={item.event.id}
-      height={item.height}
+      eventHeight={item.height}
       offsetTop={item.offsetTop}
       eventWidth={item.width}
       offsetLeft={item.offsetLeft}
@@ -45,6 +48,8 @@ const renderEvents = (
       handleEventClick={handleEventClick}
       zIndex={item.zIndex}
       meta={item.meta}
+      day={day}
+      onEventDragFinish={onEventDragFinish}
     />
   ));
 };
@@ -56,9 +61,17 @@ interface DaysViewOneDayProps {
   handleNewEventClick: OnNewEventClickFunc;
   data: any;
   handleEventClick: OnEventClickFunc;
+  onEventDragFinish?: OnEventDragFinishFunc;
 }
 const DaysViewOneDay = (props: DaysViewOneDayProps) => {
-  const { day, index, data, handleNewEventClick, handleEventClick } = props;
+  const {
+    day,
+    index,
+    data,
+    handleNewEventClick,
+    handleEventClick,
+    onEventDragFinish,
+  } = props;
 
   const [store] = useContext(Context);
   const { isDark, width, selectedView, hourHeight, timezone } = store;
@@ -98,7 +111,9 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     timezone,
     selectedView,
     hourHeight,
-    handleEventClick
+    handleEventClick,
+    day,
+    onEventDragFinish
   );
 
   const handleEventClickInternal = (event: any) => {
@@ -111,6 +126,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
   return (
     <div
+      id={`Calend__day__${day.toString()}`}
       key={day.toString()}
       style={oneDayStyle}
       className={

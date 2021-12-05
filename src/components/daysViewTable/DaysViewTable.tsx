@@ -2,7 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { DateTime } from 'luxon';
 
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
-import { OnEventClickFunc, OnNewEventClickFunc } from '../../common/interface';
+import {
+  CalendarEvent,
+  OnEventClickFunc,
+  OnEventDragFinishFunc,
+  OnNewEventClickFunc,
+} from '../../common/interface';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import { formatTimestampToDate } from '../../utils/common';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
@@ -13,7 +18,8 @@ const renderOneDay = (
   calendarDays: DateTime[],
   handleNewEventClick: OnNewEventClickFunc,
   events: any,
-  handleEventClick: OnEventClickFunc
+  handleEventClick: OnEventClickFunc,
+  onEventDragFinish?: OnEventDragFinishFunc
 ) =>
   calendarDays.map((day: DateTime, index: number) => {
     const formattedDayString: string = formatTimestampToDate(day);
@@ -26,6 +32,7 @@ const renderOneDay = (
         data={events ? events[formattedDayString] : []}
         handleNewEventClick={handleNewEventClick}
         handleEventClick={handleEventClick}
+        onEventDragFinish={onEventDragFinish}
       />
     );
   });
@@ -33,13 +40,15 @@ const renderOneDay = (
 interface CalendarBodyProps {
   handleNewEventClick: OnNewEventClickFunc;
   handleEventClick: OnEventClickFunc;
+  onEventDragFinish?: OnEventDragFinishFunc;
+  events: any;
 }
 const DaysViewTable = (props: CalendarBodyProps) => {
-  const { handleNewEventClick, handleEventClick } = props;
+  const { handleNewEventClick, handleEventClick, onEventDragFinish, events } =
+    props;
 
   const [store] = useContext(Context);
-  const { hourHeight, calendarDays, width, height, events, selectedView } =
-    store;
+  const { hourHeight, calendarDays, width, height, selectedView } = store;
 
   const headerEventRowsCount = 0;
 
@@ -47,7 +56,8 @@ const DaysViewTable = (props: CalendarBodyProps) => {
     calendarDays,
     handleNewEventClick,
     events,
-    handleEventClick
+    handleEventClick,
+    onEventDragFinish
   );
 
   const style: any = {

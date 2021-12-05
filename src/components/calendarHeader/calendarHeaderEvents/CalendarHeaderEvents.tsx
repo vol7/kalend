@@ -10,6 +10,7 @@ import {
   CalendarEvent,
   NormalEventPosition,
   OnEventClickFunc,
+  OnEventDragFinishFunc,
 } from '../../../common/interface';
 import { getHeight, useHeight } from '../../../utils/layout';
 
@@ -56,10 +57,13 @@ import { getHeight, useHeight } from '../../../utils/layout';
 
 interface CalendarHeaderEventsProps {
   handleEventClick: OnEventClickFunc;
+  onEventDragFinish?: OnEventDragFinishFunc;
+  events: any;
 }
 const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   const [store, dispatch] = useContext(Context);
-  const { selectedView, events, width, calendarDays } = store;
+  const { selectedView, width, calendarDays } = store;
+  const { events, onEventDragFinish } = props;
 
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
@@ -71,7 +75,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
 
   const renderEvents = (baseWidth: number, rows: any) => {
     const rowEvents: any = (row: any) => {
-      return row.map((item: any) => {
+      return row?.map((item: any) => {
         return (
           <EventButton
             key={item.event.id}
@@ -82,12 +86,13 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
             type={EVENT_TYPE.HEADER}
             handleEventClick={props.handleEventClick}
             zIndex={2}
+            onEventDragFinish={onEventDragFinish}
           />
         );
       });
     };
 
-    return rows.map((row: any) => {
+    return rows?.map((row: any) => {
       return (
         <div
           key={row?.[0]?.event.id}

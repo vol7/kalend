@@ -8,7 +8,6 @@ interface InitialContext {
   isDark: boolean;
   isLoading: boolean;
   headerEventRowsCount: number;
-  events: any;
   initialView: CALENDAR_VIEW;
   selectedView: CALENDAR_VIEW;
   selectedDate: any;
@@ -24,7 +23,6 @@ const initialContext: InitialContext = {
   isDark: false,
   isLoading: false,
   headerEventRowsCount: 0,
-  events: {},
   initialView: CALENDAR_VIEW.WEEK,
   selectedView: CALENDAR_VIEW.WEEK,
   selectedDate: new Date().toISOString(),
