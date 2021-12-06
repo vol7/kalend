@@ -5,9 +5,18 @@
   "license": "MIT",
   "private": false,
   "source": "src/index.tsx",
+  "targets": {
+    "default": {
+      "distDir": "./dist"
+    },
+    "styles": {
+      "source": "src/index.scss",
+      "optimize": false
+    }
+  },
   "main": "dist/main.js",
   "types": "dist/index.d.ts",
-  "module": "dist/module.js",
+  "style": "dist/styles/index.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/nibdo/calend"
@@ -17,6 +26,9 @@
     "luxon": "2.1.1",
     "regenerator-runtime": "^0.13.9"
   },
+  "files": [
+    "dist/*"
+  ],
   "devDependencies": {
     "@parcel/packager-ts": "^2.0.1",
     "@parcel/transformer-sass": "^2.0.1",
@@ -49,10 +61,9 @@
     "react-dom": "17.0.2"
   },
   "scripts": {
+    "build": "parcel build --detailed-report 5",
+    "package": "npm run test && npm run build && npm pack",
     "start": "BROWSER=none PORT=4103 react-scripts start",
-    "build": "parcel build && npm run copy",
-    "watch": "parcel watch",
-    "copy": "cp ./package.json ./dist/ && cp ./LICENSE ./dist/ && cp ./README.md ./dist/",
     "test": "ts-mocha --config ./mocharc.js"
   },
   "keywords": [
