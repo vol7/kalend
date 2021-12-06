@@ -2,10 +2,10 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": [
-      "esnext",
+      "es2017",
       "dom"
     ],
-    "module": "esnext",
+    "module": "commonjs",
     "target": "ES6",
     "declaration": true,
     "outDir": "dist",
