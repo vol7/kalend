@@ -11,6 +11,7 @@ import {
 } from './common/interface';
 import { CALENDAR_VIEW } from './common/enums';
 import { validateProps, validateStyle } from './utils/validator';
+import './index.scss';
 
 export interface CalendProps {
   initialDate?: string;
