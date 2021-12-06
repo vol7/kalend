@@ -3,16 +3,25 @@ import Calendar from './Calendar';
 import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
 import {
+  CalendarEvent,
+  NewEventClickData,
   OnEventClickFunc,
   OnNewEventClickFunc,
   OnPageChangeFunc,
   OnSelectViewFunc,
+  PageChangeData,
   ShowMoreMonthFunc,
 } from './common/interface';
 import { CALENDAR_VIEW } from './common/enums';
 import { validateProps, validateStyle } from './utils/validator';
 
 export const CalendarView = CALENDAR_VIEW;
+
+export type OnEventClickData = CalendarEvent;
+export type OnNewEventClickData = NewEventClickData;
+export type OnPageChangeData = PageChangeData;
+export type OnSelectViewData = CALENDAR_VIEW;
+export type ShowMoreMonthData = CalendarEvent[];
 
 export interface CalendProps {
   initialDate?: string;

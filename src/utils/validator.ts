@@ -47,11 +47,11 @@ export const validateStyle = (): void => {
       throw Error(
         `[Calend]: CSS file not imported. 
          Reason: You probably forgot to import css file in your app as 
-         import 'calend/styles/index.css';
+         import 'calend/dist/styles/index.css';
          
          Valid usage: 
          import Calend from 'calend';
-         import 'calend/styles/index.css';`
+         import 'calend/dist/styles/index.css';`
       );
     }
   }

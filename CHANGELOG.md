@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.1
+- add parcel integration
+
 ## 0.1.0
 - new agenda list view
 
