@@ -44,7 +44,7 @@ export interface NewEventClickData {
   hour: number;
 }
 
-export interface OnPageChangeData {
+export interface PageChangeData {
   rangeFrom: string;
   rangeTo: string;
 }
@@ -56,7 +56,7 @@ export interface EventLayoutMeta {
 }
 
 // functions
-export type OnPageChangeFunc = (data: OnPageChangeData) => void;
+export type OnPageChangeFunc = (data: PageChangeData) => void;
 export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;
 export type OnSelectViewFunc = (view: CALENDAR_VIEW) => void;
 export type OnEventClickFunc = (data: CalendarEvent) => void;
