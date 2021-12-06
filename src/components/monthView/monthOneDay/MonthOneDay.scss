@@ -1,7 +1,9 @@
+@use "sass:math";
+
 @import '../../../styles/colors';
 
-$month_view__width: 100%/7;
-$month_view__height: 100%/6;
+$month_view__width: math.div(100%, 7);
+$month_view__height: math.div(100%, 6);
 
 $box_shadow-bottom: inset 0px -1px 1px;
 $box_shadow-bottom-right: inset -1px -1px 0px;

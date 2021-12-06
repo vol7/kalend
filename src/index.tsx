@@ -12,6 +12,8 @@ import {
 import { CALENDAR_VIEW } from './common/enums';
 import { validateProps, validateStyle } from './utils/validator';
 
+export const CalendarView = CALENDAR_VIEW;
+
 export interface CalendProps {
   initialDate?: string;
   initialView: CALENDAR_VIEW;
