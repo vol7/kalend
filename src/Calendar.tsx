@@ -84,7 +84,8 @@ const Calendar = (props: CalendarProps) => {
     setContext('height', height);
     setContext(
       'width',
-      width - getTableOffset(props.selectedView || config.initialView)
+      width -
+        getTableOffset(config.initialView || props.selectedView || selectedView)
     );
 
     if (width < 750) {
@@ -111,7 +112,11 @@ const Calendar = (props: CalendarProps) => {
   }, [timezone]);
 
   useEffect(() => {
-    setContext('width', getWidth() - getTableOffset(selectedView));
+    setContext(
+      'width',
+      getWidth() -
+        getTableOffset(selectedView || props.selectedView || config.initialView)
+    );
 
     if (width < 750) {
       setContext('isMobile', true);
