@@ -1,10 +1,10 @@
-import React from 'react';
-import { DateTime } from 'luxon';
 import DateWeekDay from '../../dateWeekDay/DateWeekDay';
 import { CalendarEvent, OnEventClickFunc } from '../../../common/interface';
 import EventButton from '../../eventButton/EventButton';
 import { EVENT_TYPE } from '../../../common/enums';
 import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
+import { AgendaDayRowProps } from './AgendaDayRow.props';
+import { ReactNode } from 'react';
 
 const renderEvents = (
   events: CalendarEvent[],
@@ -35,15 +35,10 @@ const renderEvents = (
   });
 };
 
-interface AgendaDayRowProps {
-  day: DateTime;
-  events: CalendarEvent[];
-  handleEventClick: OnEventClickFunc;
-}
 const AgendaDayRow = (props: AgendaDayRowProps) => {
   const { day, events, handleEventClick } = props;
 
-  const dayEvents: any = renderEvents(events, handleEventClick);
+  const dayEvents: ReactNode = renderEvents(events, handleEventClick);
 
   return (
     <div className={'Calend__AgendaDayRow__container'}>
