@@ -239,7 +239,7 @@ const Calendar = (props: CalendarProps) => {
     calendarDays?.[calendarDays?.length - 1],
   ]);
 
-  return calendarDays?.length > 0 && selectedDate ? (
+  return selectedView && calendarDays?.length > 0 && selectedDate ? (
     <>
       <CalendarDesktopNavigation
         disabledViews={props.disabledViews}
