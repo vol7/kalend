@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.2
+- fix calendar days calculations
+
 ## 0.1.1
 - add parcel integration
 
