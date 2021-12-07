@@ -1,0 +1,45 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Storybook server",
+            "type": "node",
+            "request": "launch",
+            "protocol": "inspector",
+            "program": "${workspaceRoot}/node_modules/.bin/start-storybook",
+            "args": [
+                "-p",
+                "6006"
+            ],
+            "stopOnEntry": false,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "sourceMaps": false
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome for Storybook",
+            "breakOnLoad": true,
+            "url": "http://localhost:6006",
+            "sourceMaps": true,
+            "webRoot": "${workspaceFolder}",
+            "sourceMapPathOverrides": {
+                "webpack:///*": "${webRoot}/*",
+                "webpack:///./*": "${webRoot}/*",
+                "webpack:///src/*": "${webRoot}/*",
+                "webpack:///./~/*": "${webRoot}/node_modules/*"
+            }
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch Storybook",
+            "configurations": [
+                "Launch Chrome for Storybook",
+                "Run Storybook server"
+            ]
+        }
+    ]
+}

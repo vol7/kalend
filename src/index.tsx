@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Calendar from './Calendar';
 import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
