@@ -1,4 +1,5 @@
 import { CALENDAR_VIEW } from './enums';
+import { DateTime } from 'luxon';
 
 export interface Settings {
   selectedDate: string;
@@ -10,7 +11,7 @@ export interface Settings {
 }
 
 export interface Config {
-  initialDate?: string;
+  initialDate?: DateTime;
   initialView: CALENDAR_VIEW;
   events: any;
   isDark?: boolean;
