@@ -156,7 +156,6 @@ const Calendar = (props: CalendarProps) => {
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChanged,
       DateTime.now(),
-      undefined,
       setSelectedDate
     );
 
@@ -186,7 +185,6 @@ const Calendar = (props: CalendarProps) => {
       const calendarDaysNew: DateTime[] = getCalendarDays(
         props.selectedView,
         DateTime.now(),
-        undefined,
         setSelectedDate
       );
 

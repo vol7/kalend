@@ -93,9 +93,9 @@ const DaysViewTable = (props: CalendarBodyProps) => {
     adjustScrollPosition();
   }, []);
 
-  const onPageChange = async (isGoingForward?: boolean) => {
-    await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
-  };
+  // const onPageChange = async (isGoingForward?: boolean) => {
+  //   await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
+  // };
 
   return (
     // <Carousel onPageChange={onPageChange}>

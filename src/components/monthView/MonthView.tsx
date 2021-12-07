@@ -46,9 +46,9 @@ const MonthView = (props: MonthViewProps) => {
     height,
   };
 
-  const onPageChange = async (isGoingForward?: boolean) => {
-    await getNewCalendarDays(calendarDays, CALENDAR_VIEW.MONTH, isGoingForward);
-  };
+  // const onPageChange = async (isGoingForward?: boolean) => {
+  //   await getNewCalendarDays(calendarDays, CALENDAR_VIEW.MONTH, isGoingForward);
+  // };
 
   const days: any = renderOneDay(
     calendarDays,

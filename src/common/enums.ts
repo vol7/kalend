@@ -12,3 +12,9 @@ export enum EVENT_TYPE {
   AGENDA = 'agenda',
   HEADER = 'header',
 }
+
+export enum CALENDAR_NAVIGATION_DIRECTION {
+  FORWARD = 'forward',
+  BACKWARDS = 'backwards',
+  TODAY = 'today',
+}
