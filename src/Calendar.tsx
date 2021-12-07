@@ -61,7 +61,7 @@ const Calendar = (props: CalendarProps) => {
   useEffect(() => {
     const calendarDaysInitial: DateTime[] = getCalendarDays(
       props.selectedView || config.initialView,
-      config.initialDate ? DateTime.fromISO(config.initialDate) : DateTime.now()
+      config.initialDate ? config.initialDate : DateTime.now()
     );
 
     setContext('calendarDays', calendarDaysInitial);
@@ -79,7 +79,7 @@ const Calendar = (props: CalendarProps) => {
       'selectedView',
       props.selectedView || config.initialView || CALENDAR_VIEW.WEEK
     );
-    setContext('selectedDate', config.initialDate || new Date().toISOString());
+    setContext('selectedDate', config.initialDate || DateTime.now());
     setContext('hourHeight', config.hourHeight || DEFAULT_HOUR_HEIGHT);
     setContext('height', height);
     setContext(
@@ -168,7 +168,7 @@ const Calendar = (props: CalendarProps) => {
 
     setContext('isDark', config.isDark);
     setContext('events', config.events);
-    setContext('selectedDate', config.initialDate);
+    setContext('selectedDate', config.initialDate || DateTime.now());
     setContext('hourHeight', config.hourHeight);
     setContext('width', width - getTableOffset(viewChanged));
     setPrevView(viewChanged);
@@ -199,7 +199,7 @@ const Calendar = (props: CalendarProps) => {
 
       setContext('isDark', config.isDark);
       setContext('events', config.events);
-      setContext('selectedDate', config.initialDate);
+      setContext('selectedDate', config.initialDate || DateTime.now());
       setContext('hourHeight', config.hourHeight);
       // setContext('height', getHeight());
       setContext('width', width - getTableOffset(props.selectedView));

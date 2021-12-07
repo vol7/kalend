@@ -14,6 +14,7 @@ import {
 } from './common/interface';
 import { CALENDAR_VIEW } from './common/enums';
 import { validateProps, validateStyle } from './utils/validator';
+import { DateTime } from 'luxon';
 
 export const CalendarView = CALENDAR_VIEW;
 
@@ -52,7 +53,9 @@ const Calend = (props: CalendProps) => {
         <RootLayoutLayer>
           <Calendar
             config={{
-              initialDate: props.initialDate,
+              initialDate: props.initialDate
+                ? DateTime.fromISO(props.initialDate)
+                : DateTime.now(),
               initialView: props.initialView,
               hourHeight: props.hourHeight,
               isDark: props.isDark,

@@ -27,7 +27,7 @@ const initialContext: InitialContext = {
   events: {},
   initialView: null,
   selectedView: null,
-  selectedDate: new Date().toISOString(),
+  selectedDate: DateTime.now(),
   hourHeight: DEFAULT_HOUR_HEIGHT + 40,
   calendarDays: [],
   width: 0,
