@@ -1,7 +1,6 @@
 import '../src/index.scss';
 import '@storybook/addon-console';
 import StoreProvider from '../src/context/store';
-import RootLayoutLayer from '../src/RootLayoutLayer';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -16,9 +15,7 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <StoreProvider>
-      <RootLayoutLayer>
-        <Story />
-      </RootLayoutLayer>
+      <Story />
     </StoreProvider>
   ),
 ];

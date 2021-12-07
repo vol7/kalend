@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
-
 import { Context } from '../../../context/store';
 import { CALENDAR_OFFSET_LEFT, getDaysNum } from '../../../utils/calendarDays';
 import { calculatePositionForHeaderEvents } from './CalendarHeaderEvents.utils';
@@ -12,6 +11,7 @@ import {
   OnEventClickFunc,
 } from '../../../common/interface';
 import { getHeight, useHeight } from '../../../utils/layout';
+import { CalendarHeaderEventsProps } from './CalendarHeaderEvents.props';
 
 // TODO REMOVE
 // const checkOverlappingEventsInDate = (
@@ -54,9 +54,6 @@ import { getHeight, useHeight } from '../../../utils/layout';
 //   );
 // };
 
-interface CalendarHeaderEventsProps {
-  handleEventClick: OnEventClickFunc;
-}
 const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   const [store, dispatch] = useContext(Context);
   const { selectedView, events, width, calendarDays } = store;

@@ -31,7 +31,7 @@ const generateCalendarEvents = (
       timezoneStartAt: '',
       endAt: end.toUTC().toISO(),
       timezoneEndAt: '',
-      summary: lorem.sentence(24, 12),
+      summary: lorem.sentence(12, 6),
       color: internet.color(0, 0, 0),
     };
     events.push(event);
@@ -40,7 +40,7 @@ const generateCalendarEvents = (
 };
 
 export default {
-  title: 'Components/AgendaDayRow',
+  title: 'Components/AgendaView/AgendaDayRow',
   component: AgendaDayRow,
 } as Meta;
 
@@ -51,5 +51,5 @@ const { day, events } = generateCalendarEvents(5);
 Primary.args = {
   day,
   events,
-  handleEventClick: (data: CalendarEvent) => alert(data),
+  handleEventClick: (data: CalendarEvent) => console.log(data),
 };

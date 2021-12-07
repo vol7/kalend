@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-
+import { useContext, useEffect, useState } from 'react';
 import HeaderCalendarTitle from '../headerCalendarTitle/HeaderCalendarTitle';
 import { Context } from '../../context/store';
 import HeaderCalendarButtons from '../headerCalendarButtons/HeaderCalendarButtons';
@@ -11,20 +10,12 @@ import {
   navigateToToday,
 } from '../../utils/getCalendarDays';
 import { DateTime } from 'luxon';
-import {
-  CALENDAR_NAVIGATION_DIRECTION,
-  CALENDAR_VIEW,
-} from '../../common/enums';
+import { CALENDAR_NAVIGATION_DIRECTION } from '../../common/enums';
 import DesktopLayout from '../desktopLayout/DesktopLayout';
 import MobileLayout from '../mobileLayout/MobileLayout';
 import ButtonBase from '../buttonBase/ButtonBase';
 import CalendarViewDropdown from '../calendarViewDropdown/CalendarViewDropdown';
-
-interface CalendarDesktopNavigationProps {
-  disabledViews?: CALENDAR_VIEW[];
-  setViewChanged: any;
-  disableMobileDropdown?: boolean;
-}
+import { CalendarDesktopNavigationProps } from './CalendarDesktopNavigation.props';
 
 /**
  * Title with calendar navigation buttons for desktop layout

@@ -12,7 +12,7 @@ const Template: Story<DateWeekDayProps> = (args) => <DateWeekDay {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {
-  isSelected: true,
-  width: 100,
-  day: DateTime.now().toUTC(),
+  isSelected: false,
+  width: 20,
+  day: DateTime.now().toLocal().toUTC(),
 };

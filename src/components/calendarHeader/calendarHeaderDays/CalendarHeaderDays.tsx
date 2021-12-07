@@ -1,15 +1,11 @@
-import React, { useContext } from 'react';
-
+import { useContext } from 'react';
 import CalendarHeaderWeekDays from '../components/calendarHeaderWeekDays/CalendarHeaderWeekDays';
 import CalendarHeaderColText from '../components/calendarHeaderColText/CalendarHeaderColText';
 import CalendarHeaderDates from '../components/calendarHeaderDates/CalendarHeaderDates';
 import CalendarHeaderWrapper from '../components/calendarHeaderWrapper/CalendarHeaderWrapper';
 import { Context } from '../../../context/store';
+import { CalendarHeaderDaysProps } from './CalendarHeaderDays.props';
 
-interface CalendarHeaderDaysProps {
-  width: number;
-  isMonthView: boolean;
-}
 const CalendarHeaderDays = (props: CalendarHeaderDaysProps) => {
   const { isMonthView } = props;
 
