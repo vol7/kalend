@@ -1,8 +1,8 @@
 /* tslint:disable:no-magic-numbers */
+import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 import { DateTime } from 'luxon';
 import { getArrayEnd, getArrayStart } from './common';
 import LuxonHelper from './luxonHelper';
-import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 
 const ONE_DAY = 1;
 const THREE_DAYS = 3;

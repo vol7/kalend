@@ -1,8 +1,8 @@
-import { Story, Meta } from '@storybook/react';
+import { AgendaViewProps } from './AgendaView.props';
 import { CalendarEvent } from '../../common/interface';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
 import AgendaView from './AgendaView';
-import { AgendaViewProps } from './AgendaView.props';
 
 export default {
   title: 'Components/AgendaView/AgendaView',

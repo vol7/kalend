@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { ButtonIconProps } from './ButtonIcon.props';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
 import ButtonIcon from './ButtonIcon';
-import { ButtonIconProps } from './ButtonIcon.props';
 
 export default {
   title: 'Components/ButtonIcon',

@@ -6,16 +6,16 @@
  * @param isDark
  * @param defaultTimezone
  */
+import { CALENDAR_VIEW } from '../common/enums';
+import { CalendarEvent, NormalEventPosition } from '../common/interface';
+import { DateTime, Interval } from 'luxon';
 import {
   EVENT_MIN_HEIGHT,
   EVENT_TABLE_DELIMITER_SPACE,
   SHOW_TIME_THRESHOLD,
 } from '../common/constants';
-import { CalendarEvent, NormalEventPosition } from '../common/interface';
-import { parseToDateTime } from './dateTimeParser';
-import { DateTime, Interval } from 'luxon';
 import { getDaysNum, parseToDate } from './calendarDays';
-import { CALENDAR_VIEW } from '../common/enums';
+import { parseToDateTime } from './dateTimeParser';
 import LuxonHelper from './luxonHelper';
 
 const adjustForMinimalHeight = (

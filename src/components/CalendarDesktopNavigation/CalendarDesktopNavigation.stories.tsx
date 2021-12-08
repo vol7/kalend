@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { CalendarDesktopNavigationProps } from './CalendarDesktopNavigation.props';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
 import CalendarDesktopNavigation from './CalendarDesktopNavigation';
-import { CalendarDesktopNavigationProps } from './CalendarDesktopNavigation.props';
 
 export default {
   title: 'Components/CalendarDesktopNavigation',

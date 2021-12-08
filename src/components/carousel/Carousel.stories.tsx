@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { CarouselProps } from './Carousel.props';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
 import Carousel from './Carousel';
-import { CarouselProps } from './Carousel.props';
 
 export default {
   title: 'Components/Carousel',

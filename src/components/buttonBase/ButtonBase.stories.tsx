@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { ButtonBaseProps } from './ButtonBase.props';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
 import ButtonBase from './ButtonBase';
-import { ButtonBaseProps } from './ButtonBase.props';
 
 export default {
   title: 'Components/ButtonBase',

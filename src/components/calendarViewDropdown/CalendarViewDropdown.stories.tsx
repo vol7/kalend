@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
 import CalendarViewDropdown from './CalendarViewDropdown';
-import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
 
 export default {
   title: 'Components/CalendarViewDropdown',

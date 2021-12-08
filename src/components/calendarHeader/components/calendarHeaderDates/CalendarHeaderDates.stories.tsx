@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { CalendarHeaderDatesProps } from './CalendarHeaderDates.props';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../../../utils/storybookHelpers';
 import CalendarHeaderDates from './CalendarHeaderDates';
-import { CalendarHeaderDatesProps } from './CalendarHeaderDates.props';
 
 export default {
   title: 'Components/CalendarHeader/components/CalendarHeaderDates',

@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
-import DateWeekDay from './DateWeekDay';
 import { DateTime } from 'luxon';
 import { DateWeekDayProps } from './DateWeekDay.props';
+import { Meta, Story } from '@storybook/react';
+import DateWeekDay from './DateWeekDay';
 
 export default {
   title: 'Components/DateWeekDay',

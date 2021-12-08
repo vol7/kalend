@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
-import MobileLayout from './MobileLayout';
 import { MobileLayoutProps } from './MobileLayout.props';
+import MobileLayout from './MobileLayout';
 
 export default {
   title: 'Components/MobileLayout',

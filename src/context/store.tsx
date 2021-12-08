@@ -1,8 +1,8 @@
-import React, { createContext, useReducer } from 'react';
-import Reducer from './reducer';
 import { CALENDAR_VIEW } from '../common/enums';
 import { DEFAULT_HOUR_HEIGHT } from '../common/constants';
 import { DateTime } from 'luxon';
+import { createContext, useReducer } from 'react';
+import Reducer from './reducer';
 
 interface InitialContext {
   isDark: boolean;

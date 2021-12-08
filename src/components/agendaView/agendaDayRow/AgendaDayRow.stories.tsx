@@ -1,9 +1,9 @@
-import { Story, Meta } from '@storybook/react';
-import { CalendarEvent } from '../../../common/interface';
-import AgendaDayRow from './AgendaDayRow';
 import { AgendaDayRowProps } from './AgendaDayRow.props';
-import { datatype, lorem, internet } from 'faker';
+import { CalendarEvent } from '../../../common/interface';
 import { DateTime, Duration } from 'luxon';
+import { Meta, Story } from '@storybook/react';
+import { datatype, internet, lorem } from 'faker';
+import AgendaDayRow from './AgendaDayRow';
 
 const generateCalendarEvents = (
   numberOfEvents: number

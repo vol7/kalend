@@ -1,7 +1,7 @@
-import { Story, Meta } from '@storybook/react';
+import { DayOfWeekTextProps } from './DayOfWeekText.props';
+import { Meta, Story } from '@storybook/react';
 import { MissingStory } from '../../utils/storybookHelpers';
 import DayOfWeekText from './DayOfWeekText';
-import { DayOfWeekTextProps } from './DayOfWeekText.props';
 
 export default {
   title: 'Components/DayOfWeekText',
