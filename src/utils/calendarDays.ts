@@ -2,7 +2,7 @@
 import { DateTime } from 'luxon';
 import { getArrayEnd, getArrayStart } from './common';
 import LuxonHelper from './luxonHelper';
-import { CALENDAR_VIEW } from '../common/enums';
+import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 
 const ONE_DAY = 1;
 const THREE_DAYS = 3;
@@ -81,29 +81,12 @@ export const calendarColors: any = {
 
 export const daysText = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
-export const calculateOneDay = (
-  date: DateTime,
-  isGoingForward?: boolean | null
-): DateTime => {
-  let refDate: DateTime;
-
-  if (isGoingForward === null || isGoingForward === undefined) {
-    refDate = date;
-  } else if (isGoingForward) {
-    refDate = date.plus({ days: 1 });
-  } else {
-    refDate = date.minus({ days: 1 });
-  }
-
-  return refDate;
+export const calculateOneDay = (date: DateTime): DateTime => {
+  return date;
 };
 
-const getOneDay = (
-  date: DateTime,
-  setSelectedDate: any,
-  isGoingForward?: boolean | null
-): DateTime[] => {
-  const refDate: DateTime = calculateOneDay(date, isGoingForward);
+const getOneDay = (date: DateTime, setSelectedDate: any): DateTime[] => {
+  const refDate: DateTime = calculateOneDay(date);
 
   // Set state
   if (setSelectedDate) {
@@ -113,15 +96,7 @@ const getOneDay = (
   return [refDate];
 };
 
-export const calculateAgendaDays = (
-  date: DateTime,
-  isGoingForward?: boolean | null,
-  disableDispatch?: boolean
-): DateTime[] => {
-  const refDate =
-    isGoingForward || isGoingForward === undefined || isGoingForward === null
-      ? date
-      : date.minus({ months: 1 });
+export const calculateAgendaDays = (refDate: DateTime): DateTime[] => {
   const firstDayInMonth: DateTime = LuxonHelper.getFirstDayOfMonth(refDate);
   const daysInMonth: number = refDate.daysInMonth;
   const monthDays: DateTime[] = [];
@@ -135,11 +110,7 @@ export const calculateAgendaDays = (
   return monthDays;
 };
 
-export const calculateMonthDays = (
-  date: DateTime,
-  isGoingForward?: boolean | null,
-  disableDispatch?: boolean
-): DateTime[] => {
+export const calculateMonthDays = (date: DateTime): DateTime[] => {
   const FIVE_WEEKS_DAYS_COUNT = 36;
   // Get reference date for calculating new month
 
@@ -149,8 +120,7 @@ export const calculateMonthDays = (
   const firstWeekOfCurrentMonth: DateTime[] = getWeekDays(
     firstDayOfCurrentMonth,
     CALENDAR_VIEW.WEEK,
-    undefined,
-    disableDispatch
+    undefined
   );
 
   const monthDays: DateTime[] = firstWeekOfCurrentMonth;
@@ -164,50 +134,22 @@ export const calculateMonthDays = (
   return monthDays;
 };
 
-export const getAgendaDays = (
-  date: DateTime,
-  setSelectedDate: any,
-  isGoingForward?: boolean | null,
-  isCurrent?: boolean,
-  disableDispatch?: boolean
-) => {
-  const monthDays: DateTime[] = calculateAgendaDays(
-    date,
-    isGoingForward,
-    disableDispatch
-  );
-
-  if (disableDispatch) {
-    return monthDays;
-  }
+export const getAgendaDays = (date: DateTime, setSelectedDate: any) => {
+  const monthDays: DateTime[] = calculateAgendaDays(date);
 
   // Set state
-  if (isCurrent && setSelectedDate) {
+  if (setSelectedDate) {
     setSelectedDate(monthDays[15]);
   }
 
   return monthDays;
 };
 
-export const getMonthDays = (
-  date: DateTime,
-  setSelectedDate: any,
-  isGoingForward?: boolean | null,
-  isCurrent?: boolean,
-  disableDispatch?: boolean
-) => {
-  const monthDays: DateTime[] = calculateMonthDays(
-    date,
-    isGoingForward,
-    disableDispatch
-  );
-
-  if (disableDispatch) {
-    return monthDays;
-  }
+export const getMonthDays = (date: DateTime, setSelectedDate: any) => {
+  const monthDays: DateTime[] = calculateMonthDays(date);
 
   // Set state
-  if (isCurrent && setSelectedDate) {
+  if (setSelectedDate) {
     setSelectedDate(monthDays[15]);
   }
 
@@ -217,37 +159,23 @@ export const getMonthDays = (
 export const getWeekDays = (
   date: DateTime,
   calendarView: CALENDAR_VIEW,
-  setSelectedDate?: any,
-  isGoingForward?: boolean | null,
-  disableDispatch?: boolean
+  setSelectedDate?: any
 ): DateTime[] => {
-  // Get reference date for calculating new week
-  const dateForNewWeek: any =
-    isGoingForward !== null && isGoingForward !== undefined
-      ? isGoingForward
-        ? date.plus({ days: 1 })
-        : date.minus({ days: 1 })
-      : date;
-
   // Set state
-  if (
-    !disableDispatch &&
-    setSelectedDate &&
-    calendarView !== CALENDAR_VIEW.MONTH
-  ) {
-    setSelectedDate(dateForNewWeek);
+  if (setSelectedDate && calendarView !== CALENDAR_VIEW.MONTH) {
+    setSelectedDate(date);
   }
 
   const days = [];
-  const dayInWeek = dateForNewWeek.weekday;
-  const startDate = dateForNewWeek.minus({ days: dayInWeek - 1 });
+  const dayInWeek = date.weekday;
+  const startDate = date.minus({ days: dayInWeek - 1 });
 
   if (calendarView === CALENDAR_VIEW.MONTH) {
     if (dayInWeek === 0) {
       for (let i = 6; i > 0; i--) {
-        days.push(dateForNewWeek.minus({ days: i }));
+        days.push(date.minus({ days: i }));
       }
-      days.push(dateForNewWeek);
+      days.push(date);
     } else {
       days.push(startDate);
       for (let i = 1; i < 7; i++) {
@@ -295,23 +223,21 @@ export const getThreeDays = (
 export const getCalendarDays = (
   calendarView: CALENDAR_VIEW,
   date: DateTime,
-  isGoingForward?: boolean | null,
-  setSelectedDate?: any,
-  isCurrent?: boolean
+  setSelectedDate?: any
 ): DateTime[] => {
   switch (calendarView) {
     case CALENDAR_VIEW.WEEK:
-      return getWeekDays(date, calendarView, setSelectedDate, isGoingForward);
+      return getWeekDays(date, calendarView, setSelectedDate);
     case CALENDAR_VIEW.THREE_DAYS:
-      return getThreeDays(date, setSelectedDate, isGoingForward);
+      return getThreeDays(date, setSelectedDate);
     case CALENDAR_VIEW.DAY:
-      return getOneDay(date, setSelectedDate, isGoingForward);
+      return getOneDay(date, setSelectedDate);
     case CALENDAR_VIEW.MONTH:
-      return getMonthDays(date, setSelectedDate, isGoingForward, isCurrent);
+      return getMonthDays(date, setSelectedDate);
     case CALENDAR_VIEW.AGENDA:
-      return getAgendaDays(date, setSelectedDate, isGoingForward, isCurrent);
+      return getAgendaDays(date, setSelectedDate);
     default:
-      return getWeekDays(date, calendarView, setSelectedDate, isGoingForward);
+      return getWeekDays(date, calendarView, setSelectedDate);
   }
 };
 
@@ -375,25 +301,57 @@ export const chooseSelectedDateIndex = (
   }
 };
 
+const getReferenceDate = (
+  direction: CALENDAR_NAVIGATION_DIRECTION,
+  calendarView: CALENDAR_VIEW,
+  calendarDays: DateTime[]
+): DateTime => {
+  if (direction === CALENDAR_NAVIGATION_DIRECTION.TODAY) {
+    return DateTime.now();
+  }
+
+  if (calendarView === CALENDAR_VIEW.THREE_DAYS) {
+    if (direction === CALENDAR_NAVIGATION_DIRECTION.FORWARD) {
+      return getArrayEnd(calendarDays).plus({ days: 1 });
+    } else {
+      return getArrayStart(calendarDays).minus({ days: 3 });
+    }
+  }
+
+  if (
+    calendarView === CALENDAR_VIEW.WEEK ||
+    calendarView === CALENDAR_VIEW.DAY
+  ) {
+    if (direction === CALENDAR_NAVIGATION_DIRECTION.FORWARD) {
+      return getArrayEnd(calendarDays).plus({ days: 1 });
+    } else {
+      return getArrayStart(calendarDays).minus({ days: 1 });
+    }
+  }
+
+  if (
+    calendarView === CALENDAR_VIEW.MONTH ||
+    calendarView === CALENDAR_VIEW.AGENDA
+  ) {
+    if (direction === CALENDAR_NAVIGATION_DIRECTION.FORWARD) {
+      return calendarDays[15].plus({ months: 1 });
+    } else {
+      return calendarDays[15].minus({ months: 1 });
+    }
+  }
+
+  return DateTime.now();
+};
+
 export const calculateCalendarDays = (
-  isGoingForward: boolean,
+  direction: CALENDAR_NAVIGATION_DIRECTION,
   calendarDays: DateTime[],
   calendarView: CALENDAR_VIEW,
   setSelectedDate: any
 ): DateTime[] => {
-  if (isGoingForward) {
-    return getCalendarDays(
-      calendarView,
-      getArrayEnd(calendarDays),
-      isGoingForward,
-      setSelectedDate
-    );
-  } else {
-    return getCalendarDays(
-      calendarView,
-      getArrayStart(calendarDays),
-      isGoingForward,
-      setSelectedDate
-    );
-  }
+  return getCalendarDays(
+    calendarView,
+    getReferenceDate(direction, calendarView, calendarDays),
+    setSelectedDate
+  );
 };

@@ -57,6 +57,10 @@
     width: 100%;
     padding: 8px;
     justify-content: flex-start;
+
+    &:hover {
+      @extend .Calend__header_calendar_button-mobile;
+    }
   }
 
     &-dark {
@@ -78,6 +82,10 @@
     width: 100%;
     padding: 8px;
     justify-content: flex-start;
+
+    &:hover {
+      @extend .Calend__header_calendar_button-mobile;
+    }
   }
 
   &:hover {

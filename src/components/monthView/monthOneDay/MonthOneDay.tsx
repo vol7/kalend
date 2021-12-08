@@ -90,7 +90,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
       return (
         <div
           className={parseCssDark(
-            'Calend__MonthOneDay__date-container MonthOneDay__circle-color',
+            'Calend__MonthOneDay__date-container Calend__MonthOneDay__circle-color',
             isDark
           )}
         >

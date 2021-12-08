@@ -11,7 +11,10 @@ import {
   navigateToToday,
 } from '../../utils/getCalendarDays';
 import { DateTime } from 'luxon';
-import { CALENDAR_VIEW } from '../../common/enums';
+import {
+  CALENDAR_NAVIGATION_DIRECTION,
+  CALENDAR_VIEW,
+} from '../../common/enums';
 import DesktopLayout from '../desktopLayout/DesktopLayout';
 import MobileLayout from '../mobileLayout/MobileLayout';
 import ButtonBase from '../buttonBase/ButtonBase';
@@ -42,9 +45,19 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   const title: string = DateTime.fromISO(selectedDate).toFormat('MMMM yyyy');
 
   const navigateBackwards = async (): Promise<void> =>
-    await getNewCalendarDays(calendarDays, selectedView, false, setContext);
+    await getNewCalendarDays(
+      calendarDays,
+      selectedView,
+      CALENDAR_NAVIGATION_DIRECTION.BACKWARDS,
+      setContext
+    );
   const navigateForward = async (): Promise<void> =>
-    await getNewCalendarDays(calendarDays, selectedView, true, setContext);
+    await getNewCalendarDays(
+      calendarDays,
+      selectedView,
+      CALENDAR_NAVIGATION_DIRECTION.FORWARD,
+      setContext
+    );
 
   const navigateToTodayDate = async (): Promise<void> => {
     await navigateToToday(selectedView, setContext, DateTime.now());

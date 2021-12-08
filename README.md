@@ -27,8 +27,8 @@ If you have any suggestion, feel free to open discussion or contact me directly 
     npm i calend
 
 # Example
-    import Calend from 'calend' // import component
-    import 'calend/styles/index.css'; // import styles
+    import Calend, { CalendarView } from 'calend' // import component
+    import 'calend/dist/styles/index.css'; // import styles
 
         <Calend
           onEventClick={onEventClick}
@@ -36,8 +36,8 @@ If you have any suggestion, feel free to open discussion or contact me directly 
           events={[]}
           initialDate={new Date().toISOString()}
           hourHeight={60}
-          initialView={CALENDAR_VIEW.WEEK}
-          disabledViews={[CALENDAR_VIEW.DAY]}
+          initialView={CalendarView.WEEK}
+          disabledViews={[CalendarView.DAY]}
           onSelectView={onSelectView}
           selectedView={selectedView}
           onPageChange={onPageChange}
@@ -45,21 +45,21 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 
 # Props
 
-prop      | type             | default     | required      |  desc
-----------|-------------|--------|------|--------
-`initialDate`   | `string`  | | false | starting date for calendar
-`initialView`| `CALENDAR_VIEW - day, three days, week, month` | CALENDAR_VIEW.WEEK | true | starts in calendar view
-`selectedView`| `CALENDAR_VIEW` | | false | selected view for control outside of the component
-`disabledViews`| `CALENDAR_VIEW[]` | | false| disable views you don't need
-`hourHeight`    | `number`   | 40 | false | height for one hour column in px
-`events` | `CalendarEvent[]` | [] | true | events for calendar
-`onNewEventClick` | `callback func` |  | false | callback for clicking on calendar table to create new event
-`onEventClick`   | `callback func`   | | false | callback for clicking on event
-`onSelectView` | `callback func` | | false | callback for view change event
-`onPageChange` | `callback func` | | false | callback for navigating through calendar pages
-`showMoreMonth` | `callback func` | | false | callback for accessing events which didn't fit in month view
-`disableMobileDropdown` | `boolean` | | false | disable button for triggering mobile dropdown with views
-`timezone` | `string` | | false | IANA timezone format, if not provided, system timezone will be used
+prop      | type                                           | default     | required      |  desc
+----------|------------------------------------------------|--------|------|--------
+`initialDate`   | `string`                                       | | false | starting date for calendar
+`initialView`| `CalendarView - day, three days, week, month` | CALENDAR_VIEW.WEEK | true | starts in calendar view
+`selectedView`| `CalendarView`                                 | | false | selected view for control outside of the component
+`disabledViews`| `CalendarView[]`                              | | false| disable views you don't need
+`hourHeight`    | `number`                                       | 40 | false | height for one hour column in px
+`events` | `CalendarEvent[]`                              | [] | true | events for calendar
+`onNewEventClick` | `callback func`                                |  | false | callback for clicking on calendar table to create new event
+`onEventClick`   | `callback func`                                | | false | callback for clicking on event
+`onSelectView` | `callback func`                                | | false | callback for view change event
+`onPageChange` | `callback func`                                | | false | callback for navigating through calendar pages
+`showMoreMonth` | `callback func`                                | | false | callback for accessing events which didn't fit in month view
+`disableMobileDropdown` | `boolean`                                      | | false | disable button for triggering mobile dropdown with views
+`timezone` | `string`                                       | | false | IANA timezone format, if not provided, system timezone will be used
 
 
 # Usage
@@ -102,23 +102,33 @@ You can keep other event properties, those will be ignored.
 ## Callbacks
 Create functions and handle data from callback in your application
 
+If you want access to type of callback data, you can import them like this
+
+    import Calend, {
+        OnEventClickData,
+        OnNewEventClickData,
+        ShowMoreMonthData,
+        OnPageChangeData,
+        OnSelectViewData
+    } from 'calend';
+
 ### onNewEventClick
 Passing data for creating new event
 
-    interface NewEventClickData {
+    type OnNewEventClickData {
         event: CalendarEvent;
         day: Date;
         hour: number;
     }
 
-    const onNewEventClick = (data: NewEventClickData) => {
+    const onNewEventClick = (data: OnNewEventClickData) => {
         // do something
     };
 
 ### onEventClick
 Passing data after clicking on existing event
 
-    interface CalendarEvent {
+    type OnEventClickData {
         startAt: string;
         endAt: string;
         timezoneStartAt?: string;
@@ -128,7 +138,7 @@ Passing data after clicking on existing event
         [key: string]: any;
     }
 
-    const onEventClick = (data: CalendarEvent) => {
+    const onEventClick = (data: OnEventClickData) => {
         // do something
     };
 
@@ -136,18 +146,13 @@ Passing data after clicking on existing event
 
 Access current selected view if you want to handle state in your app
 
-    const handleSelectView = (view: CALENDAR_VIEW) => {
+    const handleSelectView = (view: OnSelectViewData) => {
         // do something
     }
 
 ### onPageChange
 
 Callback to handle actions after page change (going back and forth)
-
-    interface OnPageChangeData {
-        rangeFrom: string;
-        rangeTo: string;
-    }
 
     const onPageChange = (data: OnPageChangeData) => {
         // do something
@@ -158,6 +163,6 @@ Callback to handle actions after page change (going back and forth)
 
 Callback returns array of CalendarEvent which did not fit inside day column in month view
 
-    const showMoreMonth = (data: CalendarEvent[]) => {
+    const showMoreMonth = (data: ShowMoreMonthData) => {
         // do something
     }

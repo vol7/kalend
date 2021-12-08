@@ -9,8 +9,8 @@ interface InitialContext {
   isLoading: boolean;
   headerEventRowsCount: number;
   events: any;
-  initialView: CALENDAR_VIEW;
-  selectedView: CALENDAR_VIEW;
+  initialView: CALENDAR_VIEW | null;
+  selectedView: CALENDAR_VIEW | null;
   selectedDate: any;
   hourHeight: number;
   calendarDays: DateTime[];
@@ -25,9 +25,9 @@ const initialContext: InitialContext = {
   isLoading: false,
   headerEventRowsCount: 0,
   events: {},
-  initialView: CALENDAR_VIEW.WEEK,
-  selectedView: CALENDAR_VIEW.WEEK,
-  selectedDate: new Date().toISOString(),
+  initialView: null,
+  selectedView: null,
+  selectedDate: DateTime.now(),
   hourHeight: DEFAULT_HOUR_HEIGHT + 40,
   calendarDays: [],
   width: 0,

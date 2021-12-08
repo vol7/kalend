@@ -21,9 +21,7 @@ jobs:
       - name: Run tests
         run: npm run test
       - name: Build
-        run: npm run build
-      - name: Copy required files
-        run: npm run copy
+        run: npm run package
 
   publish-npm:
     needs: build
@@ -36,8 +34,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm i
       - run: npm ci
-      - run: npm run build
-      - run: npm publish ./dist
+      - run: npm run package
+      - run: npm publish calend-*.tgz
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
       - name: Checkout repository

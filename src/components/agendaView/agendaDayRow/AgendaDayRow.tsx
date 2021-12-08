@@ -10,7 +10,18 @@ const renderEvents = (
   events: CalendarEvent[],
   handleEventClick: OnEventClickFunc
 ) => {
-  return events.map((event) => {
+  if (!events || events.length === 0) {
+    return [];
+  }
+
+  const sortedEvents: CalendarEvent[] = events?.sort((a, b) => {
+    return (
+      DateTime.fromISO(a.startAt).toMillis() -
+      DateTime.fromISO(b.startAt).toMillis()
+    );
+  });
+
+  return sortedEvents.map((event) => {
     return (
       <EventButton
         key={event.id}
