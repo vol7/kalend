@@ -1,14 +1,14 @@
-import { useContext, useState } from 'react';
+import { CALENDAR_VIEW } from '../../common/enums';
+import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
 import { Context } from '../../context/store';
-import { parseCalendarViewToText, parseCssDark } from '../../utils/common';
-import ButtonIcon from '../buttonIcon/ButtonIcon';
 import { EvaIcons } from '../eva-icons';
+import { parseCalendarViewToText, parseCssDark } from '../../utils/common';
+import { useContext, useState } from 'react';
+import ButtonBase from '../buttonBase/ButtonBase';
+import ButtonIcon from '../buttonIcon/ButtonIcon';
 import HeaderCalendarButtons, {
   isSingleView,
 } from '../headerCalendarButtons/HeaderCalendarButtons';
-import { CALENDAR_VIEW } from '../../common/enums';
-import ButtonBase from '../buttonBase/ButtonBase';
-import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
 
 const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
   const { disableMobileDropdown, setViewChanged, disabledViews } = props;

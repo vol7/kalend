@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import { DateTime } from 'luxon';
-import { Context } from '../../../../context/store';
-import { daysText } from '../../../../utils/calendarDays';
 import { CALENDAR_VIEW } from '../../../../common/enums';
-import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
 import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
+import { Context } from '../../../../context/store';
+import { DateTime } from 'luxon';
+import { daysText } from '../../../../utils/calendarDays';
+import { useContext } from 'react';
+import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
 
 /**
  * Render text representation of days

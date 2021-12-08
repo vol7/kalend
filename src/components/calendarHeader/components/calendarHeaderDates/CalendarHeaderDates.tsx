@@ -1,12 +1,12 @@
-import { useContext } from 'react';
-import { DateTime } from 'luxon';
-import { Context } from '../../../../context/store';
-import CalendarHeaderColText from '../calendarHeaderColText/CalendarHeaderColText';
-import CalendarHeaderCol from '../calendarHeaderCol/CalendarHeaderCol';
-import LuxonHelper from '../../../../utils/luxonHelper';
 import { CALENDAR_VIEW } from '../../../../common/enums';
-import DateWeekDay from '../../../dateWeekDay/DateWeekDay';
 import { CalendarHeaderDatesProps } from './CalendarHeaderDates.props';
+import { Context } from '../../../../context/store';
+import { DateTime } from 'luxon';
+import { useContext } from 'react';
+import CalendarHeaderCol from '../calendarHeaderCol/CalendarHeaderCol';
+import CalendarHeaderColText from '../calendarHeaderColText/CalendarHeaderColText';
+import DateWeekDay from '../../../dateWeekDay/DateWeekDay';
+import LuxonHelper from '../../../../utils/luxonHelper';
 
 /**
  * Get numeric representation of days

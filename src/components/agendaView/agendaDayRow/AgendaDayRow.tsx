@@ -1,10 +1,10 @@
-import DateWeekDay from '../../dateWeekDay/DateWeekDay';
-import { CalendarEvent, OnEventClickFunc } from '../../../common/interface';
-import EventButton from '../../eventButton/EventButton';
-import { EVENT_TYPE } from '../../../common/enums';
-import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
 import { AgendaDayRowProps } from './AgendaDayRow.props';
+import { CalendarEvent, OnEventClickFunc } from '../../../common/interface';
+import { EVENT_TYPE } from '../../../common/enums';
 import { ReactNode } from 'react';
+import DateWeekDay from '../../dateWeekDay/DateWeekDay';
+import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
+import EventButton from '../../eventButton/EventButton';
 
 const renderEvents = (
   events: CalendarEvent[],

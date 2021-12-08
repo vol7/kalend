@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import { OnEventClickFunc } from '../../common/interface';
+import { AgendaViewProps } from './AgendaView.props';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
+import { OnEventClickFunc } from '../../common/interface';
+import { useContext } from 'react';
 import AgendaDayRow from './agendaDayRow/AgendaDayRow';
-import { AgendaViewProps } from './AgendaView.props';
 
 const renderAgendaEvents = (
   events: any,

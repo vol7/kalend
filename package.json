@@ -81,7 +81,7 @@
     "start": "BROWSER=none PORT=4103 react-scripts start",
     "test": "ts-mocha --config ./mocharc.js",
     "storybook": "start-storybook -p 8080",
-    "lint": "eslint ./src/**/*.ts ./src/**/*.tsx ./src/**/*.stories.tsx"
+    "lint": "eslint . --ext ts --ext tsx"
   },
   "keywords": [
     "javascript"

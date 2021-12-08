@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import { DateTime } from 'luxon';
 import { CalendarEvent } from '../../../../common/interface';
-import { parseToDateTime } from '../../../../utils/dateTimeParser';
+import { Context } from '../../../../context/store';
+import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../../common/enums';
 import { parseCssDark } from '../../../../utils/common';
-import { Context } from '../../../../context/store';
+import { parseToDateTime } from '../../../../utils/dateTimeParser';
 
 const TIME_FORMAT = 'HH:mm';
 

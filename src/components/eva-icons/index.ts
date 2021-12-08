@@ -21,9 +21,9 @@
 // SOFTWARE.
 
 import Calendar from './CalendarIcon';
-import ChevronRight from './ChevronRight';
 import ChevronDown from './ChevronDown';
 import ChevronLeft from './ChevronLeft';
+import ChevronRight from './ChevronRight';
 import More from './more';
 
 export const EvaIcons = {

@@ -1,10 +1,10 @@
+import { CalendarHeaderDaysProps } from './CalendarHeaderDays.props';
+import { Context } from '../../../context/store';
 import { useContext } from 'react';
-import CalendarHeaderWeekDays from '../components/calendarHeaderWeekDays/CalendarHeaderWeekDays';
 import CalendarHeaderColText from '../components/calendarHeaderColText/CalendarHeaderColText';
 import CalendarHeaderDates from '../components/calendarHeaderDates/CalendarHeaderDates';
+import CalendarHeaderWeekDays from '../components/calendarHeaderWeekDays/CalendarHeaderWeekDays';
 import CalendarHeaderWrapper from '../components/calendarHeaderWrapper/CalendarHeaderWrapper';
-import { Context } from '../../../context/store';
-import { CalendarHeaderDaysProps } from './CalendarHeaderDays.props';
 
 const CalendarHeaderDays = (props: CalendarHeaderDaysProps) => {
   const { isMonthView } = props;

@@ -1,11 +1,11 @@
+import { CALENDAR_VIEW } from '../../common/enums';
+import { Context } from '../../context/store';
+import { MonthViewProps } from './MonthView.props';
+import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
+import { formatTimestampToDate } from '../../utils/common';
+import { getNewCalendarDays } from '../../utils/getCalendarDays';
 import { useContext } from 'react';
 import MonthOneDay from './monthOneDay/MonthOneDay';
-import { formatTimestampToDate } from '../../utils/common';
-import { Context } from '../../context/store';
-import { getNewCalendarDays } from '../../utils/getCalendarDays';
-import { CALENDAR_VIEW } from '../../common/enums';
-import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
-import { MonthViewProps } from './MonthView.props';
 
 const renderOneDay = (
   data: any,

@@ -1,6 +1,6 @@
-import { useContext } from 'react';
 import { Context } from '../../context/store';
 import { DesktopLayoutProps } from './DesktopLayout.props';
+import { useContext } from 'react';
 
 const DesktopLayout = (props: DesktopLayoutProps) => {
   const { children } = props;

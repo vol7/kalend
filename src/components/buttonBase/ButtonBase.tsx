@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
 import { ButtonBaseProps } from './ButtonBase.props';
+import { useRef, useState } from 'react';
 
 let timeout: any;
 

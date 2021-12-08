@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { parseCssDark } from '../../utils/common';
 import { ButtonIconProps } from './ButtonIcon.props';
+import { parseCssDark } from '../../utils/common';
 
 const ButtonIcon = (props: ButtonIconProps) => {
   const [isPressed, setIsPressed] = useState(false);

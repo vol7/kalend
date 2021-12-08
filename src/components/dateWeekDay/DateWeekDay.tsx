@@ -1,7 +1,7 @@
-import { useContext } from 'react';
 import { Context } from '../../context/store';
-import LuxonHelper from '../../utils/luxonHelper';
 import { DateWeekDayProps } from './DateWeekDay.props';
+import { useContext } from 'react';
+import LuxonHelper from '../../utils/luxonHelper';
 
 const DateWeekDay = (props: DateWeekDayProps) => {
   const { isSelected, width, day } = props;

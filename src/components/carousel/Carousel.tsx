@@ -1,7 +1,7 @@
+import { CarouselProps } from './Carousel.props';
+import { EvaIcons } from '../eva-icons';
 import { useEffect, useState } from 'react';
 import { useWidth } from '../../utils/layout';
-import { EvaIcons } from '../eva-icons';
-import { CarouselProps } from './Carousel.props';
 
 const SCREEN_PORTION = 6;
 
