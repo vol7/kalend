@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useWidth } from '../../utils/layout';
 import { EvaIcons } from '../eva-icons';
+import { CarouselProps } from './Carousel.props';
 
 const SCREEN_PORTION = 6;
-
-interface CarouselProps {
-  onPageChange: any;
-  children: any;
-}
 
 const Carousel = (props: CarouselProps) => {
   const [swipeAnimation, setSwipeAnimation] = useState('');
@@ -24,8 +20,7 @@ const Carousel = (props: CarouselProps) => {
 
   // Scroll to middle screen
   useEffect(() => {
-    // @ts-ignore
-    document.getElementById('Calend__carousel').scrollTo(baseWidth / 2, 0);
+    document.getElementById('Calend__carousel')?.scrollTo(baseWidth / 2, 0);
   }, []);
 
   const handleTouchStart = (e: any) => {

@@ -1,10 +1,4 @@
-import React from 'react';
-import { DateTime } from 'luxon';
-
-interface DayOfWeekTextProps {
-  width: number;
-  day: DateTime;
-}
+import { DayOfWeekTextProps } from './DayOfWeekText.props';
 
 const DayOfWeekText = (props: DayOfWeekTextProps) => {
   const { width, day } = props;

@@ -1,13 +1,9 @@
-import React, { useContext } from 'react';
-
+import { useContext } from 'react';
 import { Context } from '../../../../context/store';
 import { CALENDAR_OFFSET_LEFT } from '../../../../utils/calendarDays';
 import { parseCssDark } from '../../../../utils/common';
+import { CalendarHeaderWrapperProps } from './CalendarHeaderWrapper.props';
 
-interface CalendarHeaderWrapperProps {
-  children: any;
-  isMonthView: boolean;
-}
 const CalendarHeaderWrapper = (props: CalendarHeaderWrapperProps) => {
   const { children, isMonthView } = props;
 

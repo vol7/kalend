@@ -1,8 +1,5 @@
-import React from 'react';
+import { CalendarHeaderColTextProps } from './CalendarHeaderColText.props';
 
-interface CalendarHeaderColTextProps {
-  children: React.ReactElement;
-}
 const CalendarHeaderColText = (props: CalendarHeaderColTextProps) => {
   const { children } = props;
 

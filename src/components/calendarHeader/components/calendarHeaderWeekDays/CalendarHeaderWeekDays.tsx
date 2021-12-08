@@ -1,23 +1,18 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { DateTime } from 'luxon';
-
 import { Context } from '../../../../context/store';
 import { daysText } from '../../../../utils/calendarDays';
 import { CALENDAR_VIEW } from '../../../../common/enums';
 import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
+import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
 
-interface CalendarHeaderDaysTextProps {
-  daysNum: number;
-  days: DateTime[];
-  width: number;
-}
 /**
  * Render text representation of days
  *
  * @param props
  * @constructor
  */
-const CalendarHeaderWeekDays = (props: CalendarHeaderDaysTextProps) => {
+const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
   const { daysNum, days } = props;
 
   const [store] = useContext(Context);

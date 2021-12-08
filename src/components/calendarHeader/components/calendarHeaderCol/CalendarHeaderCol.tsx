@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Context } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';
+import { CalendarHeaderColProps } from './CalendarHeaderCol.props';
 
-interface CalendarHeaderColProps {
-  children: any;
-}
 const CalendarHeaderCol = (props: CalendarHeaderColProps) => {
   const { children } = props;
 
