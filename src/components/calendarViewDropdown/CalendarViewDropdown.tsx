@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Context } from '../../context/store';
 import { parseCalendarViewToText, parseCssDark } from '../../utils/common';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
@@ -8,12 +8,7 @@ import HeaderCalendarButtons, {
 } from '../headerCalendarButtons/HeaderCalendarButtons';
 import { CALENDAR_VIEW } from '../../common/enums';
 import ButtonBase from '../buttonBase/ButtonBase';
-
-interface CalendarViewDropdownProps {
-  disableMobileDropdown?: boolean;
-  disabledViews?: CALENDAR_VIEW[];
-  setViewChanged: any;
-}
+import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
 
 const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
   const { disableMobileDropdown, setViewChanged, disabledViews } = props;
