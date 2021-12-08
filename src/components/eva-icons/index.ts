@@ -20,10 +20,10 @@
 //     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-import Calendar from './calendar';
-import ChevronRight from './chevron-right';
-import ChevronDown from './chevron-down';
-import ChevronLeft from './chevron-left';
+import Calendar from './CalendarIcon';
+import ChevronRight from './ChevronRight';
+import ChevronDown from './ChevronDown';
+import ChevronLeft from './ChevronLeft';
 import More from './more';
 
 export const EvaIcons = {

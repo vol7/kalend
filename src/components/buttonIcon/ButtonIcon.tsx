@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
 
 import { parseCssDark } from '../../utils/common';
+import { ButtonIconProps } from './ButtonIcon.props';
 
-type ButtonIconSize = 'small' | 'normal' | 'big' | 'full';
-
-interface ButtonIconProps {
-  children: any;
-  onClick?: any;
-  isDark: boolean;
-  size?: ButtonIconSize;
-  iconSize?: ButtonIconSize;
-  disabled?: boolean;
-  backdropClassName?: string;
-  noActive?: boolean;
-  style?: any;
-}
 const ButtonIcon = (props: ButtonIconProps) => {
   const [isPressed, setIsPressed] = useState(false);
 

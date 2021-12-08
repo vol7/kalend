@@ -74,7 +74,7 @@
     "react-dom": "17.0.2"
   },
   "scripts": {
-    "tsc-build": "tsc",
+    "tsc-build": "tsc --noEmit",
     "build": "npm run tsc-build && parcel build --detailed-report 5",
     "package": "npm run test && npm run build && npm pack",
     "start": "BROWSER=none PORT=4103 react-scripts start",
