@@ -1,14 +1,9 @@
-import React, { useContext } from 'react';
-import MonthOneDay from './monthOneDay/MonthOneDay';
-import { formatTimestampToDate } from '../../utils/common';
 import { Context } from '../../context/store';
-import { getNewCalendarDays } from '../../utils/getCalendarDays';
-import { CALENDAR_VIEW } from '../../common/enums';
-import {
-  CalendarEvent,
-  OnEventClickFunc,
-  ShowMoreMonthFunc,
-} from '../../common/interface';
+import { MonthViewProps } from './MonthView.props';
+import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
+import { formatTimestampToDate } from '../../utils/common';
+import { useContext } from 'react';
+import MonthOneDay from './monthOneDay/MonthOneDay';
 
 const renderOneDay = (
   data: any,
@@ -33,11 +28,6 @@ const renderOneDay = (
     );
   });
 
-interface MonthViewProps {
-  handleEventClick: OnEventClickFunc;
-  showMoreMonth?: ShowMoreMonthFunc;
-  events: any;
-}
 const MonthView = (props: MonthViewProps) => {
   const [store] = useContext(Context);
   const { height, width, calendarDays } = store;
@@ -51,9 +41,9 @@ const MonthView = (props: MonthViewProps) => {
     height,
   };
 
-  const onPageChange = async (isGoingForward?: boolean) => {
-    await getNewCalendarDays(calendarDays, CALENDAR_VIEW.MONTH, isGoingForward);
-  };
+  // const onPageChange = async (isGoingForward?: boolean) => {
+  //   await getNewCalendarDays(calendarDays, CALENDAR_VIEW.MONTH, isGoingForward);
+  // };
 
   const days: any = renderOneDay(
     calendarDays,

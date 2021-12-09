@@ -1,8 +1,6 @@
-import React from 'react';
-
-import EventSummary from '../components/eventSummary/EventSummary';
 import { CalendarEvent, EventLayoutMeta } from '../../../common/interface';
 import { EVENT_TYPE } from '../../../common/enums';
+import EventSummary from '../components/eventSummary/EventSummary';
 import EventTime from '../components/eventTime/EventTime';
 
 interface EventNormalProps {

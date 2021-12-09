@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { CALENDAR_VIEW } from './enums';
+import { DateTime } from 'luxon';
 
 export interface Settings {
   selectedDate: string;
@@ -10,7 +12,7 @@ export interface Settings {
 }
 
 export interface Config {
-  initialDate?: string;
+  initialDate?: DateTime;
   initialView: CALENDAR_VIEW;
   events: any;
   isDark?: boolean;
@@ -26,6 +28,12 @@ export interface CalendarEvent {
   summary: string;
   color: string;
   [key: string]: any;
+}
+
+export interface EventLayoutMeta {
+  showTime: boolean;
+  isFullWidth: boolean;
+  centerText: boolean;
 }
 
 export interface NormalEventPosition {
@@ -44,15 +52,9 @@ export interface NewEventClickData {
   hour: number;
 }
 
-export interface OnPageChangeData {
+export interface PageChangeData {
   rangeFrom: string;
   rangeTo: string;
-}
-
-export interface EventLayoutMeta {
-  showTime: boolean;
-  isFullWidth: boolean;
-  centerText: boolean;
 }
 
 export interface EventStyle {
@@ -69,7 +71,7 @@ export interface EventStyle {
 }
 
 // functions
-export type OnPageChangeFunc = (data: OnPageChangeData) => void;
+export type OnPageChangeFunc = (data: PageChangeData) => void;
 export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;
 export type OnSelectViewFunc = (view: CALENDAR_VIEW) => void;
 export type OnEventClickFunc = (data: CalendarEvent) => void;

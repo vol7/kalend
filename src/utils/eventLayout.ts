@@ -6,17 +6,31 @@
  * @param isDark
  * @param defaultTimezone
  */
+import { CALENDAR_VIEW } from '../common/enums';
+import { CalendarEvent, NormalEventPosition } from '../common/interface';
+import { DateTime, Interval } from 'luxon';
 import {
   EVENT_MIN_HEIGHT,
   EVENT_TABLE_DELIMITER_SPACE,
   SHOW_TIME_THRESHOLD,
 } from '../common/constants';
-import { CalendarEvent, NormalEventPosition } from '../common/interface';
-import { parseToDateTime } from './dateTimeParser';
-import { DateTime, Interval } from 'luxon';
 import { getDaysNum, parseToDate } from './calendarDays';
-import { CALENDAR_VIEW } from '../common/enums';
-import LuxonHelper from './luxonHelper';
+import { parseToDateTime } from './dateTimeParser';
+
+export const checkOverlappingEvents = (
+  eventA: CalendarEvent,
+  eventB: CalendarEvent
+): boolean => {
+  const startAtFirst: DateTime = DateTime.fromISO(eventA.startAt);
+  const endAtFirst: DateTime = DateTime.fromISO(eventA.endAt);
+
+  return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
+    Interval.fromDateTimes(
+      DateTime.fromISO(eventB.startAt),
+      DateTime.fromISO(eventB.endAt)
+    )
+  );
+};
 
 const adjustForMinimalHeight = (
   eventA: any,
@@ -180,7 +194,7 @@ export const calculateNormalEventPositions = (
   }
 
   const partialResult: NormalEventPosition[] = result.map(
-    (item: NormalEventPosition, index: number) => {
+    (item: NormalEventPosition) => {
       // full event width
       if (item.meta?.isFullWidth) {
         return {
@@ -201,21 +215,6 @@ export const calculateNormalEventPositions = (
   );
 
   return partialResult;
-};
-
-export const checkOverlappingEvents = (
-  eventA: CalendarEvent,
-  eventB: CalendarEvent
-): boolean => {
-  const startAtFirst: DateTime = DateTime.fromISO(eventA.startAt);
-  const endAtFirst: DateTime = DateTime.fromISO(eventA.endAt);
-
-  return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
-    Interval.fromDateTimes(
-      DateTime.fromISO(eventB.startAt),
-      DateTime.fromISO(eventB.endAt)
-    )
-  );
 };
 
 export const checkOverlappingDatesForHeaderEvents = (

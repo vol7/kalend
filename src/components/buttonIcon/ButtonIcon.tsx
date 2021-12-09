@@ -1,20 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
 import React, { useState } from 'react';
 
+import { ButtonIconProps } from './ButtonIcon.props';
 import { parseCssDark } from '../../utils/common';
 
-type ButtonIconSize = 'small' | 'normal' | 'big' | 'full';
-
-interface ButtonIconProps {
-  children: any;
-  onClick?: any;
-  isDark: boolean;
-  size?: ButtonIconSize;
-  iconSize?: ButtonIconSize;
-  disabled?: boolean;
-  backdropClassName?: string;
-  noActive?: boolean;
-  style?: any;
-}
 const ButtonIcon = (props: ButtonIconProps) => {
   const [isPressed, setIsPressed] = useState(false);
 
@@ -32,6 +21,7 @@ const ButtonIcon = (props: ButtonIconProps) => {
 
   const handleTouchStart = (): void => setIsPressed(true);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleTouchOff = (e: any): void => setIsPressed(false);
 
   const containerClassName: string = !size

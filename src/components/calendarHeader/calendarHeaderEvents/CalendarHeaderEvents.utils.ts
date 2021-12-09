@@ -1,15 +1,15 @@
-import { DateTime } from 'luxon';
+import {
+  CALENDAR_OFFSET_LEFT,
+  EVENT_TABLE_DELIMITER_SPACE,
+} from '../../../common/constants';
 import { CalendarEvent, NormalEventPosition } from '../../../common/interface';
+import { DateTime } from 'luxon';
 import {
   checkOverlappingDatesForHeaderEvents,
   checkOverlappingEvents,
   isEventInRange,
 } from '../../../utils/eventLayout';
 import { isAllDayEvent } from '../../../utils/common';
-import {
-  CALENDAR_OFFSET_LEFT,
-  EVENT_TABLE_DELIMITER_SPACE,
-} from '../../../common/constants';
 
 // adjust start and end date for header event to full day for correct layout
 // calculations
@@ -54,6 +54,7 @@ export const calculatePositionForHeaderEvents = (
     return [[]];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Object.entries(events)?.map(([key, items]) => {
     // @ts-ignore
     items.forEach((item: CalendarEvent) => {
@@ -137,14 +138,12 @@ export const calculatePositionForHeaderEvents = (
       let offset = 0;
       let eventWidth = 0;
       let hasMatchingDay = false;
-      let overlapCounter = 0;
 
       calendarDays.forEach((day) => {
         if (checkOverlappingDatesForHeaderEvents(item, day)) {
           // set base offset only for first item
           eventWidth += width;
           hasMatchingDay = true;
-          overlapCounter += 1; // remove
         }
 
         // increment offset only till we have matching day

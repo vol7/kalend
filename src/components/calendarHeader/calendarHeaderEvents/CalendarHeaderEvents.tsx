@@ -1,65 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { DateTime } from 'luxon';
-
+import { CalendarHeaderEventsProps } from './CalendarHeaderEvents.props';
 import { Context } from '../../../context/store';
-import { CALENDAR_OFFSET_LEFT, getDaysNum } from '../../../utils/calendarDays';
-import { calculatePositionForHeaderEvents } from './CalendarHeaderEvents.utils';
+import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
+import { NormalEventPosition } from '../../../common/interface';
+import { calculatePositionForHeaderEvents } from './CalendarHeaderEvents.utils';
+import { getDaysNum } from '../../../utils/calendarDays';
+import { getHeight } from '../../../utils/layout';
+import { useContext, useEffect, useState } from 'react';
 import EventButton from '../../eventButton/EventButton';
-import {
-  CalendarEvent,
-  NormalEventPosition,
-  OnEventClickFunc,
-  OnEventDragFinishFunc,
-} from '../../../common/interface';
-import { getHeight, useHeight } from '../../../utils/layout';
 
-// TODO REMOVE
-// const checkOverlappingEventsInDate = (
-//   eventA: EventDecrypted,
-//   eventB: EventDecrypted
-// ): boolean => {
-//   const dateAStart: DateTime = parseToDateTime(
-//     eventA.startAt,
-//     eventA.timezoneStart
-//   );
-//   const dateAEnd: DateTime = parseToDateTime(
-//     eventA.endAt,
-//     eventA.timezoneStart
-//   );
-//   const dateBStart: DateTime = parseToDateTime(
-//     eventB.startAt,
-//     eventB.timezoneStart
-//   );
-//   const dateBEnd: DateTime = parseToDateTime(
-//     eventB.endAt,
-//     eventB.timezoneStart
-//   );
-//
-//   const dateAStartTruncated = dateAStart
-//     .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
-//     .toMillis();
-//   const dateAEndTruncated = dateAEnd
-//     .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
-//     .toMillis();
-//   const dateBStartTruncated = dateBStart
-//     .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
-//     .toMillis();
-//   const dateBEndTruncated = dateBEnd
-//     .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
-//     .toMillis();
-//
-//   return (
-//     dateAStartTruncated <= dateBEndTruncated &&
-//     dateBStartTruncated <= dateAEndTruncated
-//   );
-// };
-
-interface CalendarHeaderEventsProps {
-  handleEventClick: OnEventClickFunc;
-  onEventDragFinish?: OnEventDragFinishFunc;
-  events: any;
-}
 const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   const [store, dispatch] = useContext(Context);
   const { selectedView, width, calendarDays } = store;

@@ -1,18 +1,10 @@
-import React, { useContext } from 'react';
+import { CALENDAR_VIEW } from '../../common/enums';
+import { CalendarHeaderProps } from './CalendarHeader.props';
+import { Context } from '../../context/store';
+import { useContext } from 'react';
 import CalendarHeaderDays from './calendarHeaderDays/CalendarHeaderDays';
 import CalendarHeaderEvents from './calendarHeaderEvents/CalendarHeaderEvents';
-import { Context } from '../../context/store';
-import { CALENDAR_VIEW } from '../../common/enums';
-import {
-  OnEventClickFunc,
-  OnEventDragFinishFunc,
-} from '../../common/interface';
 
-interface CalendarHeaderProps {
-  handleEventClick: OnEventClickFunc;
-  onEventDragFinish?: OnEventDragFinishFunc;
-  events: any;
-}
 const CalendarHeader = (props: CalendarHeaderProps) => {
   const { handleEventClick, events, onEventDragFinish } = props;
 

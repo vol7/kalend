@@ -1,17 +1,29 @@
-import React, { useEffect } from 'react';
-import Calendar from './Calendar';
-import RootLayoutLayer from './RootLayoutLayer';
-import StoreProvider from './context/store';
+import { CALENDAR_VIEW } from './common/enums';
 import {
+  CalendarEvent,
+  NewEventClickData,
   OnEventClickFunc,
   OnEventDragFinishFunc,
   OnNewEventClickFunc,
   OnPageChangeFunc,
   OnSelectViewFunc,
+  PageChangeData,
   ShowMoreMonthFunc,
 } from './common/interface';
-import { CALENDAR_VIEW } from './common/enums';
+import { DateTime } from 'luxon';
+import { useEffect } from 'react';
 import { validateProps, validateStyle } from './utils/validator';
+import Calendar from './Calendar';
+import RootLayoutLayer from './RootLayoutLayer';
+import StoreProvider from './context/store';
+
+export const CalendarView = CALENDAR_VIEW;
+
+export type OnEventClickData = CalendarEvent;
+export type OnNewEventClickData = NewEventClickData;
+export type OnPageChangeData = PageChangeData;
+export type OnSelectViewData = CALENDAR_VIEW;
+export type ShowMoreMonthData = CalendarEvent[];
 
 export interface CalendProps {
   initialDate?: string;
@@ -43,7 +55,9 @@ const Calend = (props: CalendProps) => {
         <RootLayoutLayer>
           <Calendar
             config={{
-              initialDate: props.initialDate,
+              initialDate: props.initialDate
+                ? DateTime.fromISO(props.initialDate)
+                : DateTime.now(),
               initialView: props.initialView,
               hourHeight: props.hourHeight,
               isDark: props.isDark,

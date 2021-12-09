@@ -1,11 +1,10 @@
-/* eslint-disable */
-import React, { useContext, useEffect, useReducer, useRef } from 'react';
+import { useContext, useEffect, useReducer, useRef } from 'react';
 
-import { parseEventColor } from '../../utils/calendarDays';
-import EventMonth from './eventMonth/EventMonth';
-import EventNormal from './eventNormal/EventNormal';
-import EventAgenda from './eventAgenda/EventAgenda';
-import { EVENT_TYPE } from '../../common/enums';
+import {
+  CALENDAR_OFFSET_LEFT,
+  EVENT_MIN_HEIGHT,
+  EVENT_TABLE_DELIMITER_SPACE,
+} from '../../common/constants';
 import {
   CalendarEvent,
   EventLayoutMeta,
@@ -13,15 +12,15 @@ import {
   OnEventClickFunc,
   OnEventDragFinishFunc,
 } from '../../common/interface';
-import ButtonBase from '../buttonBase/ButtonBase';
 import { Context } from '../../context/store';
-import stateReducer from '../../utils/stateReducer';
 import { DateTime } from 'luxon';
-import {
-  CALENDAR_OFFSET_LEFT,
-  EVENT_MIN_HEIGHT,
-  EVENT_TABLE_DELIMITER_SPACE,
-} from '../../common/constants';
+import { EVENT_TYPE } from '../../common/enums';
+import { parseEventColor } from '../../utils/calendarDays';
+import ButtonBase from '../buttonBase/ButtonBase';
+import EventAgenda from './eventAgenda/EventAgenda';
+import EventMonth from './eventMonth/EventMonth';
+import EventNormal from './eventNormal/EventNormal';
+import stateReducer from '../../utils/stateReducer';
 
 let timeoutRef: any;
 
@@ -79,7 +78,6 @@ const EventButton = (props: EventProps) => {
   const [state, dispatchState]: any = useReducer(stateReducer, initialState);
   const setState = (stateName: string, data: any): void => {
     const payload: any = { stateName, data };
-    // @ts-ignore
     dispatchState({ state, payload });
   };
 
@@ -124,38 +122,12 @@ const EventButton = (props: EventProps) => {
     initStatPosition();
   }, []);
 
-  /**
-   * Initial long press click/touch on event
-   * @param e
-   */
-  const onMouseDown = (e: any) => {
-    // add timeout to differentiate from normal clicks
-    timeoutRef = setTimeout(() => {
-      onMouseDownLong(e);
-    }, 120);
-  };
-
-  /**
-   * Start event dragging on long press/touch
-   * Set listeners
-   * @param e
-   */
-  const onMouseDownLong = (e: any) => {
-    draggingRef.current = true;
-
-    // prevent scrolling while touch event during dragging
-    window.addEventListener('touchmove', function () {});
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (e.button !== 0) return;
-    document.addEventListener('mousemove', onMove, true);
-    document.addEventListener('mouseup', onMouseUp, true);
-
-    // set temp state while dragging
-    initMove();
-  };
+  // store values as refs to access them in event listener
+  const offsetTopRef = useRef(state.offsetTop);
+  const offsetLeftRef = useRef(state.offsetLeft);
+  const xShiftIndexRef = useRef(0);
+  const draggingRef = useRef(false);
+  const eventWasChangedRef = useRef(false);
 
   const initMove = () => {
     if (type === EVENT_TYPE.NORMAL) {
@@ -171,62 +143,6 @@ const EventButton = (props: EventProps) => {
     }
 
     // TODO month event
-  };
-
-  // store values as refs to access them in event listener
-  const offsetTopRef = useRef(state.offsetTop);
-  const offsetLeftRef = useRef(state.offsetLeft);
-  const xShiftIndexRef = useRef(0);
-  const draggingRef = useRef(false);
-  const eventWasChangedRef = useRef(false);
-
-  /**
-   * Cancel dragging event
-   * remove listeners clean long click timeout and reset state
-   * @param e
-   */
-  const onMouseUp = (e: any) => {
-    // clean listeners
-    document.removeEventListener('mousemove', onMove, true);
-    document.removeEventListener('mouseup', onMouseUp, true);
-    window.removeEventListener('touchmove', function () {});
-
-    // clear timeout
-    clearTimeout(timeoutRef);
-
-    if (!eventWasChangedRef.current) {
-      setState('offsetLeft', state.offsetLeft);
-      setState('width', state.width);
-      draggingRef.current = false;
-
-      return;
-    }
-
-    eventWasChangedRef.current = false;
-
-    if (!draggingRef.current) {
-      return;
-    }
-
-    draggingRef.current = false;
-
-    // add data to callback
-    if (onEventDragFinish) {
-      let newEvent: CalendarEvent;
-      if (type === EVENT_TYPE.NORMAL) {
-        newEvent = calculateNewTime(
-          offsetTopRef.current,
-          offsetLeftRef.current
-        );
-        onEventDragFinish(newEvent);
-      } else if (type === EVENT_TYPE.HEADER) {
-        newEvent = calculateHeaderAfterDrag();
-        onEventDragFinish(newEvent);
-      }
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
   };
 
   const onMoveNormalEvent = (e: any) => {
@@ -346,7 +262,7 @@ const EventButton = (props: EventProps) => {
     const originalStartAtDateTime = DateTime.fromISO(event.startAt);
     const originalEndAtDateTime = DateTime.fromISO(event.endAt);
 
-    let newDay: DateTime = calendarDays[xShiftIndexRef.current];
+    const newDay: DateTime = calendarDays[xShiftIndexRef.current];
 
     const diffInMinutes: number | undefined = originalEndAtDateTime
       .diff(originalStartAtDateTime, 'minutes')
@@ -377,7 +293,7 @@ const EventButton = (props: EventProps) => {
     const originalStartAtDateTime = DateTime.fromISO(event.startAt);
     const originalEndAtDateTime = DateTime.fromISO(event.endAt);
 
-    let goingForward: boolean = false;
+    let goingForward = false;
     if (offsetLeftValue >= 0) {
       goingForward = true;
     } else {
@@ -418,6 +334,90 @@ const EventButton = (props: EventProps) => {
       startAt: newStartAt.toUTC().toString(),
       endAt: newEndAt.toUTC().toString(),
     };
+  };
+
+  /**
+   * Cancel dragging event
+   * remove listeners clean long click timeout and reset state
+   * @param e
+   */
+  const onMouseUp = (e: any) => {
+    // clean listeners
+    document.removeEventListener('mousemove', onMove, true);
+    document.removeEventListener('mouseup', onMouseUp, true);
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    window.removeEventListener('touchmove', function () {});
+
+    // clear timeout
+    clearTimeout(timeoutRef);
+
+    if (!eventWasChangedRef.current) {
+      setState('offsetLeft', state.offsetLeft);
+      setState('width', state.width);
+      draggingRef.current = false;
+
+      return;
+    }
+
+    eventWasChangedRef.current = false;
+
+    if (!draggingRef.current) {
+      return;
+    }
+
+    draggingRef.current = false;
+
+    // add data to callback
+    if (onEventDragFinish) {
+      let newEvent: CalendarEvent;
+      if (type === EVENT_TYPE.NORMAL) {
+        newEvent = calculateNewTime(
+          offsetTopRef.current,
+          offsetLeftRef.current
+        );
+        onEventDragFinish(newEvent);
+      } else if (type === EVENT_TYPE.HEADER) {
+        newEvent = calculateHeaderAfterDrag();
+        onEventDragFinish(newEvent);
+      }
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  /**
+   * Start event dragging on long press/touch
+   * Set listeners
+   * @param e
+   */
+  const onMouseDownLong = (e: any) => {
+    draggingRef.current = true;
+
+    // prevent scrolling while touch event during dragging
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    window.addEventListener('touchmove', function () {});
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.button !== 0) return;
+    document.addEventListener('mousemove', onMove, true);
+    document.addEventListener('mouseup', onMouseUp, true);
+
+    // set temp state while dragging
+    initMove();
+  };
+
+  /**
+   * Initial long press click/touch on event
+   * @param e
+   */
+  const onMouseDown = (e: any) => {
+    // add timeout to differentiate from normal clicks
+    timeoutRef = setTimeout(() => {
+      onMouseDownLong(e);
+    }, 120);
   };
 
   return (

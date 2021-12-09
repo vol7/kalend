@@ -2,10 +2,8 @@ import { NormalEventPosition } from '../../../../common/interface';
 
 import assert from 'assert';
 
-import { calculatePositionForHeaderEvents } from '../../../../components/calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { DateTime } from 'luxon';
-
-const baseDate = '2021-11-07';
+import { calculatePositionForHeaderEvents } from '../../../../components/calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 
 const event1Data: any = {
   id: '1',
@@ -32,15 +30,6 @@ const event3Data: any = {
   calendarID: '1',
   startAt: `2021-11-08T18:00:00.000Z`,
   endAt: `2021-11-08T22:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
-};
-const event4Data: any = {
-  id: '4',
-  summary: 'Test 4',
-  allDay: true,
-  calendarID: '1',
-  startAt: `${baseDate}T05:00:00.000Z`,
-  endAt: `${baseDate}T06:00:00.000Z`,
   timezoneStart: 'Europe/Berlin',
 };
 

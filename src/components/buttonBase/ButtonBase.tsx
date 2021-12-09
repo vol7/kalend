@@ -1,26 +1,8 @@
-import React, { useRef, useState } from 'react';
+import { ButtonBaseProps } from './ButtonBase.props';
+import { useRef, useState } from 'react';
 
 let timeout: any;
 
-interface ButtonBaseProps {
-  onClick?: any;
-  text?: string;
-  disabled?: boolean;
-  className?: string;
-  isDark: boolean;
-  isLoading?: boolean;
-  children?: any;
-  style?: any;
-  id?: string;
-  propagation?: boolean;
-  onClickFromParent?: any;
-  onMouseDown?: any;
-  onMouseUp?: any;
-  onMouseMove?: any;
-  onTouchStart?: any;
-  onTouchEnd?: any;
-  onTouchMove?: any;
-}
 const ButtonBase = (props: ButtonBaseProps) => {
   const {
     id,
@@ -28,7 +10,6 @@ const ButtonBase = (props: ButtonBaseProps) => {
     text,
     className,
     style,
-    isDark,
     children,
     propagation,
     disabled,
@@ -99,7 +80,6 @@ const ButtonBase = (props: ButtonBaseProps) => {
     if (props.onTouchStart) {
       props.onTouchStart(e);
     }
-    // e.preventDefault();
     if (isPressed) {
       setIsPressed(false);
     }
@@ -107,12 +87,6 @@ const ButtonBase = (props: ButtonBaseProps) => {
     timeout = setTimeout(() => {
       animateRipple(e);
     }, 100);
-  };
-
-  const handleTouchOff = (): void => {
-    const timeout: any = setTimeout(() => {
-      setIsPressed(false);
-    }, 500);
   };
 
   // Clear timeout for ripple effect
@@ -124,7 +98,6 @@ const ButtonBase = (props: ButtonBaseProps) => {
     if (props.onTouchMove) {
       props.onTouchMove(e);
     }
-    // e.preventDefault();
     clearTimeout(timeout);
   };
 

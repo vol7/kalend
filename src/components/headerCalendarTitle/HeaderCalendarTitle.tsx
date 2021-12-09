@@ -1,11 +1,7 @@
-import React, { useContext } from 'react';
 import { Context } from '../../context/store';
-import { parseClassName, parseCssDark } from '../../utils/common';
-import ButtonBase from '../buttonBase/ButtonBase';
-
-interface HeaderCalendarTitleProps {
-  title?: string;
-}
+import { HeaderCalendarTitleProps } from './HeaderCalendarTitle.props';
+import { parseClassName } from '../../utils/common';
+import { useContext } from 'react';
 
 /**
  * Calendar title in header in month date format

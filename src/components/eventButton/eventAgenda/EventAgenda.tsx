@@ -1,9 +1,7 @@
-import React from 'react';
-
-import EventSummary from '../components/eventSummary/EventSummary';
-import EventTime from '../components/eventTime/EventTime';
 import { CalendarEvent } from '../../../common/interface';
 import { EVENT_TYPE } from '../../../common/enums';
+import EventSummary from '../components/eventSummary/EventSummary';
+import EventTime from '../components/eventTime/EventTime';
 
 interface EventAgendaProps {
   event: CalendarEvent;

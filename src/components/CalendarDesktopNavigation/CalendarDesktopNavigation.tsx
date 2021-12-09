@@ -1,27 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
-
-import HeaderCalendarTitle from '../headerCalendarTitle/HeaderCalendarTitle';
+import { CALENDAR_NAVIGATION_DIRECTION } from '../../common/enums';
+import { CalendarDesktopNavigationProps } from './CalendarDesktopNavigation.props';
 import { Context } from '../../context/store';
-import HeaderCalendarButtons from '../headerCalendarButtons/HeaderCalendarButtons';
-import { parseClassName, parseCssDark } from '../../utils/common';
-import ButtonIcon from '../buttonIcon/ButtonIcon';
+import { DateTime } from 'luxon';
 import { EvaIcons } from '../eva-icons';
 import {
   getNewCalendarDays,
   navigateToToday,
 } from '../../utils/getCalendarDays';
-import { DateTime } from 'luxon';
-import { CALENDAR_VIEW } from '../../common/enums';
-import DesktopLayout from '../desktopLayout/DesktopLayout';
-import MobileLayout from '../mobileLayout/MobileLayout';
+import { parseClassName, parseCssDark } from '../../utils/common';
+import { useContext, useEffect, useState } from 'react';
 import ButtonBase from '../buttonBase/ButtonBase';
+import ButtonIcon from '../buttonIcon/ButtonIcon';
 import CalendarViewDropdown from '../calendarViewDropdown/CalendarViewDropdown';
-
-interface CalendarDesktopNavigationProps {
-  disabledViews?: CALENDAR_VIEW[];
-  setViewChanged: any;
-  disableMobileDropdown?: boolean;
-}
+import DesktopLayout from '../desktopLayout/DesktopLayout';
+import HeaderCalendarButtons from '../headerCalendarButtons/HeaderCalendarButtons';
+import HeaderCalendarTitle from '../headerCalendarTitle/HeaderCalendarTitle';
+import MobileLayout from '../mobileLayout/MobileLayout';
 
 /**
  * Title with calendar navigation buttons for desktop layout
@@ -42,9 +36,19 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   const title: string = DateTime.fromISO(selectedDate).toFormat('MMMM yyyy');
 
   const navigateBackwards = async (): Promise<void> =>
-    await getNewCalendarDays(calendarDays, selectedView, false, setContext);
+    await getNewCalendarDays(
+      calendarDays,
+      selectedView,
+      CALENDAR_NAVIGATION_DIRECTION.BACKWARDS,
+      setContext
+    );
   const navigateForward = async (): Promise<void> =>
-    await getNewCalendarDays(calendarDays, selectedView, true, setContext);
+    await getNewCalendarDays(
+      calendarDays,
+      selectedView,
+      CALENDAR_NAVIGATION_DIRECTION.FORWARD,
+      setContext
+    );
 
   const navigateToTodayDate = async (): Promise<void> => {
     await navigateToToday(selectedView, setContext, DateTime.now());

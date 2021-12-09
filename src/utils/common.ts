@@ -1,8 +1,8 @@
-import { DateTime } from 'luxon';
-import { CALENDAR_VIEW } from '../common/enums';
 import { CALENDAR_OFFSET_LEFT } from '../common/constants';
-import { parseToDateTime } from './dateTimeParser';
+import { CALENDAR_VIEW } from '../common/enums';
 import { CalendarEvent } from '../common/interface';
+import { DateTime } from 'luxon';
+import { parseToDateTime } from './dateTimeParser';
 
 export const parseCssDark = (
   className: string,

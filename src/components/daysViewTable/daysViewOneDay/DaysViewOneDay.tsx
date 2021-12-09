@@ -1,21 +1,18 @@
-import React, { useContext, useEffect } from 'react';
+import { CALENDAR_VIEW, EVENT_TYPE } from '../../../common/enums';
+import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
-import { parseCssDark } from '../../../utils/common';
 import {
-  CalendarEvent,
-  Config,
-  NewEventClickData,
   NormalEventPosition,
   OnEventClickFunc,
   OnEventDragFinishFunc,
   OnNewEventClickFunc,
 } from '../../../common/interface';
-import LuxonHelper from '../../../utils/luxonHelper';
-import { CALENDAR_VIEW, EVENT_TYPE } from '../../../common/enums';
 import { calculateNormalEventPositions } from '../../../utils/eventLayout';
-import EventButton from '../../eventButton/EventButton';
 import { getDaysNum } from '../../../utils/calendarDays';
-import { Context } from '../../../context/store';
+import { parseCssDark } from '../../../utils/common';
+import { useContext, useEffect } from 'react';
+import EventButton from '../../eventButton/EventButton';
+import LuxonHelper from '../../../utils/luxonHelper';
 
 const renderEvents = (
   dataset: Event[],

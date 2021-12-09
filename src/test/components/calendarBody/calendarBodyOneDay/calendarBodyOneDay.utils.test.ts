@@ -1,13 +1,8 @@
+import { CALENDAR_VIEW } from '../../../../common/enums';
 import {
   CalendarEvent,
   NormalEventPosition,
 } from '../../../../common/interface';
-import { CALENDAR_VIEW } from '../../../../common/enums';
-import {
-  EVENT_MIN_HEIGHT,
-  EVENT_TABLE_DELIMITER,
-  TABLE_COL_SPACE,
-} from '../../../../common/constants';
 import { calculateNormalEventPositions } from '../../../../utils/eventLayout';
 
 import assert from 'assert';
@@ -50,13 +45,11 @@ const event4Data: any = {
   endAt: `${baseDate}T06:00:00.000Z`,
   timezoneStart: 'Europe/Berlin',
 };
-const DAYS_NUM = 5;
 const BASE_WIDTH = 500;
 const TIMEZONE = 'Europe/Berlin';
-const fullWidth =
-  BASE_WIDTH / DAYS_NUM - EVENT_TABLE_DELIMITER - TABLE_COL_SPACE;
 
 describe(`Calendar Body One day normal event positions`, function () {
+  // eslint-disable-next-line no-undef
   process.env.TZ = 'Europe/Berlin';
 
   it('Should be full width for each not overlapping event', function () {

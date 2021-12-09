@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.3
+- fix style for initial month view
+- sort agenda events
+
+## 0.1.2
+- fix calendar days calculations
+- fix dropdown hover style
+
+## 0.1.1
+- add parcel integration
+
 ## 0.1.0
 - new agenda list view
 

@@ -3,18 +3,34 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": ["react", "@typescript-eslint", "sort-imports-es6-autofix"],
   "env": {
     "browser": true,
     "jasmine": true,
     "jest": true
   },
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/ban-ts-comment": "off",
-    "prettier/prettier": ["error", { "singleQuote": true }]
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true
+      }
+    ],
+    "sort-imports-es6-autofix/sort-imports-es6": [
+      2,
+      {
+        "ignoreCase": false,
+        "ignoreMemberSort": false,
+        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
+      }
+    ]
   },
   "settings": {
     "react": {
@@ -22,5 +38,6 @@
       "version": "detect"
     }
   },
+  "ignorePatterns": ["dist/*"],
   "parser": "@typescript-eslint/parser"
 }
