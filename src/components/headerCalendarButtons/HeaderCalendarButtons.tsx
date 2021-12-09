@@ -1,7 +1,7 @@
 import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { HeaderCalendarButtonProps } from './HeaderCalendarButtons.props';
-import { parseClassName, parseCssDark } from '../../utils/common';
+import { parseClassName } from '../../utils/common';
 import { useContext } from 'react';
 import ButtonBase from '../buttonBase/ButtonBase';
 

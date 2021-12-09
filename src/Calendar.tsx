@@ -19,11 +19,13 @@ const Calendar = (props: CalendarProps) => {
   const {
     onNewEventClick,
     onEventClick,
+    onEventDragFinish,
     config,
     onSelectView,
     disableMobileDropdown,
     timezone,
   } = props;
+  const { events } = config;
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -49,7 +51,6 @@ const Calendar = (props: CalendarProps) => {
   // init context
   useEffect(() => {
     setContext('isDark', config.isDark);
-    setContext('events', config.events || []);
     setContext(
       'initialView',
       props.selectedView || config.initialView || CALENDAR_VIEW.WEEK
@@ -146,13 +147,11 @@ const Calendar = (props: CalendarProps) => {
     setContext('calendarDays', calendarDaysNew);
 
     setContext('isDark', config.isDark);
-    setContext('events', config.events);
     setContext('selectedDate', config.initialDate || DateTime.now());
     setContext('hourHeight', config.hourHeight);
     setContext('width', width - getTableOffset(viewChanged));
     setPrevView(viewChanged);
     setViewChanged(null);
-    // setContext('height', getHeight());
   }, [viewChanged]);
 
   useEffect(() => {
@@ -173,14 +172,10 @@ const Calendar = (props: CalendarProps) => {
       );
 
       setContext('calendarDays', calendarDaysNew);
-      // setContext('height', getHeight());
-      // setContext('width', width - getTableOffset(selectedView));
 
       setContext('isDark', config.isDark);
-      setContext('events', config.events);
       setContext('selectedDate', config.initialDate || DateTime.now());
       setContext('hourHeight', config.hourHeight);
-      // setContext('height', getHeight());
       setContext('width', width - getTableOffset(props.selectedView));
     }
   }, [props.selectedView]);
@@ -192,10 +187,6 @@ const Calendar = (props: CalendarProps) => {
   const handleEventClick = (data: CalendarEvent): void => {
     onEventClick(data);
   };
-
-  useEffect(() => {
-    setContext('events', config.events);
-  }, [JSON.stringify(config.events)]);
 
   useEffect(() => {
     if (
@@ -231,7 +222,11 @@ const Calendar = (props: CalendarProps) => {
         disableMobileDropdown={disableMobileDropdown}
       />
       {selectedView !== CALENDAR_VIEW.AGENDA ? (
-        <CalendarHeader handleEventClick={handleEventClick} />
+        <CalendarHeader
+          handleEventClick={handleEventClick}
+          events={events}
+          onEventDragFinish={onEventDragFinish}
+        />
       ) : null}
       <div className={'Calend__Calendar__table'}>
         <CalendarTableLayoutLayer>
@@ -239,6 +234,7 @@ const Calendar = (props: CalendarProps) => {
             <MonthView
               handleEventClick={handleEventClick}
               showMoreMonth={props.showMoreMonth}
+              events={events ? events : {}}
             />
           ) : null}
 
@@ -248,11 +244,16 @@ const Calendar = (props: CalendarProps) => {
             <DaysViewTable
               handleNewEventClick={handleNewEventClick}
               handleEventClick={handleEventClick}
+              onEventDragFinish={onEventDragFinish}
+              events={events ? events : {}}
             />
           ) : null}
 
           {selectedView === CALENDAR_VIEW.AGENDA ? (
-            <AgendaView handleEventClick={handleEventClick} />
+            <AgendaView
+              handleEventClick={handleEventClick}
+              events={events ? events : {}}
+            />
           ) : null}
         </CalendarTableLayoutLayer>
       </div>

@@ -8,7 +8,6 @@ interface InitialContext {
   isDark: boolean;
   isLoading: boolean;
   headerEventRowsCount: number;
-  events: any;
   initialView: CALENDAR_VIEW | null;
   selectedView: CALENDAR_VIEW | null;
   selectedDate: any;
@@ -24,7 +23,6 @@ const initialContext: InitialContext = {
   isDark: false,
   isLoading: false,
   headerEventRowsCount: 0,
-  events: {},
   initialView: null,
   selectedView: null,
   selectedDate: DateTime.now(),
@@ -36,6 +34,8 @@ const initialContext: InitialContext = {
   timezone: '',
 };
 
+export const Context: any = createContext(initialContext);
+
 const StoreProvider = ({ children }: any) => {
   const [store, dispatch] = useReducer(Reducer, initialContext);
 
@@ -44,6 +44,4 @@ const StoreProvider = ({ children }: any) => {
   );
 };
 
-// @ts-ignore
-export const Context: any = createContext();
 export default StoreProvider;

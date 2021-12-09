@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import { Context } from '../../../context/store';
 import { EVENT_TYPE } from '../../../common/enums';
@@ -47,6 +47,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
               type={EVENT_TYPE.MONTH}
               handleEventClick={handleEventClick}
               zIndex={2}
+              day={day}
             />
           );
         } else if (

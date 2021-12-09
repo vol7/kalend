@@ -3,6 +3,7 @@ import {
   CalendarEvent,
   NewEventClickData,
   OnEventClickFunc,
+  OnEventDragFinishFunc,
   OnNewEventClickFunc,
   OnPageChangeFunc,
   OnSelectViewFunc,
@@ -37,6 +38,7 @@ export interface CalendProps {
   onSelectView?: OnSelectViewFunc;
   showMoreMonth?: ShowMoreMonthFunc;
   onPageChange?: OnPageChangeFunc;
+  onEventDragFinish?: OnEventDragFinishFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
 }
@@ -69,6 +71,7 @@ const Calend = (props: CalendProps) => {
             showMoreMonth={props.showMoreMonth}
             onPageChange={props.onPageChange}
             disableMobileDropdown={props.disableMobileDropdown}
+            onEventDragFinish={props.onEventDragFinish}
             timezone={props.timezone}
           />
         </RootLayoutLayer>

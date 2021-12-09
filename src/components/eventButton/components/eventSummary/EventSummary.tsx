@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { EVENT_TYPE } from '../../../../common/enums';
 import { parseCssDark } from '../../../../utils/common';
 

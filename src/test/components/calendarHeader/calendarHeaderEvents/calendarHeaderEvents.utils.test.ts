@@ -5,8 +5,6 @@ import assert from 'assert';
 import { DateTime } from 'luxon';
 import { calculatePositionForHeaderEvents } from '../../../../components/calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 
-const baseDate = '2021-11-07';
-
 const event1Data: any = {
   id: '1',
   summary: 'Test 1',
@@ -32,15 +30,6 @@ const event3Data: any = {
   calendarID: '1',
   startAt: `2021-11-08T18:00:00.000Z`,
   endAt: `2021-11-08T22:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
-};
-const event4Data: any = {
-  id: '4',
-  summary: 'Test 4',
-  allDay: true,
-  calendarID: '1',
-  startAt: `${baseDate}T05:00:00.000Z`,
-  endAt: `${baseDate}T06:00:00.000Z`,
   timezoneStart: 'Europe/Berlin',
 };
 

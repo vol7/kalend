@@ -1,11 +1,6 @@
 // tslint:disable-next-line:cyclomatic-complexity
 const Reducer = (state: any, action: any) => {
   switch (action.type) {
-    case 'events':
-      return {
-        ...state,
-        events: action.payload,
-      };
     case 'initialView':
       return {
         ...state,

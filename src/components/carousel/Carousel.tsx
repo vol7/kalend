@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { CarouselProps } from './Carousel.props';
 import { EvaIcons } from '../eva-icons';
 import { useEffect, useState } from 'react';

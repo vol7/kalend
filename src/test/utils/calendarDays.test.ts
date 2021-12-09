@@ -3,12 +3,7 @@ import {
   CALENDAR_VIEW,
 } from '../../common/enums';
 import { DateTime } from 'luxon';
-import {
-  calculateCalendarDays,
-  calculateMonthDays,
-  calculateOneDay,
-  getWeekDays,
-} from '../../utils/calendarDays';
+import { calculateCalendarDays, getWeekDays } from '../../utils/calendarDays';
 
 import assert from 'assert';
 

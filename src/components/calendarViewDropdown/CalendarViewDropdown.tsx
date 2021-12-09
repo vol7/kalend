@@ -1,4 +1,3 @@
-import { CALENDAR_VIEW } from '../../common/enums';
 import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
 import { Context } from '../../context/store';
 import { EvaIcons } from '../eva-icons';

@@ -16,7 +16,21 @@ import {
 } from '../common/constants';
 import { getDaysNum, parseToDate } from './calendarDays';
 import { parseToDateTime } from './dateTimeParser';
-import LuxonHelper from './luxonHelper';
+
+export const checkOverlappingEvents = (
+  eventA: CalendarEvent,
+  eventB: CalendarEvent
+): boolean => {
+  const startAtFirst: DateTime = DateTime.fromISO(eventA.startAt);
+  const endAtFirst: DateTime = DateTime.fromISO(eventA.endAt);
+
+  return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
+    Interval.fromDateTimes(
+      DateTime.fromISO(eventB.startAt),
+      DateTime.fromISO(eventB.endAt)
+    )
+  );
+};
 
 const adjustForMinimalHeight = (
   eventA: any,
@@ -180,7 +194,7 @@ export const calculateNormalEventPositions = (
   }
 
   const partialResult: NormalEventPosition[] = result.map(
-    (item: NormalEventPosition, index: number) => {
+    (item: NormalEventPosition) => {
       // full event width
       if (item.meta?.isFullWidth) {
         return {
@@ -201,21 +215,6 @@ export const calculateNormalEventPositions = (
   );
 
   return partialResult;
-};
-
-export const checkOverlappingEvents = (
-  eventA: CalendarEvent,
-  eventB: CalendarEvent
-): boolean => {
-  const startAtFirst: DateTime = DateTime.fromISO(eventA.startAt);
-  const endAtFirst: DateTime = DateTime.fromISO(eventA.endAt);
-
-  return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
-    Interval.fromDateTimes(
-      DateTime.fromISO(eventB.startAt),
-      DateTime.fromISO(eventB.endAt)
-    )
-  );
 };
 
 export const checkOverlappingDatesForHeaderEvents = (

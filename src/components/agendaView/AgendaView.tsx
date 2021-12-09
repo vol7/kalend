@@ -27,10 +27,10 @@ const renderAgendaEvents = (
 };
 
 const AgendaView = (props: AgendaViewProps) => {
-  const { handleEventClick } = props;
+  const { handleEventClick, events } = props;
   const [store] = useContext(Context);
 
-  const { events, calendarDays, height } = store;
+  const { calendarDays, height } = store;
 
   const agendaEvents: any = renderAgendaEvents(
     events,

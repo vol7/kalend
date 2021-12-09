@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 import { CalendarEvent } from '../../../../common/interface';
 import { Context } from '../../../../context/store';
@@ -8,17 +8,6 @@ import { parseCssDark } from '../../../../utils/common';
 import { parseToDateTime } from '../../../../utils/dateTimeParser';
 
 const TIME_FORMAT = 'HH:mm';
-
-const formatEventTime = (event: CalendarEvent): string => {
-  const { startAt, endAt, timezoneStart } = event;
-
-  const startAtDateTime: DateTime = parseToDateTime(startAt, timezoneStart);
-  const endAtDateTime: DateTime = parseToDateTime(endAt, timezoneStart);
-
-  return `${startAtDateTime.toFormat(TIME_FORMAT)} - ${endAtDateTime.toFormat(
-    TIME_FORMAT
-  )}`;
-};
 
 const formatEventTimeV2 = (
   event: CalendarEvent,

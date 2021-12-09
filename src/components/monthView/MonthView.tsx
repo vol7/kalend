@@ -1,9 +1,7 @@
-import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { MonthViewProps } from './MonthView.props';
 import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
 import { formatTimestampToDate } from '../../utils/common';
-import { getNewCalendarDays } from '../../utils/getCalendarDays';
 import { useContext } from 'react';
 import MonthOneDay from './monthOneDay/MonthOneDay';
 
@@ -32,9 +30,9 @@ const renderOneDay = (
 
 const MonthView = (props: MonthViewProps) => {
   const [store] = useContext(Context);
-  const { height, width, calendarDays, events } = store;
+  const { height, width, calendarDays } = store;
 
-  const { handleEventClick, showMoreMonth } = props;
+  const { handleEventClick, showMoreMonth, events } = props;
 
   // Calculate height for days table
 

@@ -16,7 +16,7 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
   const { daysNum, days } = props;
 
   const [store] = useContext(Context);
-  const { calendarDays, width, selectedView } = store;
+  const { width, selectedView } = store;
 
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
 

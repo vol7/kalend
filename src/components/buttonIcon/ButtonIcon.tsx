@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-use-before-define
 import React, { useState } from 'react';
 
 import { ButtonIconProps } from './ButtonIcon.props';
@@ -20,6 +21,7 @@ const ButtonIcon = (props: ButtonIconProps) => {
 
   const handleTouchStart = (): void => setIsPressed(true);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleTouchOff = (e: any): void => setIsPressed(false);
 
   const containerClassName: string = !size

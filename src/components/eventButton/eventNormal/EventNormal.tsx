@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { CalendarEvent, EventLayoutMeta } from '../../../common/interface';
 import { EVENT_TYPE } from '../../../common/enums';
 import EventSummary from '../components/eventSummary/EventSummary';
