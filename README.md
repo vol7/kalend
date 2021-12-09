@@ -177,4 +177,4 @@ Callback returns array of CalendarEvent which did not fit inside day column in m
 
 ## Storybook Support
 
-Storybook is used for visualization while imporving Calend. It can be used by running `npm run storybook` from the root of the project. Not all controls are fully supported so far.
+Storybook is used for visualization while improving Calend. It can be used by running `npm run storybook` from the root of the project. Not all controls are fully supported so far.
