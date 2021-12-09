@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { parseCssDark } from '../../../../utils/common';
 import {
   CALENDAR_OFFSET_LEFT,
   hoursArrayString,
 } from '../../../../common/constants';
 import { Context } from '../../../../context/store';
+import { parseCssDark } from '../../../../utils/common';
+import React, { useContext } from 'react';
 
 const renderHours = (width: number, hourHeight: number, isDark: boolean) =>
   hoursArrayString.map((hour: any) =>

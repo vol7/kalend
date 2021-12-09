@@ -1,7 +1,4 @@
-import React, { useEffect } from 'react';
-import Calendar from './Calendar';
-import RootLayoutLayer from './RootLayoutLayer';
-import StoreProvider from './context/store';
+import { CALENDAR_VIEW } from './common/enums';
 import {
   CalendarEvent,
   NewEventClickData,
@@ -12,9 +9,12 @@ import {
   PageChangeData,
   ShowMoreMonthFunc,
 } from './common/interface';
-import { CALENDAR_VIEW } from './common/enums';
-import { validateProps, validateStyle } from './utils/validator';
 import { DateTime } from 'luxon';
+import { useEffect } from 'react';
+import { validateProps, validateStyle } from './utils/validator';
+import Calendar from './Calendar';
+import RootLayoutLayer from './RootLayoutLayer';
+import StoreProvider from './context/store';
 
 export const CalendarView = CALENDAR_VIEW;
 

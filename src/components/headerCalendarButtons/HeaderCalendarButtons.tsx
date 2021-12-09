@@ -1,16 +1,10 @@
-import React, { useContext } from 'react';
-
-import { parseClassName, parseCssDark } from '../../utils/common';
 import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
+import { HeaderCalendarButtonProps } from './HeaderCalendarButtons.props';
+import { parseClassName, parseCssDark } from '../../utils/common';
+import { useContext } from 'react';
 import ButtonBase from '../buttonBase/ButtonBase';
 
-interface HeaderCalendarButtonProps {
-  buttonData: { label: string; value: CALENDAR_VIEW };
-  setViewChanged: any;
-  handleClose?: any;
-  isForcedMobile?: boolean;
-}
 const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
   const { buttonData, setViewChanged, handleClose, isForcedMobile } = props;
 

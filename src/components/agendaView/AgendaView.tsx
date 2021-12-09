@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import { OnEventClickFunc } from '../../common/interface';
+import { AgendaViewProps } from './AgendaView.props';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
+import { OnEventClickFunc } from '../../common/interface';
+import { useContext } from 'react';
 import AgendaDayRow from './agendaDayRow/AgendaDayRow';
 
 const renderAgendaEvents = (
@@ -24,10 +25,6 @@ const renderAgendaEvents = (
     }
   });
 };
-
-interface AgendaViewProps {
-  handleEventClick: OnEventClickFunc;
-}
 
 const AgendaView = (props: AgendaViewProps) => {
   const { handleEventClick } = props;

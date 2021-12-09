@@ -1,6 +1,6 @@
-import { calculateCalendarDays, chooseSelectedDateIndex } from './calendarDays';
-import { DateTime } from 'luxon';
 import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
+import { DateTime } from 'luxon';
+import { calculateCalendarDays, chooseSelectedDateIndex } from './calendarDays';
 
 /**
  * Calculate new calendar days

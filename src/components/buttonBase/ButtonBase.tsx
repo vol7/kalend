@@ -1,20 +1,8 @@
-import React, { useRef, useState } from 'react';
+import { ButtonBaseProps } from './ButtonBase.props';
+import { useRef, useState } from 'react';
 
 let timeout: any;
 
-interface ButtonBaseProps {
-  onClick?: any;
-  text?: string;
-  disabled?: boolean;
-  className?: string;
-  isDark: boolean;
-  isLoading?: boolean;
-  children?: any;
-  style?: any;
-  id?: string;
-  propagation?: boolean;
-  onClickFromParent?: any;
-}
 const ButtonBase = (props: ButtonBaseProps) => {
   const {
     id,

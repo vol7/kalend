@@ -1,5 +1,5 @@
-import { CalendProps } from '../index';
 import { CALENDAR_VIEW } from '../common/enums';
+import { CalendProps } from '../index';
 
 const getCalendarView = (value: string): CALENDAR_VIEW | null => {
   if (value.toString() === CALENDAR_VIEW.DAY.toString()) {
