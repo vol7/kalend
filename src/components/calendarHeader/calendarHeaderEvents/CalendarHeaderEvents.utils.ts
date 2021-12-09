@@ -1,15 +1,15 @@
-import { DateTime } from 'luxon';
+import {
+  CALENDAR_OFFSET_LEFT,
+  EVENT_TABLE_DELIMITER_SPACE,
+} from '../../../common/constants';
 import { CalendarEvent, NormalEventPosition } from '../../../common/interface';
+import { DateTime } from 'luxon';
 import {
   checkOverlappingDatesForHeaderEvents,
   checkOverlappingEvents,
   isEventInRange,
 } from '../../../utils/eventLayout';
 import { isAllDayEvent } from '../../../utils/common';
-import {
-  CALENDAR_OFFSET_LEFT,
-  EVENT_TABLE_DELIMITER_SPACE,
-} from '../../../common/constants';
 
 export const calculatePositionForHeaderEvents = (
   events: any,

@@ -1,41 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
-
-import {
-  CalendarEvent,
-  Config,
-  NewEventClickData,
-  OnEventClickFunc,
-  OnNewEventClickFunc,
-  OnPageChangeFunc,
-  OnSelectViewFunc,
-  ShowMoreMonthFunc,
-} from './common/interface';
-import DaysViewTable from './components/daysViewTable/DaysViewTable';
-import { getHeight, getWidth, useHeight, useWidth } from './utils/layout';
-import { getTableOffset } from './utils/common';
+import { CALENDAR_VIEW } from './common/enums';
+import { CalendarEvent, NewEventClickData } from './common/interface';
+import { CalendarProps } from './Calendar.props';
+import { Context } from './context/store';
+import { DEFAULT_HOUR_HEIGHT } from './common/constants';
 import { DateTime } from 'luxon';
 import { getCalendarDays } from './utils/calendarDays';
-import { Context } from './context/store';
+import { getHeight, getWidth, useHeight, useWidth } from './utils/layout';
+import { getTableOffset } from './utils/common';
+import { useContext, useEffect, useState } from 'react';
+import AgendaView from './components/agendaView/AgendaView';
+import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
 import CalendarHeader from './components/calendarHeader/CalendarHeader';
 import CalendarTableLayoutLayer from './CalendarTableLayoutLayer';
-import { CALENDAR_VIEW } from './common/enums';
+import DaysViewTable from './components/daysViewTable/DaysViewTable';
 import MonthView from './components/monthView/MonthView';
-import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
-import { DEFAULT_HOUR_HEIGHT } from './common/constants';
-import AgendaView from './components/agendaView/AgendaView';
 
-interface CalendarProps {
-  config: Config;
-  onNewEventClick: OnNewEventClickFunc;
-  onEventClick: OnEventClickFunc;
-  disabledViews?: CALENDAR_VIEW[];
-  onSelectView?: OnSelectViewFunc;
-  selectedView?: CALENDAR_VIEW;
-  showMoreMonth?: ShowMoreMonthFunc;
-  onPageChange?: OnPageChangeFunc;
-  disableMobileDropdown?: boolean;
-  timezone?: string;
-}
 const Calendar = (props: CalendarProps) => {
   const {
     onNewEventClick,

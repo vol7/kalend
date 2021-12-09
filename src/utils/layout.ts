@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export const getWidth = () => {
   const rootEl: any = document.querySelector('.Calend__Calendar__root');

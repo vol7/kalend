@@ -1,8 +1,8 @@
+import { CALENDAR_VIEW } from '../../../../common/enums';
 import {
   CalendarEvent,
   NormalEventPosition,
 } from '../../../../common/interface';
-import { CALENDAR_VIEW } from '../../../../common/enums';
 import {
   EVENT_MIN_HEIGHT,
   EVENT_TABLE_DELIMITER,

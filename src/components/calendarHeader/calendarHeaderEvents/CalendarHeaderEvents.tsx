@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { DateTime } from 'luxon';
-
-import { Context } from '../../../context/store';
 import { CALENDAR_OFFSET_LEFT, getDaysNum } from '../../../utils/calendarDays';
-import { calculatePositionForHeaderEvents } from './CalendarHeaderEvents.utils';
-import { EVENT_TYPE } from '../../../common/enums';
-import EventButton from '../../eventButton/EventButton';
 import {
   CalendarEvent,
   NormalEventPosition,
   OnEventClickFunc,
 } from '../../../common/interface';
+import { CalendarHeaderEventsProps } from './CalendarHeaderEvents.props';
+import { Context } from '../../../context/store';
+import { DateTime } from 'luxon';
+import { EVENT_TYPE } from '../../../common/enums';
+import { calculatePositionForHeaderEvents } from './CalendarHeaderEvents.utils';
 import { getHeight, useHeight } from '../../../utils/layout';
+import { useContext, useEffect, useState } from 'react';
+import EventButton from '../../eventButton/EventButton';
 
 // TODO REMOVE
 // const checkOverlappingEventsInDate = (
@@ -54,9 +54,6 @@ import { getHeight, useHeight } from '../../../utils/layout';
 //   );
 // };
 
-interface CalendarHeaderEventsProps {
-  handleEventClick: OnEventClickFunc;
-}
 const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   const [store, dispatch] = useContext(Context);
   const { selectedView, events, width, calendarDays } = store;

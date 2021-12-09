@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import { DateTime } from 'luxon';
-
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
-import { OnEventClickFunc, OnNewEventClickFunc } from '../../common/interface';
-import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
-import { formatTimestampToDate } from '../../utils/common';
-import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import { Context } from '../../context/store';
+import { DateTime } from 'luxon';
+import { DaysViewTableProps } from './DaysViewTable.props';
+import { OnEventClickFunc, OnNewEventClickFunc } from '../../common/interface';
+import { formatTimestampToDate } from '../../utils/common';
 import { getNewCalendarDays } from '../../utils/getCalendarDays';
+import { useContext, useEffect } from 'react';
+import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
+import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 
 const renderOneDay = (
   calendarDays: DateTime[],
@@ -30,11 +30,7 @@ const renderOneDay = (
     );
   });
 
-interface CalendarBodyProps {
-  handleNewEventClick: OnNewEventClickFunc;
-  handleEventClick: OnEventClickFunc;
-}
-const DaysViewTable = (props: CalendarBodyProps) => {
+const DaysViewTable = (props: DaysViewTableProps) => {
   const { handleNewEventClick, handleEventClick } = props;
 
   const [store] = useContext(Context);

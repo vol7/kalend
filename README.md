@@ -1,32 +1,37 @@
-# Calend  - calendar component for React
+# Calend - calendar component for React
 
 Support for:
+
 - day view
 - three days view
 - week view
 - month view
 - agenda list view
+
 #
 
 ### LIVE DEMO: https://calend.nibdo.com
 
 #
 
-![Alt text](screenshot.png?raw=true "Title")
+![Alt text](screenshot.png?raw=true 'Title')
 
 #
 
 If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui.
 
 TODO:
+
 - dragging events
 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 
 # Install
+
     npm i calend
 
 # Example
+
     import Calend, { CalendarView } from 'calend' // import component
     import 'calend/dist/styles/index.css'; // import styles
 
@@ -45,29 +50,28 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 
 # Props
 
-prop      | type                                           | default     | required      |  desc
-----------|------------------------------------------------|--------|------|--------
-`initialDate`   | `string`                                       | | false | starting date for calendar
-`initialView`| `CalendarView - day, three days, week, month` | CALENDAR_VIEW.WEEK | true | starts in calendar view
-`selectedView`| `CalendarView`                                 | | false | selected view for control outside of the component
-`disabledViews`| `CalendarView[]`                              | | false| disable views you don't need
-`hourHeight`    | `number`                                       | 40 | false | height for one hour column in px
-`events` | `CalendarEvent[]`                              | [] | true | events for calendar
-`onNewEventClick` | `callback func`                                |  | false | callback for clicking on calendar table to create new event
-`onEventClick`   | `callback func`                                | | false | callback for clicking on event
-`onSelectView` | `callback func`                                | | false | callback for view change event
-`onPageChange` | `callback func`                                | | false | callback for navigating through calendar pages
-`showMoreMonth` | `callback func`                                | | false | callback for accessing events which didn't fit in month view
-`disableMobileDropdown` | `boolean`                                      | | false | disable button for triggering mobile dropdown with views
-`timezone` | `string`                                       | | false | IANA timezone format, if not provided, system timezone will be used
-
+| prop                    | type                                          | default            | required | desc                                                                |
+| ----------------------- | --------------------------------------------- | ------------------ | -------- | ------------------------------------------------------------------- |
+| `initialDate`           | `string`                                      |                    | false    | starting date for calendar                                          |
+| `initialView`           | `CalendarView - day, three days, week, month` | CALENDAR_VIEW.WEEK | true     | starts in calendar view                                             |
+| `selectedView`          | `CalendarView`                                |                    | false    | selected view for control outside of the component                  |
+| `disabledViews`         | `CalendarView[]`                              |                    | false    | disable views you don't need                                        |
+| `hourHeight`            | `number`                                      | 40                 | false    | height for one hour column in px                                    |
+| `events`                | `CalendarEvent[]`                             | []                 | true     | events for calendar                                                 |
+| `onNewEventClick`       | `callback func`                               |                    | false    | callback for clicking on calendar table to create new event         |
+| `onEventClick`          | `callback func`                               |                    | false    | callback for clicking on event                                      |
+| `onSelectView`          | `callback func`                               |                    | false    | callback for view change event                                      |
+| `onPageChange`          | `callback func`                               |                    | false    | callback for navigating through calendar pages                      |
+| `showMoreMonth`         | `callback func`                               |                    | false    | callback for accessing events which didn't fit in month view        |
+| `disableMobileDropdown` | `boolean`                                     |                    | false    | disable button for triggering mobile dropdown with views            |
+| `timezone`              | `string`                                      |                    | false    | IANA timezone format, if not provided, system timezone will be used |
 
 # Usage
 
 ### Events
 
 Before passing events to calendar, adjust data to this format:
-Date key has to be in dd-MM-yyyy format 
+Date key has to be in dd-MM-yyyy format
 
     const events = {
         '01-11-2021': [
@@ -92,7 +96,7 @@ Date key has to be in dd-MM-yyyy format
         ]
     }
 
-Group events array under day when they occur and pass starting and ending date in ISO string format in UTC timezone. 
+Group events array under day when they occur and pass starting and ending date in ISO string format in UTC timezone.
 
 According to your needs, you can set timezone for each event and also set default timezone with "timezone" prop in IANA format.
 If you don't provide timezone prop, your system default timezone will be used.
@@ -100,6 +104,7 @@ If you don't provide timezone prop, your system default timezone will be used.
 You can keep other event properties, those will be ignored.
 
 ## Callbacks
+
 Create functions and handle data from callback in your application
 
 If you want access to type of callback data, you can import them like this
@@ -113,6 +118,7 @@ If you want access to type of callback data, you can import them like this
     } from 'calend';
 
 ### onNewEventClick
+
 Passing data for creating new event
 
     type OnNewEventClickData {
@@ -126,6 +132,7 @@ Passing data for creating new event
     };
 
 ### onEventClick
+
 Passing data after clicking on existing event
 
     type OnEventClickData {
@@ -158,7 +165,6 @@ Callback to handle actions after page change (going back and forth)
         // do something
     }
 
-
 ### showMoreMonth
 
 Callback returns array of CalendarEvent which did not fit inside day column in month view
@@ -166,3 +172,9 @@ Callback returns array of CalendarEvent which did not fit inside day column in m
     const showMoreMonth = (data: ShowMoreMonthData) => {
         // do something
     }
+
+# Development
+
+## Storybook Support
+
+Storybook is used for visualization while improving Calend. It can be used by running `npm run storybook` from the root of the project. Not all controls are fully supported so far.

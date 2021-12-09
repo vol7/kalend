@@ -2,8 +2,8 @@ import { NormalEventPosition } from '../../../../common/interface';
 
 import assert from 'assert';
 
-import { calculatePositionForHeaderEvents } from '../../../../components/calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { DateTime } from 'luxon';
+import { calculatePositionForHeaderEvents } from '../../../../components/calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 
 const baseDate = '2021-11-07';
 

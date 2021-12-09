@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 
-import { parseEventColor } from '../../utils/calendarDays';
-import EventMonth from './eventMonth/EventMonth';
-import EventNormal from './eventNormal/EventNormal';
-import EventAgenda from './eventAgenda/EventAgenda';
-import { EVENT_TYPE } from '../../common/enums';
 import {
   CalendarEvent,
   EventLayoutMeta,
   OnEventClickFunc,
 } from '../../common/interface';
-import ButtonBase from '../buttonBase/ButtonBase';
 import { Context } from '../../context/store';
+import { EVENT_TYPE } from '../../common/enums';
+import { parseEventColor } from '../../utils/calendarDays';
+import ButtonBase from '../buttonBase/ButtonBase';
+import EventAgenda from './eventAgenda/EventAgenda';
+import EventMonth from './eventMonth/EventMonth';
+import EventNormal from './eventNormal/EventNormal';
 
 const DEFAULT_EVENT_HEIGHT = 14;
 
