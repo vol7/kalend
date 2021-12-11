@@ -41,7 +41,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     props;
 
   const [store] = useContext(Context);
-  const { hourHeight, calendarDays, width, height, isDragging } = store;
+  const { hourHeight, calendarDays, width, height } = store;
 
   const days: any = renderOneDay(
     calendarDays,

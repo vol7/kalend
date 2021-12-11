@@ -2,7 +2,6 @@ import { CALENDAR_VIEW } from '../../../../common/enums';
 import { CalendarDay } from '../../../../common/interface';
 import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
 import { Context } from '../../../../context/store';
-import { DateTime } from 'luxon';
 import { daysText } from '../../../../utils/calendarDays';
 import { useContext } from 'react';
 import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';

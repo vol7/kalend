@@ -1,7 +1,7 @@
 import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 import { CalendarDay } from '../common/interface';
 import { DateTime } from 'luxon';
-import { calculateCalendarDays, chooseSelectedDateIndex } from './calendarDays';
+import { calculateCalendarDays } from './calendarDays';
 
 /**
  * Calculate new calendar days
