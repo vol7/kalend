@@ -1,8 +1,7 @@
+import { CalendarDay, NormalEventPosition } from '../../../common/interface';
 import { CalendarHeaderEventsProps } from './CalendarHeaderEvents.props';
 import { Context } from '../../../context/store';
-import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
-import { NormalEventPosition } from '../../../common/interface';
 import { calculatePositionForHeaderEvents } from './CalendarHeaderEvents.utils';
 import { getDaysNum } from '../../../utils/calendarDays';
 import { getHeight } from '../../../utils/layout';
@@ -11,8 +10,8 @@ import EventButton from '../../eventButton/EventButton';
 
 const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   const [store, dispatch] = useContext(Context);
-  const { selectedView, width, calendarDays } = store;
-  const { events, onEventDragFinish } = props;
+  const { selectedView, width, calendarDays, events } = store;
+  const { onEventDragFinish } = props;
 
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
@@ -44,7 +43,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
     return rows?.map((row: any) => {
       return (
         <div
-          key={row?.[0]?.event.id}
+          key={`${row?.[0]?.event.id}_${store.headerEventsTriggerCounter}`}
           className={'Calend__CalendarHeaderEvents__eventRow'}
         >
           {rowEvents(row)}
@@ -59,10 +58,10 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
     width: column,
   };
 
-  const daysNumbers = calendarDays.map((day: DateTime) => {
+  const daysNumbers = calendarDays.map((calendarDay: CalendarDay) => {
     return (
       <div
-        key={day.toString()}
+        key={calendarDay.date.toString()}
         className={'Calend__CalendarHeaderEvents__col-wrapper'}
         style={colWidthStyle}
       ></div>

@@ -16,6 +16,16 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isMobile: action.payload,
       };
+    case 'headerEventsTriggerCounter':
+      return {
+        ...state,
+        headerEventsTriggerCounter: action.payload,
+      };
+    case 'events':
+      return {
+        ...state,
+        events: action.payload,
+      };
     case 'selectedDate':
       return {
         ...state,

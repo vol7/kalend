@@ -1,31 +1,32 @@
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
-import { Context } from '../../context/store';
-import { DateTime } from 'luxon';
-import { DaysViewTableProps } from './DaysViewTable.props';
 import {
+  CalendarDay,
   OnEventClickFunc,
   OnEventDragFinishFunc,
   OnNewEventClickFunc,
 } from '../../common/interface';
-import { formatTimestampToDate } from '../../utils/common';
+import { Context } from '../../context/store';
+import { DateTime } from 'luxon';
+import { DaysViewTableProps } from './DaysViewTable.props';
+import { formatDateTimeToString } from '../../utils/common';
 import { useContext, useEffect } from 'react';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 
 const renderOneDay = (
-  calendarDays: DateTime[],
+  calendarDays: CalendarDay[],
   handleNewEventClick: OnNewEventClickFunc,
   events: any,
   handleEventClick: OnEventClickFunc,
   onEventDragFinish?: OnEventDragFinishFunc
 ) =>
-  calendarDays.map((day: DateTime, index: number) => {
-    const formattedDayString: string = formatTimestampToDate(day);
+  calendarDays.map((calendarDay: CalendarDay, index: number) => {
+    const formattedDayString: string = formatDateTimeToString(calendarDay.date);
 
     return (
       <DaysViewOneDay
-        key={day.toString()}
-        day={day}
+        key={calendarDay.id}
+        day={calendarDay.date}
         index={index}
         data={events ? events[formattedDayString] : []}
         handleNewEventClick={handleNewEventClick}
@@ -36,11 +37,11 @@ const renderOneDay = (
   });
 
 const DaysViewTable = (props: DaysViewTableProps) => {
-  const { handleNewEventClick, handleEventClick, events, onEventDragFinish } =
+  const { handleNewEventClick, handleEventClick, onEventDragFinish, events } =
     props;
 
   const [store] = useContext(Context);
-  const { hourHeight, calendarDays, width, height } = store;
+  const { hourHeight, calendarDays, width, height, isDragging } = store;
 
   const days: any = renderOneDay(
     calendarDays,

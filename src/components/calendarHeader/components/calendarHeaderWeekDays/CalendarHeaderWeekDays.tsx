@@ -1,4 +1,5 @@
 import { CALENDAR_VIEW } from '../../../../common/enums';
+import { CalendarDay } from '../../../../common/interface';
 import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
 import { Context } from '../../../../context/store';
 import { DateTime } from 'luxon';
@@ -41,8 +42,12 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
       ));
     }
 
-    return days.map((day: DateTime) => (
-      <DayOfWeekText key={day.toString()} day={day} width={colWidth} />
+    return days.map((calendarDay: CalendarDay) => (
+      <DayOfWeekText
+        key={calendarDay.id}
+        day={calendarDay.date}
+        width={colWidth}
+      />
     ));
   };
   const namesForDays: any = renderDaysText();

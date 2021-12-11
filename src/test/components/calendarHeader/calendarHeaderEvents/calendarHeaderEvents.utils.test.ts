@@ -1,9 +1,10 @@
-import { NormalEventPosition } from '../../../../common/interface';
+import { CalendarDay, NormalEventPosition } from '../../../../common/interface';
 
 import assert from 'assert';
 
 import { DateTime } from 'luxon';
 import { calculatePositionForHeaderEvents } from '../../../../components/calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
+import { initCalendarDays } from '../../../../utils/calendarDays';
 
 const event1Data: any = {
   id: '1',
@@ -33,7 +34,7 @@ const event3Data: any = {
   timezoneStart: 'Europe/Berlin',
 };
 
-const getCalendarDays = (): DateTime[] => {
+const getCalendarDays = (): CalendarDay[] => {
   const result: DateTime[] = [];
   for (let i = 0; i < 7; i += 1) {
     result.push(
@@ -41,12 +42,12 @@ const getCalendarDays = (): DateTime[] => {
     );
   }
 
-  return result;
+  return initCalendarDays(result);
 };
 
 describe(`Header events positions`, function () {
   it('Should be full width for each not overlapping event', function () {
-    const calendarDays: DateTime[] = getCalendarDays();
+    const calendarDays = getCalendarDays();
     const result: NormalEventPosition[][] = calculatePositionForHeaderEvents(
       { '2021-11-08': [event1Data], '2021-11-09': [event2Data] },
       120,

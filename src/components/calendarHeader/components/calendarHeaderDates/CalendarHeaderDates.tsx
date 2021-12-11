@@ -1,7 +1,7 @@
 import { CALENDAR_VIEW } from '../../../../common/enums';
+import { CalendarDay } from '../../../../common/interface';
 import { CalendarHeaderDatesProps } from './CalendarHeaderDates.props';
 import { Context } from '../../../../context/store';
-import { DateTime } from 'luxon';
 import { useContext } from 'react';
 import CalendarHeaderCol from '../calendarHeaderCol/CalendarHeaderCol';
 import CalendarHeaderColText from '../calendarHeaderColText/CalendarHeaderColText';
@@ -23,18 +23,18 @@ const CalendarHeaderDates = (props: CalendarHeaderDatesProps) => {
   const colWidth: number = width / daysNum;
 
   const renderNumericDays = () =>
-    calendarDays.map((day: DateTime) => {
-      const isDayToday: boolean = LuxonHelper.isToday(day);
+    calendarDays.map((calendarDay: CalendarDay) => {
+      const isDayToday: boolean = LuxonHelper.isToday(calendarDay.date);
       const isSelected: boolean =
-        LuxonHelper.isSameDay(day, selectedDate) &&
+        LuxonHelper.isSameDay(calendarDay.date, selectedDate) &&
         calendarView === CALENDAR_VIEW.DAY &&
         !isDayToday;
 
       return (
         <DateWeekDay
-          key={day.toString()}
+          key={calendarDay.id}
           width={colWidth}
-          day={day}
+          day={calendarDay.date}
           isSelected={isSelected}
         />
       );

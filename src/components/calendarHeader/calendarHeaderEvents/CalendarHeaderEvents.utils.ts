@@ -2,7 +2,11 @@ import {
   CALENDAR_OFFSET_LEFT,
   EVENT_TABLE_DELIMITER_SPACE,
 } from '../../../common/constants';
-import { CalendarEvent, NormalEventPosition } from '../../../common/interface';
+import {
+  CalendarDay,
+  CalendarEvent,
+  NormalEventPosition,
+} from '../../../common/interface';
 import { DateTime } from 'luxon';
 import {
   checkOverlappingDatesForHeaderEvents,
@@ -28,7 +32,7 @@ const stretchHeaderEventTimes = (event: CalendarEvent): CalendarEvent => {
 export const calculatePositionForHeaderEvents = (
   events: any,
   width: number,
-  calendarDays: DateTime[]
+  calendarDays: CalendarDay[]
 ): NormalEventPosition[][] => {
   // TODO prefilter only relevant events
   // TODO remove used events from main array
@@ -140,7 +144,7 @@ export const calculatePositionForHeaderEvents = (
       let hasMatchingDay = false;
 
       calendarDays.forEach((day) => {
-        if (checkOverlappingDatesForHeaderEvents(item, day)) {
+        if (checkOverlappingDatesForHeaderEvents(item, day.date)) {
           // set base offset only for first item
           eventWidth += width;
           hasMatchingDay = true;

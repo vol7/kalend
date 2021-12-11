@@ -7,7 +7,11 @@
  * @param defaultTimezone
  */
 import { CALENDAR_VIEW } from '../common/enums';
-import { CalendarEvent, NormalEventPosition } from '../common/interface';
+import {
+  CalendarDay,
+  CalendarEvent,
+  NormalEventPosition,
+} from '../common/interface';
 import { DateTime, Interval } from 'luxon';
 import {
   EVENT_MIN_HEIGHT,
@@ -248,12 +252,12 @@ export const checkOverlappingDatesForHeaderEvents = (
 
 export const isEventInRange = (
   event: CalendarEvent,
-  days: DateTime[]
+  days: CalendarDay[]
 ): boolean => {
   let hasMatch = false;
 
   for (const day of days) {
-    if (checkOverlappingDatesForHeaderEvents(event, day)) {
+    if (checkOverlappingDatesForHeaderEvents(event, day.date)) {
       hasMatch = true;
       return true;
       // return false;

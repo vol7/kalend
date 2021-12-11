@@ -30,6 +30,9 @@ export const formatTimestampToDate = (dateObj: any): string =>
     ? dateObj.toFormat('dd-MM-yyyy')
     : DateTime.fromISO(dateObj).toFormat('dd-MM-yyyy');
 
+export const formatDateTimeToString = (dateObj: DateTime): string =>
+  dateObj.toFormat('dd-MM-yyyy');
+
 /**
  * Get left offset for timetable when hours column in used
  * @param calendarView

@@ -70,6 +70,11 @@ export interface EventStyle {
   alignItems?: string;
 }
 
+export interface CalendarDay {
+  id: string;
+  date: DateTime;
+}
+
 // functions
 export type OnPageChangeFunc = (data: PageChangeData) => void;
 export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;

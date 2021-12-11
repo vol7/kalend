@@ -1,7 +1,7 @@
-import { DateTime } from 'luxon';
+import { CalendarDay } from '../../../../common/interface';
 
 export interface CalendarHeaderWeekDaysProps {
   daysNum: number;
-  days: DateTime[];
+  days: CalendarDay[];
   width: number;
 }

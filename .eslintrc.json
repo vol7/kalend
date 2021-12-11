@@ -5,7 +5,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["react", "@typescript-eslint", "sort-imports-es6-autofix"],
+  "plugins": ["react", "@typescript-eslint", "sort-imports-es6-autofix", "unused-imports"],
   "env": {
     "browser": true,
     "jasmine": true,
@@ -16,7 +16,8 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/ban-ts-ignore": "off",
+      "@typescript-eslint/ban-ts-ignore": "off",
+
     "prettier/prettier": [
       "error",
       {
