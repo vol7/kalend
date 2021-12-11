@@ -1,6 +1,7 @@
 import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
+import { CalendarDay } from '../common/interface';
 import { DateTime } from 'luxon';
-import { calculateCalendarDays, chooseSelectedDateIndex } from './calendarDays';
+import { calculateCalendarDays } from './calendarDays';
 
 /**
  * Calculate new calendar days
@@ -10,16 +11,16 @@ import { calculateCalendarDays, chooseSelectedDateIndex } from './calendarDays';
  * @param dispatchContext
  */
 export const getNewCalendarDays = async (
-  calendarDays: DateTime[],
+  calendarDays: CalendarDay[],
   calendarView: CALENDAR_VIEW,
   direction: CALENDAR_NAVIGATION_DIRECTION,
   dispatchContext?: any
 ): Promise<void> => {
-  const setSelectedDate = (date: any) => {
+  const setSelectedDate = (date: DateTime) => {
     dispatchContext('selectedDate', date);
   };
 
-  const newCalendarDays: DateTime[] = calculateCalendarDays(
+  const newCalendarDays: CalendarDay[] = calculateCalendarDays(
     direction,
     calendarDays,
     calendarView,
@@ -27,10 +28,10 @@ export const getNewCalendarDays = async (
   );
 
   dispatchContext('calendarDays', newCalendarDays);
-  dispatchContext(
-    'selectedDate',
-    newCalendarDays[chooseSelectedDateIndex(calendarView)]
-  );
+  // dispatchContext(
+  //   'selectedDate',
+  //   newCalendarDays[chooseSelectedDateIndex(calendarView)]
+  // );
 };
 
 export const navigateToToday = async (
@@ -39,7 +40,7 @@ export const navigateToToday = async (
   dateNow: DateTime = DateTime.now()
 ): Promise<void> => {
   await getNewCalendarDays(
-    [dateNow],
+    [{ id: `${dateNow.toString()}_1`, date: dateNow }],
     selectedView,
     CALENDAR_NAVIGATION_DIRECTION.TODAY,
     setContext

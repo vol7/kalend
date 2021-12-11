@@ -1,5 +1,9 @@
 import { CALENDAR_VIEW } from './common/enums';
-import { CalendarEvent, NewEventClickData } from './common/interface';
+import {
+  CalendarDay,
+  CalendarEvent,
+  NewEventClickData,
+} from './common/interface';
 import { CalendarProps } from './Calendar.props';
 import { Context } from './context/store';
 import { DEFAULT_HOUR_HEIGHT } from './common/constants';
@@ -25,14 +29,14 @@ const Calendar = (props: CalendarProps) => {
     disableMobileDropdown,
     timezone,
   } = props;
-  const { events } = config;
+  // const { events } = config;
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const { selectedView, selectedDate, calendarDays } = store;
+  const { selectedView, selectedDate, calendarDays, events } = store;
 
   const width: any = useWidth();
   const height: any = useHeight();
@@ -40,7 +44,7 @@ const Calendar = (props: CalendarProps) => {
   const [viewChanged, setViewChanged] = useState<any>(null);
 
   useEffect(() => {
-    const calendarDaysInitial: DateTime[] = getCalendarDays(
+    const calendarDaysInitial: CalendarDay[] = getCalendarDays(
       props.selectedView || config.initialView,
       config.initialDate ? config.initialDate : DateTime.now()
     );
@@ -50,6 +54,7 @@ const Calendar = (props: CalendarProps) => {
 
   // init context
   useEffect(() => {
+    setContext('events', config.events);
     setContext('isDark', config.isDark);
     setContext(
       'initialView',
@@ -136,9 +141,10 @@ const Calendar = (props: CalendarProps) => {
     // setContext('calendarDays', null);
 
     // use either passed value or internal state
-    const setSelectedDate = (date: any) => setContext('selectedDate', date);
+    const setSelectedDate = (date: DateTime) =>
+      setContext('selectedDate', date);
 
-    const calendarDaysNew: DateTime[] = getCalendarDays(
+    const calendarDaysNew: CalendarDay[] = getCalendarDays(
       viewChanged,
       DateTime.now(),
       setSelectedDate
@@ -163,9 +169,10 @@ const Calendar = (props: CalendarProps) => {
       setContext('selectedView', props.selectedView);
       setPrevView(props.selectedView);
 
-      const setSelectedDate = (date: any) => setContext('selectedDate', date);
+      const setSelectedDate = (date: DateTime) =>
+        setContext('selectedDate', date);
 
-      const calendarDaysNew: DateTime[] = getCalendarDays(
+      const calendarDaysNew: CalendarDay[] = getCalendarDays(
         props.selectedView,
         DateTime.now(),
         setSelectedDate
@@ -187,6 +194,10 @@ const Calendar = (props: CalendarProps) => {
   const handleEventClick = (data: CalendarEvent): void => {
     onEventClick(data);
   };
+
+  useEffect(() => {
+    setContext('events', config.events);
+  }, [JSON.stringify(config.events)]);
 
   useEffect(() => {
     if (

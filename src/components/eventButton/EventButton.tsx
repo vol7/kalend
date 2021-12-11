@@ -6,6 +6,7 @@ import {
   EVENT_TABLE_DELIMITER_SPACE,
 } from '../../common/constants';
 import {
+  CalendarDay,
   CalendarEvent,
   EventLayoutMeta,
   EventStyle,
@@ -15,11 +16,15 @@ import {
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../common/enums';
-import { parseEventColor } from '../../utils/calendarDays';
+import {
+  incrementCalendarDayID,
+  parseEventColor,
+} from '../../utils/calendarDays';
 import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
 import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
+import LuxonHelper from '../../utils/luxonHelper';
 import stateReducer from '../../utils/stateReducer';
 
 let timeoutRef: any;
@@ -81,8 +86,12 @@ const EventButton = (props: EventProps) => {
     dispatchState({ state, payload });
   };
 
-  const [store] = useContext(Context);
-  const { isDark, width, calendarDays, hourHeight } = store;
+  const [store, dispatch] = useContext(Context);
+  const setContext = (type: string, payload: any) => {
+    dispatch({ type, payload });
+  };
+
+  const { isDark, width, calendarDays, hourHeight, events } = store;
 
   const columnWidth: number = width / calendarDays.length;
   const eventColor: string = parseEventColor(event.color as string, isDark);
@@ -100,6 +109,39 @@ const EventButton = (props: EventProps) => {
     border: zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
     backgroundColor: eventColor,
     // alignItems: meta?.centerText ? 'center' : 'inherit',
+  };
+
+  /**
+   * Update day column keys for previous and new event position to force
+   * rerender
+   */
+  const forceRerender = (prevStartAt: string, newStartAt: string): void => {
+    const prevStartAtDateTime: DateTime = DateTime.fromISO(prevStartAt);
+    const newStartAtDateTime: DateTime = DateTime.fromISO(newStartAt);
+
+    let updatedCalendarDays: CalendarDay[] = [...calendarDays];
+
+    // update matching calendarDays
+    updatedCalendarDays = updatedCalendarDays.map(
+      (calendarDay: CalendarDay) => {
+        const isSamePrevDay = LuxonHelper.isSameDay(
+          calendarDay.date,
+          prevStartAtDateTime
+        );
+        const isSameNextDay = LuxonHelper.isSameDay(
+          calendarDay.date,
+          newStartAtDateTime
+        );
+
+        if (isSamePrevDay || isSameNextDay) {
+          return incrementCalendarDayID(calendarDay);
+        } else {
+          return calendarDay;
+        }
+      }
+    );
+
+    setContext('calendarDays', updatedCalendarDays);
   };
 
   const onEventClick = (e: any) => {
@@ -159,6 +201,9 @@ const EventButton = (props: EventProps) => {
     const dayElement: any = document.getElementById(
       `Calend__day__${day.toString()}`
     );
+    if (!dayElement) {
+      return;
+    }
     const dayElementRect = dayElement.getBoundingClientRect();
 
     const touches: any = e.nativeEvent?.touches?.[0];
@@ -194,7 +239,11 @@ const EventButton = (props: EventProps) => {
     offsetTopRef.current = y - EVENT_MIN_HEIGHT;
     eventWasChangedRef.current = true;
 
-    if (columnShiftTable * columnWidth >= width || xTable < 0) {
+    // prevent overflowing on x-axis
+    if (
+      columnShiftTable * columnWidth >= width ||
+      xTable - CALENDAR_OFFSET_LEFT < 0
+    ) {
       return;
     }
 
@@ -229,7 +278,10 @@ const EventButton = (props: EventProps) => {
 
     const columnShiftTable = Math.round(xTable / columnWidth);
 
-    if (columnShiftTable * columnWidth >= width || xTable < 0) {
+    if (
+      columnShiftTable * columnWidth + CALENDAR_OFFSET_LEFT >= width ||
+      xTable < 0
+    ) {
       return;
     }
 
@@ -262,7 +314,9 @@ const EventButton = (props: EventProps) => {
     const originalStartAtDateTime = DateTime.fromISO(event.startAt);
     const originalEndAtDateTime = DateTime.fromISO(event.endAt);
 
-    const newDay: DateTime = calendarDays[xShiftIndexRef.current];
+    const newDay: DateTime = calendarDays.map(
+      (calendarDay: CalendarDay) => calendarDay.date
+    )[xShiftIndexRef.current];
 
     const diffInMinutes: number | undefined = originalEndAtDateTime
       .diff(originalStartAtDateTime, 'minutes')
@@ -343,10 +397,7 @@ const EventButton = (props: EventProps) => {
    */
   const onMouseUp = (e: any) => {
     // clean listeners
-    document.removeEventListener('mousemove', onMove, true);
     document.removeEventListener('mouseup', onMouseUp, true);
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    window.removeEventListener('touchmove', function () {});
 
     // clear timeout
     clearTimeout(timeoutRef);
@@ -375,15 +426,59 @@ const EventButton = (props: EventProps) => {
           offsetTopRef.current,
           offsetLeftRef.current
         );
-        onEventDragFinish(newEvent);
+        // TESTING
+        // onEventDragFinish(newEvent);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        onFinishTest(event, newEvent);
       } else if (type === EVENT_TYPE.HEADER) {
         newEvent = calculateHeaderAfterDrag();
-        onEventDragFinish(newEvent);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        onFinishTest(event, newEvent);
+        // onEventDragFinish(newEvent);
       }
     }
 
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  // TESTING
+  const onFinishTest = (prevEvent: any, eventUpdate: any) => {
+    const result: any = {};
+    Object.entries(events).forEach((keyValue: any, index) => {
+      const [date, events] = keyValue;
+
+      events?.forEach((item: any) => {
+        if (item.id === eventUpdate.id) {
+          const key: any = DateTime.fromISO(eventUpdate.startAt).toFormat(
+            'dd-MM-yyyy'
+          );
+          if (result[key]) {
+            result[key] = [...result[key], ...[eventUpdate]];
+          } else {
+            result[key] = [eventUpdate];
+          }
+        } else {
+          if (result[date]) {
+            result[date] = [...result[date], ...[item]];
+          } else {
+            result[date] = [item];
+          }
+        }
+      });
+    });
+
+    setContext('events', result);
+
+    // trigger rerender and recalculations
+    if (type === EVENT_TYPE.HEADER) {
+      setContext(
+        'headerEventsTriggerCounter',
+        store.headerEventsTriggerCounter + 1
+      );
+    } else {
+      forceRerender(prevEvent.startAt, eventUpdate.startAt); // TODO timezones?
+    }
   };
 
   /**
@@ -393,10 +488,6 @@ const EventButton = (props: EventProps) => {
    */
   const onMouseDownLong = (e: any) => {
     draggingRef.current = true;
-
-    // prevent scrolling while touch event during dragging
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    window.addEventListener('touchmove', function () {});
 
     e.preventDefault();
     e.stopPropagation();
@@ -426,7 +517,7 @@ const EventButton = (props: EventProps) => {
       isDark={isDark}
       style={style}
       className={`Calend__Event-${type} ${
-        state.dragging ? 'Calend__EventButton__elevation' : ''
+        draggingRef.current ? 'Calend__EventButton__elevation' : ''
       }`}
       onClick={onEventClick}
       onMouseDown={onMouseDown}

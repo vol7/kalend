@@ -5,6 +5,7 @@ import {
   isEventInRange,
 } from '../../utils/eventLayout';
 
+import { initCalendarDays } from '../../utils/calendarDays';
 import assert from 'assert';
 
 const baseDate = '2021-11-07';
@@ -115,10 +116,10 @@ describe(`dates funcs`, function () {
           startAt: '2021-11-06T00:00:00.000Z',
           endAt: '2021-11-07T00:00:00.000Z',
         },
-        [
+        initCalendarDays([
           DateTime.fromISO('2021-11-06T03:00:00.000Z'),
           DateTime.fromISO('2021-11-05T03:00:00.000Z'),
-        ]
+        ])
       ),
       true
     );
@@ -132,10 +133,10 @@ describe(`dates funcs`, function () {
           startAt: '2021-11-06T00:00:00.000Z',
           endAt: '2021-11-07T00:00:00.000Z',
         },
-        [
+        initCalendarDays([
           DateTime.fromISO('2021-11-02T03:00:00.000Z'),
           DateTime.fromISO('2021-11-03T03:00:00.000Z'),
-        ]
+        ])
       ),
       false
     );

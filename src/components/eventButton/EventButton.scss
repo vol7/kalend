@@ -18,6 +18,13 @@
   align-items: flex-start;
   color: white;
   opacity: 1 !important;
+  animation-duration: 0.3s;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  -o-animation-fill-mode: forwards;
+  -ms-animation-fill-mode: forwards;
+  animation-name: Calend__EventDetail_animationShow;
+  animation-delay: 0s;
 
   &-month {
     @extend .Calend__Event;
@@ -56,13 +63,12 @@
 
 @keyframes Calend__EventDetail_animationShow {
   0% {
-    opacity: 0;
-    min-height: 0 !important;
+    opacity: 0.2;
+    transform: scale(0.5);
   }
   100% {
     opacity: 1;
-    min-height: 20px!important;
-    //height: 100%;
+    transform: scale(1)
   }
 }
 

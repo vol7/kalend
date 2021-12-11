@@ -1,26 +1,30 @@
+import {
+  CalendarDay,
+  OnEventClickFunc,
+  ShowMoreMonthFunc,
+} from '../../common/interface';
 import { Context } from '../../context/store';
 import { MonthViewProps } from './MonthView.props';
-import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
 import { formatTimestampToDate } from '../../utils/common';
 import { useContext } from 'react';
 import MonthOneDay from './monthOneDay/MonthOneDay';
 
 const renderOneDay = (
-  data: any,
+  data: CalendarDay[],
   prefix: string,
   tableHeight: number,
   events: any,
   handleEventClick: OnEventClickFunc,
   showMoreMonth?: ShowMoreMonthFunc
 ) =>
-  data.map((day: any, index: number) => {
-    const formattedDayString: string = formatTimestampToDate(day);
+  data.map((calendarDay: CalendarDay, index: number) => {
+    const formattedDayString: string = formatTimestampToDate(calendarDay.date);
 
     return (
       <MonthOneDay
         key={`${prefix}-${formattedDayString}`}
         index={index}
-        day={day}
+        day={calendarDay.date}
         data={events ? events[formattedDayString] : []}
         handleEventClick={handleEventClick}
         showMoreMonth={showMoreMonth}

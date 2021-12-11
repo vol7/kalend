@@ -1,4 +1,5 @@
 import { CALENDAR_VIEW } from '../common/enums';
+import { CalendarDay } from '../common/interface';
 import { DEFAULT_HOUR_HEIGHT } from '../common/constants';
 import { DateTime } from 'luxon';
 import { createContext, useReducer } from 'react';
@@ -12,11 +13,13 @@ interface InitialContext {
   selectedView: CALENDAR_VIEW | null;
   selectedDate: any;
   hourHeight: number;
-  calendarDays: DateTime[];
+  calendarDays: CalendarDay[];
   width: number;
   height: number;
   isMobile: boolean;
   timezone: string;
+  events: any;
+  headerEventsTriggerCounter: number;
 }
 
 const initialContext: InitialContext = {
@@ -32,6 +35,8 @@ const initialContext: InitialContext = {
   height: 0,
   isMobile: false,
   timezone: '',
+  events: {},
+  headerEventsTriggerCounter: 1,
 };
 
 export const Context: any = createContext(initialContext);
