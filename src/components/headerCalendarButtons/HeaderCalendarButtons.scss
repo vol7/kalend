@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 
-.Calend__header_calendar_buttons__container {
+.Kalend__header_calendar_buttons__container {
   border-radius: 8px;
   left: 0;
   padding: 0;
@@ -17,7 +17,7 @@
   border: solid 0.4px $GRAY_300;
 
   &-mobile {
-    @extend .Calend__header_calendar_buttons__container;
+    @extend .Kalend__header_calendar_buttons__container;
     flex-direction: column;
     height: 100%;
     width: 100%;
@@ -26,12 +26,12 @@
   }
 
   &-dark {
-    @extend .Calend__header_calendar_buttons__container;
+    @extend .Kalend__header_calendar_buttons__container;
     background-color: $GRAY_600;
   }
 }
 
-.Calend__header_calendar_button {
+.Kalend__header_calendar_button {
   display: flex;
   padding: 6px 4px 6px 4px;
   justify-content: center;
@@ -47,11 +47,11 @@
   //width: 60px;
 
   &:hover {
-    @extend .Calend__header_calendar_button;
+    @extend .Kalend__header_calendar_button;
   }
 
   &-mobile {
-    @extend .Calend__header_calendar_button;
+    @extend .Kalend__header_calendar_button;
     border: none;
     font-size: 1.5em;
     width: 100%;
@@ -59,23 +59,23 @@
     justify-content: flex-start;
 
     &:hover {
-      @extend .Calend__header_calendar_button-mobile;
+      @extend .Kalend__header_calendar_button-mobile;
     }
   }
 
     &-dark {
-    @extend .Calend__header_calendar_button;
+    @extend .Kalend__header_calendar_button;
     background-color: $GRAY_600;
     border: $GRAY_600 solid 0.5px;
   }
 }
 
-.Calend__header_calendar_button-selected {
-  @extend .Calend__header_calendar_button;
+.Kalend__header_calendar_button-selected {
+  @extend .Kalend__header_calendar_button;
   //background: $SURFACE_LIGHT;
 
   &-mobile {
-    @extend .Calend__header_calendar_button;
+    @extend .Kalend__header_calendar_button;
     background: whitesmoke;
     border: none;
     font-size: 1.5em;
@@ -84,34 +84,34 @@
     justify-content: flex-start;
 
     &:hover {
-      @extend .Calend__header_calendar_button-mobile;
+      @extend .Kalend__header_calendar_button-mobile;
     }
   }
 
   &:hover {
-    @extend .Calend__header_calendar_button-selected;
+    @extend .Kalend__header_calendar_button-selected;
   }
 }
-.Calend__header_calendar_button-selected-dark {
-  @extend .Calend__header_calendar_button-selected;
+.Kalend__header_calendar_button-selected-dark {
+  @extend .Kalend__header_calendar_button-selected;
 }
 
-.Calend__header_calendar_button-text {
+.Kalend__header_calendar_button-text {
   padding: 0 10px 0 10px !important;
   color: $GRAY_800;
 
   &-dark {
-    @extend .Calend__header_calendar_button-text;
+    @extend .Kalend__header_calendar_button-text;
     color: $GRAY_200;
   }
 }
 
-.Calend__header_calendar_button-text-selected {
-  @extend .Calend__header_calendar_button-text;
+.Kalend__header_calendar_button-text-selected {
+  @extend .Kalend__header_calendar_button-text;
   color: $PRIMARY_LIGHT !important;
 
   &-dark {
-    @extend .Calend__header_calendar_button-text-selected;
+    @extend .Kalend__header_calendar_button-text-selected;
     color: $PRIMARY_DARK;
   }
 }

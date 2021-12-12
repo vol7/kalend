@@ -1,7 +1,7 @@
 import { CALENDAR_VIEW } from '../../../../common/enums';
-import { CalendarDay } from '../../../../common/interface';
 import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
 import { Context } from '../../../../context/store';
+import { DateTime } from 'luxon';
 import { daysText } from '../../../../utils/calendarDays';
 import { useContext } from 'react';
 import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
@@ -31,20 +31,20 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
       return daysText.map((day: string) => (
         <div
           key={day}
-          className={'Calend__CalendarHeaderWeekDays__col'}
+          className={'Kalend__CalendarHeaderWeekDays__col'}
           style={dayTextColumnWidth}
         >
-          <p className={'Calend__text Calend__CalendarHeaderWeekDays__text'}>
+          <p className={'Kalend__text Kalend__CalendarHeaderWeekDays__text'}>
             {day}
           </p>
         </div>
       ));
     }
 
-    return days.map((calendarDay: CalendarDay) => (
+    return days.map((calendarDay: DateTime) => (
       <DayOfWeekText
-        key={calendarDay.id}
-        day={calendarDay.date}
+        key={calendarDay.toString()}
+        day={calendarDay}
         width={colWidth}
       />
     ));
@@ -52,8 +52,8 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
   const namesForDays: any = renderDaysText();
 
   return (
-    <div className={'Calend__CalendarHeaderWeekDays__wrapper'}>
-      <div className={'Calend__CalendarHeaderWeekDays__container'}>
+    <div className={'Kalend__CalendarHeaderWeekDays__wrapper'}>
+      <div className={'Kalend__CalendarHeaderWeekDays__container'}>
         {namesForDays}
       </div>
     </div>

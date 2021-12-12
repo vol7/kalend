@@ -1,9 +1,9 @@
 @import '../../styles/colors';
 
-.Calend__CalendarViewDropdown__wrapper {
+.Kalend__CalendarViewDropdown__wrapper {
   position: relative;
 }
-.Calend__CalendarViewDropdown__backdrop {
+.Kalend__CalendarViewDropdown__backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 
-.Calend__CalendarViewDropdown__container {
+.Kalend__CalendarViewDropdown__container {
   position: absolute;
   top: 50px;
   right: 4px;
@@ -28,7 +28,7 @@
   border-radius: 8px;
 }
 
-.Calend__CalendarViewDropdown__container-content {
+.Kalend__CalendarViewDropdown__container-content {
   display: flex;
   flex-direction: column;
   height: 100%;

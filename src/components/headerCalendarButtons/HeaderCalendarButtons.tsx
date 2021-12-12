@@ -12,10 +12,10 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
   const { isDark, selectedView, isMobile } = store;
 
   const isSelected: boolean = buttonData.value === selectedView;
-  const buttonClassName = `Calend__header_calendar_button${
+  const buttonClassName = `Kalend__header_calendar_button${
     isSelected ? '-selected' : ''
   }`;
-  const textClassName = `Calend__text Calend__header_calendar_button-text${
+  const textClassName = `Kalend__text Kalend__header_calendar_button-text${
     isSelected ? '-selected' : ''
   }`;
 
@@ -70,7 +70,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
   return isSingleView(disabledViews) ? null : (
     <div
       className={parseClassName(
-        'Calend__header_calendar_buttons__container',
+        'Kalend__header_calendar_buttons__container',
         !!(isMobile || isForcedMobile),
         isDark
       )}

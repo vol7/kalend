@@ -18,14 +18,15 @@ import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
 
 export const CalendarView = CALENDAR_VIEW;
-
+export type { CalendarEvent };
 export type OnEventClickData = CalendarEvent;
 export type OnNewEventClickData = NewEventClickData;
 export type OnPageChangeData = PageChangeData;
 export type OnSelectViewData = CALENDAR_VIEW;
 export type ShowMoreMonthData = CalendarEvent[];
+export type OnEventDragFinish = OnEventDragFinishFunc;
 
-export interface CalendProps {
+export interface KalendProps {
   initialDate?: string;
   initialView: CALENDAR_VIEW;
   selectedView?: CALENDAR_VIEW;
@@ -42,7 +43,7 @@ export interface CalendProps {
   disableMobileDropdown?: boolean;
   timezone?: string;
 }
-const Calend = (props: CalendProps) => {
+const Kalend = (props: KalendProps) => {
   // basic validation
   useEffect(() => {
     validateProps(props);
@@ -50,7 +51,7 @@ const Calend = (props: CalendProps) => {
   }, []);
 
   return (
-    <div className={'Calend__Calendar__root Calend__main'}>
+    <div className={'Kalend__Calendar__root Kalend__main'}>
       <StoreProvider>
         <RootLayoutLayer>
           <Calendar
@@ -80,4 +81,4 @@ const Calend = (props: CalendProps) => {
   );
 };
 
-export default Calend;
+export default Kalend;

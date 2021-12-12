@@ -1,9 +1,5 @@
 import { CALENDAR_VIEW } from './common/enums';
-import {
-  CalendarDay,
-  CalendarEvent,
-  NewEventClickData,
-} from './common/interface';
+import { CalendarEvent, NewEventClickData } from './common/interface';
 import { CalendarProps } from './Calendar.props';
 import { Context } from './context/store';
 import { DEFAULT_HOUR_HEIGHT } from './common/constants';
@@ -44,7 +40,7 @@ const Calendar = (props: CalendarProps) => {
   const [viewChanged, setViewChanged] = useState<any>(null);
 
   useEffect(() => {
-    const calendarDaysInitial: CalendarDay[] = getCalendarDays(
+    const calendarDaysInitial: DateTime[] = getCalendarDays(
       props.selectedView || config.initialView,
       config.initialDate ? config.initialDate : DateTime.now()
     );
@@ -144,7 +140,7 @@ const Calendar = (props: CalendarProps) => {
     const setSelectedDate = (date: DateTime) =>
       setContext('selectedDate', date);
 
-    const calendarDaysNew: CalendarDay[] = getCalendarDays(
+    const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChanged,
       DateTime.now(),
       setSelectedDate
@@ -172,7 +168,7 @@ const Calendar = (props: CalendarProps) => {
       const setSelectedDate = (date: DateTime) =>
         setContext('selectedDate', date);
 
-      const calendarDaysNew: CalendarDay[] = getCalendarDays(
+      const calendarDaysNew: DateTime[] = getCalendarDays(
         props.selectedView,
         DateTime.now(),
         setSelectedDate
@@ -239,7 +235,7 @@ const Calendar = (props: CalendarProps) => {
           onEventDragFinish={onEventDragFinish}
         />
       ) : null}
-      <div className={'Calend__Calendar__table'}>
+      <div className={'Kalend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
             <MonthView

@@ -1,32 +1,34 @@
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
+import { Context } from '../../context/store';
+import { DateTime } from 'luxon';
+import { DaysViewTableProps } from './DaysViewTable.props';
 import {
-  CalendarDay,
+  NormalEventPosition,
   OnEventClickFunc,
   OnEventDragFinishFunc,
   OnNewEventClickFunc,
 } from '../../common/interface';
-import { Context } from '../../context/store';
-import { DateTime } from 'luxon';
-import { DaysViewTableProps } from './DaysViewTable.props';
+import { calculateDaysViewLayout } from '../../utils/eventLayout';
+import { calculatePositionForHeaderEvents } from '../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { formatDateTimeToString } from '../../utils/common';
 import { useContext, useEffect } from 'react';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 
 const renderOneDay = (
-  calendarDays: CalendarDay[],
+  calendarDays: DateTime[],
   handleNewEventClick: OnNewEventClickFunc,
   events: any,
   handleEventClick: OnEventClickFunc,
   onEventDragFinish?: OnEventDragFinishFunc
-) =>
-  calendarDays.map((calendarDay: CalendarDay, index: number) => {
-    const formattedDayString: string = formatDateTimeToString(calendarDay.date);
+) => {
+  return calendarDays.map((calendarDay: DateTime, index: number) => {
+    const formattedDayString: string = formatDateTimeToString(calendarDay);
 
     return (
       <DaysViewOneDay
-        key={calendarDay.id}
-        day={calendarDay.date}
+        key={calendarDay.toString()}
+        day={calendarDay}
         index={index}
         data={events ? events[formattedDayString] : []}
         handleNewEventClick={handleNewEventClick}
@@ -35,13 +37,19 @@ const renderOneDay = (
       />
     );
   });
+};
 
 const DaysViewTable = (props: DaysViewTableProps) => {
   const { handleNewEventClick, handleEventClick, onEventDragFinish, events } =
     props;
 
-  const [store] = useContext(Context);
-  const { hourHeight, calendarDays, width, height } = store;
+  const [store, dispatch] = useContext(Context);
+  const setContext = (type: string, payload: any) => {
+    dispatch({ type, payload });
+  };
+
+  const { hourHeight, calendarDays, width, height, timezone, selectedView } =
+    store;
 
   const days: any = renderOneDay(
     calendarDays,
@@ -54,11 +62,11 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   const style: any = {
     paddingLeft: CALENDAR_OFFSET_LEFT,
     width,
-    height: height, //- headerEventRowsCount * 22,
+    height: height,
   };
 
   const adjustScrollPosition = () => {
-    const currentElement: any = document.getElementById(`Calend__timetable`);
+    const currentElement: any = document.getElementById(`Kalend__timetable`);
 
     currentElement.scrollTop = DateTime.now().hour * hourHeight - hourHeight;
   };
@@ -71,12 +79,62 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   //   await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
   // };
 
+  // recalculate event positions on calendarDays change
+  useEffect(() => {
+    const positions: any = calculateDaysViewLayout(
+      calendarDays,
+      events,
+      width,
+      timezone,
+      hourHeight,
+      selectedView
+    );
+
+    setContext('daysViewLayout', positions);
+  }, [calendarDays[0]]);
+  useEffect(() => {
+    const positions: any = calculateDaysViewLayout(
+      calendarDays,
+      events,
+      width,
+      timezone,
+      hourHeight,
+      selectedView
+    );
+
+    setContext('daysViewLayout', positions);
+    // recalculate positions
+    const eventPositions: NormalEventPosition[][] =
+      calculatePositionForHeaderEvents(
+        events,
+        width / calendarDays.length,
+        calendarDays,
+        setContext
+      );
+    setContext('headerLayout', eventPositions);
+
+    setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+  }, [JSON.stringify(events)]);
+
+  useEffect(() => {
+    const positions: any = calculateDaysViewLayout(
+      calendarDays,
+      events,
+      width,
+      timezone,
+      hourHeight,
+      selectedView
+    );
+
+    setContext('daysViewLayout', positions);
+  }, []);
+
   return (
     // <Carousel onPageChange={onPageChange}>
     <div
       style={style}
-      className={'Calend__CalendarBody'}
-      id={`Calend__timetable`}
+      className={'Kalend__CalendarBody'}
+      id={`Kalend__timetable`}
       // onScroll={handleScroll}
     >
       <CalendarBodyHours />

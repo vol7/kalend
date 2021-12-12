@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const getWidth = () => {
-  const rootEl: any = document.querySelector('.Calend__Calendar__root');
+  const rootEl: any = document.querySelector('.Kalend__Calendar__root');
   if (rootEl) {
     return rootEl.clientWidth;
   }
@@ -29,7 +29,7 @@ export const useWidth = () => {
 };
 
 export const getHeight = () => {
-  const rootEl: any = document.querySelector('.Calend__Calendar__table');
+  const rootEl: any = document.querySelector('.Kalend__Calendar__table');
   if (rootEl) {
     return rootEl.clientHeight;
   }

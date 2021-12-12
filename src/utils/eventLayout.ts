@@ -7,11 +7,7 @@
  * @param defaultTimezone
  */
 import { CALENDAR_VIEW } from '../common/enums';
-import {
-  CalendarDay,
-  CalendarEvent,
-  NormalEventPosition,
-} from '../common/interface';
+import { CalendarEvent, NormalEventPosition } from '../common/interface';
 import { DateTime, Interval } from 'luxon';
 import {
   EVENT_MIN_HEIGHT,
@@ -71,7 +67,8 @@ export const calculateNormalEventPositions = (
   baseWidth: number,
   defaultTimezone: string,
   hourHeight: number,
-  selectedView: CALENDAR_VIEW
+  selectedView: CALENDAR_VIEW,
+  dateKey: string
 ): NormalEventPosition[] => {
   const result: NormalEventPosition[] = [];
 
@@ -179,6 +176,7 @@ export const calculateNormalEventPositions = (
         offsetCountFinal = '';
 
         result.push({
+          dateKey,
           event,
           height:
             eventHeight < EVENT_MIN_HEIGHT ? EVENT_MIN_HEIGHT : eventHeight,
@@ -221,6 +219,44 @@ export const calculateNormalEventPositions = (
   return partialResult;
 };
 
+export const calculateDaysViewLayout = (
+  calendarDays: DateTime[],
+  events: any,
+  baseWidth: number,
+  defaultTimezone: string,
+  hourHeight: number,
+  selectedView: CALENDAR_VIEW
+) => {
+  const result: any = {};
+  calendarDays.forEach((calendarDay) => {
+    const formattedDayString: string = calendarDay.toFormat('dd-MM-yyyy');
+    const dayEvents: any = events[formattedDayString];
+
+    const groupedPositions: any = {};
+
+    const positions = calculateNormalEventPositions(
+      dayEvents,
+      baseWidth,
+      defaultTimezone,
+      hourHeight,
+      selectedView,
+      formattedDayString
+    );
+
+    positions.forEach((item: any) => {
+      if (groupedPositions[item.event.id]) {
+        groupedPositions[item.event.id] = item;
+      } else {
+        groupedPositions[item.event.id] = item;
+      }
+    });
+
+    result[formattedDayString] = groupedPositions;
+  });
+
+  return result;
+};
+
 export const checkOverlappingDatesForHeaderEvents = (
   event: CalendarEvent,
   day: DateTime
@@ -252,12 +288,12 @@ export const checkOverlappingDatesForHeaderEvents = (
 
 export const isEventInRange = (
   event: CalendarEvent,
-  days: CalendarDay[]
+  days: DateTime[]
 ): boolean => {
   let hasMatch = false;
 
   for (const day of days) {
-    if (checkOverlappingDatesForHeaderEvents(event, day.date)) {
+    if (checkOverlappingDatesForHeaderEvents(event, day)) {
       hasMatch = true;
       return true;
       // return false;

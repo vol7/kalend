@@ -1,7 +1,7 @@
 import { CALENDAR_VIEW } from '../common/enums';
-import { CalendarDay } from '../common/interface';
 import { DEFAULT_HOUR_HEIGHT } from '../common/constants';
 import { DateTime } from 'luxon';
+import { EventLayout } from '../common/interface';
 import { createContext, useReducer } from 'react';
 import Reducer from './reducer';
 
@@ -11,15 +11,18 @@ interface InitialContext {
   headerEventRowsCount: number;
   initialView: CALENDAR_VIEW | null;
   selectedView: CALENDAR_VIEW | null;
-  selectedDate: any;
+  selectedDate: DateTime;
   hourHeight: number;
-  calendarDays: CalendarDay[];
+  calendarDays: DateTime[];
   width: number;
   height: number;
   isMobile: boolean;
   timezone: string;
   events: any;
-  headerEventsTriggerCounter: number;
+  // layouts
+  daysViewLayout: EventLayout | null;
+  headerLayout: EventLayout | null;
+  layoutUpdateSequence: number;
 }
 
 const initialContext: InitialContext = {
@@ -29,14 +32,16 @@ const initialContext: InitialContext = {
   initialView: null,
   selectedView: null,
   selectedDate: DateTime.now(),
-  hourHeight: DEFAULT_HOUR_HEIGHT + 40,
+  hourHeight: DEFAULT_HOUR_HEIGHT,
   calendarDays: [],
   width: 0,
   height: 0,
   isMobile: false,
   timezone: '',
   events: {},
-  headerEventsTriggerCounter: 1,
+  daysViewLayout: null,
+  headerLayout: null,
+  layoutUpdateSequence: 1,
 };
 
 export const Context: any = createContext(initialContext);
