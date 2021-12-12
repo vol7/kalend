@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+- support for dragging events in week/days view
+- re-rendering event changes should be smoother
+- bug fixes
+
 ## 0.1.3
 - fix style for initial month view
 - sort agenda events
