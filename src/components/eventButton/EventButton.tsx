@@ -228,13 +228,13 @@ const EventButton = (props: EventProps) => {
     }
 
     const tableElement: any = document.querySelector(
-      '.Calend__Calendar__table'
+      '.Kalend__Calendar__table'
     );
     const tableElementRect = tableElement.getBoundingClientRect();
 
     // Get column element for day, where event is placed
     const dayElement: any = document.getElementById(
-      `Calend__day__${day.toString()}`
+      `Kalend__day__${day.toString()}`
     );
     if (!dayElement) {
       return;
@@ -289,7 +289,7 @@ const EventButton = (props: EventProps) => {
 
   const onMoveHeader = (e: any) => {
     const tableElement: any = document.querySelector(
-      '.Calend__Calendar__table'
+      '.Kalend__Calendar__table'
     );
     const tableElementRect = tableElement.getBoundingClientRect();
 
@@ -570,9 +570,9 @@ const EventButton = (props: EventProps) => {
       id={event.id}
       isDark={isDark}
       style={style}
-      className={`Calend__Event-${type} ${
-        draggingRef.current ? 'Calend__EventButton__elevation' : ''
-      } ${store.layoutUpdateSequence === 1 ? 'Calend__Event__animate' : ''}`}
+      className={`Kalend__Event-${type} ${
+        draggingRef.current ? 'Kalend__EventButton__elevation' : ''
+      } ${store.layoutUpdateSequence === 1 ? 'Kalend__Event__animate' : ''}`}
       onClick={onEventClick}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}

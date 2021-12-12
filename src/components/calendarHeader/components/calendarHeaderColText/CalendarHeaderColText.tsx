@@ -4,7 +4,7 @@ const CalendarHeaderColText = (props: CalendarHeaderColTextProps) => {
   const { children } = props;
 
   return (
-    <div className={'Calend__CalendarHeaderColText__container'}>{children}</div>
+    <div className={'Kalend__CalendarHeaderColText__container'}>{children}</div>
   );
 };
 

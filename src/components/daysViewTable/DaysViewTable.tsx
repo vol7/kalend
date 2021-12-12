@@ -66,7 +66,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   };
 
   const adjustScrollPosition = () => {
-    const currentElement: any = document.getElementById(`Calend__timetable`);
+    const currentElement: any = document.getElementById(`Kalend__timetable`);
 
     currentElement.scrollTop = DateTime.now().hour * hourHeight - hourHeight;
   };
@@ -133,8 +133,8 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     // <Carousel onPageChange={onPageChange}>
     <div
       style={style}
-      className={'Calend__CalendarBody'}
-      id={`Calend__timetable`}
+      className={'Kalend__CalendarBody'}
+      id={`Kalend__timetable`}
       // onScroll={handleScroll}
     >
       <CalendarBodyHours />

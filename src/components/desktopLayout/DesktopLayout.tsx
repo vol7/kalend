@@ -8,7 +8,7 @@ const DesktopLayout = (props: DesktopLayoutProps) => {
   const { isMobile } = store;
 
   return !isMobile ? (
-    <div className={'Calend__DesktopLayout'}>{children}</div>
+    <div className={'Kalend__DesktopLayout'}>{children}</div>
   ) : null;
 };
 

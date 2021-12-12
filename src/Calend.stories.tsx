@@ -1,14 +1,14 @@
 import { Meta, Story } from '@storybook/react';
-import Calend, { CalendProps, CalendarView } from './index';
+import Kalend, { CalendarView, KalendProps } from './index';
 
 export default {
-  title: 'Calend',
-  component: Calend,
+  title: 'Kalend',
+  component: Kalend,
 } as Meta;
 
-const Template: Story<CalendProps> = (args) => (
+const Template: Story<KalendProps> = (args) => (
   <div style={{ height: '100vh' }}>
-    <Calend {...args} />
+    <Kalend {...args} />
   </div>
 );
 

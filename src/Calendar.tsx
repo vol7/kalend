@@ -235,7 +235,7 @@ const Calendar = (props: CalendarProps) => {
           onEventDragFinish={onEventDragFinish}
         />
       ) : null}
-      <div className={'Calend__Calendar__table'}>
+      <div className={'Kalend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
             <MonthView

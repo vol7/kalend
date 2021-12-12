@@ -39,7 +39,7 @@ const AgendaView = (props: AgendaViewProps) => {
   );
 
   return (
-    <div className={'Calend__Agenda__container'} style={{ height }}>
+    <div className={'Kalend__Agenda__container'} style={{ height }}>
       {agendaEvents}
     </div>
   );

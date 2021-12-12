@@ -122,16 +122,16 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
   return store.daysViewLayout?.[formatDateTimeToString(day)] ? (
     <div
-      id={`Calend__day__${day.toString()}`}
+      id={`Kalend__day__${day.toString()}`}
       key={day.toString()}
       style={oneDayStyle}
       className={
         !isFirstDay
           ? parseCssDark(
-              'Calend__DayViewOneDay Calend__DayViewOneDay__border-left',
+              'Kalend__DayViewOneDay Kalend__DayViewOneDay__border-left',
               isDark
             )
-          : 'Calend__DayViewOneDay'
+          : 'Kalend__DayViewOneDay'
       }
       onClick={handleEventClickInternal}
     >

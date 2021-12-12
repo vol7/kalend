@@ -53,7 +53,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
             <ButtonBase
               key={day.toString()}
               isDark={isDark}
-              className={'Calend__Monthview_Event'}
+              className={'Kalend__Monthview_Event'}
               style={{
                 width: '100%',
                 display: 'flex',
@@ -62,7 +62,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
               }}
               onClick={handleShowMore}
             >
-              <p className={'Calend__text'} style={{ fontSize: 11 }}>
+              <p className={'Kalend__text'} style={{ fontSize: 11 }}>
                 {eventsCount.length + 1 - maxEvents} more
               </p>
             </ButtonBase>
@@ -79,13 +79,13 @@ const MonthOneDay = (props: MonthOneDayProps) => {
       return (
         <div
           className={parseCssDark(
-            'Calend__MonthOneDay__date-container Calend__MonthOneDay__circle-color',
+            'Kalend__MonthOneDay__date-container Kalend__MonthOneDay__circle-color',
             isDark
           )}
         >
           <p
             className={parseCssDark(
-              'Calend__text Calend__MonthOneDay__date-today',
+              'Kalend__text Kalend__MonthOneDay__date-today',
               isDark
             )}
           >
@@ -95,10 +95,10 @@ const MonthOneDay = (props: MonthOneDayProps) => {
       );
     } else if (date.hasSame(selectedDate, 'month')) {
       return (
-        <div className={'Calend__MonthOneDay__date-container'}>
+        <div className={'Kalend__MonthOneDay__date-container'}>
           <p
             className={parseCssDark(
-              'Calend__text Calend__MonthOneDay__date',
+              'Kalend__text Kalend__MonthOneDay__date',
               isDark
             )}
           >
@@ -109,10 +109,10 @@ const MonthOneDay = (props: MonthOneDayProps) => {
       );
     } else {
       return (
-        <div className={'Calend__MonthOneDay__date-container'}>
+        <div className={'Kalend__MonthOneDay__date-container'}>
           <p
             className={parseCssDark(
-              'Calend__text Calend__MonthOneDay__date-past',
+              'Kalend__text Kalend__MonthOneDay__date-past',
               isDark
             )}
           >
@@ -129,10 +129,10 @@ const MonthOneDay = (props: MonthOneDayProps) => {
 
   return (
     <div className={borderClassName}>
-      <div className={'Calend__MonthOneDay__header-container'}>
+      <div className={'Kalend__MonthOneDay__header-container'}>
         {renderDate(day)}
       </div>
-      <div className={'Calend__MonthOneDay__events-container'}>{events}</div>
+      <div className={'Kalend__MonthOneDay__events-container'}>{events}</div>
     </div>
   );
 };

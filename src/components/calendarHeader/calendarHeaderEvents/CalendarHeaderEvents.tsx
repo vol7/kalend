@@ -17,7 +17,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
   };
 
   const [animation, setAnimation] = useState(
-    'Calend__CalendarHeaderEvents_animationExpand'
+    'Kalend__CalendarHeaderEvents_animationExpand'
   );
 
   const renderEvents = (data: any) => {
@@ -46,7 +46,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
     return (
       <div
         key={calendarDay.toString()}
-        className={'Calend__CalendarHeaderEvents__col-wrapper'}
+        className={'Kalend__CalendarHeaderEvents__col-wrapper'}
         style={colWidthStyle}
       ></div>
     );
@@ -68,7 +68,7 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
 
   useEffect(() => {
     // set animation
-    setAnimation('Calend__CalendarHeaderEvents_animationExpand');
+    setAnimation('Kalend__CalendarHeaderEvents_animationExpand');
     // clean animation
     setTimeout(() => {
       setAnimation('');
@@ -77,11 +77,11 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
 
   return (
     <div
-      className={`Calend__CalendarHeaderEvents__container ${animation}`}
+      className={`Kalend__CalendarHeaderEvents__container ${animation}`}
       style={headerStyle}
     >
-      <div className={'Calend__CalendarHeaderEvents__row'}>{daysNumbers}</div>
-      {/*<div className={`Calend__CalendarHeaderEvents__rows ${animation}`}></div>*/}
+      <div className={'Kalend__CalendarHeaderEvents__row'}>{daysNumbers}</div>
+      {/*<div className={`Kalend__CalendarHeaderEvents__rows ${animation}`}></div>*/}
       {headerEvents}
     </div>
   );

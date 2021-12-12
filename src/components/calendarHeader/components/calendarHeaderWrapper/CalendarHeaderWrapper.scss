@@ -1,6 +1,6 @@
 @import '../../../../styles/colors';
 
-.Calend__CalendarHeaderWrapper {
+.Kalend__CalendarHeaderWrapper {
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -11,7 +11,7 @@
   }
 
   &-dark {
-    @extend .Calend__CalendarHeaderWrapper;
+    @extend .Kalend__CalendarHeaderWrapper;
     background: $MODAL_DARK;
   }
 }

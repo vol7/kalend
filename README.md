@@ -1,4 +1,4 @@
-# Calend - calendar component for React
+# Kalend - calendar component for React
 
 Support for:
 
@@ -8,6 +8,8 @@ Support for:
 - month view
 - agenda list view
 
+
+- dragging events
 #
 
 ### LIVE DEMO: https://calend.nibdo.com
@@ -22,7 +24,7 @@ If given interface and controls is not enough for you, you can use callbacks to 
 
 TODO:
 
-- dragging events
+- dragging events in month view
 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 

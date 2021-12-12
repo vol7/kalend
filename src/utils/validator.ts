@@ -1,5 +1,5 @@
 import { CALENDAR_VIEW } from '../common/enums';
-import { CalendProps } from '../index';
+import { KalendProps } from '../index';
 
 const getCalendarView = (value: string): CALENDAR_VIEW | null => {
   if (value.toString() === CALENDAR_VIEW.DAY.toString()) {
@@ -21,7 +21,7 @@ const getCalendarView = (value: string): CALENDAR_VIEW | null => {
   return null;
 };
 
-export const validateProps = (props: CalendProps): void => {
+export const validateProps = (props: KalendProps): void => {
   // Validate views
   if (props.disabledViews) {
     // throw error if all views are disabled
@@ -40,7 +40,7 @@ export const validateProps = (props: CalendProps): void => {
 };
 
 export const validateStyle = (): void => {
-  const el: Element | null = document.querySelector('.Calend__Calendar__root');
+  const el: Element | null = document.querySelector('.Kalend__Calendar__root');
 
   if (el) {
     if (window.getComputedStyle(el).display !== 'flex') {

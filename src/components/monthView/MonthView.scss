@@ -5,7 +5,7 @@
 $month_view__width: math.div(100%, 7);
 $month_view__height: math.div(100%, 6);
 
-.Calend__MonthView__container {
+.Kalend__MonthView__container {
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
@@ -21,7 +21,7 @@ $month_view__height: math.div(100%, 6);
   right: 0;
 }
 
-.Calend__Monthview_Event {
+.Kalend__Monthview_Event {
   max-height: 16px !important;
   min-height: 16px;
   margin-top: 1px;

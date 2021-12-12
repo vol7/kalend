@@ -48,10 +48,10 @@ const EventTime = (props: EventTimeProps) => {
   // const time: string = formatEventTime(event);
   return (
     <p
-      className={`Calend__text ${parseCssDark(
-        'Calend__Event__time',
+      className={`Kalend__text ${parseCssDark(
+        'Kalend__Event__time',
         isDark
-      )} Calend__Event__time__type-${type}`}
+      )} Kalend__Event__time__type-${type}`}
     >
       {timeV2.start} - {timeV2.end}
     </p>

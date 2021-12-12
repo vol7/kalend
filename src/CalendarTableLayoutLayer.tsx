@@ -4,12 +4,12 @@ const CalendarTableLayoutLayer = (props: { children: any }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const rootEl: any = document.querySelector('.Calend__Calendar__table');
+    const rootEl: any = document.querySelector('.Kalend__Calendar__table');
 
     if (rootEl) {
       setIsMounted(true);
     }
-  }, [document.querySelector('.Calend__Calendar__table')]);
+  }, [document.querySelector('.Kalend__Calendar__table')]);
 
   return isMounted ? props.children : null;
 };

@@ -103,8 +103,8 @@ const ButtonBase = (props: ButtonBaseProps) => {
 
   const buttonText: string = text ? text : '';
   const buttonClassName: string = className
-    ? `Calend__button ${className} Calend__ButtonBase`
-    : 'Calend__button Calend__ButtonBase';
+    ? `Kalend__button ${className} Kalend__ButtonBase`
+    : 'Kalend__button Kalend__ButtonBase';
 
   return (
     <button
@@ -126,7 +126,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
     >
       {children ? children : buttonText}
       {isPressed && !disabled ? (
-        <span style={spanStyle} className={'Calend__ButtonBase__animation'} />
+        <span style={spanStyle} className={'Kalend__ButtonBase__animation'} />
       ) : null}
     </button>
   );

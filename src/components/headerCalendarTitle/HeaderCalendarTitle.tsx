@@ -17,13 +17,13 @@ const HeaderCalendarTitle = (props: HeaderCalendarTitleProps) => {
   return (
     <div
       className={parseClassName(
-        `Calend__HeaderCalendarTitle__container`,
+        `Kalend__HeaderCalendarTitle__container`,
         isMobile
       )}
     >
       <p
         className={parseClassName(
-          'Calend__text Calend__HeaderCalendarTitle',
+          'Kalend__text Kalend__HeaderCalendarTitle',
           isMobile,
           isDark
         )}

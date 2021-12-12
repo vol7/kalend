@@ -58,7 +58,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   // different screen size
   useEffect(() => {
     const element: any = document.querySelector(
-      '.Calend__CalendarDesktopNavigation__container'
+      '.Kalend__CalendarDesktopNavigation__container'
     );
 
     if (element) {
@@ -75,7 +75,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   return (
     <div
       className={parseClassName(
-        'Calend__CalendarDesktopNavigation__container',
+        'Kalend__CalendarDesktopNavigation__container',
         isMobile,
         isDark
       )}
@@ -88,10 +88,10 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
         }}
       >
         <DesktopLayout>
-          <div className={'Calend__CalendarDesktopNavigation__buttons'}>
+          <div className={'Kalend__CalendarDesktopNavigation__buttons'}>
             <>
               <ButtonBase
-                className={'Calend__ButtonBase-border'}
+                className={'Kalend__ButtonBase-border'}
                 isDark={isDark}
                 onClick={navigateToTodayDate}
               >
@@ -103,7 +103,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateBackwards}
               >
                 <EvaIcons.ChevronLeft
-                  className={parseCssDark('Calend__icon-svg', isDark)}
+                  className={parseCssDark('Kalend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <ButtonIcon
@@ -112,7 +112,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateForward}
               >
                 <EvaIcons.ChevronRight
-                  className={parseCssDark('Calend__icon-svg', isDark)}
+                  className={parseCssDark('Kalend__icon-svg', isDark)}
                 />
               </ButtonIcon>
             </>
@@ -120,7 +120,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
         </DesktopLayout>
         <HeaderCalendarTitle title={title} />
         <MobileLayout style={{ width: '100%' }}>
-          <div className={'Calend__CalendarDesktopNavigation__buttons'}>
+          <div className={'Kalend__CalendarDesktopNavigation__buttons'}>
             <>
               <ButtonIcon
                 isDark={isDark}
@@ -128,7 +128,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateBackwards}
               >
                 <EvaIcons.ChevronLeft
-                  className={parseCssDark('Calend__icon-svg', isDark)}
+                  className={parseCssDark('Kalend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <ButtonIcon
@@ -137,7 +137,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateForward}
               >
                 <EvaIcons.ChevronRight
-                  className={parseCssDark('Calend__icon-svg', isDark)}
+                  className={parseCssDark('Kalend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <ButtonIcon
@@ -146,7 +146,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 onClick={navigateToTodayDate}
               >
                 <EvaIcons.Calendar
-                  className={parseCssDark('Calend__icon-svg', isDark)}
+                  className={parseCssDark('Kalend__icon-svg', isDark)}
                 />
               </ButtonIcon>
               <CalendarViewDropdown

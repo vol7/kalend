@@ -1,6 +1,6 @@
 @import '../../../../styles/colors';
 
-.Calend__Event__summary {
+.Kalend__Event__summary {
   display: -webkit-box;
   webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -16,7 +16,7 @@
   }
 }
 
-.Calend__Event__summary__type {
+.Kalend__Event__summary__type {
   &-header {
     padding: 1px;
     padding-left: 3px;
