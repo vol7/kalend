@@ -28,7 +28,7 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 
 # Install
 
-    npm i calend
+    npm i kalend
 
 # Example
 
