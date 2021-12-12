@@ -12,7 +12,7 @@ Support for:
 - dragging events
 #
 
-### LIVE DEMO: https://calend.nibdo.com
+### LIVE DEMO: https://demo.kalend.org
 ### Storybook: https://storybook.kalend.org
 #
 
