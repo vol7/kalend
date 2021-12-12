@@ -32,8 +32,8 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 
 # Example
 
-    import Calend, { CalendarView } from 'calend' // import component
-    import 'calend/dist/styles/index.css'; // import styles
+    import Calend, { CalendarView } from 'kalend' // import component
+    import 'kalend/dist/styles/index.css'; // import styles
 
         <Calend
           onEventClick={onEventClick}
