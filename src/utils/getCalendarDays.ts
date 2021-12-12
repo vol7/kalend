@@ -1,6 +1,6 @@
 import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 import { DateTime } from 'luxon';
-import { calculateCalendarDays, chooseSelectedDateIndex } from './calendarDays';
+import { calculateCalendarDays } from './calendarDays';
 
 /**
  * Calculate new calendar days
@@ -15,7 +15,7 @@ export const getNewCalendarDays = async (
   direction: CALENDAR_NAVIGATION_DIRECTION,
   dispatchContext?: any
 ): Promise<void> => {
-  const setSelectedDate = (date: any) => {
+  const setSelectedDate = (date: DateTime) => {
     dispatchContext('selectedDate', date);
   };
 
@@ -27,10 +27,10 @@ export const getNewCalendarDays = async (
   );
 
   dispatchContext('calendarDays', newCalendarDays);
-  dispatchContext(
-    'selectedDate',
-    newCalendarDays[chooseSelectedDateIndex(calendarView)]
-  );
+  // dispatchContext(
+  //   'selectedDate',
+  //   newCalendarDays[chooseSelectedDateIndex(calendarView)]
+  // );
 };
 
 export const navigateToToday = async (

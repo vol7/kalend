@@ -1,4 +1,4 @@
-# Calend - calendar component for React
+# Kalend - calendar component for React
 
 Support for:
 
@@ -8,6 +8,8 @@ Support for:
 - month view
 - agenda list view
 
+
+- dragging events
 #
 
 ### LIVE DEMO: https://calend.nibdo.com
@@ -22,7 +24,7 @@ If given interface and controls is not enough for you, you can use callbacks to 
 
 TODO:
 
-- dragging events
+- dragging events in month view
 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 
@@ -32,10 +34,10 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 
 # Example
 
-    import Calend, { CalendarView } from 'kalend' // import component
+    import Kalend, { CalendarView } from 'kalend' // import component
     import 'kalend/dist/styles/index.css'; // import styles
 
-        <Calend
+        <Kalend
           onEventClick={onEventClick}
           onNewEventClick={onNewEventClick}
           events={[]}
@@ -109,13 +111,13 @@ Create functions and handle data from callback in your application
 
 If you want access to type of callback data, you can import them like this
 
-    import Calend, {
+    import Kalend, {
         OnEventClickData,
         OnNewEventClickData,
         ShowMoreMonthData,
         OnPageChangeData,
         OnSelectViewData
-    } from 'calend';
+    } from 'kalend';
 
 ### onNewEventClick
 
@@ -172,6 +174,17 @@ Callback returns array of CalendarEvent which did not fit inside day column in m
     const showMoreMonth = (data: ShowMoreMonthData) => {
         // do something
     }
+
+### onEventDragFinish
+    const onEventDragFinish: OnEventDragFinish = (
+    updatedEvent: CalendarEvent,
+    events: any
+    ) => {
+        // if you want just update whole state, you can just set events 
+        setState(events);
+        // OR you can handle logic for updating inside your app with access to "updatedEvent"
+
+    };
 
 # Development
 

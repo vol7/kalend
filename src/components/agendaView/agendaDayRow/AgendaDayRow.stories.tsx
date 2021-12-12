@@ -51,5 +51,6 @@ const { day, events } = generateCalendarEvents(5);
 Primary.args = {
   day,
   events,
+  // eslint-disable-next-line no-console
   handleEventClick: (data: CalendarEvent) => console.log(data),
 };

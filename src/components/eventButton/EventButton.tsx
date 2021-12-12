@@ -1,165 +1,47 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useReducer, useRef } from 'react';
 
 import {
+  CALENDAR_OFFSET_LEFT,
+  EVENT_MIN_HEIGHT,
+  EVENT_TABLE_DELIMITER_SPACE,
+  MONTH_EVENT_HEIGHT,
+} from '../../common/constants';
+import {
   CalendarEvent,
+  EventLayout,
   EventLayoutMeta,
+  EventStyle,
   OnEventClickFunc,
+  OnEventDragFinishFunc,
 } from '../../common/interface';
 import { Context } from '../../context/store';
+import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../common/enums';
+import { calculateDaysViewLayout } from '../../utils/eventLayout';
+import { calculatePositionForHeaderEvents } from '../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
+import { formatDateTimeToString } from '../../utils/common';
 import { parseEventColor } from '../../utils/calendarDays';
 import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
 import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
+import stateReducer from '../../utils/stateReducer';
 
-const DEFAULT_EVENT_HEIGHT = 14;
-
-interface EventStyle {
-  position: string;
-  height: number;
-  width: string | number;
-  top: number;
-  left: number;
-  backgroundColor: string;
-  transition?: string;
-  zIndex?: number;
-  border: string;
-  alignItems?: string;
-}
-
-interface EventProps {
-  event: CalendarEvent;
-  eventWidth: string | number;
-  offsetTop?: number;
-  offsetLeft?: number;
-  height?: number;
-  type: EVENT_TYPE;
-  handleEventClick: OnEventClickFunc;
-  zIndex: number;
-  border?: string;
-  meta?: EventLayoutMeta;
-}
-const EventButton = (props: EventProps) => {
-  const {
-    event,
-    eventWidth,
-    offsetLeft,
-    offsetTop,
-    height = DEFAULT_EVENT_HEIGHT,
-    type,
-    handleEventClick,
-    zIndex,
-    meta,
-  } = props;
-
-  const [store] = useContext(Context);
-  const { isDark } = store;
-
-  const eventColor: string = parseEventColor(event.color as string, isDark);
-
-  const [heightTest, setHeight] = useState(0);
-
-  const style: EventStyle = {
-    position:
-      type === EVENT_TYPE.MONTH || type === EVENT_TYPE.AGENDA
-        ? 'relative'
-        : 'absolute',
-    height: heightTest,
-    width: eventWidth,
-    top: offsetTop ? offsetTop : 0,
-    left: offsetLeft ? offsetLeft : 0,
-    // borderColor: eventColor,
-    zIndex,
-    border: zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
-    backgroundColor: /*dragging ? 'blue' : */ eventColor,
-    // alignItems: meta?.centerText ? 'center' : 'inherit',
+const createTempMonthEventsLayout = (): EventLayout => {
+  return {
+    offsetLeft: 0,
+    offsetTop: 0,
+    width: '90%',
+    height: MONTH_EVENT_HEIGHT,
+    zIndex: 1,
+    border: 'none',
   };
-
-  const onEventClick = (e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
-    handleEventClick(event);
-    // history.push(`/${APP_PATH.EVENT_VIEW}/${event.id}`);
-  };
-
-  useEffect(() => {
-    setHeight(height);
-  }, []);
-
-  return (
-    <ButtonBase
-      isDark={isDark}
-      //Dragging func {...panResponder.panHandlers}
-      style={style}
-      className={`Calend__Event-${type}`}
-      onClick={onEventClick}
-    >
-      {type === EVENT_TYPE.MONTH || type === EVENT_TYPE.HEADER ? (
-        <EventMonth event={event} isDark={isDark} type={type} />
-      ) : null}
-      {type === EVENT_TYPE.NORMAL ? (
-        <EventNormal event={event} isDark={isDark} type={type} meta={meta} />
-      ) : null}
-      {type === EVENT_TYPE.AGENDA ? (
-        <EventAgenda event={event} isDark={isDark} type={type} />
-      ) : null}
-    </ButtonBase>
-  );
 };
 
-export default EventButton;
+// ref to cancel timout
+let timeoutRef: any;
 
-/**
- TODO dragging
- //
- // const getNewOffset = (
- //   currentIndex: any,
- //   clientXRaw: any,
- //   width: any,
- //   daysNum: any,
- //   setState: any
- // ) => {
-//   let widthCalendar: any = width - 40; //minus hours column
-//   let clientX: any = clientXRaw - 40; //follow mouse but minus right menu
-//   let oneDay: any = width / daysNum;
-//   let newIndex: any; //index of column under mouse
-//   //for desktop
-//   if (clientX > 0 && clientX < oneDay) {
-//     newIndex = 1;
-//   } else if (clientX > oneDay && clientX < 2 * oneDay) {
-//     newIndex = 2;
-//   } else if (clientX > 2 * oneDay && clientX < 3 * oneDay) {
-//     newIndex = 3;
-//   } else if (clientX > 3 * oneDay && clientX < 4 * oneDay) {
-//     newIndex = 4;
-//   } else if (clientX > 4 * oneDay && clientX < 5 * oneDay) {
-//     newIndex = 5;
-//   } else if (clientX > 5 * oneDay && clientX < 6 * oneDay) {
-//     newIndex = 6;
-//   } else if (clientX < 0) {
-//     newIndex = 0;
-//   }
-//   let newOffset;
-//   if (currentIndex > newIndex) {
-//     //moving left
-//     // current index is 4, so when moving to begining, index 1, I need to set  as 0 - (3 * width of one day)
-//     // current index is 4, so, index 2 has to be 0 - (2* one day)
-//     if (newIndex === 0) {
-//       newOffset = -(currentIndex * oneDay);
-//     } else {
-//       newOffset = -((currentIndex - newIndex) * oneDay);
-//     }
-//   } else if (newIndex > currentIndex) {
-//     //moving right
-//     newOffset = 0 + (newIndex - currentIndex) * oneDay;
-//   } else if (newIndex === currentIndex) {
-//   }
-//   setState('offsetLeft', newOffset);
-//   setState('newIndex', newIndex);
-// };
-
- const initialState: any = {
+const initialState: any = {
   dragging: false,
   initialTop: 0,
   initialLeft: 0,
@@ -175,156 +57,540 @@ export default EventButton;
   newIndex: '',
   dateFrom: '',
   eventHasChanged: false,
+  width: 0,
+  height: 0,
+  zIndex: 2,
+  border: '',
 };
 
- interface CalendarEventProps {
-  offsetTop: number;
-  offsetLeft: number;
-  index: number;
-  colorName: string;
-  isDark: boolean;
-  eventHeight: number;
-  eventWidth: number;
-  event: any;
+interface EventProps {
+  event: CalendarEvent;
+  type: EVENT_TYPE;
+  handleEventClick: OnEventClickFunc;
+  meta?: EventLayoutMeta;
+  day?: DateTime;
+  onEventDragFinish?: OnEventDragFinishFunc;
 }
- const CalendarEvent = (props: CalendarEventProps) => {
-  const [state, dispatchState] = useReducer(stateReducer, initialState);
-
+const EventButton = (props: EventProps) => {
   const {
-    offsetTop,
-    offsetLeft,
-    index,
-    colorName,
-    isDark,
-    eventHeight,
-    eventWidth,
     event,
+    type,
+    handleEventClick,
+    meta,
+    day = DateTime.now(),
+    onEventDragFinish,
   } = props;
   const { startAt } = event;
 
-  const setState = (type: any, payload: any) => {
-    // @ts-ignore
-    dispatchState({ type, payload });
+  const [state, dispatchState]: any = useReducer(stateReducer, initialState);
+  const setState = (stateName: string, data: any): void => {
+    const payload: any = { stateName, data };
+    dispatchState({ state, payload });
   };
 
-  const history: any = useHistory();
+  const [store, dispatch] = useContext(Context);
+  const setContext = (type: string, payload: any) => {
+    dispatch({ type, payload });
+  };
+
+  const {
+    isDark,
+    width,
+    calendarDays,
+    hourHeight,
+    events,
+    timezone,
+    selectedView,
+    daysViewLayout,
+  } = store;
+
+  const columnWidth: number = width / calendarDays.length;
+  const eventColor: string = parseEventColor(event.color as string, isDark);
+
+  const style: EventStyle = {
+    position:
+      type === EVENT_TYPE.MONTH || type === EVENT_TYPE.AGENDA
+        ? 'relative'
+        : 'absolute',
+    height: state.height || EVENT_MIN_HEIGHT,
+    width: state.width,
+    top: state.offsetTop,
+    left: state.offsetLeft,
+    zIndex: state.zIndex,
+    border: state.zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
+    backgroundColor: eventColor,
+    // alignItems: meta?.centerText ? 'center' : 'inherit',
+  };
+
+  // TODO remove?
+  // const getEventCalendarDay = (event: any) => {
+  //   let result: any;
+  //   const eventStartAtDateTime: DateTime = DateTime.fromISO(event.startAt);
+  //
+  //   calendarDays.forEach((calendarDay: any) => {
+  //     const isSameDay = LuxonHelper.isSameDay(
+  //       calendarDay.date,
+  //       eventStartAtDateTime
+  //     );
+  //
+  //     if (isSameDay) {
+  //       result = calendarDay.date;
+  //     }
+  //   });
+  //
+  //   return result;
+  // };
+
+  const onEventClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleEventClick(event);
+  };
+
+  const setLayout = (layout: EventLayout) => {
+    setState('initialTop', layout.offsetTop);
+    setState('initialLeft', layout.offsetLeft);
+    setState('offsetTop', layout.offsetTop);
+    setState('offsetLeft', layout.offsetLeft);
+    setState('drawingY', layout.offsetTop);
+    setState('startAt', startAt);
+    setState('width', layout.width);
+    setState('height', layout.height);
+    setState('zIndex', layout.zIndex);
+    setState('border', layout.border);
+  };
+
+  const initStatPosition = () => {
+    if (type === EVENT_TYPE.NORMAL && props.day) {
+      const formattedDayString: string = formatDateTimeToString(props.day);
+      const eventLayout: any = daysViewLayout[formattedDayString]?.[event.id];
+      if (eventLayout) {
+        setLayout(eventLayout);
+      }
+    } else if (type === EVENT_TYPE.HEADER) {
+      if (store.headerLayout) {
+        const headerLayout: any = store.headerLayout[event.id];
+        if (headerLayout) {
+          setLayout(headerLayout);
+        }
+      }
+    } else {
+      setLayout(createTempMonthEventsLayout());
+    }
+  };
 
   useEffect(() => {
     initStatPosition();
   }, []);
 
-  const initStatPosition = () => {
-    setState('initialTop', offsetTop);
-    setState('initialLeft', offsetLeft);
-    setState('offsetTop', offsetTop);
-    setState('offsetLeft', offsetLeft);
-    setState('drawingY', offsetTop);
-    setState('currentIndex', index);
-    setState('startAt', startAt);
+  useEffect(() => {
+    initStatPosition();
+  }, [
+    daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
+      event.id
+    ],
+  ]);
+
+  useEffect(() => {
+    initStatPosition();
+  }, [store.layoutUpdateSequence]);
+
+  // store values as refs to access them in event listener
+  const offsetTopRef = useRef(state.offsetTop);
+  const offsetLeftRef = useRef(state.offsetLeft);
+  const xShiftIndexRef = useRef(0);
+  const draggingRef = useRef(false);
+  const eventWasChangedRef = useRef(false);
+
+  const initMove = () => {
+    if (type === EVENT_TYPE.NORMAL) {
+      setState('offsetLeft', 0);
+      setState('width', columnWidth - EVENT_TABLE_DELIMITER_SPACE);
+      if (!draggingRef.current) {
+        draggingRef.current = true;
+      }
+    } else if (type === EVENT_TYPE.HEADER) {
+      if (!draggingRef.current) {
+        draggingRef.current = true;
+      }
+    }
+
+    // TODO month event
   };
 
-  //
-  // const getNewTime = (offsetTop) => {
-  //   //hour * minutes / 1.5 is offsetTop
-  //   let newTime = offsetTop * 1.5;
-  //   let dateFrom = parse(props.event.dateFrom);
-  //   let dateNow;
-  //   if (state.currentIndex === state.newIndex) {
-  //     dateNow = dateFrom;
-  //   } else if (state.currentIndex > state.newIndex) {
-  //     //move left, sub days
-  //     dateNow = subDays(dateFrom, state.currentIndex - state.newIndex);
-  //   } else if (state.currentIndex < state.newIndex) {
-  //     //move right, add days
-  //     dateNow = addDays(dateFrom, state.newIndex - state.currentIndex);
-  //   }
-  //   let newDateFrom = addMinutes(
-  //     parse(
-  //       new Date(getYear(dateNow), getMonth(dateNow), getDate(dateNow), 0, 0, 0)
-  //     ),
-  //     newTime
-  //   );
-  //   let hour = parseInt(newTime / 60);
-  //   let minutesString = (newTime % 60).toString().slice(0, 1);
-  //   let minutes = 60 * parseFloat('0.' + minutesString);
-  //
-  //   let newDifferenceInMinutes = differenceInMinutes(
-  //     parse(props.event.dateTill),
-  //     parse(props.event.dateFrom)
-  //   );
-  //
-  //   let newDateTill = addMinutes(newDateFrom, newDifferenceInMinutes);
-  //   setState({ dateFrom: newDateFrom, dateTill: newDateTill });
-  //   return newTime;
-  // };
-  //
-  // const onMove = (e) => {
-  //   if (!state.eventHasChanged) {
-  //     setState({ eventHasChanged: true });
-  //   }
-  //   let screenWidth = e.screenX;
-  //   let screenHeight = e.screenY;
-  //   let daysNum = 7;
-  //   let drawingX = state.drawingX;
-  //   let clientX = e.clientX;
-  //
-  //   let currentIndex = props.index;
-  //
-  //   setState('offsetTop', state.offsetTop + e.movementY);
-  //   getNewOffset(currentIndex, clientX, width, daysNum, setState);
-  //   getNewTime(state.offsetTop);
-  // };
-  //
-  // const onMouseDown = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   if (e.button !== 0) return;
-  //   document.addEventListener('mousemove', onMouseMove);
-  //   document.addEventListener('mouseup', onMouseUp);
-  // };
-  //
-  // const onMouseUp = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   if (state.eventHasChanged) {
-  //     editEvent();
-  //   }
-  //   document.removeEventListener('mousemove', onMouseMove);
-  //   document.removeEventListener('mouseup', onMouseUp);
-  //   setTimeout(() => {
-  //     setState('dragging', false);
-  //     setState('eventHasChanged', false);
-  //   }, 0);
-  // };
-  //
-  // const onMouseMove = (e) => {
-  //   if (!state.dragging) {
-  //     setState('dragging', true);
-  //   }
-  //   onMove(e);
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  // };
-  const colorObj: any = calendarColors[colorName ? colorName : 'indigo'];
-  const colorCode: string = isDark ? colorObj.dark : colorObj.light;
+  const onMoveNormalEvent = (e: any) => {
+    if (!draggingRef.current) {
+      return;
+    }
 
-  const handleEventSelect = (e: any) => {
+    if (!day) {
+      return;
+    }
+
+    const tableElement: any = document.querySelector(
+      '.Kalend__Calendar__table'
+    );
+    const tableElementRect = tableElement.getBoundingClientRect();
+
+    // Get column element for day, where event is placed
+    const dayElement: any = document.getElementById(
+      `Kalend__day__${day.toString()}`
+    );
+    if (!dayElement) {
+      return;
+    }
+    const dayElementRect = dayElement.getBoundingClientRect();
+
+    const touches: any = e.nativeEvent?.touches?.[0];
+
+    // set basic coordinates from movement
+    let x: number;
+    let y: number;
+
+    // handle touch movement
+    if (touches) {
+      x = touches.clientX - dayElementRect.x;
+      y = touches.clientY - dayElementRect.top;
+    } else {
+      // handle mouse movement
+      // calculate x and y coordinates while following mouse move
+      x = e.clientX - dayElementRect.x;
+      y = e.clientY - dayElementRect.top;
+    }
+
+    // prevent free dragging across columns with simple recalculation for
+    const columnShift = Math.floor(x / columnWidth);
+
+    const xTable = e.clientX - tableElementRect.x;
+
+    const columnShiftTable = Math.round(xTable / columnWidth);
+
+    // restrict draggable space for timetable
+    if (y < 0) {
+      return;
+    }
+
+    eventWasChangedRef.current = true;
+    setState('offsetTop', y - EVENT_MIN_HEIGHT);
+    offsetTopRef.current = y - EVENT_MIN_HEIGHT;
+
+    // prevent overflowing on x-axis
+    if (
+      columnShiftTable * columnWidth >= width ||
+      xTable - CALENDAR_OFFSET_LEFT < 0
+    ) {
+      return;
+    }
+
+    xShiftIndexRef.current = columnShift;
+    setState('offsetLeft', columnShift * columnWidth);
+    offsetLeftRef.current = x;
+  };
+
+  const onMoveHeader = (e: any) => {
+    const tableElement: any = document.querySelector(
+      '.Kalend__Calendar__table'
+    );
+    const tableElementRect = tableElement.getBoundingClientRect();
+
+    const touches: any = e.nativeEvent?.touches?.[0];
+
+    // set basic coordinates from movement
+    let x: number;
+
+    // handle touch movement
+    if (touches) {
+      x = touches.clientX - tableElementRect.x;
+    } else {
+      // calculate x coordinates while following mouse move
+      x = e.clientX - tableElementRect.x;
+    }
+
+    // prevent free dragging across columns with simple recalculation for
+    const columnShift = Math.floor(x / columnWidth);
+
+    const xTable = e.clientX - tableElementRect.x - CALENDAR_OFFSET_LEFT;
+
+    const columnShiftTable = Math.round(xTable / columnWidth);
+
+    if (
+      columnShiftTable * columnWidth + CALENDAR_OFFSET_LEFT >= width ||
+      xTable < 0
+    ) {
+      return;
+    }
+
+    // prevent event overflowing on last day
+    // TODO reset back after moving left again
+    // if (columnShift === calendarDays.length) {
+    //   setState('width', columnWidth)
+    // }
+
+    xShiftIndexRef.current = columnShift;
+    setState('offsetLeft', columnShift * columnWidth + CALENDAR_OFFSET_LEFT);
+    eventWasChangedRef.current = true;
+    offsetLeftRef.current = x;
+  };
+
+  const onMove = (e: any) => {
+    switch (type) {
+      case EVENT_TYPE.NORMAL:
+        onMoveNormalEvent(e);
+        break;
+      case EVENT_TYPE.HEADER:
+        onMoveHeader(e);
+        break;
+      default:
+        return;
+    }
+  };
+
+  const calculateHeaderAfterDrag = (): CalendarEvent => {
+    const originalStartAtDateTime = DateTime.fromISO(event.startAt);
+    const originalEndAtDateTime = DateTime.fromISO(event.endAt);
+
+    const newDay: DateTime = calendarDays.map(
+      (calendarDay: DateTime) => calendarDay
+    )[xShiftIndexRef.current];
+
+    const diffInMinutes: number | undefined = originalEndAtDateTime
+      .diff(originalStartAtDateTime, 'minutes')
+      .toObject().minutes;
+
+    const newStartAt: DateTime = originalStartAtDateTime.set({
+      year: newDay.year,
+      day: newDay.day,
+      month: newDay.month,
+      hour: originalStartAtDateTime.hour,
+      minute: originalStartAtDateTime.minute,
+    });
+
+    // set correct endAt
+    const newEndAt: DateTime = newStartAt.plus({ minutes: diffInMinutes });
+
+    return {
+      ...event,
+      startAt: newStartAt.toUTC().toString(),
+      endAt: newEndAt.toUTC().toString(),
+    };
+  };
+
+  const calculateNewTime = (
+    offsetTopValue: number,
+    offsetLeftValue: number
+  ): CalendarEvent => {
+    const originalStartAtDateTime = DateTime.fromISO(event.startAt);
+    const originalEndAtDateTime = DateTime.fromISO(event.endAt);
+
+    let goingForward = false;
+    if (offsetLeftValue >= 0) {
+      goingForward = true;
+    } else {
+      goingForward = false;
+    }
+
+    let newDay: DateTime;
+
+    if (goingForward) {
+      newDay = originalStartAtDateTime.plus({ days: xShiftIndexRef.current });
+    } else {
+      newDay = originalStartAtDateTime.minus({
+        days: Math.abs(xShiftIndexRef.current),
+      });
+    }
+
+    const diffInMinutes: number | undefined = originalEndAtDateTime
+      .diff(originalStartAtDateTime, 'minutes')
+      .toObject().minutes;
+    const minutesOffset: number = offsetTopValue / (60 / hourHeight);
+
+    // add minutes calculated from new offset top
+    const newStartAt: DateTime = originalStartAtDateTime
+      .set({
+        year: newDay.year,
+        day: newDay.day,
+        month: newDay.month,
+        hour: 0,
+        minute: 0,
+      })
+      .plus({ minutes: minutesOffset });
+
+    // set correct endAt
+    const newEndAt: DateTime = newStartAt.plus({ minutes: diffInMinutes });
+
+    return {
+      ...event,
+      startAt: newStartAt.toUTC().toString(),
+      endAt: newEndAt.toUTC().toString(),
+    };
+  };
+
+  /**
+   * Cancel dragging event
+   * remove listeners clean long click timeout and reset state
+   * @param e
+   */
+  const onMouseUp = (e: any) => {
+    // clean listeners
+    document.removeEventListener('mouseup', onMouseUp, true);
+    document.removeEventListener('mousemove', onMove, true);
+
+    // clear timeout
+    clearTimeout(timeoutRef);
+
+    if (!eventWasChangedRef.current) {
+      setState('offsetLeft', state.offsetLeft);
+      setState('width', state.width);
+      draggingRef.current = false;
+
+      return;
+    }
+
+    eventWasChangedRef.current = false;
+
+    if (!draggingRef.current) {
+      return;
+    }
+
+    draggingRef.current = false;
+
+    // add data to callback
+    if (onEventDragFinish) {
+      let newEvent: CalendarEvent;
+      if (type === EVENT_TYPE.NORMAL) {
+        newEvent = calculateNewTime(
+          offsetTopRef.current,
+          offsetLeftRef.current
+        );
+
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        onFinishDraggingInternal(newEvent);
+      } else if (type === EVENT_TYPE.HEADER) {
+        newEvent = calculateHeaderAfterDrag();
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
+        onFinishDraggingInternal(newEvent);
+      }
+    }
+
     e.preventDefault();
     e.stopPropagation();
-    history.push(`/event/${event.id}`);
   };
 
-  const style = {
-    height: eventHeight - 2,
-    width: eventWidth,
-    borderWidth: 1,
-    borderColor: colorCode,
-    opacity: 1, //0.4,
-    backgroundColor: colorCode,
-    top: props.offsetTop,
-    left: props.offsetLeft,
-    boxShadow: state.dragging
-      ? '0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)'
-      : '',
+  // TESTING
+  const onFinishDraggingInternal = (eventToUpdate: any) => {
+    const result: any = {};
+    Object.entries(events).forEach((keyValue: any) => {
+      const [date, events] = keyValue;
+
+      events?.forEach((item: any) => {
+        if (item.id === eventToUpdate.id) {
+          const key: any = DateTime.fromISO(eventToUpdate.startAt).toFormat(
+            'dd-MM-yyyy'
+          );
+          if (result[key]) {
+            result[key] = [...result[key], ...[eventToUpdate]];
+          } else {
+            result[key] = [eventToUpdate];
+          }
+        } else {
+          if (result[date]) {
+            result[date] = [...result[date], ...[item]];
+          } else {
+            result[date] = [item];
+          }
+        }
+      });
+    });
+
+    setContext('events', result);
+
+    if (type === EVENT_TYPE.NORMAL) {
+      const positions: any = calculateDaysViewLayout(
+        calendarDays,
+        result,
+        width,
+        timezone,
+        hourHeight,
+        selectedView
+      );
+      setContext('daysViewLayout', positions);
+    }
+
+    if (type === EVENT_TYPE.HEADER) {
+      const headerPositions: any = calculatePositionForHeaderEvents(
+        result,
+        width / calendarDays.length,
+        calendarDays,
+        setContext
+      );
+
+      setContext('headerLayout', headerPositions);
+    }
+
+    setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+
+    // return updated data with callback
+    if (onEventDragFinish) {
+      onEventDragFinish(eventToUpdate, result);
+    }
   };
-**/
+
+  /**
+   * Start event dragging on long press/touch
+   * Set listeners
+   * @param e
+   */
+  const onMouseDownLong = (e: any) => {
+    draggingRef.current = true;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.button !== 0) return;
+    document.addEventListener('mousemove', onMove, true);
+    document.addEventListener('mouseup', onMouseUp, true);
+
+    // set temp state while dragging
+    initMove();
+  };
+
+  /**
+   * Initial long press click/touch on event
+   * @param e
+   */
+  const onMouseDown = (e: any) => {
+    // add timeout to differentiate from normal clicks
+    timeoutRef = setTimeout(() => {
+      onMouseDownLong(e);
+    }, 120);
+  };
+
+  return (
+    <ButtonBase
+      id={event.id}
+      isDark={isDark}
+      style={style}
+      className={`Kalend__Event-${type} ${
+        draggingRef.current ? 'Kalend__EventButton__elevation' : ''
+      } ${store.layoutUpdateSequence === 1 ? 'Kalend__Event__animate' : ''}`}
+      onClick={onEventClick}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onTouchStart={onMouseDown}
+      onTouchMove={onMove}
+      onTouchEnd={onMouseUp}
+    >
+      {type === EVENT_TYPE.MONTH || type === EVENT_TYPE.HEADER ? (
+        <EventMonth event={event} isDark={isDark} type={type} />
+      ) : null}
+      {type === EVENT_TYPE.NORMAL ? (
+        <EventNormal event={event} isDark={isDark} type={type} meta={meta} />
+      ) : null}
+      {type === EVENT_TYPE.AGENDA ? (
+        <EventAgenda event={event} isDark={isDark} type={type} />
+      ) : null}
+    </ButtonBase>
+  );
+};
+
+export default EventButton;

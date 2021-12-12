@@ -10,11 +10,14 @@ const ButtonBase = (props: ButtonBaseProps) => {
     text,
     className,
     style,
-    isDark,
     children,
     propagation,
     disabled,
     onClickFromParent,
+    onMouseDown,
+    onMouseUp,
+    onMouseMove,
+    onTouchEnd,
   } = props;
 
   const buttonRef: any = useRef(null);
@@ -73,7 +76,10 @@ const ButtonBase = (props: ButtonBaseProps) => {
     if (!propagation) {
       e.stopPropagation();
     }
-    // e.preventDefault();
+
+    if (props.onTouchStart) {
+      props.onTouchStart(e);
+    }
     if (isPressed) {
       setIsPressed(false);
     }
@@ -83,25 +89,22 @@ const ButtonBase = (props: ButtonBaseProps) => {
     }, 100);
   };
 
-  const handleTouchOff = (): void => {
-    const timeout: any = setTimeout(() => {
-      setIsPressed(false);
-    }, 500);
-  };
-
   // Clear timeout for ripple effect
   const onTouchMove = (e: any): void => {
     if (!propagation) {
       e.stopPropagation();
     }
-    // e.preventDefault();
+
+    if (props.onTouchMove) {
+      props.onTouchMove(e);
+    }
     clearTimeout(timeout);
   };
 
   const buttonText: string = text ? text : '';
   const buttonClassName: string = className
-    ? `Calend__button ${className} Calend__ButtonBase`
-    : 'Calend__button Calend__ButtonBase';
+    ? `Kalend__button ${className} Kalend__ButtonBase`
+    : 'Kalend__button Kalend__ButtonBase';
 
   return (
     <button
@@ -110,6 +113,10 @@ const ButtonBase = (props: ButtonBaseProps) => {
       onClick={onButtonClick}
       onTouchMove={onTouchMove}
       onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onMouseMove={onMouseMove}
       // onTouchStart={handleTouchStart}
       // onMouseLeave={handleTouchOff}
       // onTouchEnd={handleTouchOff}
@@ -119,7 +126,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
     >
       {children ? children : buttonText}
       {isPressed && !disabled ? (
-        <span style={spanStyle} className={'Calend__ButtonBase__animation'} />
+        <span style={spanStyle} className={'Kalend__ButtonBase__animation'} />
       ) : null}
     </button>
   );

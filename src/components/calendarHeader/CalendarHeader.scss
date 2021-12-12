@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 
-.Calend__CalendarHeader {
+.Kalend__CalendarHeader {
   border-radius: 8px;
   left: 0;
   padding: 0;
@@ -20,7 +20,7 @@
   }
 
   &-dark {
-    @extend .Calend__CalendarHeader;
+    @extend .Kalend__CalendarHeader;
     background-color: $MODAL_DARK;
     box-shadow: none;
     @media (max-width: 750px) {
@@ -29,30 +29,30 @@
   }
 
   &-tall {
-    @extend .Calend__CalendarHeader;
+    @extend .Kalend__CalendarHeader;
     height: auto;
     &-dark {
-      @extend .Calend__CalendarHeader;
+      @extend .Kalend__CalendarHeader;
       background-color: $MODAL_DARK;
     }
   }
 
   &-small {
-    @extend .Calend__CalendarHeader;
+    @extend .Kalend__CalendarHeader;
     height: 30px;
   }
 
   &-day {
-    @extend .Calend__CalendarHeader;
+    @extend .Kalend__CalendarHeader;
     flex-direction: row;
   }
 
   &-tall-day {
-    @extend .Calend__CalendarHeader;
+    @extend .Kalend__CalendarHeader;
   }
 }
 
-.Calend__header_calendar_days__text {
+.Kalend__header_calendar_days__text {
   margin: 0;
   padding: 1px;
   font-size: 1.2em;
@@ -61,7 +61,7 @@
   color: $GRAY_500;
 }
 
-.Calend__event_header__container {
+.Kalend__event_header__container {
   position: absolute;
   border-radius: 4px;
   z-index: 9;
@@ -78,7 +78,7 @@
   //margin-left: 1px;
   //margin-right: 1px;
 }
-.Calend__event_header__text {
+.Kalend__event_header__text {
   color: $primaryText;
   font-size: 1em;
   margin: 0;
@@ -86,7 +86,7 @@
   //padding-right: 2px;
   text-align: left;
 }
-.Calend__event_header__text--dark {
-  @extend .Calend__event_header__text;
+.Kalend__event_header__text--dark {
+  @extend .Kalend__event_header__text;
   color: $primaryTextDark;
 }

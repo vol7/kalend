@@ -16,7 +16,7 @@ const CalendarHeaderWrapper = (props: CalendarHeaderWrapperProps) => {
 
   return (
     <div
-      className={parseCssDark('Calend__CalendarHeaderCol', isDark)}
+      className={parseCssDark('Kalend__CalendarHeaderCol', isDark)}
       style={headerStyle}
     >
       {children}

@@ -16,7 +16,21 @@ import {
 } from '../common/constants';
 import { getDaysNum, parseToDate } from './calendarDays';
 import { parseToDateTime } from './dateTimeParser';
-import LuxonHelper from './luxonHelper';
+
+export const checkOverlappingEvents = (
+  eventA: CalendarEvent,
+  eventB: CalendarEvent
+): boolean => {
+  const startAtFirst: DateTime = DateTime.fromISO(eventA.startAt);
+  const endAtFirst: DateTime = DateTime.fromISO(eventA.endAt);
+
+  return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
+    Interval.fromDateTimes(
+      DateTime.fromISO(eventB.startAt),
+      DateTime.fromISO(eventB.endAt)
+    )
+  );
+};
 
 const adjustForMinimalHeight = (
   eventA: any,
@@ -53,7 +67,8 @@ export const calculateNormalEventPositions = (
   baseWidth: number,
   defaultTimezone: string,
   hourHeight: number,
-  selectedView: CALENDAR_VIEW
+  selectedView: CALENDAR_VIEW,
+  dateKey: string
 ): NormalEventPosition[] => {
   const result: NormalEventPosition[] = [];
 
@@ -161,6 +176,7 @@ export const calculateNormalEventPositions = (
         offsetCountFinal = '';
 
         result.push({
+          dateKey,
           event,
           height:
             eventHeight < EVENT_MIN_HEIGHT ? EVENT_MIN_HEIGHT : eventHeight,
@@ -180,7 +196,7 @@ export const calculateNormalEventPositions = (
   }
 
   const partialResult: NormalEventPosition[] = result.map(
-    (item: NormalEventPosition, index: number) => {
+    (item: NormalEventPosition) => {
       // full event width
       if (item.meta?.isFullWidth) {
         return {
@@ -203,19 +219,42 @@ export const calculateNormalEventPositions = (
   return partialResult;
 };
 
-export const checkOverlappingEvents = (
-  eventA: CalendarEvent,
-  eventB: CalendarEvent
-): boolean => {
-  const startAtFirst: DateTime = DateTime.fromISO(eventA.startAt);
-  const endAtFirst: DateTime = DateTime.fromISO(eventA.endAt);
+export const calculateDaysViewLayout = (
+  calendarDays: DateTime[],
+  events: any,
+  baseWidth: number,
+  defaultTimezone: string,
+  hourHeight: number,
+  selectedView: CALENDAR_VIEW
+) => {
+  const result: any = {};
+  calendarDays.forEach((calendarDay) => {
+    const formattedDayString: string = calendarDay.toFormat('dd-MM-yyyy');
+    const dayEvents: any = events[formattedDayString];
 
-  return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
-    Interval.fromDateTimes(
-      DateTime.fromISO(eventB.startAt),
-      DateTime.fromISO(eventB.endAt)
-    )
-  );
+    const groupedPositions: any = {};
+
+    const positions = calculateNormalEventPositions(
+      dayEvents,
+      baseWidth,
+      defaultTimezone,
+      hourHeight,
+      selectedView,
+      formattedDayString
+    );
+
+    positions.forEach((item: any) => {
+      if (groupedPositions[item.event.id]) {
+        groupedPositions[item.event.id] = item;
+      } else {
+        groupedPositions[item.event.id] = item;
+      }
+    });
+
+    result[formattedDayString] = groupedPositions;
+  });
+
+  return result;
 };
 
 export const checkOverlappingDatesForHeaderEvents = (

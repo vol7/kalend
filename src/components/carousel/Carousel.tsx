@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { CarouselProps } from './Carousel.props';
 import { EvaIcons } from '../eva-icons';
 import { useEffect, useState } from 'react';
@@ -20,7 +21,7 @@ const Carousel = (props: CarouselProps) => {
 
   // Scroll to middle screen
   useEffect(() => {
-    document.getElementById('Calend__carousel')?.scrollTo(baseWidth / 2, 0);
+    document.getElementById('Kalend__carousel')?.scrollTo(baseWidth / 2, 0);
   }, []);
 
   const handleTouchStart = (e: any) => {
@@ -36,11 +37,11 @@ const Carousel = (props: CarouselProps) => {
     // Going forward
     if (touchDiff > OFFSET_FOR_TRIGGER) {
       onPageChange(true);
-      setSwipeAnimation('Calend__carousel-swipe-right');
+      setSwipeAnimation('Kalend__carousel-swipe-right');
       // scrollBack();
     } else if (touchDiff * -1 > OFFSET_FOR_TRIGGER) {
       // Going back
-      setSwipeAnimation('Calend__carousel-swipe-left');
+      setSwipeAnimation('Kalend__carousel-swipe-left');
       onPageChange(false);
       // scrollBack();
     } else {
@@ -79,25 +80,25 @@ const Carousel = (props: CarouselProps) => {
       onTouchMove={handleMove}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className={`Calend__carousel__wrapper ${swipeAnimation}`}
-      id={'Calend__carousel'}
+      className={`Kalend__carousel__wrapper ${swipeAnimation}`}
+      id={'Kalend__carousel'}
     >
       {props.children}
       {isSwiping > 0 ? (
         <div
-          className={'Calend__carousel__control-right'}
+          className={'Kalend__carousel__control-right'}
           style={baseStyleRight}
         >
-          <EvaIcons.ChevronRight className={'Calend__svg-icon'} />
+          <EvaIcons.ChevronRight className={'Kalend__svg-icon'} />
         </div>
       ) : null}
       {isSwiping < 0 ? (
         <div
-          className={'Calend__carousel__control-left'}
+          className={'Kalend__carousel__control-left'}
           style={baseStyleRight}
         >
           <EvaIcons.ChevronLeft
-            className={'Calend__svg-icon'}
+            className={'Kalend__svg-icon'}
             style={{ width: 50, height: 50 }}
           />
         </div>

@@ -8,7 +8,7 @@ const MobileLayout = (props: MobileLayoutProps) => {
   const { isMobile } = store;
 
   return isMobile ? (
-    <div className={'Calend__MobileLayout'} style={style}>
+    <div className={'Kalend__MobileLayout'} style={style}>
       {children}
     </div>
   ) : null;

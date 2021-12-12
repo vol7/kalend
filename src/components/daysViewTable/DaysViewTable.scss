@@ -1,11 +1,11 @@
 @import '../../styles/colors';
 
-.Calend__full-screen {
+.Kalend__full-screen {
   height: 100%;
   width: 100%;
 }
 
-.Calend__CalendarBody {
+.Kalend__CalendarBody {
   display: flex;
   flex-direction: row;
   padding: 0;
@@ -21,11 +21,11 @@
   right: 0;
 }
 
-.Calend__calendar-animation {
+.Kalend__calendar-animation {
   animation-name: event-load;
   animation-duration: 1s;
 }
-@keyframes Calend__event-load {
+@keyframes Kalend__event-load {
   0% {
     right: -1500px;
   }

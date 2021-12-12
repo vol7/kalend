@@ -20,6 +20,8 @@ jobs:
         registry-url: https://registry.npmjs.org/
     - name: Install dependencies
       run: npm i
+    - name: Run linter
+      run: npm run lint
     - name: Run tests
       run: npm run test
 

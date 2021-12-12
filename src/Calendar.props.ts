@@ -3,6 +3,7 @@ import { CALENDAR_VIEW } from './common/enums';
 import {
   Config,
   OnEventClickFunc,
+  OnEventDragFinishFunc,
   OnNewEventClickFunc,
   OnPageChangeFunc,
   OnSelectViewFunc,
@@ -18,6 +19,7 @@ export interface CalendarProps {
   selectedView?: CALENDAR_VIEW;
   showMoreMonth?: ShowMoreMonthFunc;
   onPageChange?: OnPageChangeFunc;
+  onEventDragFinish?: OnEventDragFinishFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
 }

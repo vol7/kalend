@@ -11,14 +11,14 @@ const renderAgendaEvents = (
   calendarDays: DateTime[],
   handleEventClick: OnEventClickFunc
 ) => {
-  return calendarDays.map((day: DateTime) => {
-    const hasEvents = !!events[day.toFormat(EVENTS_DAY_FORMAT)];
+  return calendarDays.map((calendarDay: DateTime) => {
+    const hasEvents = !!events[calendarDay.toFormat(EVENTS_DAY_FORMAT)];
     if (hasEvents) {
       return (
         <AgendaDayRow
-          key={day.toString()}
-          day={day}
-          events={events[day.toFormat(EVENTS_DAY_FORMAT)]}
+          key={calendarDay.toString()}
+          day={calendarDay}
+          events={events[calendarDay.toFormat(EVENTS_DAY_FORMAT)]}
           handleEventClick={handleEventClick}
         />
       );
@@ -27,10 +27,10 @@ const renderAgendaEvents = (
 };
 
 const AgendaView = (props: AgendaViewProps) => {
-  const { handleEventClick } = props;
+  const { handleEventClick, events } = props;
   const [store] = useContext(Context);
 
-  const { events, calendarDays, height } = store;
+  const { calendarDays, height } = store;
 
   const agendaEvents: any = renderAgendaEvents(
     events,
@@ -39,7 +39,7 @@ const AgendaView = (props: AgendaViewProps) => {
   );
 
   return (
-    <div className={'Calend__Agenda__container'} style={{ height }}>
+    <div className={'Kalend__Agenda__container'} style={{ height }}>
       {agendaEvents}
     </div>
   );

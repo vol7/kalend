@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 
-.Calend__carousel__wrapper {
+.Kalend__carousel__wrapper {
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -11,27 +11,27 @@
   }
 }
 
-.Calend__carousel__control {
+.Kalend__carousel__control {
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
 }
-.Calend__carousel__control-left {
-  @extend .Calend__carousel__control;
+.Kalend__carousel__control-left {
+  @extend .Kalend__carousel__control;
   left: 100px;
   justify-content: flex-start;
-  animation-name: Calend__carousel-left;
+  animation-name: Kalend__carousel-left;
   animation-duration: 0.3s;
 }
-.Calend__carousel__control-right {
-  @extend .Calend__carousel__control;
+.Kalend__carousel__control-right {
+  @extend .Kalend__carousel__control;
   right: 100px;
   justify-content: flex-end;
-  animation-name: Calend__carousel-right;
+  animation-name: Kalend__carousel-right;
   animation-duration: 0.3s;
 }
-@keyframes Calend__carousel-left {
+@keyframes Kalend__carousel-left {
   0% {
     left: -100px;
   }
@@ -39,7 +39,7 @@
     left: 100px;
   }
 }
-@keyframes Calend__carousel-right {
+@keyframes Kalend__carousel-right {
   0% {
     right: -100px;
   }

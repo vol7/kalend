@@ -12,14 +12,14 @@ const DateWeekDay = (props: DateWeekDayProps) => {
   const isDayToday: boolean = LuxonHelper.isToday(day);
 
   return (
-    <div className={'Calend__CalendarHeaderDates__col'} style={{ width }}>
+    <div className={'Kalend__CalendarHeaderDates__col'} style={{ width }}>
       <div
-        className={`Calend__CalendarHeaderDates__circle${
+        className={`Kalend__CalendarHeaderDates__circle${
           isDayToday ? '-today' : ''
         }${isSelected ? '-selected' : ''}${isDark ? '-dark' : ''}`}
       >
         <p
-          className={`Calend__text Calend__CalendarHeaderDates__text${
+          className={`Kalend__text Kalend__CalendarHeaderDates__text${
             isDayToday || isSelected ? '-today' : ''
           }${isDark ? '-dark' : ''}`}
         >

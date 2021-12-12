@@ -1,6 +1,6 @@
 @import '../../../../styles/colors';
 
-.Calend__Event__time {
+.Kalend__Event__time {
   display: -webkit-box;
   webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
@@ -12,7 +12,7 @@
   font-size: 0.7em;
 }
 
-.Calend__Event__time__type {
+.Kalend__Event__time__type {
   &-header {
     padding: 1px;
   }

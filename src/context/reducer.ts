@@ -1,11 +1,6 @@
 // tslint:disable-next-line:cyclomatic-complexity
 const Reducer = (state: any, action: any) => {
   switch (action.type) {
-    case 'events':
-      return {
-        ...state,
-        events: action.payload,
-      };
     case 'initialView':
       return {
         ...state,
@@ -20,6 +15,26 @@ const Reducer = (state: any, action: any) => {
       return {
         ...state,
         isMobile: action.payload,
+      };
+    case 'daysViewLayout':
+      return {
+        ...state,
+        daysViewLayout: action.payload,
+      };
+    case 'headerLayout':
+      return {
+        ...state,
+        headerLayout: action.payload,
+      };
+    case 'layoutUpdateSequence':
+      return {
+        ...state,
+        layoutUpdateSequence: action.payload,
+      };
+    case 'events':
+      return {
+        ...state,
+        events: action.payload,
       };
     case 'selectedDate':
       return {

@@ -1,4 +1,3 @@
-import { CALENDAR_VIEW } from '../../common/enums';
 import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
 import { Context } from '../../context/store';
 import { EvaIcons } from '../eva-icons';
@@ -29,7 +28,7 @@ const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
   return (isMobile && (disableMobileDropdown || isSingleView(disabledViews))) ||
     isSingleView(disabledViews) ? null : (
     <>
-      <div className={'Calend__CalendarViewDropdown__wrapper'}>
+      <div className={'Kalend__CalendarViewDropdown__wrapper'}>
         {isMobile ? (
           <ButtonIcon isDark={isDark} key={'calendar'} onClick={handleOpen}>
             <EvaIcons.More className={parseCssDark('icon-svg', isDark)} />
@@ -37,21 +36,21 @@ const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
         ) : (
           <ButtonBase
             isDark={isDark}
-            className={'Calend__ButtonBase-border'}
+            className={'Kalend__ButtonBase-border'}
             onClick={handleOpen}
             text={parseCalendarViewToText(selectedView)}
           />
         )}
         {isOpen ? (
           <div
-            className={'Calend__CalendarViewDropdown__backdrop'}
+            className={'Kalend__CalendarViewDropdown__backdrop'}
             onClick={handleClose}
           />
         ) : null}
         {isOpen ? (
-          <div className={'Calend__CalendarViewDropdown__container'}>
+          <div className={'Kalend__CalendarViewDropdown__container'}>
             <div
-              className={'Calend__CalendarViewDropdown__container-content'}
+              className={'Kalend__CalendarViewDropdown__container-content'}
               onClick={preventDefault}
             >
               <HeaderCalendarButtons

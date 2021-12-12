@@ -11,11 +11,26 @@ import {
 } from '../../../utils/eventLayout';
 import { isAllDayEvent } from '../../../utils/common';
 
+// adjust start and end date for header event to full day for correct layout
+// calculations
+const stretchHeaderEventTimes = (event: CalendarEvent): CalendarEvent => {
+  return {
+    ...event,
+    startAt: DateTime.fromISO(event.startAt)
+      .set({ hour: 0, minute: 0, second: 1 })
+      .toString(),
+    endAt: DateTime.fromISO(event.endAt)
+      .set({ hour: 23, minute: 59, second: 59 })
+      .toString(),
+  };
+};
+
 export const calculatePositionForHeaderEvents = (
   events: any,
   width: number,
-  calendarDays: DateTime[]
-): NormalEventPosition[][] => {
+  calendarDays: DateTime[],
+  setContext?: any
+): any => {
   // TODO prefilter only relevant events
   // TODO remove used events from main array
   // const formattedDayString: string = formatTimestampToDate(day);
@@ -36,7 +51,12 @@ export const calculatePositionForHeaderEvents = (
   // filter only header events
   const headerEventsFiltered: CalendarEvent[] = [];
 
-  Object.entries(events).map(([key, items]) => {
+  if (!events) {
+    return [[]];
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  Object.entries(events)?.map(([key, items]) => {
     // @ts-ignore
     items.forEach((item: CalendarEvent) => {
       // filter only relevant events
@@ -51,7 +71,7 @@ export const calculatePositionForHeaderEvents = (
   });
 
   // find all matching events to fit in one row
-  headerEventsFiltered.forEach((event) => {
+  headerEventsFiltered?.forEach((event) => {
     const eventPositionResult: NormalEventPosition[] = [];
     // check if event was used already
     // skip iteration if event was already resolved
@@ -78,8 +98,8 @@ export const calculatePositionForHeaderEvents = (
 
       // check if events are not overlapping
       const isOverlapping: boolean = checkOverlappingEvents(
-        event,
-        eventToCompare
+        stretchHeaderEventTimes(event),
+        stretchHeaderEventTimes(eventToCompare)
       );
 
       // found not overlapping matching event
@@ -88,8 +108,8 @@ export const calculatePositionForHeaderEvents = (
         // compare match with other stored events for same row
         rowWithNotOverlappingEvents.forEach((itemFromRow) => {
           const isOverlappingAll: boolean = checkOverlappingEvents(
-            itemFromRow,
-            eventToCompare
+            stretchHeaderEventTimes(itemFromRow),
+            stretchHeaderEventTimes(eventToCompare)
           );
 
           // prevent merging if only one conflict exists
@@ -119,14 +139,12 @@ export const calculatePositionForHeaderEvents = (
       let offset = 0;
       let eventWidth = 0;
       let hasMatchingDay = false;
-      let overlapCounter = 0;
 
       calendarDays.forEach((day) => {
         if (checkOverlappingDatesForHeaderEvents(item, day)) {
           // set base offset only for first item
           eventWidth += width;
           hasMatchingDay = true;
-          overlapCounter += 1; // remove
         }
 
         // increment offset only till we have matching day
@@ -141,7 +159,7 @@ export const calculatePositionForHeaderEvents = (
         width: Math.round(eventWidth - tableSpace),
         offsetLeft: offset + CALENDAR_OFFSET_LEFT,
         offsetTop: 0,
-        height: 40,
+        height: 20,
         zIndex: 2,
       };
 
@@ -152,5 +170,17 @@ export const calculatePositionForHeaderEvents = (
     result.push(eventPositionResult);
   });
 
-  return result;
+  const formattedResult: any = {};
+
+  result.forEach((events: any, index: number) => {
+    events.forEach((item: any) => {
+      formattedResult[item.event.id] = { ...item, offsetTop: index * 26 };
+    });
+  });
+
+  if (setContext) {
+    setContext('headerEventRowsCount', result.length);
+  }
+
+  return formattedResult;
 };

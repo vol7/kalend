@@ -10,4 +10,10 @@ export interface ButtonBaseProps {
   id?: string;
   propagation?: boolean;
   onClickFromParent?: any;
+  onMouseDown?: any;
+  onMouseUp?: any;
+  onMouseMove?: any;
+  onTouchEnd?: any;
+  onTouchStart?: any;
+  onTouchMove?: any;
 }

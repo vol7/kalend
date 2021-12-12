@@ -19,18 +19,20 @@ const Calendar = (props: CalendarProps) => {
   const {
     onNewEventClick,
     onEventClick,
+    onEventDragFinish,
     config,
     onSelectView,
     disableMobileDropdown,
     timezone,
   } = props;
+  // const { events } = config;
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const { selectedView, selectedDate, calendarDays } = store;
+  const { selectedView, selectedDate, calendarDays, events } = store;
 
   const width: any = useWidth();
   const height: any = useHeight();
@@ -48,8 +50,8 @@ const Calendar = (props: CalendarProps) => {
 
   // init context
   useEffect(() => {
+    setContext('events', config.events);
     setContext('isDark', config.isDark);
-    setContext('events', config.events || []);
     setContext(
       'initialView',
       props.selectedView || config.initialView || CALENDAR_VIEW.WEEK
@@ -135,7 +137,8 @@ const Calendar = (props: CalendarProps) => {
     // setContext('calendarDays', null);
 
     // use either passed value or internal state
-    const setSelectedDate = (date: any) => setContext('selectedDate', date);
+    const setSelectedDate = (date: DateTime) =>
+      setContext('selectedDate', date);
 
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChanged,
@@ -146,13 +149,11 @@ const Calendar = (props: CalendarProps) => {
     setContext('calendarDays', calendarDaysNew);
 
     setContext('isDark', config.isDark);
-    setContext('events', config.events);
     setContext('selectedDate', config.initialDate || DateTime.now());
     setContext('hourHeight', config.hourHeight);
     setContext('width', width - getTableOffset(viewChanged));
     setPrevView(viewChanged);
     setViewChanged(null);
-    // setContext('height', getHeight());
   }, [viewChanged]);
 
   useEffect(() => {
@@ -164,7 +165,8 @@ const Calendar = (props: CalendarProps) => {
       setContext('selectedView', props.selectedView);
       setPrevView(props.selectedView);
 
-      const setSelectedDate = (date: any) => setContext('selectedDate', date);
+      const setSelectedDate = (date: DateTime) =>
+        setContext('selectedDate', date);
 
       const calendarDaysNew: DateTime[] = getCalendarDays(
         props.selectedView,
@@ -173,14 +175,10 @@ const Calendar = (props: CalendarProps) => {
       );
 
       setContext('calendarDays', calendarDaysNew);
-      // setContext('height', getHeight());
-      // setContext('width', width - getTableOffset(selectedView));
 
       setContext('isDark', config.isDark);
-      setContext('events', config.events);
       setContext('selectedDate', config.initialDate || DateTime.now());
       setContext('hourHeight', config.hourHeight);
-      // setContext('height', getHeight());
       setContext('width', width - getTableOffset(props.selectedView));
     }
   }, [props.selectedView]);
@@ -231,14 +229,19 @@ const Calendar = (props: CalendarProps) => {
         disableMobileDropdown={disableMobileDropdown}
       />
       {selectedView !== CALENDAR_VIEW.AGENDA ? (
-        <CalendarHeader handleEventClick={handleEventClick} />
+        <CalendarHeader
+          handleEventClick={handleEventClick}
+          events={events}
+          onEventDragFinish={onEventDragFinish}
+        />
       ) : null}
-      <div className={'Calend__Calendar__table'}>
+      <div className={'Kalend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
             <MonthView
               handleEventClick={handleEventClick}
               showMoreMonth={props.showMoreMonth}
+              events={events ? events : {}}
             />
           ) : null}
 
@@ -248,11 +251,16 @@ const Calendar = (props: CalendarProps) => {
             <DaysViewTable
               handleNewEventClick={handleNewEventClick}
               handleEventClick={handleEventClick}
+              onEventDragFinish={onEventDragFinish}
+              events={events ? events : {}}
             />
           ) : null}
 
           {selectedView === CALENDAR_VIEW.AGENDA ? (
-            <AgendaView handleEventClick={handleEventClick} />
+            <AgendaView
+              handleEventClick={handleEventClick}
+              events={events ? events : {}}
+            />
           ) : null}
         </CalendarTableLayoutLayer>
       </div>

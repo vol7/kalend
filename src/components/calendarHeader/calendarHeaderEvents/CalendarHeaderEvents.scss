@@ -1,6 +1,6 @@
 @import '../../../styles/colors';
 
-.Calend__CalendarHeaderEvents__container {
+.Kalend__CalendarHeaderEvents__container {
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -11,14 +11,14 @@
   //height: auto;
 }
 
-.Calend__CalendarHeaderEvents__row {
+.Kalend__CalendarHeaderEvents__row {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.Calend__CalendarHeaderEvents__rows {
+.Kalend__CalendarHeaderEvents__rows {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,8 +26,9 @@
   width: 100%;
   padding-bottom: 2px;
   height: auto;
+  position: relative;
 }
-.Calend__CalendarHeaderEvents__eventRow {
+.Kalend__CalendarHeaderEvents__eventRow {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -35,13 +36,13 @@
   height: 25px;
 }
 
-.Calend__CalendarHeaderEvents__col-wrapper {
+.Kalend__CalendarHeaderEvents__col-wrapper {
   align-self: center;
   align-items: center;
   justify-content: center;
 }
 
-.Calend__CalendarHeaderEvents__col {
+.Kalend__CalendarHeaderEvents__col {
   height: 30px;
   display: flex;
   align-items: center;

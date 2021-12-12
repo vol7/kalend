@@ -16,25 +16,25 @@ import LuxonHelper from '../../../../utils/luxonHelper';
  */
 const CalendarHeaderDates = (props: CalendarHeaderDatesProps) => {
   const [store] = useContext(Context);
-  const { isDark, calendarDays, selectedDate, calendarView, width } = store;
+  const { calendarDays, selectedDate, calendarView, width } = store;
 
   const { daysNum } = props;
 
   const colWidth: number = width / daysNum;
 
   const renderNumericDays = () =>
-    calendarDays.map((day: DateTime) => {
-      const isDayToday: boolean = LuxonHelper.isToday(day);
+    calendarDays.map((calendarDay: DateTime) => {
+      const isDayToday: boolean = LuxonHelper.isToday(calendarDay);
       const isSelected: boolean =
-        LuxonHelper.isSameDay(day, selectedDate) &&
+        LuxonHelper.isSameDay(calendarDay, selectedDate) &&
         calendarView === CALENDAR_VIEW.DAY &&
         !isDayToday;
 
       return (
         <DateWeekDay
-          key={day.toString()}
+          key={calendarDay.toString()}
           width={colWidth}
-          day={day}
+          day={calendarDay}
           isSelected={isSelected}
         />
       );

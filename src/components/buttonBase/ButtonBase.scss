@@ -1,6 +1,6 @@
 @import '../../styles/colors';
 
-.Calend__ButtonBase {
+.Kalend__ButtonBase {
   min-height: 20px;
   font-size: 1.6em;
   border-radius: 10px;
@@ -20,44 +20,44 @@
   }
 
   &-normal {
-    @extend .Calend__ButtonBase;
+    @extend .Kalend__ButtonBase;
     border: none;
     background-color: $GRAY_800;
     padding: 4px 12px 4px 12px;
     color: $GRAY_100;
 
     &:hover {
-      @extend .Calend__ButtonBase-normal;
+      @extend .Kalend__ButtonBase-normal;
       background-color: $GRAY_600;
     }
   }
 
   &-disabled {
-    @extend .Calend__ButtonBase;
+    @extend .Kalend__ButtonBase;
     background-color: $GRAY_400;
     color: $GRAY_700;
   }
 
   &-primary {
-    @extend .Calend__ButtonBase;
+    @extend .Kalend__ButtonBase;
     padding: 4px 12px 4px 12px;
     background-color: $PRIMARY_LIGHT;
     color: $GRAY_200;
 
     &:hover {
-      @extend .Calend__ButtonBase-primary;
+      @extend .Kalend__ButtonBase-primary;
       background-color: $PRIMARY_LIGHT_OVERLAY;
     }
 
     &-dark {
-      @extend .Calend__ButtonBase-primary;
+      @extend .Kalend__ButtonBase-primary;
       background-color: $PRIMARY_DARK;
       color: $GRAY_800;
     }
   }
 
   &-transparent {
-    @extend .Calend__ButtonBase;
+    @extend .Kalend__ButtonBase;
     padding: 4px 12px 4px 12px;
     color: $GRAY_700;
     background-color: transparent;
@@ -69,14 +69,14 @@
   }
 }
 
-.Calend__ButtonBase__animation {
+.Kalend__ButtonBase__animation {
   position: absolute;
   transform: scale(0);
   background-color: rgba(50, 50, 50, 0.3);
   border-radius: 50%;
-  animation: Calend__ripple__animation 500ms ease-in;
+  animation: Kalend__ripple__animation 500ms ease-in;
 
-  @keyframes Calend__ripple__animation {
+  @keyframes Kalend__ripple__animation {
     from {
       transform: scale(0);
     }
@@ -86,7 +86,7 @@
   }
 }
 
-.Calend__ButtonBase__loader-circle {
+.Kalend__ButtonBase__loader-circle {
   width: 12px;
   height: 12px;
   background-color: $GRAY_300;
@@ -99,26 +99,26 @@
   -moz-animation-fill-mode: forwards;
   -o-animation-fill-mode: forwards;
   -ms-animation-fill-mode: forwards;
-  animation-name: Calend__ButtonBase__animation-pulse-loader;
+  animation-name: Kalend__ButtonBase__animation-pulse-loader;
   animation-delay: 0s;
 
   &-left {
-    @extend .Calend__ButtonBase__loader-circle;
+    @extend .Kalend__ButtonBase__loader-circle;
     animation-delay: 0s;
   }
 
   &-middle {
-    @extend .Calend__ButtonBase__loader-circle;
+    @extend .Kalend__ButtonBase__loader-circle;
     animation-delay: 0.3s;
   }
 
   &-right {
-    @extend .Calend__ButtonBase__loader-circle;
+    @extend .Kalend__ButtonBase__loader-circle;
     animation-delay: 0.5s;
   }
 }
 
-@keyframes Calend__ButtonBase__animation-pulse-loader {
+@keyframes Kalend__ButtonBase__animation-pulse-loader {
   0% {
     opacity: 0;
     background-color: $GRAY_500;
@@ -132,7 +132,7 @@
   }
 }
 
-.Calend__Button-long {
+.Kalend__Button-long {
   width: 100%;
   padding: 4px 12px 4px 12px;
   border-radius: 8px;
@@ -142,12 +142,12 @@
   align-items: center;
 
   &:hover {
-    @extend .Calend__Button-long;
+    @extend .Kalend__Button-long;
   }
 }
 
-.Calend__ButtonBase-border {
-  @extend .Calend__ButtonBase;
+.Kalend__ButtonBase-border {
+  @extend .Kalend__ButtonBase;
   display: flex;
   padding: 6px 8px 6px 8px;
   justify-content: center;

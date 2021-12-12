@@ -8,13 +8,6 @@ const ONE_DAY = 1;
 const THREE_DAYS = 3;
 const SEVEN_DAYS = 7;
 export const CALENDAR_OFFSET_LEFT = 24;
-export const ONE_HOUR_HEIGHT = 39;
-export const HEADER_HEIGHT_SMALL = 56;
-export const HEADER_HEIGHT_BASE = 138;
-export const HEADER_HEIGHT_BASE_DESKTOP = 208;
-export const HEADER_HEIGHT_EXTENDER = 166;
-export const NAVBAR_HEIGHT_BASE = 50;
-export const CALENDAR_DRAWER_DESKTOP_WIDTH = 247;
 
 export const formatIsoStringDate = (stringDate: string) =>
   stringDate.slice(0, stringDate.indexOf('T'));
@@ -51,14 +44,6 @@ export const hoursArrayString = [
   '23',
 ];
 
-export const parseEventColor = (
-  colorString: string,
-  isDark?: boolean
-): string =>
-  calendarColors[colorString]
-    ? calendarColors[colorString][isDark ? 'dark' : 'light']
-    : colorString;
-
 export const calendarColors: any = {
   red: { dark: '#ef9a9a', light: '#e53935' },
   pink: { dark: '#f48fb1', light: '#d81b60' },
@@ -79,81 +64,18 @@ export const calendarColors: any = {
   'blue grey': { dark: '#b0bec5', light: '#546e7a' },
 };
 
+export const parseEventColor = (
+  colorString: string,
+  isDark?: boolean
+): string =>
+  calendarColors[colorString]
+    ? calendarColors[colorString][isDark ? 'dark' : 'light']
+    : colorString;
+
 export const daysText = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
 
 export const calculateOneDay = (date: DateTime): DateTime => {
   return date;
-};
-
-const getOneDay = (date: DateTime, setSelectedDate: any): DateTime[] => {
-  const refDate: DateTime = calculateOneDay(date);
-
-  // Set state
-  if (setSelectedDate) {
-    setSelectedDate(refDate);
-  }
-
-  return [refDate];
-};
-
-export const calculateAgendaDays = (refDate: DateTime): DateTime[] => {
-  const firstDayInMonth: DateTime = LuxonHelper.getFirstDayOfMonth(refDate);
-  const daysInMonth: number = refDate.daysInMonth;
-  const monthDays: DateTime[] = [];
-
-  // Add missing days to month view
-  for (let i = 0; i <= daysInMonth; i += 1) {
-    const day: DateTime = firstDayInMonth.plus({ days: i });
-    monthDays.push(day);
-  }
-
-  return monthDays;
-};
-
-export const calculateMonthDays = (date: DateTime): DateTime[] => {
-  const FIVE_WEEKS_DAYS_COUNT = 36;
-  // Get reference date for calculating new month
-
-  // Get first week of current month
-  const firstDayOfCurrentMonth: DateTime = LuxonHelper.getFirstDayOfMonth(date);
-
-  const firstWeekOfCurrentMonth: DateTime[] = getWeekDays(
-    firstDayOfCurrentMonth,
-    CALENDAR_VIEW.WEEK,
-    undefined
-  );
-
-  const monthDays: DateTime[] = firstWeekOfCurrentMonth;
-
-  // Add missing days to month view
-  for (let i = 1; i < FIVE_WEEKS_DAYS_COUNT; i += 1) {
-    const day: DateTime = firstWeekOfCurrentMonth[6].plus({ days: i });
-    monthDays.push(day);
-  }
-
-  return monthDays;
-};
-
-export const getAgendaDays = (date: DateTime, setSelectedDate: any) => {
-  const monthDays: DateTime[] = calculateAgendaDays(date);
-
-  // Set state
-  if (setSelectedDate) {
-    setSelectedDate(monthDays[15]);
-  }
-
-  return monthDays;
-};
-
-export const getMonthDays = (date: DateTime, setSelectedDate: any) => {
-  const monthDays: DateTime[] = calculateMonthDays(date);
-
-  // Set state
-  if (setSelectedDate) {
-    setSelectedDate(monthDays[15]);
-  }
-
-  return monthDays;
 };
 
 export const getWeekDays = (
@@ -220,27 +142,6 @@ export const getThreeDays = (
   return days;
 };
 
-export const getCalendarDays = (
-  calendarView: CALENDAR_VIEW,
-  date: DateTime,
-  setSelectedDate?: any
-): DateTime[] => {
-  switch (calendarView) {
-    case CALENDAR_VIEW.WEEK:
-      return getWeekDays(date, calendarView, setSelectedDate);
-    case CALENDAR_VIEW.THREE_DAYS:
-      return getThreeDays(date, setSelectedDate);
-    case CALENDAR_VIEW.DAY:
-      return getOneDay(date, setSelectedDate);
-    case CALENDAR_VIEW.MONTH:
-      return getMonthDays(date, setSelectedDate);
-    case CALENDAR_VIEW.AGENDA:
-      return getAgendaDays(date, setSelectedDate);
-    default:
-      return getWeekDays(date, calendarView, setSelectedDate);
-  }
-};
-
 export const getDaysNum = (calendarView: CALENDAR_VIEW): number => {
   switch (calendarView) {
     case CALENDAR_VIEW.WEEK:
@@ -254,19 +155,94 @@ export const getDaysNum = (calendarView: CALENDAR_VIEW): number => {
   }
 };
 
-export const mapCalendarColors = (calendars: any) => {
-  const result: any = {};
-  for (const calendar of calendars) {
-    result[calendar.id] = {
-      color: {
-        light: calendar.color.light,
-        dark: calendar.color.dark,
-      },
-    };
+const getOneDay = (date: DateTime, setSelectedDate: any): DateTime[] => {
+  const refDate: DateTime = calculateOneDay(date);
+
+  // Set state
+  if (setSelectedDate) {
+    setSelectedDate(refDate);
   }
 
-  return result;
+  return [refDate];
 };
+
+export const calculateAgendaDays = (refDate: DateTime): DateTime[] => {
+  const firstDayInMonth: DateTime = LuxonHelper.getFirstDayOfMonth(refDate);
+  const daysInMonth: number = refDate.daysInMonth;
+  const monthDays: DateTime[] = [];
+
+  // Add missing days to month view
+  for (let i = 0; i <= daysInMonth; i += 1) {
+    const day: DateTime = firstDayInMonth.plus({ days: i });
+    monthDays.push(day);
+  }
+
+  return monthDays;
+};
+
+export const calculateMonthDays = (date: DateTime): DateTime[] => {
+  const FIVE_WEEKS_DAYS_COUNT = 36;
+  // Get reference date for calculating new month
+
+  // Get first week of current month
+  const firstDayOfCurrentMonth: DateTime = LuxonHelper.getFirstDayOfMonth(date);
+
+  const firstWeekOfCurrentMonth: DateTime[] = getWeekDays(
+    firstDayOfCurrentMonth,
+    CALENDAR_VIEW.WEEK,
+    undefined
+  );
+
+  const monthDays: DateTime[] = firstWeekOfCurrentMonth;
+
+  // Add missing days to month view
+  for (let i = 1; i < FIVE_WEEKS_DAYS_COUNT; i += 1) {
+    const day: DateTime = firstWeekOfCurrentMonth[6].plus({ days: i });
+    monthDays.push(day);
+  }
+
+  return monthDays;
+};
+
+export const getAgendaDays = (
+  date: DateTime,
+  setSelectedDate: any
+): DateTime[] => {
+  const monthDays: DateTime[] = calculateAgendaDays(date);
+
+  // Set state
+  if (setSelectedDate) {
+    setSelectedDate(monthDays[15]);
+  }
+
+  return monthDays;
+};
+
+export const getMonthDays = (date: DateTime, setSelectedDate: any) => {
+  const monthDays: DateTime[] = calculateMonthDays(date);
+
+  // Set state
+  if (setSelectedDate) {
+    setSelectedDate(monthDays[15]);
+  }
+
+  return monthDays;
+};
+
+// TODO dark theme support for parsing colors
+// export const mapCalendarColors = (calendars: any) => {
+//   const result: any = {};
+//   for (const calendar of calendars) {
+//     result[calendar.id] = {
+//       color: {
+//         light: calendar.color.light,
+//         dark: calendar.color.dark,
+//       },
+//     };
+//   }
+//
+//   return result;
+// };
 
 export const parseToDate = (item: string | DateTime): DateTime =>
   typeof item === 'string' ? DateTime.fromISO(item) : item;
@@ -298,6 +274,27 @@ export const chooseSelectedDateIndex = (
       return 0;
     default:
       return 2;
+  }
+};
+
+export const getCalendarDays = (
+  calendarView: CALENDAR_VIEW,
+  date: DateTime,
+  setSelectedDate?: any
+): DateTime[] => {
+  switch (calendarView) {
+    case CALENDAR_VIEW.WEEK:
+      return getWeekDays(date, calendarView, setSelectedDate);
+    case CALENDAR_VIEW.THREE_DAYS:
+      return getThreeDays(date, setSelectedDate);
+    case CALENDAR_VIEW.DAY:
+      return getOneDay(date, setSelectedDate);
+    case CALENDAR_VIEW.MONTH:
+      return getMonthDays(date, setSelectedDate);
+    case CALENDAR_VIEW.AGENDA:
+      return getAgendaDays(date, setSelectedDate);
+    default:
+      return getWeekDays(date, calendarView, setSelectedDate);
   }
 };
 

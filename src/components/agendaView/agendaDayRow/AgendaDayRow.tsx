@@ -27,10 +27,8 @@ const renderEvents = (
       <EventButton
         key={event.id}
         event={event}
-        eventWidth={'100%'}
         type={EVENT_TYPE.AGENDA}
         handleEventClick={handleEventClick}
-        zIndex={1}
       />
     );
   });
@@ -42,12 +40,12 @@ const AgendaDayRow = (props: AgendaDayRowProps) => {
   const dayEvents: ReactNode = renderEvents(events, handleEventClick);
 
   return (
-    <div className={'Calend__AgendaDayRow__container'}>
-      <div className={'Calend__AgendaDayRow__container-day'}>
+    <div className={'Kalend__AgendaDayRow__container'}>
+      <div className={'Kalend__AgendaDayRow__container-day'}>
         <DayOfWeekText day={day} width={50} />
         <DateWeekDay width={50} day={day} />
       </div>
-      <div className={'Calend__AgendaDayRow__events'}>{dayEvents}</div>
+      <div className={'Kalend__AgendaDayRow__events'}>{dayEvents}</div>
     </div>
   );
 };

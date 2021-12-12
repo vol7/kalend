@@ -4,25 +4,25 @@ import {
 } from '../../../../common/constants';
 import { Context } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 
 const renderHours = (width: number, hourHeight: number, isDark: boolean) =>
   hoursArrayString.map((hour: any) =>
     hour === '00' || hour === '24' ? (
       <div
         key={hour}
-        className={'Calend__CalendarBodyHours__container'}
+        className={'Kalend__CalendarBodyHours__container'}
         style={{ minHeight: hourHeight }}
       />
     ) : (
       <div
         key={hour}
-        className={'Calend__CalendarBodyHours__container'}
+        className={'Kalend__CalendarBodyHours__container'}
         style={{ minHeight: hourHeight }}
       >
         <p
           className={parseCssDark(
-            'Calend__text Calend__CalendarBodyHours__text',
+            'Kalend__text Kalend__CalendarBodyHours__text',
             isDark
           )}
         >
@@ -30,7 +30,7 @@ const renderHours = (width: number, hourHeight: number, isDark: boolean) =>
         </p>
         <div
           className={parseCssDark(
-            'Calend__text Calend__CalendarBodyHours__line',
+            'Kalend__text Kalend__CalendarBodyHours__line',
             isDark
           )}
           style={{ width: width - CALENDAR_OFFSET_LEFT }}
@@ -46,7 +46,7 @@ const CalendarBodyHours = () => {
   const hours: any = renderHours(width, hourHeight, isDark);
 
   return (
-    <div className={'Calend__CalendarBodyHours__wrapper'} style={{ height }}>
+    <div className={'Kalend__CalendarBodyHours__wrapper'} style={{ height }}>
       {hours}
     </div>
   );

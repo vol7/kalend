@@ -1,28 +1,27 @@
-import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
+import { DateTime } from 'luxon';
 import { MonthViewProps } from './MonthView.props';
 import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
 import { formatTimestampToDate } from '../../utils/common';
-import { getNewCalendarDays } from '../../utils/getCalendarDays';
 import { useContext } from 'react';
 import MonthOneDay from './monthOneDay/MonthOneDay';
 
 const renderOneDay = (
-  data: any,
+  data: DateTime[],
   prefix: string,
   tableHeight: number,
   events: any,
   handleEventClick: OnEventClickFunc,
   showMoreMonth?: ShowMoreMonthFunc
 ) =>
-  data.map((day: any, index: number) => {
-    const formattedDayString: string = formatTimestampToDate(day);
+  data.map((calendarDay: DateTime, index: number) => {
+    const formattedDayString: string = formatTimestampToDate(calendarDay);
 
     return (
       <MonthOneDay
         key={`${prefix}-${formattedDayString}`}
         index={index}
-        day={day}
+        day={calendarDay}
         data={events ? events[formattedDayString] : []}
         handleEventClick={handleEventClick}
         showMoreMonth={showMoreMonth}
@@ -32,9 +31,9 @@ const renderOneDay = (
 
 const MonthView = (props: MonthViewProps) => {
   const [store] = useContext(Context);
-  const { height, width, calendarDays, events } = store;
+  const { height, width, calendarDays } = store;
 
-  const { handleEventClick, showMoreMonth } = props;
+  const { handleEventClick, showMoreMonth, events } = props;
 
   // Calculate height for days table
 
@@ -58,7 +57,7 @@ const MonthView = (props: MonthViewProps) => {
 
   return (
     // <Carousel onPageChange={onPageChange}>
-    <div className={'Calend__MonthView__container'} style={daysWrapper}>
+    <div className={'Kalend__MonthView__container'} style={daysWrapper}>
       {days}
     </div>
     // </Carousel>

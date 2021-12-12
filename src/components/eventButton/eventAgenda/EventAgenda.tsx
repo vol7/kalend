@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { CalendarEvent } from '../../../common/interface';
 import { EVENT_TYPE } from '../../../common/enums';
 import EventSummary from '../components/eventSummary/EventSummary';
@@ -15,7 +13,7 @@ const EventAgenda = (props: EventAgendaProps) => {
   const { isDark, event, type } = props;
 
   return (
-    <div className={'Calend__EventAgenda__container'}>
+    <div className={'Kalend__EventAgenda__container'}>
       <EventSummary summary={event.summary} isDark={isDark} type={type} />
       <EventTime isDark={isDark} event={event} type={type} />
     </div>
