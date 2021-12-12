@@ -27,10 +27,8 @@ const renderEvents = (
       <EventButton
         key={event.id}
         event={event}
-        eventWidth={'100%'}
         type={EVENT_TYPE.AGENDA}
         handleEventClick={handleEventClick}
-        zIndex={1}
       />
     );
   });

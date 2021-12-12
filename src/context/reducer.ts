@@ -16,10 +16,20 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isMobile: action.payload,
       };
-    case 'headerEventsTriggerCounter':
+    case 'daysViewLayout':
       return {
         ...state,
-        headerEventsTriggerCounter: action.payload,
+        daysViewLayout: action.payload,
+      };
+    case 'headerLayout':
+      return {
+        ...state,
+        headerLayout: action.payload,
+      };
+    case 'layoutUpdateSequence':
+      return {
+        ...state,
+        layoutUpdateSequence: action.payload,
       };
     case 'events':
       return {

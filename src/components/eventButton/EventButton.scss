@@ -1,7 +1,7 @@
 @import '../../styles/colors';
 
 .Calend__Event__animate {
-  animation-duration: 0.2s;
+  animation-duration: 0.3s;
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
   -o-animation-fill-mode: forwards;
@@ -18,13 +18,6 @@
   align-items: flex-start;
   color: white;
   opacity: 1 !important;
-  animation-duration: 0.3s;
-  -webkit-animation-fill-mode: forwards;
-  -moz-animation-fill-mode: forwards;
-  -o-animation-fill-mode: forwards;
-  -ms-animation-fill-mode: forwards;
-  animation-name: Calend__EventDetail_animationShow;
-  animation-delay: 0s;
 
   &-month {
     @extend .Calend__Event;
@@ -43,6 +36,13 @@
     padding: 1px;
     padding-left: 3px;
     align-items: center;
+    animation-duration: 0.3s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    animation-name: Calend__EventDetailHeader_animationShow;
+    animation-delay: 0.5s;
   }
 
   &-agenda {
@@ -60,15 +60,25 @@
   cursor: grab !important;
 }
 
+@keyframes Calend__EventDetailHeader_animationShow {
+  0% {
+    visibility: hidden;
+    //transform: scale(0.5);
+  }
+  100% {
+    visibility: visible;
+    //transform: scale(1)
+  }
+}
 
 @keyframes Calend__EventDetail_animationShow {
   0% {
     opacity: 0.2;
-    transform: scale(0.5);
+    //transform: scale(0.5);
   }
   100% {
     opacity: 1;
-    transform: scale(1)
+    //transform: scale(1)
   }
 }
 

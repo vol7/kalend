@@ -1,23 +1,24 @@
 import { AgendaViewProps } from './AgendaView.props';
-import { CalendarDay, OnEventClickFunc } from '../../common/interface';
 import { Context } from '../../context/store';
+import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
+import { OnEventClickFunc } from '../../common/interface';
 import { useContext } from 'react';
 import AgendaDayRow from './agendaDayRow/AgendaDayRow';
 
 const renderAgendaEvents = (
   events: any,
-  calendarDays: CalendarDay[],
+  calendarDays: DateTime[],
   handleEventClick: OnEventClickFunc
 ) => {
-  return calendarDays.map((calendarDay: CalendarDay) => {
-    const hasEvents = !!events[calendarDay.date.toFormat(EVENTS_DAY_FORMAT)];
+  return calendarDays.map((calendarDay: DateTime) => {
+    const hasEvents = !!events[calendarDay.toFormat(EVENTS_DAY_FORMAT)];
     if (hasEvents) {
       return (
         <AgendaDayRow
-          key={calendarDay.date.toString()}
-          day={calendarDay.date}
-          events={events[calendarDay.date.toFormat(EVENTS_DAY_FORMAT)]}
+          key={calendarDay.toString()}
+          day={calendarDay}
+          events={events[calendarDay.toFormat(EVENTS_DAY_FORMAT)]}
           handleEventClick={handleEventClick}
         />
       );

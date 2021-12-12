@@ -1,6 +1,5 @@
 /* tslint:disable:no-magic-numbers */
 import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
-import { CalendarDay } from '../common/interface';
 import { DateTime } from 'luxon';
 import { getArrayEnd, getArrayStart } from './common';
 import LuxonHelper from './luxonHelper';
@@ -79,38 +78,11 @@ export const calculateOneDay = (date: DateTime): DateTime => {
   return date;
 };
 
-export const destructCalendarDayID = (
-  calendarDay: CalendarDay
-): { day: DateTime; count: number } => {
-  const array: string[] = calendarDay.id.split('_');
-
-  return {
-    day: DateTime.fromISO(array[0]),
-    count: Number(array[1]),
-  };
-};
-
-export const incrementCalendarDayID = (
-  calendarDay: CalendarDay
-): CalendarDay => {
-  const destructedCalendarDay = destructCalendarDayID(calendarDay);
-  return {
-    id: `${calendarDay.date}_${destructedCalendarDay.count + 1}`,
-    date: calendarDay.date,
-  };
-};
-
-export const initCalendarDays = (dates: DateTime[]): CalendarDay[] =>
-  dates.map((date: DateTime) => ({
-    id: `${date.toString()}_1`,
-    date,
-  }));
-
 export const getWeekDays = (
   date: DateTime,
   calendarView: CALENDAR_VIEW,
   setSelectedDate?: any
-): CalendarDay[] => {
+): DateTime[] => {
   // Set state
   if (setSelectedDate && calendarView !== CALENDAR_VIEW.MONTH) {
     setSelectedDate(date);
@@ -138,14 +110,14 @@ export const getWeekDays = (
     }
   }
 
-  return initCalendarDays(days);
+  return days;
 };
 
 export const getThreeDays = (
   date: DateTime,
   setSelectedDate: any,
   isGoingForward?: boolean | null
-): CalendarDay[] => {
+): DateTime[] => {
   const days = [];
 
   if (isGoingForward === null || isGoingForward === undefined) {
@@ -167,7 +139,7 @@ export const getThreeDays = (
     setSelectedDate(days[1]);
   }
 
-  return initCalendarDays(days);
+  return days;
 };
 
 export const getDaysNum = (calendarView: CALENDAR_VIEW): number => {
@@ -183,7 +155,7 @@ export const getDaysNum = (calendarView: CALENDAR_VIEW): number => {
   }
 };
 
-const getOneDay = (date: DateTime, setSelectedDate: any): CalendarDay[] => {
+const getOneDay = (date: DateTime, setSelectedDate: any): DateTime[] => {
   const refDate: DateTime = calculateOneDay(date);
 
   // Set state
@@ -191,7 +163,7 @@ const getOneDay = (date: DateTime, setSelectedDate: any): CalendarDay[] => {
     setSelectedDate(refDate);
   }
 
-  return initCalendarDays([refDate]);
+  return [refDate];
 };
 
 export const calculateAgendaDays = (refDate: DateTime): DateTime[] => {
@@ -208,36 +180,34 @@ export const calculateAgendaDays = (refDate: DateTime): DateTime[] => {
   return monthDays;
 };
 
-export const calculateMonthDays = (date: DateTime): CalendarDay[] => {
+export const calculateMonthDays = (date: DateTime): DateTime[] => {
   const FIVE_WEEKS_DAYS_COUNT = 36;
   // Get reference date for calculating new month
 
   // Get first week of current month
   const firstDayOfCurrentMonth: DateTime = LuxonHelper.getFirstDayOfMonth(date);
 
-  const firstWeekOfCurrentMonth: CalendarDay[] = getWeekDays(
+  const firstWeekOfCurrentMonth: DateTime[] = getWeekDays(
     firstDayOfCurrentMonth,
     CALENDAR_VIEW.WEEK,
     undefined
   );
 
-  const monthDays: DateTime[] = firstWeekOfCurrentMonth.map(
-    (item) => item.date
-  );
+  const monthDays: DateTime[] = firstWeekOfCurrentMonth;
 
   // Add missing days to month view
   for (let i = 1; i < FIVE_WEEKS_DAYS_COUNT; i += 1) {
-    const day: DateTime = firstWeekOfCurrentMonth[6].date.plus({ days: i });
+    const day: DateTime = firstWeekOfCurrentMonth[6].plus({ days: i });
     monthDays.push(day);
   }
 
-  return initCalendarDays(monthDays);
+  return monthDays;
 };
 
 export const getAgendaDays = (
   date: DateTime,
   setSelectedDate: any
-): CalendarDay[] => {
+): DateTime[] => {
   const monthDays: DateTime[] = calculateAgendaDays(date);
 
   // Set state
@@ -245,15 +215,15 @@ export const getAgendaDays = (
     setSelectedDate(monthDays[15]);
   }
 
-  return initCalendarDays(monthDays);
+  return monthDays;
 };
 
 export const getMonthDays = (date: DateTime, setSelectedDate: any) => {
-  const monthDays: CalendarDay[] = calculateMonthDays(date);
+  const monthDays: DateTime[] = calculateMonthDays(date);
 
   // Set state
   if (setSelectedDate) {
-    setSelectedDate(monthDays[15].date);
+    setSelectedDate(monthDays[15]);
   }
 
   return monthDays;
@@ -311,7 +281,7 @@ export const getCalendarDays = (
   calendarView: CALENDAR_VIEW,
   date: DateTime,
   setSelectedDate?: any
-): CalendarDay[] => {
+): DateTime[] => {
   switch (calendarView) {
     case CALENDAR_VIEW.WEEK:
       return getWeekDays(date, calendarView, setSelectedDate);
@@ -331,7 +301,7 @@ export const getCalendarDays = (
 const getReferenceDate = (
   direction: CALENDAR_NAVIGATION_DIRECTION,
   calendarView: CALENDAR_VIEW,
-  calendarDays: CalendarDay[]
+  calendarDays: DateTime[]
 ): DateTime => {
   if (direction === CALENDAR_NAVIGATION_DIRECTION.TODAY) {
     return DateTime.now();
@@ -339,9 +309,9 @@ const getReferenceDate = (
 
   if (calendarView === CALENDAR_VIEW.THREE_DAYS) {
     if (direction === CALENDAR_NAVIGATION_DIRECTION.FORWARD) {
-      return getArrayEnd(calendarDays).date.plus({ days: 1 });
+      return getArrayEnd(calendarDays).plus({ days: 1 });
     } else {
-      return getArrayStart(calendarDays).date.minus({ days: 3 });
+      return getArrayStart(calendarDays).minus({ days: 3 });
     }
   }
 
@@ -350,9 +320,9 @@ const getReferenceDate = (
     calendarView === CALENDAR_VIEW.DAY
   ) {
     if (direction === CALENDAR_NAVIGATION_DIRECTION.FORWARD) {
-      return getArrayEnd(calendarDays).date.plus({ days: 1 });
+      return getArrayEnd(calendarDays).plus({ days: 1 });
     } else {
-      return getArrayStart(calendarDays).date.minus({ days: 1 });
+      return getArrayStart(calendarDays).minus({ days: 1 });
     }
   }
 
@@ -361,9 +331,9 @@ const getReferenceDate = (
     calendarView === CALENDAR_VIEW.AGENDA
   ) {
     if (direction === CALENDAR_NAVIGATION_DIRECTION.FORWARD) {
-      return calendarDays[15].date.plus({ months: 1 });
+      return calendarDays[15].plus({ months: 1 });
     } else {
-      return calendarDays[15].date.minus({ months: 1 });
+      return calendarDays[15].minus({ months: 1 });
     }
   }
 
@@ -372,10 +342,10 @@ const getReferenceDate = (
 
 export const calculateCalendarDays = (
   direction: CALENDAR_NAVIGATION_DIRECTION,
-  calendarDays: CalendarDay[],
+  calendarDays: DateTime[],
   calendarView: CALENDAR_VIEW,
   setSelectedDate: any
-): CalendarDay[] => {
+): DateTime[] => {
   return getCalendarDays(
     calendarView,
     getReferenceDate(direction, calendarView, calendarDays),

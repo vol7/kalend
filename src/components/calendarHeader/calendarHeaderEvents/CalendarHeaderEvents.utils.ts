@@ -2,11 +2,7 @@ import {
   CALENDAR_OFFSET_LEFT,
   EVENT_TABLE_DELIMITER_SPACE,
 } from '../../../common/constants';
-import {
-  CalendarDay,
-  CalendarEvent,
-  NormalEventPosition,
-} from '../../../common/interface';
+import { CalendarEvent, NormalEventPosition } from '../../../common/interface';
 import { DateTime } from 'luxon';
 import {
   checkOverlappingDatesForHeaderEvents,
@@ -32,8 +28,9 @@ const stretchHeaderEventTimes = (event: CalendarEvent): CalendarEvent => {
 export const calculatePositionForHeaderEvents = (
   events: any,
   width: number,
-  calendarDays: CalendarDay[]
-): NormalEventPosition[][] => {
+  calendarDays: DateTime[],
+  setContext?: any
+): any => {
   // TODO prefilter only relevant events
   // TODO remove used events from main array
   // const formattedDayString: string = formatTimestampToDate(day);
@@ -144,7 +141,7 @@ export const calculatePositionForHeaderEvents = (
       let hasMatchingDay = false;
 
       calendarDays.forEach((day) => {
-        if (checkOverlappingDatesForHeaderEvents(item, day.date)) {
+        if (checkOverlappingDatesForHeaderEvents(item, day)) {
           // set base offset only for first item
           eventWidth += width;
           hasMatchingDay = true;
@@ -162,7 +159,7 @@ export const calculatePositionForHeaderEvents = (
         width: Math.round(eventWidth - tableSpace),
         offsetLeft: offset + CALENDAR_OFFSET_LEFT,
         offsetTop: 0,
-        height: 40,
+        height: 20,
         zIndex: 2,
       };
 
@@ -173,5 +170,17 @@ export const calculatePositionForHeaderEvents = (
     result.push(eventPositionResult);
   });
 
-  return result;
+  const formattedResult: any = {};
+
+  result.forEach((events: any, index: number) => {
+    events.forEach((item: any) => {
+      formattedResult[item.event.id] = { ...item, offsetTop: index * 26 };
+    });
+  });
+
+  if (setContext) {
+    setContext('headerEventRowsCount', result.length);
+  }
+
+  return formattedResult;
 };

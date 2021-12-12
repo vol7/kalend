@@ -18,12 +18,13 @@ import RootLayoutLayer from './RootLayoutLayer';
 import StoreProvider from './context/store';
 
 export const CalendarView = CALENDAR_VIEW;
-
+export type { CalendarEvent };
 export type OnEventClickData = CalendarEvent;
 export type OnNewEventClickData = NewEventClickData;
 export type OnPageChangeData = PageChangeData;
 export type OnSelectViewData = CALENDAR_VIEW;
 export type ShowMoreMonthData = CalendarEvent[];
+export type OnEventDragFinish = OnEventDragFinishFunc;
 
 export interface CalendProps {
   initialDate?: string;

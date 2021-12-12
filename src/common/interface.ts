@@ -44,6 +44,7 @@ export interface NormalEventPosition {
   offsetLeft: number;
   zIndex: number;
   meta?: EventLayoutMeta;
+  dateKey?: string;
 }
 
 export interface NewEventClickData {
@@ -70,9 +71,13 @@ export interface EventStyle {
   alignItems?: string;
 }
 
-export interface CalendarDay {
-  id: string;
-  date: DateTime;
+export interface EventLayout {
+  offsetTop: number;
+  offsetLeft: number;
+  width: number | string;
+  height: number;
+  zIndex: number;
+  border: string;
 }
 
 // functions
@@ -80,5 +85,8 @@ export type OnPageChangeFunc = (data: PageChangeData) => void;
 export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;
 export type OnSelectViewFunc = (view: CALENDAR_VIEW) => void;
 export type OnEventClickFunc = (data: CalendarEvent) => void;
-export type OnEventDragFinishFunc = (data: CalendarEvent) => void;
+export type OnEventDragFinishFunc = (
+  updatedEvent: CalendarEvent,
+  events: any
+) => void;
 export type OnNewEventClickFunc = (data: NewEventClickData) => void;

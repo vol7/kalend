@@ -15,7 +15,10 @@ const Template: Story<CalendProps> = (args) => (
 export const Primary = Template.bind({});
 Primary.args = {
   initialView: CalendarView.MONTH,
-  events: [],
+  // @ts-ignore
+  events: {},
+  // eslint-disable-next-line no-console
   onNewEventClick: console.log,
+  // eslint-disable-next-line no-console
   onEventClick: console.log,
 };

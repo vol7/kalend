@@ -14,8 +14,6 @@ import ButtonBase from '../../buttonBase/ButtonBase';
 import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
 
-const DAY_TABLE_WIDTH = '90%';
-
 const MonthOneDay = (props: MonthOneDayProps) => {
   const { index, data, day, handleEventClick, showMoreMonth } = props;
 
@@ -23,7 +21,6 @@ const MonthOneDay = (props: MonthOneDayProps) => {
   const { isDark, selectedDate, height } = store;
 
   const renderEvents = (dataset: any) => {
-    const tableWidth: string = DAY_TABLE_WIDTH;
     const tableHeight: number = height / 6 - MONTH_DAY_HEADER_HEIGHT; // height of one day
     const maxEvents = Number((tableHeight / MONTH_EVENT_HEIGHT).toFixed(0)) - 1;
 
@@ -42,11 +39,9 @@ const MonthOneDay = (props: MonthOneDayProps) => {
           return (
             <EventButton
               key={event.id}
-              eventWidth={tableWidth}
               event={event}
               type={EVENT_TYPE.MONTH}
               handleEventClick={handleEventClick}
-              zIndex={2}
               day={day}
             />
           );
