@@ -26,7 +26,7 @@ export const validateProps = (props: KalendProps): void => {
   if (props.disabledViews) {
     // throw error if all views are disabled
     if (props.disabledViews.length === Object.values(CALENDAR_VIEW).length) {
-      throw Error('[Calend]: At least one calendar view has to be enabled');
+      throw Error('[Kalend]: At least one calendar view has to be enabled');
     }
   }
 
@@ -35,7 +35,7 @@ export const validateProps = (props: KalendProps): void => {
     props.initialView.toString()
   );
   if (!initialView) {
-    throw Error(`[Calend]: Initial view "${props.initialView}" is not valid`);
+    throw Error(`[Kalend]: Initial view "${props.initialView}" is not valid`);
   }
 };
 
@@ -47,11 +47,11 @@ export const validateStyle = (): void => {
       throw Error(
         `[Calend]: CSS file not imported. 
          Reason: You probably forgot to import css file in your app as 
-         import 'calend/dist/styles/index.css';
+         import 'kalend/dist/styles/index.css';
          
          Valid usage: 
-         import Calend from 'calend';
-         import 'calend/dist/styles/index.css';`
+         import Kalend from 'kalend';
+         import 'kalend/dist/styles/index.css';`
       );
     }
   }
