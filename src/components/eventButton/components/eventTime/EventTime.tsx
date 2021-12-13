@@ -13,16 +13,16 @@ const formatEventTimeV2 = (
   event: CalendarEvent,
   timezone?: string
 ): { start: string; end: string } => {
-  const { startAt, endAt, timezoneStart } = event;
+  const { startAt, endAt, timezoneStartAt } = event;
 
   const startAtDateTime: DateTime = parseToDateTime(
     startAt,
-    timezoneStart,
+    timezoneStartAt,
     timezone
   );
   const endAtDateTime: DateTime = parseToDateTime(
     endAt,
-    timezoneStart,
+    timezoneStartAt,
     timezone
   );
 

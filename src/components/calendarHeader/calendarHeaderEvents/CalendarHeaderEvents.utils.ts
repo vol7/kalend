@@ -25,10 +25,55 @@ const stretchHeaderEventTimes = (event: CalendarEvent): CalendarEvent => {
   };
 };
 
+// TODO remove if working without correction
+// /**
+//  * Find first matching calendarDay for allDay event
+//  * Solves problem when layout is wrongly calculated from start and end dates
+//  * which are outside of calendarDays range
+//  * @param event
+//  * @param calendarDays
+//  * @param timezone
+//  */
+// const parseToFirstMatchingCalendarDay = (
+//   event: CalendarEvent,
+//   calendarDays: DateTime[],
+//   timezone: string
+// ): CalendarEvent => {
+//   const eventClone: CalendarEvent = { ...event };
+//   const eventStartDateTime: DateTime = parseToDateTime(
+//     event.startAt,
+//     event.timezoneStartAt || timezone
+//   );
+//   let matchingStartDate: DateTime | undefined;
+//
+//   // find matching date
+//   calendarDays.forEach((calendarDay) => {
+//     if (!matchingStartDate) {
+//       if (LuxonHelper.isSameDay(calendarDay, eventStartDateTime)) {
+//         matchingStartDate = calendarDay;
+//       }
+//     }
+//   });
+//
+//   if (matchingStartDate) {
+//     // adjust date for calculations only
+//     eventClone.startAt = matchingStartDate
+//       .set({
+//         hour: eventStartDateTime.hour,
+//         minute: eventStartDateTime.minute,
+//       })
+//       .toUTC()
+//       .toString();
+//   }
+//
+//   return eventClone;
+// };
+
 export const calculatePositionForHeaderEvents = (
   events: any,
   width: number,
   calendarDays: DateTime[],
+  timezone: string,
   setContext?: any
 ): any => {
   // TODO prefilter only relevant events
@@ -61,7 +106,7 @@ export const calculatePositionForHeaderEvents = (
     items.forEach((item: CalendarEvent) => {
       // filter only relevant events
       if (item.allDay || isAllDayEvent(item)) {
-        const isInRange: boolean = isEventInRange(item, calendarDays);
+        const isInRange: boolean = isEventInRange(item, calendarDays, timezone);
         if (isInRange) {
           // correct position when external event ends in next day
           headerEventsFiltered.push(item);
@@ -141,7 +186,7 @@ export const calculatePositionForHeaderEvents = (
       let hasMatchingDay = false;
 
       calendarDays.forEach((day) => {
-        if (checkOverlappingDatesForHeaderEvents(item, day)) {
+        if (checkOverlappingDatesForHeaderEvents(item, day, timezone)) {
           // set base offset only for first item
           eventWidth += width;
           hasMatchingDay = true;

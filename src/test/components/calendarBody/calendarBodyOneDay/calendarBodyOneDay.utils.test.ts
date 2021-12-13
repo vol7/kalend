@@ -16,7 +16,7 @@ const event1Data: any = {
   calendarID: '1',
   startAt: `${baseDate}T18:00:00.000Z`,
   endAt: `${baseDate}T19:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
+  timezoneStartAt: 'Europe/Berlin',
 };
 const event2Data: any = {
   id: '2',
@@ -25,7 +25,7 @@ const event2Data: any = {
   calendarID: '1',
   startAt: `${baseDate}T20:00:00.000Z`,
   endAt: `${baseDate}T21:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
+  timezoneStartAt: 'Europe/Berlin',
 };
 const event3Data: any = {
   id: '3',
@@ -34,7 +34,7 @@ const event3Data: any = {
   calendarID: '1',
   startAt: `${baseDate}T15:00:00.000Z`,
   endAt: `${baseDate}T18:30:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
+  timezoneStartAt: 'Europe/Berlin',
 };
 const event4Data: any = {
   id: '4',
@@ -43,7 +43,7 @@ const event4Data: any = {
   calendarID: '1',
   startAt: `${baseDate}T05:00:00.000Z`,
   endAt: `${baseDate}T06:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
+  timezoneStartAt: 'Europe/Berlin',
 };
 const BASE_WIDTH = 500;
 const TIMEZONE = 'Europe/Berlin';

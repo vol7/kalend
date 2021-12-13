@@ -12,7 +12,7 @@ const event1Data: any = {
   calendarID: '1',
   startAt: `2021-11-08T18:00:00.000Z`,
   endAt: `2021-11-08T22:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
+  timezoneStartAt: 'Europe/Berlin',
 };
 const event2Data: any = {
   id: '2',
@@ -21,7 +21,7 @@ const event2Data: any = {
   calendarID: '1',
   startAt: `2021-11-09T18:00:00.000Z`,
   endAt: `2021-11-09T22:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
+  timezoneStartAt: 'Europe/Berlin',
 };
 const event3Data: any = {
   id: '3',
@@ -30,7 +30,7 @@ const event3Data: any = {
   calendarID: '1',
   startAt: `2021-11-08T18:00:00.000Z`,
   endAt: `2021-11-08T22:00:00.000Z`,
-  timezoneStart: 'Europe/Berlin',
+  timezoneStartAt: 'Europe/Berlin',
 };
 
 const getCalendarDays = (): DateTime[] => {
@@ -50,7 +50,8 @@ describe(`Header events positions`, function () {
     const result: EventLayout[] = calculatePositionForHeaderEvents(
       { '2021-11-08': [event1Data], '2021-11-09': [event2Data] },
       120,
-      calendarDays
+      calendarDays,
+      'Europe/Berlin'
     );
 
     const event1: EventLayout = result['1'];
@@ -69,7 +70,8 @@ describe(`Header events positions`, function () {
     const result: EventLayout[] = calculatePositionForHeaderEvents(
       { '2021-11-08': [event1Data, event3Data] },
       120,
-      getCalendarDays()
+      getCalendarDays(),
+      'Europe/Berlin'
     );
 
     const event1: EventLayout = result['1'];
@@ -91,7 +93,8 @@ describe(`Header events positions`, function () {
       const result: EventLayout[] = calculatePositionForHeaderEvents(
         { '2021-11-08': [event1Data, event3Data], '2021-11-09': [event2Data] },
         120,
-        getCalendarDays()
+        getCalendarDays(),
+        'Europe/Berlin'
       );
 
       const event1: EventLayout = result['1'];

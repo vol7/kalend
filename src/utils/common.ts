@@ -63,8 +63,8 @@ export const isAllDayEvent = (item: CalendarEvent): boolean => {
 
   return (
     // @ts-ignore
-    parseToDateTime(item.endAt, item.timezoneStart)
-      .diff(parseToDateTime(item.startAt, item.timezoneStart), 'days')
+    parseToDateTime(item.endAt, item.timezoneStartAt)
+      .diff(parseToDateTime(item.startAt, item.timezoneStartAt), 'days')
       .toObject().days > 1
   );
 };

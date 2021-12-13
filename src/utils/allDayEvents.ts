@@ -1,6 +1,7 @@
 import { CalendarEvent } from '../common/interface';
 import { DateTime } from 'luxon';
 import { parseToDateTime } from './dateTimeParser';
+import LuxonHelper from './luxonHelper';
 
 export const parseAllDayEvent = (
   event: CalendarEvent,
@@ -17,23 +18,7 @@ export const parseAllDayEvent = (
 
   return {
     ...event,
-    allDay:
-      endAtDateTime
-        .set({
-          hour: 0,
-          minute: 0,
-          second: 0,
-          millisecond: 0,
-        })
-        .toString() !==
-      startAtDateTime
-        .set({
-          hour: 0,
-          minute: 0,
-          second: 0,
-          millisecond: 0,
-        })
-        .toString(),
+    allDay: !LuxonHelper.isSameDay(startAtDateTime, endAtDateTime),
   };
 };
 

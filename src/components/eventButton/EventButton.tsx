@@ -524,6 +524,7 @@ const EventButton = (props: EventProps) => {
         result,
         width / calendarDays.length,
         calendarDays,
+        timezone,
         setContext
       );
 

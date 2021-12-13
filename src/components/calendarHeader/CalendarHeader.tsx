@@ -15,7 +15,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     dispatch({ type, payload });
   };
 
-  const { isDark, width, selectedView, calendarDays } = store;
+  const { isDark, width, selectedView, calendarDays, timezone } = store;
 
   const isDayView: boolean = selectedView === CALENDAR_VIEW.DAY;
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
@@ -26,6 +26,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
         events,
         width / calendarDays.length,
         calendarDays,
+        timezone,
         setContext
       );
 
@@ -37,8 +38,11 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
         events,
         width / calendarDays.length,
         calendarDays,
+        timezone,
         setContext
       );
+
+    setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
     setContext('headerLayout', eventPositions);
   }, [calendarDays[0]]);
