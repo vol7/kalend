@@ -87,3 +87,37 @@ export const parseCalendarViewToText = (
       return '';
   }
 };
+
+export const eventsToArray = (events: any): CalendarEvent[] => {
+  let result: CalendarEvent[] = [];
+
+  if (!events) {
+    return result;
+  }
+
+  Object.entries(events).forEach((keyValue: any) => {
+    const eventsItems: CalendarEvent[] = keyValue[1];
+    result = [...result, ...eventsItems];
+  });
+
+  return result;
+};
+
+export const eventsToDateKey = (events: CalendarEvent[], timezone: string) => {
+  const result: any = {};
+
+  events?.forEach((item: any) => {
+    const dateKey: any = parseToDateTime(
+      item.startAt,
+      item.timezoneStartAt || timezone
+    ).toFormat('dd-MM-yyyy');
+
+    if (result[dateKey]) {
+      result[dateKey] = [...result[dateKey], ...[item]];
+    } else {
+      result[dateKey] = [item];
+    }
+  });
+
+  return result;
+};

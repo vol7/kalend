@@ -7,6 +7,7 @@ import { DateTime } from 'luxon';
 import { getCalendarDays } from './utils/calendarDays';
 import { getHeight, getWidth, useHeight, useWidth } from './utils/layout';
 import { getTableOffset } from './utils/common';
+import { parseAllDayEvents } from './utils/allDayEvents';
 import { useContext, useEffect, useState } from 'react';
 import AgendaView from './components/agendaView/AgendaView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
@@ -50,7 +51,6 @@ const Calendar = (props: CalendarProps) => {
 
   // init context
   useEffect(() => {
-    setContext('events', config.events);
     setContext('isDark', config.isDark);
     setContext(
       'initialView',
@@ -75,13 +75,13 @@ const Calendar = (props: CalendarProps) => {
       setContext('isMobile', false);
     }
 
-    // handle timezone
-    if (timezone) {
-      setContext('timezone', timezone);
-    } else {
-      // set system timezone
-      setContext('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone);
-    }
+    // handle timezone and events
+    const userTimezone: string =
+      timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+    setContext('timezone', userTimezone);
+
+    const eventsResult = parseAllDayEvents(config.events, userTimezone);
+    setContext('events', eventsResult);
   }, []);
 
   useEffect(() => {
@@ -192,7 +192,9 @@ const Calendar = (props: CalendarProps) => {
   };
 
   useEffect(() => {
-    setContext('events', config.events);
+    const result = parseAllDayEvents(config.events, store.timezone);
+
+    setContext('events', result);
   }, [JSON.stringify(config.events)]);
 
   useEffect(() => {

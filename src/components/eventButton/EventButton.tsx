@@ -20,6 +20,7 @@ import { EVENT_TYPE } from '../../common/enums';
 import { calculateDaysViewLayout } from '../../utils/eventLayout';
 import { calculatePositionForHeaderEvents } from '../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { formatDateTimeToString } from '../../utils/common';
+import { parseAllDayEvents } from '../../utils/allDayEvents';
 import { parseEventColor } from '../../utils/calendarDays';
 import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
@@ -478,7 +479,7 @@ const EventButton = (props: EventProps) => {
 
   // TESTING
   const onFinishDraggingInternal = (eventToUpdate: any) => {
-    const result: any = {};
+    let result: any = {};
     Object.entries(events).forEach((keyValue: any) => {
       const [date, events] = keyValue;
 
@@ -501,6 +502,8 @@ const EventButton = (props: EventProps) => {
         }
       });
     });
+
+    result = parseAllDayEvents(result, timezone);
 
     setContext('events', result);
 
