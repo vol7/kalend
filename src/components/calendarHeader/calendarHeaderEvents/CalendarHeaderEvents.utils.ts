@@ -144,7 +144,8 @@ export const calculatePositionForHeaderEvents = (
       // check if events are not overlapping
       const isOverlapping: boolean = checkOverlappingEvents(
         stretchHeaderEventTimes(event),
-        stretchHeaderEventTimes(eventToCompare)
+        stretchHeaderEventTimes(eventToCompare),
+        timezone
       );
 
       // found not overlapping matching event
@@ -154,7 +155,8 @@ export const calculatePositionForHeaderEvents = (
         rowWithNotOverlappingEvents.forEach((itemFromRow) => {
           const isOverlappingAll: boolean = checkOverlappingEvents(
             stretchHeaderEventTimes(itemFromRow),
-            stretchHeaderEventTimes(eventToCompare)
+            stretchHeaderEventTimes(eventToCompare),
+            timezone
           );
 
           // prevent merging if only one conflict exists

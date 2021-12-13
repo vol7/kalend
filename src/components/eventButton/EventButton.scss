@@ -29,6 +29,7 @@
 
   &-normal {
     @extend .Kalend__Event;
+    border: solid 1px white !important;
   }
 
   &-header {
