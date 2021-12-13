@@ -19,44 +19,71 @@ import { parseToDateTime } from './dateTimeParser';
 
 export const checkOverlappingEvents = (
   eventA: CalendarEvent,
-  eventB: CalendarEvent
+  eventB: CalendarEvent,
+  timezone: string
 ): boolean => {
-  const startAtFirst: DateTime = DateTime.fromISO(eventA.startAt);
-  const endAtFirst: DateTime = DateTime.fromISO(eventA.endAt);
+  const startAtFirst: DateTime = parseToDateTime(
+    eventA.startAt,
+    eventA.timezoneStartAt,
+    timezone
+  );
+  const endAtFirst: DateTime = parseToDateTime(
+    eventA.endAt,
+    eventA.timezoneStartAt,
+    timezone
+  );
+  const startAtSecond: DateTime = parseToDateTime(
+    eventB.startAt,
+    eventB.timezoneStartAt,
+    timezone
+  );
+  const endAtSecond: DateTime = parseToDateTime(
+    eventB.endAt,
+    eventB.timezoneStartAt,
+    timezone
+  );
 
   return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
-    Interval.fromDateTimes(
-      DateTime.fromISO(eventB.startAt),
-      DateTime.fromISO(eventB.endAt)
-    )
+    Interval.fromDateTimes(startAtSecond, endAtSecond)
   );
 };
 
 const adjustForMinimalHeight = (
   eventA: any,
-  eventB: any
+  eventB: any,
+  hourHeight: number
 ): { eventA: any; eventB: any } => {
   const result: any = {
     eventA: { ...eventA },
     eventB: { ...eventB },
   };
 
-  const eventADiff: number = DateTime.fromISO(eventA.endAt).diff(
-    DateTime.fromISO(eventA.startAt)
-  ).minutes;
-  const eventBDiff: number = DateTime.fromISO(eventB.endAt).diff(
-    DateTime.fromISO(eventB.startAt)
-  ).minutes;
+  const eventADiff: number =
+    // @ts-ignore
+    DateTime.fromISO(eventA.endAt)
+      .diff(DateTime.fromISO(eventA.startAt))
+      .toObject().minutes /
+    (60 / hourHeight);
+  const eventBDiff: number =
+    // @ts-ignore
+    DateTime.fromISO(eventB.endAt)
+      .diff(DateTime.fromISO(eventB.startAt))
+      .toObject().minutes /
+    (60 / hourHeight);
 
   if (eventADiff < EVENT_MIN_HEIGHT) {
-    result.eventA.endAt = DateTime.fromISO(result.eventA.endAt).plus({
-      minutes: EVENT_MIN_HEIGHT - eventADiff,
-    });
+    result.eventA.endAt = DateTime.fromISO(result.eventA.endAt)
+      .plus({
+        minutes: EVENT_MIN_HEIGHT - eventADiff,
+      })
+      .toString();
   }
   if (eventBDiff < EVENT_MIN_HEIGHT) {
-    result.eventB.endAt = DateTime.fromISO(result.eventB.endAt).plus({
-      minutes: EVENT_MIN_HEIGHT - eventBDiff,
-    });
+    result.eventB.endAt = DateTime.fromISO(result.eventB.endAt)
+      .plus({
+        minutes: EVENT_MIN_HEIGHT - eventBDiff,
+      })
+      .toString();
   }
 
   return result;
@@ -80,21 +107,7 @@ export const calculateNormalEventPositions = (
   if (events) {
     // Filter all day events and multi day events
     events
-      .filter(
-        (item: any) =>
-          !item.allDay &&
-          // @ts-ignore
-          parseToDateTime(item.endAt, item.timezoneStartAt, defaultTimezone)
-            .diff(
-              parseToDateTime(
-                item.startAt,
-                item.timezoneStartAt,
-                defaultTimezone
-              ),
-              'days'
-            )
-            .toObject().days < 1
-      )
+      .filter((item: any) => !item.allDay)
       .map((event: any) => {
         let width = 1; //Full width
         let offsetLeft = 0;
@@ -103,25 +116,15 @@ export const calculateNormalEventPositions = (
           if (event.id !== item2.id && !item2.allDay) {
             // adjust events to have at least minimal height to check
             // overlapping
-            const { eventA, eventB } = adjustForMinimalHeight(event, item2);
+            const { eventA, eventB } = adjustForMinimalHeight(
+              event,
+              item2,
+              hourHeight
+            );
 
             if (
-              checkOverlappingEvents(eventA, eventB) &&
-              // @ts-ignore
-              parseToDateTime(
-                eventB.endAt,
-                eventB.timezoneStartAt,
-                defaultTimezone
-              )
-                .diff(
-                  parseToDateTime(
-                    eventB.startAt,
-                    eventB.timezoneStartAt,
-                    defaultTimezone
-                  ),
-                  'days'
-                )
-                .toObject().days < 1
+              checkOverlappingEvents(eventA, eventB, defaultTimezone) &&
+              !eventB.allDay
             ) {
               width = width + 1; //add width for every overlapping item
               offsetCount.push(item2.id); // set offset for positioning
