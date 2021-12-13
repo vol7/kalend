@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+- fix all day events positions
+- fix shrinking not overlapping events
+
 ## 0.2.0
 - support for dragging events in week/days view
 - re-rendering event changes should be smoother
