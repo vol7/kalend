@@ -90,6 +90,8 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       selectedView
     );
 
+    setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+
     setContext('daysViewLayout', positions);
   }, [calendarDays[0]]);
   useEffect(() => {
@@ -109,6 +111,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
         events,
         width / calendarDays.length,
         calendarDays,
+        timezone,
         setContext
       );
     setContext('headerLayout', eventPositions);

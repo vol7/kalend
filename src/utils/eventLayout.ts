@@ -84,11 +84,11 @@ export const calculateNormalEventPositions = (
         (item: any) =>
           !item.allDay &&
           // @ts-ignore
-          parseToDateTime(item.endAt, item.timezoneStart, defaultTimezone)
+          parseToDateTime(item.endAt, item.timezoneStartAt, defaultTimezone)
             .diff(
               parseToDateTime(
                 item.startAt,
-                item.timezoneStart,
+                item.timezoneStartAt,
                 defaultTimezone
               ),
               'days'
@@ -110,13 +110,13 @@ export const calculateNormalEventPositions = (
               // @ts-ignore
               parseToDateTime(
                 eventB.endAt,
-                eventB.timezoneStart,
+                eventB.timezoneStartAt,
                 defaultTimezone
               )
                 .diff(
                   parseToDateTime(
                     eventB.startAt,
-                    eventB.timezoneStart,
+                    eventB.timezoneStartAt,
                     defaultTimezone
                   ),
                   'days'
@@ -132,11 +132,11 @@ export const calculateNormalEventPositions = (
 
         const offsetTop: any =
           // @ts-ignore
-          parseToDateTime(event.startAt, event.timezoneStart, defaultTimezone)
+          parseToDateTime(event.startAt, event.timezoneStartAt, defaultTimezone)
             .diff(
               parseToDateTime(
                 event.startAt,
-                event.timezoneStart,
+                event.timezoneStartAt,
                 defaultTimezone
               ).set({
                 hour: 0,
@@ -150,9 +150,9 @@ export const calculateNormalEventPositions = (
 
         const eventHeight: any =
           // @ts-ignore
-          parseToDateTime(event.endAt, event.timezoneStart)
+          parseToDateTime(event.endAt, event.timezoneStartAt)
             .diff(
-              parseToDateTime(event.startAt, event.timezoneStart),
+              parseToDateTime(event.startAt, event.timezoneStartAt),
               'minutes'
             )
             .toObject().minutes /
@@ -259,10 +259,17 @@ export const calculateDaysViewLayout = (
 
 export const checkOverlappingDatesForHeaderEvents = (
   event: CalendarEvent,
-  day: DateTime
+  day: DateTime,
+  timezone: string
 ): boolean => {
-  const dateStart = parseToDateTime(event.startAt, event.timezoneStart);
-  const dateEnd = parseToDateTime(event.endAt, event.timezoneStart);
+  const dateStart = parseToDateTime(
+    event.startAt,
+    event.timezoneStartAt || timezone
+  );
+  const dateEnd = parseToDateTime(
+    event.endAt,
+    event.timezoneStartAt || timezone
+  );
   const dayTruncated: number = parseToDate(day)
     .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
     .toMillis();
@@ -288,12 +295,13 @@ export const checkOverlappingDatesForHeaderEvents = (
 
 export const isEventInRange = (
   event: CalendarEvent,
-  days: DateTime[]
+  days: DateTime[],
+  timezone: string
 ): boolean => {
   let hasMatch = false;
 
   for (const day of days) {
-    if (checkOverlappingDatesForHeaderEvents(event, day)) {
+    if (checkOverlappingDatesForHeaderEvents(event, day, timezone)) {
       hasMatch = true;
       return true;
       // return false;

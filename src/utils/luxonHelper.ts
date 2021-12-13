@@ -65,14 +65,11 @@ const LuxonHelper = {
 
   getFirstDayOfMonth: (date: DateTime): DateTime => date.set({ day: 1 }),
 
-  isSameDay: (dateA: DateTime | string, dateB: DateTime | string): boolean => {
-    const dateAParsed: DateTime = LuxonHelper.parseToDateTime(dateA);
-    const dateBParsed: DateTime = LuxonHelper.parseToDateTime(dateB);
-
+  isSameDay: (dateA: DateTime, dateB: DateTime): boolean => {
     return (
-      dateAParsed.year === dateBParsed.year &&
-      dateAParsed.month === dateBParsed.month &&
-      dateAParsed.day === dateBParsed.day
+      dateA.year === dateB.year &&
+      dateA.month === dateB.month &&
+      dateA.day === dateB.day
     );
   },
 
