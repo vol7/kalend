@@ -10,18 +10,14 @@ const CalendarHeaderDays = (props: CalendarHeaderDaysProps) => {
   const { isMonthView } = props;
 
   const [store] = useContext(Context);
-  const { calendarDays, width } = store;
+  const { calendarDays } = store;
 
   const daysNum: number = isMonthView ? 7 : calendarDays.length;
 
   return (
     <CalendarHeaderWrapper isMonthView={isMonthView}>
       <CalendarHeaderColText>
-        <CalendarHeaderWeekDays
-          width={width}
-          daysNum={daysNum}
-          days={calendarDays}
-        />
+        <CalendarHeaderWeekDays daysNum={daysNum} days={calendarDays} />
       </CalendarHeaderColText>
       {!isMonthView ? (
         <CalendarHeaderColText>

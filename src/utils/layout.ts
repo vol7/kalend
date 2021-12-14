@@ -28,6 +28,34 @@ export const useWidth = () => {
   return width;
 };
 
+export const getDayLayoutWidth = () => {
+  const rootEl: any = document.querySelector('.Kalend__Calendar__body');
+  if (rootEl) {
+    return rootEl.clientWidth;
+  }
+
+  return 0;
+};
+
+export const useDayLayoutWidth = () => {
+  const [width, setWidth] = useState(getDayLayoutWidth());
+
+  // Get width on init
+  useEffect(() => {
+    const listenToResizeEvent = () => {
+      setWidth(getDayLayoutWidth());
+    };
+
+    window.addEventListener('resize', listenToResizeEvent);
+
+    return () => {
+      window.removeEventListener('resize', listenToResizeEvent);
+    };
+  }, []);
+
+  return width;
+};
+
 export const getHeight = () => {
   const rootEl: any = document.querySelector('.Kalend__Calendar__table');
   if (rootEl) {
