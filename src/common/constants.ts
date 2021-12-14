@@ -8,6 +8,7 @@ export const DEFAULT_HOUR_HEIGHT = 40;
 export const SHOW_TIME_THRESHOLD = 60;
 export const MONTH_DAY_HEADER_HEIGHT = 25;
 export const MONTH_EVENT_HEIGHT = 14;
+export const SCROLLBAR_WIDTH = 15;
 
 export const hoursArrayString = [
   '00',

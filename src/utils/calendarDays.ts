@@ -7,7 +7,6 @@ import LuxonHelper from './luxonHelper';
 const ONE_DAY = 1;
 const THREE_DAYS = 3;
 const SEVEN_DAYS = 7;
-export const CALENDAR_OFFSET_LEFT = 24;
 
 export const formatIsoStringDate = (stringDate: string) =>
   stringDate.slice(0, stringDate.indexOf('T'));
