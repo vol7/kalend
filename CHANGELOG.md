@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2
+- fix missing and flickering lines in week view
+- events styling improvements
+- fix hidden time in events
+
 ## 0.2.1
 - fix all day events positions
 - fix shrinking not overlapping events
