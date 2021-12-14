@@ -36,6 +36,11 @@ const createTempMonthEventsLayout = (): EventLayout => {
     height: MONTH_EVENT_HEIGHT,
     zIndex: 1,
     border: 'none',
+    meta: {
+      showTime: false,
+      isFullWidth: true,
+      centerText: true,
+    },
   };
 };
 
@@ -62,6 +67,7 @@ const initialState: any = {
   height: 0,
   zIndex: 2,
   border: '',
+  meta: {},
 };
 
 interface EventProps {
@@ -77,7 +83,6 @@ const EventButton = (props: EventProps) => {
     event,
     type,
     handleEventClick,
-    meta,
     day = DateTime.now(),
     onEventDragFinish,
   } = props;
@@ -159,6 +164,7 @@ const EventButton = (props: EventProps) => {
     setState('height', layout.height);
     setState('zIndex', layout.zIndex);
     setState('border', layout.border);
+    setState('meta', layout.meta);
   };
 
   const initStatPosition = () => {
@@ -588,7 +594,12 @@ const EventButton = (props: EventProps) => {
         <EventMonth event={event} isDark={isDark} type={type} />
       ) : null}
       {type === EVENT_TYPE.NORMAL ? (
-        <EventNormal event={event} isDark={isDark} type={type} meta={meta} />
+        <EventNormal
+          event={event}
+          isDark={isDark}
+          type={type}
+          meta={state.meta}
+        />
       ) : null}
       {type === EVENT_TYPE.AGENDA ? (
         <EventAgenda event={event} isDark={isDark} type={type} />
