@@ -79,6 +79,7 @@ export interface EventLayout {
   height: number;
   zIndex: number;
   border: string;
+  meta: EventLayoutMeta;
 }
 
 // functions

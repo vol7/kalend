@@ -2,6 +2,7 @@ import { CALENDAR_VIEW } from '../../../../common/enums';
 import { CalendarHeaderDatesProps } from './CalendarHeaderDates.props';
 import { Context } from '../../../../context/store';
 import { DateTime } from 'luxon';
+import { getCorrectWidth } from '../../../../utils/common';
 import { useContext } from 'react';
 import CalendarHeaderCol from '../calendarHeaderCol/CalendarHeaderCol';
 import CalendarHeaderColText from '../calendarHeaderColText/CalendarHeaderColText';
@@ -16,11 +17,19 @@ import LuxonHelper from '../../../../utils/luxonHelper';
  */
 const CalendarHeaderDates = (props: CalendarHeaderDatesProps) => {
   const [store] = useContext(Context);
-  const { calendarDays, selectedDate, calendarView, width } = store;
+  const {
+    calendarDays,
+    selectedDate,
+    calendarView,
+    width,
+    isMobile,
+    selectedView,
+  } = store;
 
   const { daysNum } = props;
 
-  const colWidth: number = width / daysNum;
+  const colWidth: number =
+    getCorrectWidth(width, isMobile, selectedView) / daysNum;
 
   const renderNumericDays = () =>
     calendarDays.map((calendarDay: DateTime) => {
