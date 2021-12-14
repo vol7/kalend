@@ -1,4 +1,4 @@
-import { CALENDAR_OFFSET_LEFT } from '../common/constants';
+import { CALENDAR_OFFSET_LEFT, SCROLLBAR_WIDTH } from '../common/constants';
 import { CALENDAR_VIEW } from '../common/enums';
 import { CalendarEvent } from '../common/interface';
 import { DateTime } from 'luxon';
@@ -120,4 +120,30 @@ export const eventsToDateKey = (events: CalendarEvent[], timezone: string) => {
   });
 
   return result;
+};
+
+/**
+ * Adjust width for views with displayed scrollbar cutting of space
+ * @param width
+ * @param isMobile
+ * @param selectedView
+ */
+export const getCorrectWidth = (
+  width: number,
+  isMobile: boolean,
+  selectedView: CALENDAR_VIEW
+): number => {
+  if (
+    selectedView === CALENDAR_VIEW.WEEK ||
+    selectedView === CALENDAR_VIEW.DAY ||
+    selectedView === CALENDAR_VIEW.THREE_DAYS
+  ) {
+    if (isMobile) {
+      return width;
+    } else {
+      return width - SCROLLBAR_WIDTH;
+    }
+  }
+
+  return width;
 };

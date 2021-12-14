@@ -3,6 +3,7 @@ import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
 import { Context } from '../../../../context/store';
 import { DateTime } from 'luxon';
 import { daysText } from '../../../../utils/calendarDays';
+import { getCorrectWidth } from '../../../../utils/common';
 import { useContext } from 'react';
 import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
 
@@ -16,11 +17,13 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
   const { daysNum, days } = props;
 
   const [store] = useContext(Context);
-  const { width, selectedView } = store;
+  const { width, selectedView, isMobile } = store;
 
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
 
-  const colWidth: number = width / daysNum;
+  const colWidth: number = isMonthView
+    ? width / daysNum
+    : getCorrectWidth(width, isMobile, selectedView) / daysNum;
 
   const renderDaysText = () => {
     const dayTextColumnWidth: any = {
