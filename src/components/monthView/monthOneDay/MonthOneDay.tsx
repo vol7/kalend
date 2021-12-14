@@ -59,6 +59,10 @@ const MonthOneDay = (props: MonthOneDayProps) => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                position: 'absolute',
+                top:
+                  maxEvents * MONTH_EVENT_HEIGHT - MONTH_EVENT_HEIGHT / 2 - 2,
+                height: MONTH_EVENT_HEIGHT,
               }}
               onClick={handleShowMore}
             >

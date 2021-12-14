@@ -108,6 +108,7 @@ const EventButton = (props: EventProps) => {
   const columnWidth: number = width / calendarDays.length;
   const eventColor: string = parseEventColor(event.color as string, isDark);
 
+  const isLoaded: boolean = state.width !== 0 && state.height > 0;
   const style: EventStyle = {
     position:
       type === EVENT_TYPE.MONTH || type === EVENT_TYPE.AGENDA
@@ -120,6 +121,7 @@ const EventButton = (props: EventProps) => {
     zIndex: state.zIndex,
     border: state.zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
     backgroundColor: eventColor,
+    visibility: isLoaded ? 'visible' : 'hidden',
     // alignItems: meta?.centerText ? 'center' : 'inherit',
   };
 

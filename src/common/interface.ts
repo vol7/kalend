@@ -69,6 +69,7 @@ export interface EventStyle {
   zIndex?: number;
   border: string;
   alignItems?: string;
+  visibility: string;
 }
 
 export interface EventLayout {
