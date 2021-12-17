@@ -8,10 +8,6 @@ Support for:
 - month view
 - agenda list view
 
-
-- dragging events
-#
-
 ### LIVE DEMO: https://demo.kalend.org
 ### Storybook: https://storybook.kalend.org
 #
@@ -21,10 +17,6 @@ Support for:
 #
 
 If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui.
-
-TODO:
-
-- dragging events in month view
 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 
