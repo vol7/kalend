@@ -22,4 +22,5 @@ export interface CalendarProps {
   onEventDragFinish?: OnEventDragFinishFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
+  weekDayStart?: string;
 }

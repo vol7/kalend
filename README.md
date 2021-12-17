@@ -8,8 +8,11 @@ Support for:
 - month view
 - agenda list view
 
+
 ### LIVE DEMO: https://demo.kalend.org
+
 ### Storybook: https://storybook.kalend.org
+
 #
 
 ![Alt text](screenshot.png?raw=true 'Title')
@@ -44,21 +47,22 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 
 # Props
 
-| prop                    | type                                          | default            | required | desc                                                                |
-| ----------------------- | --------------------------------------------- | ------------------ | -------- | ------------------------------------------------------------------- |
-| `initialDate`           | `string`                                      |                    | false    | starting date for calendar                                          |
-| `initialView`           | `CalendarView - day, three days, week, month` | CALENDAR_VIEW.WEEK | true     | starts in calendar view                                             |
-| `selectedView`          | `CalendarView`                                |                    | false    | selected view for control outside of the component                  |
-| `disabledViews`         | `CalendarView[]`                              |                    | false    | disable views you don't need                                        |
-| `hourHeight`            | `number`                                      | 40                 | false    | height for one hour column in px                                    |
-| `events`                | `CalendarEvent[]`                             | []                 | true     | events for calendar                                                 |
-| `onNewEventClick`       | `callback func`                               |                    | false    | callback for clicking on calendar table to create new event         |
-| `onEventClick`          | `callback func`                               |                    | false    | callback for clicking on event                                      |
-| `onSelectView`          | `callback func`                               |                    | false    | callback for view change event                                      |
-| `onPageChange`          | `callback func`                               |                    | false    | callback for navigating through calendar pages                      |
-| `showMoreMonth`         | `callback func`                               |                    | false    | callback for accessing events which didn't fit in month view        |
-| `disableMobileDropdown` | `boolean`                                     |                    | false    | disable button for triggering mobile dropdown with views            |
-| `timezone`              | `string`                                      |                    | false    | IANA timezone format, if not provided, system timezone will be used |
+| prop                    | type                                          | default            | options          | required | desc                                                                |
+| ----------------------- |-----------------------------------------------|--------------------|------------------|----------|---------------------------------------------------------------------|
+| `initialDate`           | `string`                                      |                    |                  | false    | starting date for calendar                                          |
+| `initialView`           | `CalendarView - day, three days, week, month` | CALENDAR_VIEW.WEEK |                  | true     | starts in calendar view                                             |
+| `selectedView`          | `CalendarView`                                |                    |                  | false    | selected view for control outside of the component                  |
+| `disabledViews`         | `CalendarView[]`                              |                    |                  | false    | disable views you don't need                                        |
+| `hourHeight`            | `number`                                      | 40                 |                  | false    | height for one hour column in px                                    |
+| `events`                | see example below                             | []                 |                  | true     | events for calendar                                                 |
+| `onNewEventClick`       | `callback func`                               |                    |                  | false    | callback for clicking on calendar table to create new event         |
+| `onEventClick`          | `callback func`                               |                    |                  | false    | callback for clicking on event                                      |
+| `onSelectView`          | `callback func`                               |                    |                  | false    | callback for view change event                                      |
+| `onPageChange`          | `callback func`                               |                    |                  | false    | callback for navigating through calendar pages                      |
+| `showMoreMonth`         | `callback func`                               |                    |                  | false    | callback for accessing events which didn't fit in month view        |
+| `disableMobileDropdown` | `boolean`                                     | false              |                  | false    | disable button for triggering mobile dropdown with views            |
+| `timezone`              | `string`                                      | system timezone    |                  | false    | IANA timezone format, if not provided, system timezone will be used |
+| `weekDayStart`          | `string`                                      | Monday             | Monday or Sunday | false    | starting date for week                                              |
 
 # Usage
 
@@ -168,11 +172,12 @@ Callback returns array of CalendarEvent which did not fit inside day column in m
     }
 
 ### onEventDragFinish
+
     const onEventDragFinish: OnEventDragFinish = (
     updatedEvent: CalendarEvent,
     events: any
     ) => {
-        // if you want just update whole state, you can just set events 
+        // if you want just update whole state, you can just set events
         setState(events);
         // OR you can handle logic for updating inside your app with access to "updatedEvent"
 

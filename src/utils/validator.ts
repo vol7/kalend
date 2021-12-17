@@ -37,6 +37,17 @@ export const validateProps = (props: KalendProps): void => {
   if (!initialView) {
     throw Error(`[Kalend]: Initial view "${props.initialView}" is not valid`);
   }
+
+  // validate weekDayStart
+  if (
+    props.weekDayStart &&
+    props.weekDayStart !== 'Monday' &&
+    props.weekDayStart !== 'Sunday'
+  ) {
+    throw Error(
+      `[Kalend]: invalid weekDayStart prop "${props.weekDayStart}". Set either Monday or Sunday`
+    );
+  }
 };
 
 export const validateStyle = (): void => {

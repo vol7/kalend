@@ -1,8 +1,8 @@
-import { CALENDAR_VIEW } from '../../../../common/enums';
+import { CALENDAR_VIEW, WEEKDAY_START } from '../../../../common/enums';
 import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
 import { Context } from '../../../../context/store';
 import { DateTime } from 'luxon';
-import { daysText } from '../../../../utils/calendarDays';
+import { daysText, daysTextSundayStart } from '../../../../utils/calendarDays';
 import { getCorrectWidth } from '../../../../utils/common';
 import { useContext } from 'react';
 import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
@@ -17,7 +17,7 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
   const { daysNum, days } = props;
 
   const [store] = useContext(Context);
-  const { width, selectedView, isMobile } = store;
+  const { width, selectedView, isMobile, weekDayStart } = store;
 
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
 
@@ -25,13 +25,16 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
     ? width / daysNum
     : getCorrectWidth(width, isMobile, selectedView) / daysNum;
 
+  const weekDays =
+    weekDayStart === WEEKDAY_START.SUNDAY ? daysTextSundayStart : daysText;
+
   const renderDaysText = () => {
     const dayTextColumnWidth: any = {
       width: colWidth,
     };
 
     if (isMonthView) {
-      return daysText.map((day: string) => (
+      return weekDays.map((day: string) => (
         <div
           key={day}
           className={'Kalend__CalendarHeaderWeekDays__col'}

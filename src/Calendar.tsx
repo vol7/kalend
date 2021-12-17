@@ -1,4 +1,4 @@
-import { CALENDAR_VIEW } from './common/enums';
+import { CALENDAR_VIEW, WEEKDAY_START } from './common/enums';
 import { CalendarEvent, NewEventClickData } from './common/interface';
 import { CalendarProps } from './Calendar.props';
 import { Context } from './context/store';
@@ -15,6 +15,27 @@ import CalendarHeader from './components/calendarHeader/CalendarHeader';
 import CalendarTableLayoutLayer from './CalendarTableLayoutLayer';
 import DaysViewTable from './components/daysViewTable/DaysViewTable';
 import MonthView from './components/monthView/MonthView';
+
+const handleSetWeekDayStart = (
+  setContext: any,
+  weekDayStart?: string
+): WEEKDAY_START => {
+  let weekDayStartResult: WEEKDAY_START;
+
+  if (weekDayStart) {
+    if (weekDayStart === 'Monday') {
+      weekDayStartResult = WEEKDAY_START.MONDAY;
+    } else {
+      weekDayStartResult = WEEKDAY_START.SUNDAY;
+    }
+  } else {
+    weekDayStartResult = WEEKDAY_START.MONDAY;
+  }
+
+  setContext('weekDayStart', weekDayStartResult);
+
+  return weekDayStartResult;
+};
 
 const Calendar = (props: CalendarProps) => {
   const {
@@ -33,7 +54,8 @@ const Calendar = (props: CalendarProps) => {
     dispatch({ type, payload });
   };
 
-  const { selectedView, selectedDate, calendarDays, events } = store;
+  const { selectedView, selectedDate, calendarDays, events, weekDayStart } =
+    store;
 
   const width: any = useWidth();
   const height: any = useHeight();
@@ -43,7 +65,8 @@ const Calendar = (props: CalendarProps) => {
   useEffect(() => {
     const calendarDaysInitial: DateTime[] = getCalendarDays(
       props.selectedView || config.initialView,
-      config.initialDate ? config.initialDate : DateTime.now()
+      config.initialDate ? config.initialDate : DateTime.now(),
+      handleSetWeekDayStart(setContext, props.weekDayStart)
     );
 
     setContext('calendarDays', calendarDaysInitial);
@@ -51,6 +74,8 @@ const Calendar = (props: CalendarProps) => {
 
   // init context
   useEffect(() => {
+    handleSetWeekDayStart(setContext, props.weekDayStart);
+
     setContext('isDark', config.isDark);
     setContext(
       'initialView',
@@ -143,6 +168,7 @@ const Calendar = (props: CalendarProps) => {
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChanged,
       DateTime.now(),
+      weekDayStart,
       setSelectedDate
     );
 
@@ -171,6 +197,7 @@ const Calendar = (props: CalendarProps) => {
       const calendarDaysNew: DateTime[] = getCalendarDays(
         props.selectedView,
         DateTime.now(),
+        weekDayStart,
         setSelectedDate
       );
 
