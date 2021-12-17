@@ -1,5 +1,9 @@
 import { DateTime } from 'luxon';
-import { OnEventClickFunc, ShowMoreMonthFunc } from '../../../common/interface';
+import {
+  OnEventClickFunc,
+  OnEventDragFinishFunc,
+  ShowMoreMonthFunc,
+} from '../../../common/interface';
 
 export interface MonthOneDayProps {
   index: number;
@@ -7,4 +11,5 @@ export interface MonthOneDayProps {
   day: DateTime;
   handleEventClick: OnEventClickFunc;
   showMoreMonth?: ShowMoreMonthFunc;
+  onEventDragFinish?: OnEventDragFinishFunc;
 }

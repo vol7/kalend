@@ -15,7 +15,14 @@ import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
 
 const MonthOneDay = (props: MonthOneDayProps) => {
-  const { index, data, day, handleEventClick, showMoreMonth } = props;
+  const {
+    index,
+    data,
+    day,
+    handleEventClick,
+    showMoreMonth,
+    onEventDragFinish,
+  } = props;
 
   const [store] = useContext(Context);
   const { isDark, selectedDate, height } = store;
@@ -43,6 +50,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
               type={EVENT_TYPE.MONTH}
               handleEventClick={handleEventClick}
               day={day}
+              onEventDragFinish={onEventDragFinish}
             />
           );
         } else if (
@@ -132,7 +140,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
   const borderClassName: string = getBorderClassName(index);
 
   return (
-    <div className={borderClassName}>
+    <div className={borderClassName} id={`Kalend__day__${day.toString()}`}>
       <div className={'Kalend__MonthOneDay__header-container'}>
         {renderDate(day)}
       </div>

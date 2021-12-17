@@ -1,7 +1,11 @@
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { MonthViewProps } from './MonthView.props';
-import { OnEventClickFunc, ShowMoreMonthFunc } from '../../common/interface';
+import {
+  OnEventClickFunc,
+  OnEventDragFinishFunc,
+  ShowMoreMonthFunc,
+} from '../../common/interface';
 import { formatTimestampToDate } from '../../utils/common';
 import { useContext } from 'react';
 import MonthOneDay from './monthOneDay/MonthOneDay';
@@ -12,7 +16,8 @@ const renderOneDay = (
   tableHeight: number,
   events: any,
   handleEventClick: OnEventClickFunc,
-  showMoreMonth?: ShowMoreMonthFunc
+  showMoreMonth?: ShowMoreMonthFunc,
+  onEventDragFinish?: OnEventDragFinishFunc
 ) =>
   data.map((calendarDay: DateTime, index: number) => {
     const formattedDayString: string = formatTimestampToDate(calendarDay);
@@ -25,6 +30,7 @@ const renderOneDay = (
         data={events ? events[formattedDayString] : []}
         handleEventClick={handleEventClick}
         showMoreMonth={showMoreMonth}
+        onEventDragFinish={onEventDragFinish}
       />
     );
   });
@@ -33,7 +39,7 @@ const MonthView = (props: MonthViewProps) => {
   const [store] = useContext(Context);
   const { height, width, calendarDays } = store;
 
-  const { handleEventClick, showMoreMonth, events } = props;
+  const { handleEventClick, showMoreMonth, events, onEventDragFinish } = props;
 
   // Calculate height for days table
 
@@ -52,7 +58,8 @@ const MonthView = (props: MonthViewProps) => {
     height,
     events,
     handleEventClick,
-    showMoreMonth
+    showMoreMonth,
+    onEventDragFinish
   );
 
   return (

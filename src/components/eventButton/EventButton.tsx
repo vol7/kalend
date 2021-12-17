@@ -1,26 +1,29 @@
 import { useContext, useEffect, useReducer, useRef } from 'react';
 
-import {
-  CALENDAR_OFFSET_LEFT,
-  EVENT_MIN_HEIGHT,
-  EVENT_TABLE_DELIMITER_SPACE,
-  MONTH_EVENT_HEIGHT,
-} from '../../common/constants';
-import {
-  CalendarEvent,
-  EventLayout,
-  EventLayoutMeta,
-  EventStyle,
-  OnEventClickFunc,
-  OnEventDragFinishFunc,
-} from '../../common/interface';
+import { CalendarEvent, EventLayout, EventStyle } from '../../common/interface';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
+import {
+  EVENT_MIN_HEIGHT,
+  EVENT_TABLE_DELIMITER_SPACE,
+} from '../../common/constants';
 import { EVENT_TYPE } from '../../common/enums';
-import { calculateDaysViewLayout } from '../../utils/eventLayout';
-import { calculatePositionForHeaderEvents } from '../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
+import { EventButtonProps } from './EventButton.props';
+import { calculateHeaderAfterDrag, onMoveHeader } from './utils/draggingHeader';
+import {
+  calculateMonthEventAfterDrag,
+  onMoveMonthEvent,
+} from './utils/draggingMonth';
+import {
+  calculateNewTimeWeekDay,
+  onMoveNormalEvent,
+} from './utils/draggingWeek';
+import {
+  eventButtonInitialState,
+  initEventButtonPosition,
+} from './EventButton.utils';
 import { formatDateTimeToString } from '../../utils/common';
-import { parseAllDayEvents } from '../../utils/allDayEvents';
+import { onFinishDraggingInternal } from './utils/draggingGeneral';
 import { parseEventColor } from '../../utils/calendarDays';
 import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
@@ -28,57 +31,10 @@ import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
 import stateReducer from '../../utils/stateReducer';
 
-const createTempMonthEventsLayout = (): EventLayout => {
-  return {
-    offsetLeft: 0,
-    offsetTop: 0,
-    width: '90%',
-    height: MONTH_EVENT_HEIGHT,
-    zIndex: 1,
-    border: 'none',
-    meta: {
-      showTime: false,
-      isFullWidth: true,
-      centerText: true,
-    },
-  };
-};
-
 // ref to cancel timout
 let timeoutRef: any;
 
-const initialState: any = {
-  dragging: false,
-  initialTop: 0,
-  initialLeft: 0,
-  offsetTop: 0,
-  offsetLeft: 0,
-  xPosition: 0,
-  //TEMP
-  drawingX: 102,
-  drawingY: '',
-  dayWidth: 102,
-  newTime: '',
-  currentIndex: '',
-  newIndex: '',
-  dateFrom: '',
-  eventHasChanged: false,
-  width: 0,
-  height: 0,
-  zIndex: 2,
-  border: '',
-  meta: {},
-};
-
-interface EventProps {
-  event: CalendarEvent;
-  type: EVENT_TYPE;
-  handleEventClick: OnEventClickFunc;
-  meta?: EventLayoutMeta;
-  day?: DateTime;
-  onEventDragFinish?: OnEventDragFinishFunc;
-}
-const EventButton = (props: EventProps) => {
+const EventButton = (props: EventButtonProps) => {
   const {
     event,
     type,
@@ -88,7 +44,10 @@ const EventButton = (props: EventProps) => {
   } = props;
   const { startAt } = event;
 
-  const [state, dispatchState]: any = useReducer(stateReducer, initialState);
+  const [state, dispatchState]: any = useReducer(
+    stateReducer,
+    eventButtonInitialState
+  );
   const setState = (stateName: string, data: any): void => {
     const payload: any = { stateName, data };
     dispatchState({ state, payload });
@@ -104,13 +63,13 @@ const EventButton = (props: EventProps) => {
     width,
     calendarDays,
     hourHeight,
-    events,
-    timezone,
     selectedView,
     daysViewLayout,
+    height,
   } = store;
 
-  const columnWidth: number = width / calendarDays.length;
+  const columnWidth: number =
+    width / (selectedView === EVENT_TYPE.MONTH ? 7 : calendarDays.length);
   const eventColor: string = parseEventColor(event.color as string, isDark);
 
   const isLoaded: boolean = state.width !== 0 && state.height > 0;
@@ -129,25 +88,6 @@ const EventButton = (props: EventProps) => {
     visibility: isLoaded ? 'visible' : 'hidden',
     // alignItems: meta?.centerText ? 'center' : 'inherit',
   };
-
-  // TODO remove?
-  // const getEventCalendarDay = (event: any) => {
-  //   let result: any;
-  //   const eventStartAtDateTime: DateTime = DateTime.fromISO(event.startAt);
-  //
-  //   calendarDays.forEach((calendarDay: any) => {
-  //     const isSameDay = LuxonHelper.isSameDay(
-  //       calendarDay.date,
-  //       eventStartAtDateTime
-  //     );
-  //
-  //     if (isSameDay) {
-  //       result = calendarDay.date;
-  //     }
-  //   });
-  //
-  //   return result;
-  // };
 
   const onEventClick = (e: any) => {
     e.preventDefault();
@@ -169,31 +109,12 @@ const EventButton = (props: EventProps) => {
     setState('meta', layout.meta);
   };
 
-  const initStatPosition = () => {
-    if (type === EVENT_TYPE.NORMAL && props.day) {
-      const formattedDayString: string = formatDateTimeToString(props.day);
-      const eventLayout: any = daysViewLayout[formattedDayString]?.[event.id];
-      if (eventLayout) {
-        setLayout(eventLayout);
-      }
-    } else if (type === EVENT_TYPE.HEADER) {
-      if (store.headerLayout) {
-        const headerLayout: any = store.headerLayout[event.id];
-        if (headerLayout) {
-          setLayout(headerLayout);
-        }
-      }
-    } else {
-      setLayout(createTempMonthEventsLayout());
-    }
-  };
-
   useEffect(() => {
-    initStatPosition();
+    initEventButtonPosition(type, props.day, event, store, setLayout);
   }, []);
 
   useEffect(() => {
-    initStatPosition();
+    initEventButtonPosition(type, props.day, event, store, setLayout);
   }, [
     daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
       event.id
@@ -201,237 +122,78 @@ const EventButton = (props: EventProps) => {
   ]);
 
   useEffect(() => {
-    initStatPosition();
+    initEventButtonPosition(type, props.day, event, store, setLayout);
   }, [store.layoutUpdateSequence]);
 
   // store values as refs to access them in event listener
   const offsetTopRef = useRef(state.offsetTop);
   const offsetLeftRef = useRef(state.offsetLeft);
   const xShiftIndexRef = useRef(0);
+  const yShiftIndexRef = useRef(0);
   const draggingRef = useRef(false);
   const eventWasChangedRef = useRef(false);
 
   const initMove = () => {
+    if (type === EVENT_TYPE.AGENDA) {
+      return;
+    }
+
+    if (!draggingRef.current) {
+      draggingRef.current = true;
+    }
+
     if (type === EVENT_TYPE.NORMAL) {
       setState('offsetLeft', 0);
       setState('width', columnWidth - EVENT_TABLE_DELIMITER_SPACE);
-      if (!draggingRef.current) {
-        draggingRef.current = true;
-      }
-    } else if (type === EVENT_TYPE.HEADER) {
-      if (!draggingRef.current) {
-        draggingRef.current = true;
-      }
     }
-
-    // TODO month event
-  };
-
-  const onMoveNormalEvent = (e: any) => {
-    if (!draggingRef.current) {
-      return;
-    }
-
-    if (!day) {
-      return;
-    }
-
-    const tableElement: any = document.querySelector(
-      '.Kalend__Calendar__table'
-    );
-    const tableElementRect = tableElement.getBoundingClientRect();
-
-    // Get column element for day, where event is placed
-    const dayElement: any = document.getElementById(
-      `Kalend__day__${day.toString()}`
-    );
-    if (!dayElement) {
-      return;
-    }
-    const dayElementRect = dayElement.getBoundingClientRect();
-
-    const touches: any = e.nativeEvent?.touches?.[0];
-
-    // set basic coordinates from movement
-    let x: number;
-    let y: number;
-
-    // handle touch movement
-    if (touches) {
-      x = touches.clientX - dayElementRect.x;
-      y = touches.clientY - dayElementRect.top;
-    } else {
-      // handle mouse movement
-      // calculate x and y coordinates while following mouse move
-      x = e.clientX - dayElementRect.x;
-      y = e.clientY - dayElementRect.top;
-    }
-
-    // prevent free dragging across columns with simple recalculation for
-    const columnShift = Math.floor(x / columnWidth);
-
-    const xTable = e.clientX - tableElementRect.x;
-
-    const columnShiftTable = Math.round(xTable / columnWidth);
-
-    // restrict draggable space for timetable
-    if (y < 0) {
-      return;
-    }
-
-    eventWasChangedRef.current = true;
-    setState('offsetTop', y - EVENT_MIN_HEIGHT);
-    offsetTopRef.current = y - EVENT_MIN_HEIGHT;
-
-    // prevent overflowing on x-axis
-    if (
-      columnShiftTable * columnWidth >= width ||
-      xTable - CALENDAR_OFFSET_LEFT < 0
-    ) {
-      return;
-    }
-
-    xShiftIndexRef.current = columnShift;
-    setState('offsetLeft', columnShift * columnWidth);
-    offsetLeftRef.current = x;
-  };
-
-  const onMoveHeader = (e: any) => {
-    const tableElement: any = document.querySelector(
-      '.Kalend__Calendar__table'
-    );
-    const tableElementRect = tableElement.getBoundingClientRect();
-
-    const touches: any = e.nativeEvent?.touches?.[0];
-
-    // set basic coordinates from movement
-    let x: number;
-
-    // handle touch movement
-    if (touches) {
-      x = touches.clientX - tableElementRect.x;
-    } else {
-      // calculate x coordinates while following mouse move
-      x = e.clientX - tableElementRect.x;
-    }
-
-    // prevent free dragging across columns with simple recalculation for
-    const columnShift = Math.floor(x / columnWidth);
-
-    const xTable = e.clientX - tableElementRect.x - CALENDAR_OFFSET_LEFT;
-
-    const columnShiftTable = Math.round(xTable / columnWidth);
-
-    if (
-      columnShiftTable * columnWidth + CALENDAR_OFFSET_LEFT >= width ||
-      xTable < 0
-    ) {
-      return;
-    }
-
-    // prevent event overflowing on last day
-    // TODO reset back after moving left again
-    // if (columnShift === calendarDays.length) {
-    //   setState('width', columnWidth)
-    // }
-
-    xShiftIndexRef.current = columnShift;
-    setState('offsetLeft', columnShift * columnWidth + CALENDAR_OFFSET_LEFT);
-    eventWasChangedRef.current = true;
-    offsetLeftRef.current = x;
   };
 
   const onMove = (e: any) => {
     switch (type) {
       case EVENT_TYPE.NORMAL:
-        onMoveNormalEvent(e);
+        onMoveNormalEvent(
+          e,
+          draggingRef,
+          day,
+          columnWidth,
+          width,
+          eventWasChangedRef,
+          xShiftIndexRef,
+          offsetLeftRef,
+          offsetTopRef,
+          setState
+        );
         break;
       case EVENT_TYPE.HEADER:
-        onMoveHeader(e);
+        onMoveHeader(
+          e,
+          columnWidth,
+          width,
+          xShiftIndexRef,
+          offsetLeftRef,
+          eventWasChangedRef,
+          setState
+        );
+        break;
+      case EVENT_TYPE.MONTH:
+        onMoveMonthEvent(
+          e,
+          height,
+          draggingRef,
+          day,
+          columnWidth,
+          width,
+          xShiftIndexRef,
+          yShiftIndexRef,
+          eventWasChangedRef,
+          offsetLeftRef,
+          offsetTopRef,
+          setState
+        );
         break;
       default:
         return;
     }
-  };
-
-  const calculateHeaderAfterDrag = (): CalendarEvent => {
-    const originalStartAtDateTime = DateTime.fromISO(event.startAt);
-    const originalEndAtDateTime = DateTime.fromISO(event.endAt);
-
-    const newDay: DateTime = calendarDays.map(
-      (calendarDay: DateTime) => calendarDay
-    )[xShiftIndexRef.current];
-
-    const diffInMinutes: number | undefined = originalEndAtDateTime
-      .diff(originalStartAtDateTime, 'minutes')
-      .toObject().minutes;
-
-    const newStartAt: DateTime = originalStartAtDateTime.set({
-      year: newDay.year,
-      day: newDay.day,
-      month: newDay.month,
-      hour: originalStartAtDateTime.hour,
-      minute: originalStartAtDateTime.minute,
-    });
-
-    // set correct endAt
-    const newEndAt: DateTime = newStartAt.plus({ minutes: diffInMinutes });
-
-    return {
-      ...event,
-      startAt: newStartAt.toUTC().toString(),
-      endAt: newEndAt.toUTC().toString(),
-    };
-  };
-
-  const calculateNewTime = (
-    offsetTopValue: number,
-    offsetLeftValue: number
-  ): CalendarEvent => {
-    const originalStartAtDateTime = DateTime.fromISO(event.startAt);
-    const originalEndAtDateTime = DateTime.fromISO(event.endAt);
-
-    let goingForward = false;
-    if (offsetLeftValue >= 0) {
-      goingForward = true;
-    } else {
-      goingForward = false;
-    }
-
-    let newDay: DateTime;
-
-    if (goingForward) {
-      newDay = originalStartAtDateTime.plus({ days: xShiftIndexRef.current });
-    } else {
-      newDay = originalStartAtDateTime.minus({
-        days: Math.abs(xShiftIndexRef.current),
-      });
-    }
-
-    const diffInMinutes: number | undefined = originalEndAtDateTime
-      .diff(originalStartAtDateTime, 'minutes')
-      .toObject().minutes;
-    const minutesOffset: number = offsetTopValue / (60 / hourHeight);
-
-    // add minutes calculated from new offset top
-    const newStartAt: DateTime = originalStartAtDateTime
-      .set({
-        year: newDay.year,
-        day: newDay.day,
-        month: newDay.month,
-        hour: 0,
-        minute: 0,
-      })
-      .plus({ minutes: minutesOffset });
-
-    // set correct endAt
-    const newEndAt: DateTime = newStartAt.plus({ minutes: diffInMinutes });
-
-    return {
-      ...event,
-      startAt: newStartAt.toUTC().toString(),
-      endAt: newEndAt.toUTC().toString(),
-    };
   };
 
   /**
@@ -465,86 +227,44 @@ const EventButton = (props: EventProps) => {
 
     // add data to callback
     if (onEventDragFinish) {
-      let newEvent: CalendarEvent;
+      let newEvent: CalendarEvent | null = null;
       if (type === EVENT_TYPE.NORMAL) {
-        newEvent = calculateNewTime(
+        newEvent = calculateNewTimeWeekDay(
           offsetTopRef.current,
-          offsetLeftRef.current
+          offsetLeftRef.current,
+          xShiftIndexRef,
+          event,
+          hourHeight
         );
-
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        onFinishDraggingInternal(newEvent);
       } else if (type === EVENT_TYPE.HEADER) {
-        newEvent = calculateHeaderAfterDrag();
+        newEvent = calculateHeaderAfterDrag(
+          calendarDays,
+          event,
+          xShiftIndexRef
+        );
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        onFinishDraggingInternal(newEvent);
+      } else if (type === EVENT_TYPE.MONTH) {
+        newEvent = calculateMonthEventAfterDrag(
+          calendarDays,
+          yShiftIndexRef,
+          xShiftIndexRef,
+          event
+        );
+      }
+
+      if (newEvent) {
+        onFinishDraggingInternal(
+          newEvent,
+          store,
+          setContext,
+          type,
+          onEventDragFinish
+        );
       }
     }
 
     e.preventDefault();
     e.stopPropagation();
-  };
-
-  // TESTING
-  const onFinishDraggingInternal = (eventToUpdate: any) => {
-    let result: any = {};
-    Object.entries(events).forEach((keyValue: any) => {
-      const [date, events] = keyValue;
-
-      events?.forEach((item: any) => {
-        if (item.id === eventToUpdate.id) {
-          const key: any = DateTime.fromISO(eventToUpdate.startAt).toFormat(
-            'dd-MM-yyyy'
-          );
-          if (result[key]) {
-            result[key] = [...result[key], ...[eventToUpdate]];
-          } else {
-            result[key] = [eventToUpdate];
-          }
-        } else {
-          if (result[date]) {
-            result[date] = [...result[date], ...[item]];
-          } else {
-            result[date] = [item];
-          }
-        }
-      });
-    });
-
-    result = parseAllDayEvents(result, timezone);
-
-    setContext('events', result);
-
-    if (type === EVENT_TYPE.NORMAL) {
-      const positions: any = calculateDaysViewLayout(
-        calendarDays,
-        result,
-        width,
-        timezone,
-        hourHeight,
-        selectedView
-      );
-      setContext('daysViewLayout', positions);
-    }
-
-    if (type === EVENT_TYPE.HEADER) {
-      const headerPositions: any = calculatePositionForHeaderEvents(
-        result,
-        width / calendarDays.length,
-        calendarDays,
-        timezone,
-        setContext
-      );
-
-      setContext('headerLayout', headerPositions);
-    }
-
-    setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
-
-    // return updated data with callback
-    if (onEventDragFinish) {
-      onEventDragFinish(eventToUpdate, result);
-    }
   };
 
   /**

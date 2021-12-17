@@ -10,20 +10,20 @@ import assert from 'assert';
 const truncateDate = (date: DateTime): DateTime =>
   date.set({ minute: 0, second: 0, millisecond: 0 });
 
-const getWeekDaysMock = () => {
+export const getWeekDaysMock = (date = '2021-11-15T10:52:09.797') => {
   const result: DateTime[] = [];
 
   for (let i = 0; i < 7; i += 1) {
-    result.push(DateTime.fromISO('2021-11-15T10:52:09.797').plus({ days: i }));
+    result.push(DateTime.fromISO(date).plus({ days: i }));
   }
 
   return result;
 };
-const getMonthDaysMock = () => {
+export const getMonthDaysMock = (date = '2021-10-27T10:52:09.797') => {
   const result: DateTime[] = [];
 
   for (let i = 0; i < 43; i += 1) {
-    result.push(DateTime.fromISO('2021-10-27T10:52:09.797').plus({ days: i }));
+    result.push(DateTime.fromISO(date).plus({ days: i }));
   }
 
   return result;
