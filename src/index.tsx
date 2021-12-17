@@ -42,6 +42,7 @@ export interface KalendProps {
   onEventDragFinish?: OnEventDragFinishFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
+  weekDayStart?: string;
 }
 const Kalend = (props: KalendProps) => {
   // basic validation
@@ -64,6 +65,7 @@ const Kalend = (props: KalendProps) => {
               isDark: props.isDark,
               events: props.events,
             }}
+            weekDayStart={props.weekDayStart}
             onEventClick={props.onEventClick}
             onNewEventClick={props.onNewEventClick}
             disabledViews={props.disabledViews}

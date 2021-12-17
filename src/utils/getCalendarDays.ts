@@ -1,4 +1,8 @@
-import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
+import {
+  CALENDAR_NAVIGATION_DIRECTION,
+  CALENDAR_VIEW,
+  WEEKDAY_START,
+} from '../common/enums';
 import { DateTime } from 'luxon';
 import { calculateCalendarDays } from './calendarDays';
 
@@ -7,12 +11,14 @@ import { calculateCalendarDays } from './calendarDays';
  * @param calendarDays
  * @param calendarView
  * @param direction
+ * @param weekDayStart
  * @param dispatchContext
  */
 export const getNewCalendarDays = async (
   calendarDays: DateTime[],
   calendarView: CALENDAR_VIEW,
   direction: CALENDAR_NAVIGATION_DIRECTION,
+  weekDayStart: WEEKDAY_START,
   dispatchContext?: any
 ): Promise<void> => {
   const setSelectedDate = (date: DateTime) => {
@@ -23,7 +29,8 @@ export const getNewCalendarDays = async (
     direction,
     calendarDays,
     calendarView,
-    setSelectedDate
+    setSelectedDate,
+    weekDayStart
   );
 
   dispatchContext('calendarDays', newCalendarDays);
@@ -36,12 +43,14 @@ export const getNewCalendarDays = async (
 export const navigateToToday = async (
   selectedView: CALENDAR_VIEW,
   setContext: any,
+  weekDayStart: WEEKDAY_START,
   dateNow: DateTime = DateTime.now()
 ): Promise<void> => {
   await getNewCalendarDays(
     [dateNow],
     selectedView,
     CALENDAR_NAVIGATION_DIRECTION.TODAY,
+    weekDayStart,
     setContext
   );
 };

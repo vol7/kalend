@@ -21,6 +21,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         daysViewLayout: action.payload,
       };
+    case 'weekDayStart':
+      return {
+        ...state,
+        weekDayStart: action.payload,
+      };
     case 'headerLayout':
       return {
         ...state,

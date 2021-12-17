@@ -1,5 +1,9 @@
 /* tslint:disable:no-magic-numbers */
-import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
+import {
+  CALENDAR_NAVIGATION_DIRECTION,
+  CALENDAR_VIEW,
+  WEEKDAY_START,
+} from '../common/enums';
 import { DateTime } from 'luxon';
 import { getArrayEnd, getArrayStart } from './common';
 import LuxonHelper from './luxonHelper';
@@ -72,21 +76,16 @@ export const parseEventColor = (
     : colorString;
 
 export const daysText = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+export const daysTextSundayStart = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
 export const calculateOneDay = (date: DateTime): DateTime => {
   return date;
 };
 
-export const getWeekDays = (
+const calculateMondayStartWeekDay = (
   date: DateTime,
-  calendarView: CALENDAR_VIEW,
-  setSelectedDate?: any
+  calendarView: CALENDAR_VIEW
 ): DateTime[] => {
-  // Set state
-  if (setSelectedDate && calendarView !== CALENDAR_VIEW.MONTH) {
-    setSelectedDate(date);
-  }
-
   const days = [];
   const dayInWeek = date.weekday;
   const startDate = date.minus({ days: dayInWeek - 1 });
@@ -110,6 +109,56 @@ export const getWeekDays = (
   }
 
   return days;
+};
+
+const calculateSundayStartWeekDay = (
+  date: DateTime,
+  calendarView: CALENDAR_VIEW
+): DateTime[] => {
+  const days = [];
+  const dayInWeek = date.weekday;
+  const startDate =
+    dayInWeek === 7
+      ? date.plus({ days: dayInWeek - 7 })
+      : date.minus({ days: dayInWeek });
+
+  if (calendarView === CALENDAR_VIEW.MONTH) {
+    if (dayInWeek === 7) {
+      for (let i = 6; i > 0; i--) {
+        days.push(date.minus({ days: i }));
+      }
+      days.push(date);
+    } else {
+      days.push(startDate);
+      for (let i = 1; i < 7; i++) {
+        days.push(startDate.plus({ days: i }));
+      }
+    }
+  } else {
+    for (let i = 0; i < 7; i++) {
+      days.push(startDate.plus({ days: i }));
+    }
+  }
+
+  return days;
+};
+
+export const getWeekDays = (
+  date: DateTime,
+  calendarView: CALENDAR_VIEW,
+  weekDayStart: WEEKDAY_START,
+  setSelectedDate?: any
+): DateTime[] => {
+  // Set state
+  if (setSelectedDate && calendarView !== CALENDAR_VIEW.MONTH) {
+    setSelectedDate(date);
+  }
+
+  if (weekDayStart === WEEKDAY_START.MONDAY) {
+    return calculateMondayStartWeekDay(date, calendarView);
+  } else {
+    return calculateSundayStartWeekDay(date, calendarView);
+  }
 };
 
 export const getThreeDays = (
@@ -179,7 +228,10 @@ export const calculateAgendaDays = (refDate: DateTime): DateTime[] => {
   return monthDays;
 };
 
-export const calculateMonthDays = (date: DateTime): DateTime[] => {
+export const calculateMonthDays = (
+  date: DateTime,
+  weekDayStart: WEEKDAY_START
+): DateTime[] => {
   const FIVE_WEEKS_DAYS_COUNT = 36;
   // Get reference date for calculating new month
 
@@ -189,6 +241,7 @@ export const calculateMonthDays = (date: DateTime): DateTime[] => {
   const firstWeekOfCurrentMonth: DateTime[] = getWeekDays(
     firstDayOfCurrentMonth,
     CALENDAR_VIEW.WEEK,
+    weekDayStart,
     undefined
   );
 
@@ -217,8 +270,12 @@ export const getAgendaDays = (
   return monthDays;
 };
 
-export const getMonthDays = (date: DateTime, setSelectedDate: any) => {
-  const monthDays: DateTime[] = calculateMonthDays(date);
+export const getMonthDays = (
+  date: DateTime,
+  setSelectedDate: any,
+  weekDayStart: WEEKDAY_START
+) => {
+  const monthDays: DateTime[] = calculateMonthDays(date, weekDayStart);
 
   // Set state
   if (setSelectedDate) {
@@ -279,17 +336,18 @@ export const chooseSelectedDateIndex = (
 export const getCalendarDays = (
   calendarView: CALENDAR_VIEW,
   date: DateTime,
+  weekDayStart: WEEKDAY_START,
   setSelectedDate?: any
 ): DateTime[] => {
   switch (calendarView) {
     case CALENDAR_VIEW.WEEK:
-      return getWeekDays(date, calendarView, setSelectedDate);
+      return getWeekDays(date, calendarView, weekDayStart, setSelectedDate);
     case CALENDAR_VIEW.THREE_DAYS:
       return getThreeDays(date, setSelectedDate);
     case CALENDAR_VIEW.DAY:
       return getOneDay(date, setSelectedDate);
     case CALENDAR_VIEW.MONTH:
-      return getMonthDays(date, setSelectedDate);
+      return getMonthDays(date, setSelectedDate, weekDayStart);
     case CALENDAR_VIEW.AGENDA:
       return getAgendaDays(date, setSelectedDate);
     default:
@@ -343,11 +401,13 @@ export const calculateCalendarDays = (
   direction: CALENDAR_NAVIGATION_DIRECTION,
   calendarDays: DateTime[],
   calendarView: CALENDAR_VIEW,
-  setSelectedDate: any
+  setSelectedDate: any,
+  weekDayStart: WEEKDAY_START
 ): DateTime[] => {
   return getCalendarDays(
     calendarView,
     getReferenceDate(direction, calendarView, calendarDays),
+    weekDayStart,
     setSelectedDate
   );
 };

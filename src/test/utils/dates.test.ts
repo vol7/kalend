@@ -6,6 +6,7 @@ import {
 } from '../../utils/eventLayout';
 
 import { TEST_TIMEZONE } from '../common';
+// @ts-ignore
 import assert from 'assert';
 
 const baseDate = '2021-11-07';
