@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.0
+- add dragging events in month view
+
 ## 0.2.2
 - fix missing and flickering lines in week view
 - events styling improvements
