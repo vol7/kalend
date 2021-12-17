@@ -18,3 +18,9 @@ export enum CALENDAR_NAVIGATION_DIRECTION {
   BACKWARDS = 'backwards',
   TODAY = 'today',
 }
+
+export enum WEEKDAY_START {
+  MONDAY = 'MONDAY',
+  SUNDAY = 'SUNDAY',
+  UNKNOWN = 'UNKNOWN',
+}

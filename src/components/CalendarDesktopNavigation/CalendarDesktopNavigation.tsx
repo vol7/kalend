@@ -28,8 +28,15 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
     dispatch({ type, payload });
   };
 
-  const { isDark, calendarDays, selectedView, selectedDate, isMobile, width } =
-    store;
+  const {
+    isDark,
+    calendarDays,
+    selectedView,
+    selectedDate,
+    isMobile,
+    width,
+    weekDayStart,
+  } = store;
 
   const [isFullNavigationHidden, setIsFullNavigationHidden] = useState(true);
 
@@ -40,6 +47,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
       calendarDays,
       selectedView,
       CALENDAR_NAVIGATION_DIRECTION.BACKWARDS,
+      weekDayStart,
       setContext
     );
   const navigateForward = async (): Promise<void> =>
@@ -47,11 +55,17 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
       calendarDays,
       selectedView,
       CALENDAR_NAVIGATION_DIRECTION.FORWARD,
+      weekDayStart,
       setContext
     );
 
   const navigateToTodayDate = async (): Promise<void> => {
-    await navigateToToday(selectedView, setContext, DateTime.now());
+    await navigateToToday(
+      selectedView,
+      setContext,
+      weekDayStart,
+      DateTime.now()
+    );
   };
 
   // handle showing  full desktop navigation panel or dropdown for

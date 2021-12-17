@@ -1,4 +1,4 @@
-import { CALENDAR_VIEW } from '../common/enums';
+import { CALENDAR_VIEW, WEEKDAY_START } from '../common/enums';
 import { DEFAULT_HOUR_HEIGHT } from '../common/constants';
 import { DateTime } from 'luxon';
 import { EventLayout } from '../common/interface';
@@ -23,6 +23,7 @@ interface InitialContext {
   daysViewLayout: EventLayout | null;
   headerLayout: EventLayout | null;
   layoutUpdateSequence: number;
+  weekDayStart: WEEKDAY_START;
 }
 
 const initialContext: InitialContext = {
@@ -42,6 +43,7 @@ const initialContext: InitialContext = {
   daysViewLayout: null,
   headerLayout: null,
   layoutUpdateSequence: 1,
+  weekDayStart: WEEKDAY_START.UNKNOWN,
 };
 
 export const Context: any = createContext(initialContext);
