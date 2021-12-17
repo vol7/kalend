@@ -244,6 +244,7 @@ const Calendar = (props: CalendarProps) => {
               handleEventClick={handleEventClick}
               showMoreMonth={props.showMoreMonth}
               events={events ? events : {}}
+              onEventDragFinish={onEventDragFinish}
             />
           ) : null}
 
