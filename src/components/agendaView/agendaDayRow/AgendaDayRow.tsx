@@ -1,5 +1,5 @@
 import { AgendaDayRowProps } from './AgendaDayRow.props';
-import { CalendarEvent, OnEventClickFunc } from '../../../common/interface';
+import { CalendarEvent } from '../../../common/interface';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
 import { ReactNode } from 'react';
@@ -7,10 +7,7 @@ import DateWeekDay from '../../dateWeekDay/DateWeekDay';
 import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
 import EventButton from '../../eventButton/EventButton';
 
-const renderEvents = (
-  events: CalendarEvent[],
-  handleEventClick: OnEventClickFunc
-) => {
+const renderEvents = (events: CalendarEvent[]) => {
   if (!events || events.length === 0) {
     return [];
   }
@@ -24,20 +21,15 @@ const renderEvents = (
 
   return sortedEvents.map((event) => {
     return (
-      <EventButton
-        key={event.id}
-        event={event}
-        type={EVENT_TYPE.AGENDA}
-        handleEventClick={handleEventClick}
-      />
+      <EventButton key={event.id} event={event} type={EVENT_TYPE.AGENDA} />
     );
   });
 };
 
 const AgendaDayRow = (props: AgendaDayRowProps) => {
-  const { day, events, handleEventClick } = props;
+  const { day, events } = props;
 
-  const dayEvents: ReactNode = renderEvents(events, handleEventClick);
+  const dayEvents: ReactNode = renderEvents(events);
 
   return (
     <div className={'Kalend__AgendaDayRow__container'}>

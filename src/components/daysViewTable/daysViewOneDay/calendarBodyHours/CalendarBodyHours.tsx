@@ -41,7 +41,8 @@ const renderHours = (width: number, hourHeight: number, isDark: boolean) =>
 
 const CalendarBodyHours = () => {
   const [store] = useContext(Context);
-  const { width, height, hourHeight, isDark } = store;
+  const { width, height, config, isDark } = store;
+  const { hourHeight } = config;
 
   const hours: any = renderHours(width, hourHeight, isDark);
 

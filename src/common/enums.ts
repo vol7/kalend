@@ -24,3 +24,8 @@ export enum WEEKDAY_START {
   SUNDAY = 'SUNDAY',
   UNKNOWN = 'UNKNOWN',
 }
+
+export enum TIME_FORMAT {
+  FULL = 'FULL',
+  AM_PM = 'AM_PM',
+}

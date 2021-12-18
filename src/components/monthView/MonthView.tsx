@@ -1,11 +1,7 @@
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { MonthViewProps } from './MonthView.props';
-import {
-  OnEventClickFunc,
-  OnEventDragFinishFunc,
-  ShowMoreMonthFunc,
-} from '../../common/interface';
+
 import { formatTimestampToDate } from '../../utils/common';
 import { useContext } from 'react';
 import MonthOneDay from './monthOneDay/MonthOneDay';
@@ -14,10 +10,7 @@ const renderOneDay = (
   data: DateTime[],
   prefix: string,
   tableHeight: number,
-  events: any,
-  handleEventClick: OnEventClickFunc,
-  showMoreMonth?: ShowMoreMonthFunc,
-  onEventDragFinish?: OnEventDragFinishFunc
+  events: any
 ) =>
   data.map((calendarDay: DateTime, index: number) => {
     const formattedDayString: string = formatTimestampToDate(calendarDay);
@@ -28,9 +21,6 @@ const renderOneDay = (
         index={index}
         day={calendarDay}
         data={events ? events[formattedDayString] : []}
-        handleEventClick={handleEventClick}
-        showMoreMonth={showMoreMonth}
-        onEventDragFinish={onEventDragFinish}
       />
     );
   });
@@ -38,8 +28,7 @@ const renderOneDay = (
 const MonthView = (props: MonthViewProps) => {
   const [store] = useContext(Context);
   const { height, width, calendarDays } = store;
-
-  const { handleEventClick, showMoreMonth, events, onEventDragFinish } = props;
+  const { events } = props;
 
   // Calculate height for days table
 
@@ -52,15 +41,7 @@ const MonthView = (props: MonthViewProps) => {
   //   await getNewCalendarDays(calendarDays, CALENDAR_VIEW.MONTH, isGoingForward);
   // };
 
-  const days: any = renderOneDay(
-    calendarDays,
-    'month1',
-    height,
-    events,
-    handleEventClick,
-    showMoreMonth,
-    onEventDragFinish
-  );
+  const days: any = renderOneDay(calendarDays, 'month1', height, events);
 
   return (
     // <Carousel onPageChange={onPageChange}>

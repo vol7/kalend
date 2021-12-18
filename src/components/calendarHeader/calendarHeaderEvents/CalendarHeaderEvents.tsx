@@ -1,4 +1,3 @@
-import { CalendarHeaderEventsProps } from './CalendarHeaderEvents.props';
 import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
@@ -7,10 +6,9 @@ import { getHeight } from '../../../utils/layout';
 import { useContext, useEffect, useState } from 'react';
 import EventButton from '../../eventButton/EventButton';
 
-const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
+const CalendarHeaderEvents = () => {
   const [store, dispatch] = useContext(Context);
   const { selectedView, width, calendarDays } = store;
-  const { onEventDragFinish } = props;
 
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
@@ -29,8 +27,6 @@ const CalendarHeaderEvents = (props: CalendarHeaderEventsProps) => {
           key={item.event.id}
           event={item.event}
           type={EVENT_TYPE.HEADER}
-          handleEventClick={props.handleEventClick}
-          onEventDragFinish={onEventDragFinish}
         />
       );
     });
