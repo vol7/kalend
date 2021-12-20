@@ -1,6 +1,11 @@
-import { CALENDAR_VIEW } from '../../../../common/enums';
+import {
+  CALENDAR_VIEW,
+  TIME_FORMAT,
+  WEEKDAY_START,
+} from '../../../../common/enums';
 import {
   CalendarEvent,
+  Config,
   NormalEventPosition,
 } from '../../../../common/interface';
 import { calculateNormalEventPositions } from '../../../../utils/eventLayout';
@@ -48,6 +53,17 @@ const event4Data: any = {
 const BASE_WIDTH = 500;
 const TIMEZONE = 'Europe/Berlin';
 
+const createConfigMock = (): Config => {
+  return {
+    disableMobileDropdown: false,
+    hourHeight: 40,
+    isDark: false,
+    timeFormat: TIME_FORMAT.H_24,
+    timezone: TIMEZONE,
+    weekDayStart: WEEKDAY_START.MONDAY,
+  };
+};
+
 describe(`Calendar Body One day normal event positions`, function () {
   // eslint-disable-next-line no-undef
   process.env.TZ = 'Europe/Berlin';
@@ -57,9 +73,9 @@ describe(`Calendar Body One day normal event positions`, function () {
     const result: NormalEventPosition[] = calculateNormalEventPositions(
       data,
       BASE_WIDTH,
-      TIMEZONE,
-      40,
-      CALENDAR_VIEW.WEEK
+      createConfigMock(),
+      CALENDAR_VIEW.WEEK,
+      '12'
     );
 
     const event1: NormalEventPosition = result[0];
@@ -89,9 +105,9 @@ describe(`Calendar Body One day normal event positions`, function () {
     const result: NormalEventPosition[] = calculateNormalEventPositions(
       data,
       BASE_WIDTH,
-      TIMEZONE,
-      40,
-      CALENDAR_VIEW.WEEK
+      createConfigMock(),
+      CALENDAR_VIEW.WEEK,
+      '12'
     );
 
     const event1: NormalEventPosition = result[0];
@@ -124,9 +140,9 @@ describe(`Calendar Body One day normal event positions`, function () {
       const result: NormalEventPosition[] = calculateNormalEventPositions(
         data,
         BASE_WIDTH,
-        TIMEZONE,
-        40,
-        CALENDAR_VIEW.WEEK
+        createConfigMock(),
+        CALENDAR_VIEW.WEEK,
+        '12'
       );
 
       const event1: NormalEventPosition = result[0];

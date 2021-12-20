@@ -45,16 +45,16 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     height: height,
   };
 
-  const adjustScrollPosition = () => {
-    const currentElement: any = document.getElementById(`Kalend__timetable`);
-
-    (currentElement.scrollTop = DateTime.now().hour * config.hourHeight) -
-      config.hourHeight;
-  };
-
-  useEffect(() => {
-    adjustScrollPosition();
-  }, []);
+  // const adjustScrollPosition = () => {
+  //   const currentElement: any = document.getElementById(`Kalend__timetable`);
+  //
+  //   (currentElement.scrollTop = DateTime.now().hour * config.hourHeight) -
+  //     config.hourHeight;
+  // };
+  //
+  // useEffect(() => {
+  //   adjustScrollPosition();
+  // }, []);
 
   // const onPageChange = async (isGoingForward?: boolean) => {
   //   await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
@@ -66,8 +66,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       calendarDays,
       events,
       getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-      config.timezone,
-      config.hourHeight,
+      config,
       selectedView
     );
 
@@ -80,8 +79,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       calendarDays,
       events,
       getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-      config.timezone,
-      config.hourHeight,
+      config,
       selectedView
     );
 
@@ -106,8 +104,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       calendarDays,
       events,
       getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-      config.timezone,
-      config.hourHeight,
+      config,
       selectedView
     );
 
