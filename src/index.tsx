@@ -45,6 +45,7 @@ export interface KalendProps {
   timezone?: string;
   weekDayStart?: string;
   timeFormat?: string;
+  calendarIDsHidden?: string[];
   children?: any;
 }
 

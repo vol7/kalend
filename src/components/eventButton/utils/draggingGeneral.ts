@@ -12,8 +12,7 @@ export const onFinishDraggingInternal = (
   type: EVENT_TYPE,
   onEventDragFinish: OnEventDragFinish
 ) => {
-  const { events, calendarDays, timezone, width, hourHeight, selectedView } =
-    store;
+  const { events, calendarDays, timezone, width, config, selectedView } = store;
 
   let result: any = {};
   Object.entries(events).forEach((keyValue: any) => {
@@ -48,8 +47,7 @@ export const onFinishDraggingInternal = (
       calendarDays,
       result,
       width,
-      timezone,
-      hourHeight,
+      config,
       selectedView
     );
     setContext('daysViewLayout', positions);

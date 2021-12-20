@@ -81,6 +81,7 @@ export interface Config {
   timezone: string;
   disableMobileDropdown: boolean;
   disabledViews?: CALENDAR_VIEW[];
+  calendarIDsHidden?: string[] | null;
 }
 
 // functions
