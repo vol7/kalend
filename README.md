@@ -43,12 +43,14 @@ If you have any suggestion, feel free to open discussion or contact me directly 
           onSelectView={onSelectView}
           selectedView={selectedView}
           onPageChange={onPageChange}
+          timeFormat={'24'}
+          weekDayStart={'Monday'}
         />
 
 # Props
 
 | prop                    | type                                          | default            | options          | required | desc                                                                |
-| ----------------------- |-----------------------------------------------|--------------------|------------------|----------|---------------------------------------------------------------------|
+|-------------------------|-----------------------------------------------|--------------------|------------------|----------|---------------------------------------------------------------------|
 | `initialDate`           | `string`                                      |                    |                  | false    | starting date for calendar                                          |
 | `initialView`           | `CalendarView - day, three days, week, month` | CALENDAR_VIEW.WEEK |                  | true     | starts in calendar view                                             |
 | `selectedView`          | `CalendarView`                                |                    |                  | false    | selected view for control outside of the component                  |
@@ -63,6 +65,7 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 | `disableMobileDropdown` | `boolean`                                     | false              |                  | false    | disable button for triggering mobile dropdown with views            |
 | `timezone`              | `string`                                      | system timezone    |                  | false    | IANA timezone format, if not provided, system timezone will be used |
 | `weekDayStart`          | `string`                                      | Monday             | Monday or Sunday | false    | starting date for week                                              |
+| `timeFormat`            | `string`                                      | 24                 | 24 or 12         | false    | time format - 24 hours or 12 hours AM/PM                            |
 
 # Usage
 

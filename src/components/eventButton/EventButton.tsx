@@ -1,7 +1,12 @@
 import { useContext, useEffect, useReducer, useRef } from 'react';
 
-import { CalendarEvent, EventLayout, EventStyle } from '../../common/interface';
-import { Context } from '../../context/store';
+import {
+  CalendarEvent,
+  Config,
+  EventLayout,
+  EventStyle,
+} from '../../common/interface';
+import { Context, Store } from '../../context/store';
 import { DateTime } from 'luxon';
 import {
   EVENT_MIN_HEIGHT,
@@ -35,13 +40,7 @@ import stateReducer from '../../utils/stateReducer';
 let timeoutRef: any;
 
 const EventButton = (props: EventButtonProps) => {
-  const {
-    event,
-    type,
-    handleEventClick,
-    day = DateTime.now(),
-    onEventDragFinish,
-  } = props;
+  const { event, type, day = DateTime.now() } = props;
   const { startAt } = event;
 
   const [state, dispatchState]: any = useReducer(
@@ -58,18 +57,14 @@ const EventButton = (props: EventButtonProps) => {
     dispatch({ type, payload });
   };
 
-  const {
-    isDark,
-    width,
-    calendarDays,
-    hourHeight,
-    selectedView,
-    daysViewLayout,
-    height,
-  } = store;
+  const { width, calendarDays, config, daysViewLayout, height, callbacks } =
+    store as Store;
+
+  const { hourHeight, isDark } = config as Config;
+  const { onEventClick, onEventDragFinish } = callbacks;
 
   const columnWidth: number =
-    width / (selectedView === EVENT_TYPE.MONTH ? 7 : calendarDays.length);
+    width / (type === EVENT_TYPE.MONTH ? 7 : calendarDays.length);
   const eventColor: string = parseEventColor(event.color as string, isDark);
 
   const isLoaded: boolean = state.width !== 0 && state.height > 0;
@@ -89,10 +84,12 @@ const EventButton = (props: EventButtonProps) => {
     // alignItems: meta?.centerText ? 'center' : 'inherit',
   };
 
-  const onEventClick = (e: any) => {
+  const handleEventClick = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
-    handleEventClick(event);
+    if (onEventClick) {
+      onEventClick(event);
+    }
   };
 
   const setLayout = (layout: EventLayout) => {
@@ -116,6 +113,7 @@ const EventButton = (props: EventButtonProps) => {
   useEffect(() => {
     initEventButtonPosition(type, props.day, event, store, setLayout);
   }, [
+    // @ts-ignore
     daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
       event.id
     ],
@@ -305,7 +303,7 @@ const EventButton = (props: EventButtonProps) => {
       className={`Kalend__Event-${type} ${
         draggingRef.current ? 'Kalend__EventButton__elevation' : ''
       } ${store.layoutUpdateSequence === 1 ? 'Kalend__Event__animate' : ''}`}
-      onClick={onEventClick}
+      onClick={handleEventClick}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onTouchStart={onMouseDown}

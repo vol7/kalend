@@ -1,5 +1,5 @@
 import { CALENDAR_OFFSET_LEFT, SCROLLBAR_WIDTH } from '../common/constants';
-import { CALENDAR_VIEW } from '../common/enums';
+import { CALENDAR_VIEW, TIME_FORMAT } from '../common/enums';
 import { CalendarEvent } from '../common/interface';
 import { DateTime } from 'luxon';
 import { parseToDateTime } from './dateTimeParser';
@@ -146,4 +146,30 @@ export const getCorrectWidth = (
   }
 
   return width;
+};
+
+export const createVerticalHours = (timeFormat: TIME_FORMAT): string[] => {
+  const result: string[] = [];
+
+  if (timeFormat === TIME_FORMAT.H_24) {
+    for (let i = 0; i < 24; i++) {
+      if (i < 10) {
+        result.push(`0${i}`);
+      } else {
+        result.push(String(i));
+      }
+    }
+  } else if (timeFormat === TIME_FORMAT.H_12) {
+    for (let i = 0; i < 24; i++) {
+      if (i < 12) {
+        result.push(`${i} AM`);
+      } else if (i === 12) {
+        result.push(`${i} PM`);
+      } else {
+        result.push(`${i - 12} PM`);
+      }
+    }
+  }
+
+  return result;
 };

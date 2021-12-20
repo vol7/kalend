@@ -1,21 +1,22 @@
 import { CALENDAR_VIEW } from '../../common/enums';
 import { CalendarHeaderProps } from './CalendarHeader.props';
+import { Config, NormalEventPosition } from '../../common/interface';
 import { Context } from '../../context/store';
-import { NormalEventPosition } from '../../common/interface';
 import { calculatePositionForHeaderEvents } from './calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { useContext, useEffect } from 'react';
 import CalendarHeaderDays from './calendarHeaderDays/CalendarHeaderDays';
 import CalendarHeaderEvents from './calendarHeaderEvents/CalendarHeaderEvents';
 
 const CalendarHeader = (props: CalendarHeaderProps) => {
-  const { handleEventClick, events, onEventDragFinish } = props;
+  const { events } = props;
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const { isDark, width, selectedView, calendarDays, timezone } = store;
+  const { isDark, width, selectedView, calendarDays, config } = store;
+  const { timezone } = config as Config;
 
   const isDayView: boolean = selectedView === CALENDAR_VIEW.DAY;
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
@@ -54,13 +55,7 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
       }${isMonthView ? '-small' : ''}${isDark ? '-dark' : ''}`}
     >
       <CalendarHeaderDays width={width} isMonthView={isMonthView} />
-      {!isMonthView && store.headerLayout ? (
-        <CalendarHeaderEvents
-          handleEventClick={handleEventClick}
-          events={events}
-          onEventDragFinish={onEventDragFinish}
-        />
-      ) : null}
+      {!isMonthView && store.headerLayout ? <CalendarHeaderEvents /> : null}
     </div>
   );
 };

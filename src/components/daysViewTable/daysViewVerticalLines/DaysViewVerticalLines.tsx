@@ -36,13 +36,13 @@ const renderVerticalLines = (
 
 const DaysViewVerticalLines = () => {
   const [store] = useContext(Context);
-  const { calendarDays, width, isDark, height, hourHeight, isMobile } = store;
+  const { calendarDays, width, isDark, height, config, isMobile } = store;
 
   const verticalLines: any = renderVerticalLines(
     calendarDays,
     width,
     height,
-    hourHeight,
+    config.hourHeight,
     isDark,
     isMobile
   );

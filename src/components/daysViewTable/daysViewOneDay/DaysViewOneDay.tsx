@@ -1,9 +1,4 @@
-import {
-  CalendarEvent,
-  OnEventClickFunc,
-  OnEventDragFinishFunc,
-  OnNewEventClickFunc,
-} from '../../../common/interface';
+import { CalendarEvent } from '../../../common/interface';
 import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
@@ -16,10 +11,8 @@ import LuxonHelper from '../../../utils/luxonHelper';
 
 const renderEvents = (
   dataset: CalendarEvent[],
-  handleEventClick: OnEventClickFunc,
   day: DateTime,
-  timezone: string,
-  onEventDragFinish?: OnEventDragFinishFunc
+  timezone: string
 ) => {
   return dataset
     .filter((item: CalendarEvent) => {
@@ -41,10 +34,8 @@ const renderEvents = (
           key={item.id}
           event={item}
           type={EVENT_TYPE.NORMAL}
-          handleEventClick={handleEventClick}
           meta={item.meta}
           day={day}
-          onEventDragFinish={onEventDragFinish}
         />
       );
     });
@@ -54,23 +45,15 @@ interface DaysViewOneDayProps {
   key: string;
   day: DateTime;
   index: number;
-  handleNewEventClick: OnNewEventClickFunc;
   data: any;
-  handleEventClick: OnEventClickFunc;
-  onEventDragFinish?: OnEventDragFinishFunc;
 }
 const DaysViewOneDay = (props: DaysViewOneDayProps) => {
-  const {
-    day,
-    index,
-    data,
-    handleNewEventClick,
-    handleEventClick,
-    onEventDragFinish,
-  } = props;
+  const { day, index, data } = props;
 
   const [store] = useContext(Context);
-  const { isDark, width, selectedView, hourHeight, timezone } = store;
+  const { width, selectedView, config, callbacks } = store;
+  const { handleNewEventClick } = callbacks;
+  const { isDark, hourHeight, timezone } = config;
 
   const oneDayStyle: any = {
     width: width / getDaysNum(selectedView),
@@ -101,23 +84,14 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     }
   }, []);
 
-  // const eventNodes: any = renderEvents(
-  //   dataForDay,
-  //   width,
-  //   timezone,
-  //   selectedView,
-  //   hourHeight,
-  //   handleEventClick,
-  //   day,
-  //   onEventDragFinish
-  // );
-
   const handleEventClickInternal = (event: any) => {
-    const rect: { top: number } = event.target.getBoundingClientRect();
-    const y: number = event.clientY - rect.top;
-    // Get hour from click event
-    const hour: number = y / hourHeight;
-    handleNewEventClick({ day: day.toJSDate(), hour, event });
+    if (handleNewEventClick) {
+      const rect: { top: number } = event.target.getBoundingClientRect();
+      const y: number = event.clientY - rect.top;
+      // Get hour from click event
+      const hour: number = y / hourHeight;
+      handleNewEventClick({ day: day.toJSDate(), hour, event });
+    }
   };
 
   return store.daysViewLayout?.[formatDateTimeToString(day)] ? (
@@ -133,13 +107,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       onClick={handleEventClickInternal}
     >
       {dataForDay && dataForDay.length > 0
-        ? renderEvents(
-            dataForDay,
-            handleEventClick,
-            day,
-            timezone,
-            onEventDragFinish
-          )
+        ? renderEvents(dataForDay, day, timezone)
         : null}
     </div>
   ) : null;

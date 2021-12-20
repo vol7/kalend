@@ -15,17 +15,11 @@ import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
 
 const MonthOneDay = (props: MonthOneDayProps) => {
-  const {
-    index,
-    data,
-    day,
-    handleEventClick,
-    showMoreMonth,
-    onEventDragFinish,
-  } = props;
+  const { index, data, day } = props;
 
   const [store] = useContext(Context);
-  const { isDark, selectedDate, height } = store;
+  const { isDark, selectedDate, height, callbacks } = store;
+  const { showMoreMonth } = callbacks;
 
   const renderEvents = (dataset: any) => {
     const tableHeight: number = height / 6 - MONTH_DAY_HEADER_HEIGHT; // height of one day
@@ -48,9 +42,7 @@ const MonthOneDay = (props: MonthOneDayProps) => {
               key={event.id}
               event={event}
               type={EVENT_TYPE.MONTH}
-              handleEventClick={handleEventClick}
               day={day}
-              onEventDragFinish={onEventDragFinish}
             />
           );
         } else if (
