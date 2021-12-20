@@ -54,12 +54,12 @@ export const validateProps = (props: KalendProps): void => {
   // validate timeFormat
   if (props.timeFormat) {
     if (
-      props.timeFormat !== TIME_FORMAT.FULL.toString() &&
-      props.timeFormat !== TIME_FORMAT.AM_PM.toString()
+      props.timeFormat !== TIME_FORMAT.H_24.toString() &&
+      props.timeFormat !== TIME_FORMAT.H_12.toString()
     ) {
       `[Kalend]: invalid timeFormat prop "${
         props.timeFormat
-      }". Valid values are '${TIME_FORMAT.FULL.toString()}' or '${TIME_FORMAT.AM_PM.toString()}'`;
+      }". Valid values are '${TIME_FORMAT.H_24.toString()}' or '${TIME_FORMAT.H_12.toString()}'`;
     }
   }
 };

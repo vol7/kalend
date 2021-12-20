@@ -3,7 +3,7 @@ import { getHeight, getWidth, useHeight, useWidth } from '../utils/layout';
 import { getTableOffset } from '../utils/common';
 import { useContext, useEffect } from 'react';
 
-const DimenstionsLayoutLayer = (props: { children: any }) => {
+const DimensionsLayoutLayer = (props: { children: any }) => {
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
@@ -46,4 +46,4 @@ const DimenstionsLayoutLayer = (props: { children: any }) => {
   return props.children;
 };
 
-export default DimenstionsLayoutLayer;
+export default DimensionsLayoutLayer;

@@ -1,13 +1,16 @@
-import {
-  CALENDAR_OFFSET_LEFT,
-  hoursArrayString,
-} from '../../../../common/constants';
+import { CALENDAR_OFFSET_LEFT } from '../../../../common/constants';
 import { Context } from '../../../../context/store';
-import { parseCssDark } from '../../../../utils/common';
+import { TIME_FORMAT } from '../../../../common/enums';
+import { createVerticalHours, parseCssDark } from '../../../../utils/common';
 import { useContext } from 'react';
 
-const renderHours = (width: number, hourHeight: number, isDark: boolean) =>
-  hoursArrayString.map((hour: any) =>
+const renderHours = (
+  width: number,
+  hourHeight: number,
+  isDark: boolean,
+  timeFormat: TIME_FORMAT
+) =>
+  createVerticalHours(timeFormat).map((hour: any) =>
     hour === '00' || hour === '24' ? (
       <div
         key={hour}
@@ -42,9 +45,9 @@ const renderHours = (width: number, hourHeight: number, isDark: boolean) =>
 const CalendarBodyHours = () => {
   const [store] = useContext(Context);
   const { width, height, config, isDark } = store;
-  const { hourHeight } = config;
+  const { hourHeight, timeFormat } = config;
 
-  const hours: any = renderHours(width, hourHeight, isDark);
+  const hours: any = renderHours(width, hourHeight, isDark, timeFormat);
 
   return (
     <div className={'Kalend__CalendarBodyHours__wrapper'} style={{ height }}>

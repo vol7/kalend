@@ -15,14 +15,14 @@ const parseTimeFormat = (
   if (timeFormatValue) {
     if (
       timeFormatValue.toLowerCase() ===
-      TIME_FORMAT.FULL.toString().toLowerCase()
+      TIME_FORMAT.H_24.toString().toLowerCase()
     ) {
-      return TIME_FORMAT.FULL;
+      return TIME_FORMAT.H_24;
     } else if (
       timeFormatValue.toLowerCase() ===
-      TIME_FORMAT.AM_PM.toString().toLowerCase()
+      TIME_FORMAT.H_12.toString().toLowerCase()
     ) {
-      return TIME_FORMAT.AM_PM;
+      return TIME_FORMAT.H_12;
     }
   }
 };
@@ -46,7 +46,7 @@ const parseWeekDayStart = (
 export const createConfig = (props: KalendProps): Config => {
   return {
     hourHeight: props.hourHeight || DEFAULT_HOUR_HEIGHT,
-    timeFormat: parseTimeFormat(props.timeFormat) || TIME_FORMAT.FULL,
+    timeFormat: parseTimeFormat(props.timeFormat) || TIME_FORMAT.H_24,
     timezone:
       props.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
     weekDayStart: parseWeekDayStart(props.weekDayStart) || WEEKDAY_START.MONDAY,
