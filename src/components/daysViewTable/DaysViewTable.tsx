@@ -3,12 +3,7 @@ import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { DaysViewTableProps } from './DaysViewTable.props';
-import {
-  NormalEventPosition,
-  OnEventClickFunc,
-  OnEventDragFinishFunc,
-  OnNewEventClickFunc,
-} from '../../common/interface';
+import { NormalEventPosition } from '../../common/interface';
 import { calculateDaysViewLayout } from '../../utils/eventLayout';
 import { calculatePositionForHeaderEvents } from '../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { formatDateTimeToString, getCorrectWidth } from '../../utils/common';
@@ -17,13 +12,7 @@ import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHo
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import DaysViewVerticalLines from './daysViewVerticalLines/DaysViewVerticalLines';
 
-const renderOneDay = (
-  calendarDays: DateTime[],
-  handleNewEventClick: OnNewEventClickFunc,
-  events: any,
-  handleEventClick: OnEventClickFunc,
-  onEventDragFinish?: OnEventDragFinishFunc
-) => {
+const renderOneDay = (calendarDays: DateTime[], events: any) => {
   return calendarDays.map((calendarDay: DateTime, index: number) => {
     const formattedDayString: string = formatDateTimeToString(calendarDay);
 
@@ -33,40 +22,22 @@ const renderOneDay = (
         day={calendarDay}
         index={index}
         data={events ? events[formattedDayString] : []}
-        handleNewEventClick={handleNewEventClick}
-        handleEventClick={handleEventClick}
-        onEventDragFinish={onEventDragFinish}
       />
     );
   });
 };
 
 const DaysViewTable = (props: DaysViewTableProps) => {
-  const { handleNewEventClick, handleEventClick, onEventDragFinish, events } =
-    props;
+  const { events } = props;
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const {
-    isMobile,
-    hourHeight,
-    calendarDays,
-    width,
-    height,
-    timezone,
-    selectedView,
-  } = store;
+  const { isMobile, calendarDays, width, height, selectedView, config } = store;
 
-  const days: any = renderOneDay(
-    calendarDays,
-    handleNewEventClick,
-    events,
-    handleEventClick,
-    onEventDragFinish
-  );
+  const days: any = renderOneDay(calendarDays, events);
 
   const style: any = {
     paddingLeft: CALENDAR_OFFSET_LEFT,
@@ -74,15 +45,16 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     height: height,
   };
 
-  const adjustScrollPosition = () => {
-    const currentElement: any = document.getElementById(`Kalend__timetable`);
-
-    currentElement.scrollTop = DateTime.now().hour * hourHeight - hourHeight;
-  };
-
-  useEffect(() => {
-    adjustScrollPosition();
-  }, []);
+  // const adjustScrollPosition = () => {
+  //   const currentElement: any = document.getElementById(`Kalend__timetable`);
+  //
+  //   (currentElement.scrollTop = DateTime.now().hour * config.hourHeight) -
+  //     config.hourHeight;
+  // };
+  //
+  // useEffect(() => {
+  //   adjustScrollPosition();
+  // }, []);
 
   // const onPageChange = async (isGoingForward?: boolean) => {
   //   await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
@@ -94,8 +66,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       calendarDays,
       events,
       getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-      timezone,
-      hourHeight,
+      config,
       selectedView
     );
 
@@ -108,8 +79,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       calendarDays,
       events,
       getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-      timezone,
-      hourHeight,
+      config,
       selectedView
     );
 
@@ -121,7 +91,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
         getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK) /
           calendarDays.length,
         calendarDays,
-        timezone,
+        config.timezone,
         setContext
       );
     setContext('headerLayout', eventPositions);
@@ -134,8 +104,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       calendarDays,
       events,
       getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-      timezone,
-      hourHeight,
+      config,
       selectedView
     );
 

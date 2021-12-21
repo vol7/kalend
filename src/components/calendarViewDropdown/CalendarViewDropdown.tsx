@@ -1,4 +1,5 @@
 import { CalendarViewDropdownProps } from './CalendarViewDropdown.props';
+import { Config } from '../../common/interface';
 import { Context } from '../../context/store';
 import { EvaIcons } from '../eva-icons';
 import { parseCalendarViewToText, parseCssDark } from '../../utils/common';
@@ -10,12 +11,13 @@ import HeaderCalendarButtons, {
 } from '../headerCalendarButtons/HeaderCalendarButtons';
 
 const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
-  const { disableMobileDropdown, setViewChanged, disabledViews } = props;
+  const { setViewChanged } = props;
 
   const [isOpen, setOpen] = useState(false);
 
   const [store] = useContext(Context);
-  const { isDark, isMobile, selectedView } = store;
+  const { config, isMobile, selectedView } = store;
+  const { isDark, disabledViews, disableMobileDropdown } = config as Config;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

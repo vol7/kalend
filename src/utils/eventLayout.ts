@@ -7,7 +7,11 @@
  * @param defaultTimezone
  */
 import { CALENDAR_VIEW } from '../common/enums';
-import { CalendarEvent, NormalEventPosition } from '../common/interface';
+import {
+  CalendarEvent,
+  Config,
+  NormalEventPosition,
+} from '../common/interface';
 import { DateTime, Interval } from 'luxon';
 import {
   EVENT_MIN_HEIGHT,
@@ -89,11 +93,31 @@ const adjustForMinimalHeight = (
   return result;
 };
 
+export const filterEventsByCalendarIDs = (
+  events: any,
+  calendarIDsHidden?: string[]
+) => {
+  if (!calendarIDsHidden || calendarIDsHidden.length === 0) {
+    return events;
+  }
+
+  return events.filter((item: any) => {
+    if (item.calendarID) {
+      if (calendarIDsHidden?.includes(item.calendarID)) {
+        return false;
+      } else {
+        return item;
+      }
+    }
+
+    return item;
+  });
+};
+
 export const calculateNormalEventPositions = (
   events: any,
   baseWidth: number,
-  defaultTimezone: string,
-  hourHeight: number,
+  config: Config,
   selectedView: CALENDAR_VIEW,
   dateKey: string
 ): NormalEventPosition[] => {
@@ -105,25 +129,26 @@ export const calculateNormalEventPositions = (
   const tableSpace: number = (tableWidth / 100) * EVENT_TABLE_DELIMITER_SPACE;
 
   if (events) {
+    const eventsData: any = events;
     // Filter all day events and multi day events
-    events
+    eventsData
       .filter((item: any) => !item.allDay)
       .map((event: any) => {
         let width = 1; //Full width
         let offsetLeft = 0;
         // Compare events
-        events.forEach((item2: any) => {
+        eventsData.forEach((item2: any) => {
           if (event.id !== item2.id && !item2.allDay) {
             // adjust events to have at least minimal height to check
             // overlapping
             const { eventA, eventB } = adjustForMinimalHeight(
               event,
               item2,
-              hourHeight
+              config.hourHeight
             );
 
             if (
-              checkOverlappingEvents(eventA, eventB, defaultTimezone) &&
+              checkOverlappingEvents(eventA, eventB, config.timezone) &&
               !eventB.allDay
             ) {
               width = width + 1; //add width for every overlapping item
@@ -135,12 +160,12 @@ export const calculateNormalEventPositions = (
 
         const offsetTop: any =
           // @ts-ignore
-          parseToDateTime(event.startAt, event.timezoneStartAt, defaultTimezone)
+          parseToDateTime(event.startAt, event.timezoneStartAt, config.timezone)
             .diff(
               parseToDateTime(
                 event.startAt,
                 event.timezoneStartAt,
-                defaultTimezone
+                config.timezone
               ).set({
                 hour: 0,
                 minute: 0,
@@ -149,7 +174,7 @@ export const calculateNormalEventPositions = (
               'minutes'
             )
             .toObject().minutes /
-          (60 / hourHeight); // adjust based on hour column height
+          (60 / config.hourHeight); // adjust based on hour column height
 
         const eventHeight: any =
           // @ts-ignore
@@ -159,7 +184,7 @@ export const calculateNormalEventPositions = (
               'minutes'
             )
             .toObject().minutes /
-          (60 / hourHeight); // adjust based on hour column height
+          (60 / config.hourHeight); // adjust based on hour column height
 
         const eventWidth: number = tableWidth / width;
 
@@ -226,8 +251,7 @@ export const calculateDaysViewLayout = (
   calendarDays: DateTime[],
   events: any,
   baseWidth: number,
-  defaultTimezone: string,
-  hourHeight: number,
+  config: Config,
   selectedView: CALENDAR_VIEW
 ) => {
   const result: any = {};
@@ -240,8 +264,7 @@ export const calculateDaysViewLayout = (
     const positions = calculateNormalEventPositions(
       dayEvents,
       baseWidth,
-      defaultTimezone,
-      hourHeight,
+      config,
       selectedView,
       formattedDayString
     );

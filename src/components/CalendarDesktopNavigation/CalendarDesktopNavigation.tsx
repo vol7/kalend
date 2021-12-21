@@ -28,15 +28,9 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
     dispatch({ type, payload });
   };
 
-  const {
-    isDark,
-    calendarDays,
-    selectedView,
-    selectedDate,
-    isMobile,
-    width,
-    weekDayStart,
-  } = store;
+  const { config, calendarDays, selectedView, selectedDate, isMobile, width } =
+    store;
+  const { weekDayStart, isDark } = config;
 
   const [isFullNavigationHidden, setIsFullNavigationHidden] = useState(true);
 

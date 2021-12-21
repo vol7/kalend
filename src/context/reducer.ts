@@ -21,10 +21,10 @@ const Reducer = (state: any, action: any) => {
         ...state,
         daysViewLayout: action.payload,
       };
-    case 'weekDayStart':
+    case 'config':
       return {
         ...state,
-        weekDayStart: action.payload,
+        config: action.payload,
       };
     case 'headerLayout':
       return {
@@ -46,11 +46,6 @@ const Reducer = (state: any, action: any) => {
         ...state,
         selectedDate: action.payload,
       };
-    case 'hourHeight':
-      return {
-        ...state,
-        hourHeight: action.payload,
-      };
     case 'calendarDays':
       return {
         ...state,
@@ -71,15 +66,10 @@ const Reducer = (state: any, action: any) => {
         ...state,
         height: action.payload,
       };
-    case 'isDark':
+    case 'callbacks':
       return {
         ...state,
-        isDark: action.payload,
-      };
-    case 'timezone':
-      return {
-        ...state,
-        timezone: action.payload,
+        callbacks: action.payload,
       };
     case 'headerEventRowsCount':
       return {

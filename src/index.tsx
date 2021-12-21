@@ -10,11 +10,12 @@ import {
   PageChangeData,
   ShowMoreMonthFunc,
 } from './common/interface';
-import { DateTime } from 'luxon';
 import { useEffect } from 'react';
 import { validateProps, validateStyle } from './utils/validator';
 import Calendar from './Calendar';
-import RootLayoutLayer from './RootLayoutLayer';
+import ConfigLayer from './layers/ConfigLayer';
+import DimensionsLayoutLayer from './layers/DimensionsLayoutLayer';
+import RootLayoutLayer from './layers/RootLayoutLayer';
 import StoreProvider from './context/store';
 
 export const CalendarView = CALENDAR_VIEW;
@@ -28,14 +29,14 @@ export type OnEventDragFinish = OnEventDragFinishFunc;
 
 export interface KalendProps {
   initialDate?: string;
-  initialView: CALENDAR_VIEW;
+  initialView?: CALENDAR_VIEW;
   selectedView?: CALENDAR_VIEW;
   disabledViews?: CALENDAR_VIEW[];
-  events: any;
+  events?: any;
   isDark?: boolean;
   hourHeight?: number;
-  onNewEventClick: OnNewEventClickFunc;
-  onEventClick: OnEventClickFunc;
+  onNewEventClick?: OnNewEventClickFunc;
+  onEventClick?: OnEventClickFunc;
   onSelectView?: OnSelectViewFunc;
   showMoreMonth?: ShowMoreMonthFunc;
   onPageChange?: OnPageChangeFunc;
@@ -43,7 +44,11 @@ export interface KalendProps {
   disableMobileDropdown?: boolean;
   timezone?: string;
   weekDayStart?: string;
+  timeFormat?: string;
+  calendarIDsHidden?: string[];
+  children?: any;
 }
+
 const Kalend = (props: KalendProps) => {
   // basic validation
   useEffect(() => {
@@ -55,28 +60,11 @@ const Kalend = (props: KalendProps) => {
     <div className={'Kalend__Calendar__root Kalend__main'}>
       <StoreProvider>
         <RootLayoutLayer>
-          <Calendar
-            config={{
-              initialDate: props.initialDate
-                ? DateTime.fromISO(props.initialDate)
-                : DateTime.now(),
-              initialView: props.initialView,
-              hourHeight: props.hourHeight,
-              isDark: props.isDark,
-              events: props.events,
-            }}
-            weekDayStart={props.weekDayStart}
-            onEventClick={props.onEventClick}
-            onNewEventClick={props.onNewEventClick}
-            disabledViews={props.disabledViews}
-            onSelectView={props.onSelectView}
-            selectedView={props.selectedView}
-            showMoreMonth={props.showMoreMonth}
-            onPageChange={props.onPageChange}
-            disableMobileDropdown={props.disableMobileDropdown}
-            onEventDragFinish={props.onEventDragFinish}
-            timezone={props.timezone}
-          />
+          <ConfigLayer {...props}>
+            <DimensionsLayoutLayer>
+              <Calendar events={props.events} />
+            </DimensionsLayoutLayer>
+          </ConfigLayer>
         </RootLayoutLayer>
       </StoreProvider>
     </div>

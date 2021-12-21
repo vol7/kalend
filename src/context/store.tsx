@@ -1,54 +1,50 @@
-import { CALENDAR_VIEW, WEEKDAY_START } from '../common/enums';
-import { DEFAULT_HOUR_HEIGHT } from '../common/constants';
+import { CALENDAR_VIEW } from '../common/enums';
+import { Callbacks, Config, EventLayout } from '../common/interface';
 import { DateTime } from 'luxon';
-import { EventLayout } from '../common/interface';
+import { createCallbacks, createConfig } from '../layers/ConfigLayer';
 import { createContext, useReducer } from 'react';
 import Reducer from './reducer';
 
-interface InitialContext {
-  isDark: boolean;
+export interface Store {
   isLoading: boolean;
   headerEventRowsCount: number;
   initialView: CALENDAR_VIEW | null;
   selectedView: CALENDAR_VIEW | null;
   selectedDate: DateTime;
-  hourHeight: number;
   calendarDays: DateTime[];
   width: number;
   height: number;
   isMobile: boolean;
-  timezone: string;
   events: any;
   // layouts
   daysViewLayout: EventLayout | null;
   headerLayout: EventLayout | null;
   layoutUpdateSequence: number;
-  weekDayStart: WEEKDAY_START;
+  config: Config;
+  callbacks: Callbacks;
 }
 
-const initialContext: InitialContext = {
-  isDark: false,
-  isLoading: false,
-  headerEventRowsCount: 0,
-  initialView: null,
-  selectedView: null,
-  selectedDate: DateTime.now(),
-  hourHeight: DEFAULT_HOUR_HEIGHT,
-  calendarDays: [],
-  width: 0,
-  height: 0,
-  isMobile: false,
-  timezone: '',
-  events: {},
-  daysViewLayout: null,
-  headerLayout: null,
-  layoutUpdateSequence: 1,
-  weekDayStart: WEEKDAY_START.UNKNOWN,
-};
-
-export const Context: any = createContext(initialContext);
+export const Context: any = createContext({});
 
 const StoreProvider = ({ children }: any) => {
+  const initialContext: Store = {
+    isLoading: false,
+    headerEventRowsCount: 0,
+    initialView: null,
+    selectedView: null,
+    selectedDate: DateTime.now(),
+    calendarDays: [],
+    width: 0,
+    height: 0,
+    isMobile: false,
+    events: {},
+    daysViewLayout: null,
+    headerLayout: null,
+    layoutUpdateSequence: 1,
+    config: createConfig({}),
+    callbacks: createCallbacks({}),
+  };
+
   const [store, dispatch] = useReducer(Reducer, initialContext);
 
   return (
