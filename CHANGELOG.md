@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.5.0
+- add option to change time format to 12 hours (AM/PM) or 24 hours
+- add filtering events by calendarID
+- fix calculating event after dragging when hourHeight wasn't default value 
+
 ## 0.4.0
 - add option to set Sunday as start of the week
 
