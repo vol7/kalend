@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0
+- add option to set Sunday as start of the week
+
 ## 0.3.0
 - add dragging events in month view
 
