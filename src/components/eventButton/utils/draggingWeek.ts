@@ -35,7 +35,7 @@ export const calculateNewTimeWeekDay = (
   const diffInMinutes: number | undefined = originalEndAtDateTime
     .diff(originalStartAtDateTime, 'minutes')
     .toObject().minutes;
-  const minutesOffset: number = offsetTopValue / (60 / hourHeight);
+  const minutesOffset: number = (offsetTopValue / hourHeight) * 60;
 
   // add minutes calculated from new offset top
   const newStartAt: DateTime = originalStartAtDateTime
