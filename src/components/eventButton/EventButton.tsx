@@ -24,23 +24,26 @@ import {
   onMoveNormalEvent,
 } from './utils/draggingWeek';
 import {
+  disableTouchDragging,
   eventButtonInitialState,
   initEventButtonPosition,
 } from './EventButton.utils';
 import { formatDateTimeToString } from '../../utils/common';
 import { onFinishDraggingInternal } from './utils/draggingGeneral';
 import { parseEventColor } from '../../utils/calendarDays';
+import { useHeight } from '../../utils/layout';
 import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
 import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
+import EventShowMoreMonth from './eventShowMoreMonth/EventShowMoreMonth';
 import stateReducer from '../../utils/stateReducer';
 
 // ref to cancel timout
 let timeoutRef: any;
 
 const EventButton = (props: EventButtonProps) => {
-  const { event, type, day = DateTime.now() } = props;
+  const { event, type, day = DateTime.now(), index } = props;
   const { startAt } = event;
 
   const [state, dispatchState]: any = useReducer(
@@ -57,8 +60,10 @@ const EventButton = (props: EventButtonProps) => {
     dispatch({ type, payload });
   };
 
-  const { width, calendarDays, config, daysViewLayout, height, callbacks } =
+  const { width, calendarDays, config, daysViewLayout, callbacks } =
     store as Store;
+
+  const heightHook: number = useHeight();
 
   const { hourHeight, isDark } = config as Config;
   const { onEventClick, onEventDragFinish } = callbacks;
@@ -70,7 +75,7 @@ const EventButton = (props: EventButtonProps) => {
   const isLoaded: boolean = state.width !== 0 && state.height > 0;
   const style: EventStyle = {
     position:
-      type === EVENT_TYPE.MONTH || type === EVENT_TYPE.AGENDA
+      type === EVENT_TYPE.AGENDA || type === EVENT_TYPE.SHOW_MORE_MONTH
         ? 'relative'
         : 'absolute',
     height: state.height || EVENT_MIN_HEIGHT,
@@ -107,11 +112,11 @@ const EventButton = (props: EventButtonProps) => {
   };
 
   useEffect(() => {
-    initEventButtonPosition(type, props.day, event, store, setLayout);
+    initEventButtonPosition(type, props.day, event, store, setLayout, index);
   }, []);
 
   useEffect(() => {
-    initEventButtonPosition(type, props.day, event, store, setLayout);
+    initEventButtonPosition(type, props.day, event, store, setLayout, index);
   }, [
     // @ts-ignore
     daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
@@ -120,7 +125,7 @@ const EventButton = (props: EventButtonProps) => {
   ]);
 
   useEffect(() => {
-    initEventButtonPosition(type, props.day, event, store, setLayout);
+    initEventButtonPosition(type, props.day, event, store, setLayout, index);
   }, [store.layoutUpdateSequence]);
 
   // store values as refs to access them in event listener
@@ -147,6 +152,9 @@ const EventButton = (props: EventButtonProps) => {
   };
 
   const onMove = (e: any) => {
+    if (disableTouchDragging(e)) {
+      return;
+    }
     switch (type) {
       case EVENT_TYPE.NORMAL:
         onMoveNormalEvent(
@@ -176,7 +184,7 @@ const EventButton = (props: EventButtonProps) => {
       case EVENT_TYPE.MONTH:
         onMoveMonthEvent(
           e,
-          height,
+          heightHook,
           draggingRef,
           day,
           columnWidth,
@@ -186,7 +194,8 @@ const EventButton = (props: EventButtonProps) => {
           eventWasChangedRef,
           offsetLeftRef,
           offsetTopRef,
-          setState
+          setState,
+          index || 0
         );
         break;
       default:
@@ -271,6 +280,9 @@ const EventButton = (props: EventButtonProps) => {
    * @param e
    */
   const onMouseDownLong = (e: any) => {
+    if (disableTouchDragging(e)) {
+      return;
+    }
     draggingRef.current = true;
 
     e.preventDefault();
@@ -323,6 +335,9 @@ const EventButton = (props: EventButtonProps) => {
       ) : null}
       {type === EVENT_TYPE.AGENDA ? (
         <EventAgenda event={event} isDark={isDark} type={type} />
+      ) : null}
+      {type === EVENT_TYPE.SHOW_MORE_MONTH ? (
+        <EventShowMoreMonth event={event} isDark={isDark} type={type} />
       ) : null}
     </ButtonBase>
   );

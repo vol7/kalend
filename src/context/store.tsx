@@ -1,5 +1,10 @@
 import { CALENDAR_VIEW } from '../common/enums';
-import { Callbacks, Config, EventLayout } from '../common/interface';
+import {
+  Callbacks,
+  Config,
+  EventLayout,
+  ShowMoreEvents,
+} from '../common/interface';
 import { DateTime } from 'luxon';
 import { createCallbacks, createConfig } from '../layers/ConfigLayer';
 import { createContext, useReducer } from 'react';
@@ -19,9 +24,12 @@ export interface Store {
   // layouts
   daysViewLayout: EventLayout | null;
   headerLayout: EventLayout | null;
+  monthLayout: EventLayout[] | null;
+  monthOverflowEvents: any;
   layoutUpdateSequence: number;
   config: Config;
   callbacks: Callbacks;
+  showMoreEvents: ShowMoreEvents | null;
 }
 
 export const Context: any = createContext({});
@@ -40,6 +48,9 @@ const StoreProvider = ({ children }: any) => {
     events: {},
     daysViewLayout: null,
     headerLayout: null,
+    monthLayout: null,
+    monthOverflowEvents: null,
+    showMoreEvents: null,
     layoutUpdateSequence: 1,
     config: createConfig({}),
     callbacks: createCallbacks({}),

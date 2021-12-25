@@ -19,13 +19,20 @@
   justify-content: center;
   color: $text;
 
-  &-selected {
+  &-small {
     @extend .Kalend__CalendarHeaderDates__circle;
-    background: $text;
+    margin-top: 2px;
+    height: 20px;
+    width: 20px;
 
-    &-dark {
-      @extend .Kalend__CalendarHeaderDates__circle-selected;
-      background: $GRAY_200;
+    &-today {
+      @extend .Kalend__CalendarHeaderDates__circle-small;
+      background: $PRIMARY_LIGHT;
+
+      &-dark {
+        @extend .Kalend__CalendarHeaderDates__circle-small-today;
+        background: $PRIMARY_DARK;
+      }
     }
   }
 
@@ -38,6 +45,12 @@
       background: $PRIMARY_DARK;
     }
   }
+}
+
+
+.Kalend__CalendarHeaderDates__text-size-small {
+  font-size: 1.1em !important;
+  padding: 0.4px;
 }
 
 .Kalend__CalendarHeaderDates__text {

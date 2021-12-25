@@ -153,7 +153,7 @@ const Calendar = (props: CalendarProps) => {
     <>
       <CalendarDesktopNavigation setViewChanged={setViewChanged} />
       {selectedView !== CALENDAR_VIEW.AGENDA ? (
-        <CalendarHeader events={events} />
+        <CalendarHeader events={events ? events : {}} />
       ) : null}
       <div className={'Kalend__Calendar__table'}>
         <CalendarTableLayoutLayer>

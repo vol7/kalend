@@ -7,4 +7,5 @@ export interface EventButtonProps {
   type: EVENT_TYPE;
   meta?: EventLayoutMeta;
   day?: DateTime;
+  index?: number; // for month layout
 }
