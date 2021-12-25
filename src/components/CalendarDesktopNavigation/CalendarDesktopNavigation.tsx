@@ -77,7 +77,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
 
     if (element) {
       if (element) {
-        if (element.getBoundingClientRect().width <= 820) {
+        if (element.getBoundingClientRect().width <= 950) {
           setIsFullNavigationHidden(true);
         } else {
           setIsFullNavigationHidden(false);

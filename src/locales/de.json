@@ -5,7 +5,8 @@
     "day": "Tag",
     "threeDays": "3 Tags",
     "week": "Woche",
-    "month": "Monat"
+    "month": "Monat",
+    "showMore": "Zeig mehr"
   },
   "months": {
     "january": "Januar",

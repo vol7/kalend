@@ -74,15 +74,15 @@ export const parseCalendarViewToText = (
 ): string => {
   switch (calendarView) {
     case CALENDAR_VIEW.AGENDA:
-      return 'Agenda';
+      return 'buttons:agenda';
     case CALENDAR_VIEW.DAY:
-      return 'Day';
+      return 'buttons:day';
     case CALENDAR_VIEW.THREE_DAYS:
-      return '3 days';
+      return 'buttons:threeDays';
     case CALENDAR_VIEW.WEEK:
-      return 'Week';
+      return 'buttons:week';
     case CALENDAR_VIEW.MONTH:
-      return 'Month';
+      return 'buttons:month';
     default:
       return '';
   }

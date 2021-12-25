@@ -1,4 +1,3 @@
-import './i18n';
 import { CALENDAR_VIEW } from './common/enums';
 import {
   CalendarEvent,
@@ -16,6 +15,7 @@ import { validateProps, validateStyle } from './utils/validator';
 import Calendar from './Calendar';
 import ConfigLayer from './layers/ConfigLayer';
 import DimensionsLayoutLayer from './layers/DimensionsLayoutLayer';
+import LanguageLayer from './layers/LanguageLayer';
 import RootLayoutLayer from './layers/RootLayoutLayer';
 import StoreProvider from './context/store';
 
@@ -49,6 +49,7 @@ export interface KalendProps {
   calendarIDsHidden?: string[];
   children?: any;
   language?: string;
+  customLanguage?: any;
 }
 
 const Kalend = (props: KalendProps) => {
@@ -60,15 +61,17 @@ const Kalend = (props: KalendProps) => {
 
   return (
     <div className={'Kalend__Calendar__root Kalend__main'}>
-      <StoreProvider>
-        <RootLayoutLayer>
-          <ConfigLayer {...props}>
-            <DimensionsLayoutLayer>
-              <Calendar events={props.events} />
-            </DimensionsLayoutLayer>
-          </ConfigLayer>
-        </RootLayoutLayer>
-      </StoreProvider>
+      <LanguageLayer customLanguage={props.customLanguage}>
+        <StoreProvider>
+          <RootLayoutLayer>
+            <ConfigLayer {...props}>
+              <DimensionsLayoutLayer>
+                <Calendar events={props.events} />
+              </DimensionsLayoutLayer>
+            </ConfigLayer>
+          </RootLayoutLayer>
+        </StoreProvider>
+      </LanguageLayer>
     </div>
   );
 };
