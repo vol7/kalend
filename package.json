@@ -23,7 +23,9 @@
   },
   "dependencies": {
     "@swc/helpers": "0.2.14",
+    "i18next": "21.6.3",
     "luxon": "2.1.1",
+    "react-i18next": "11.15.1",
     "regenerator-runtime": "0.13.9"
   },
   "files": [

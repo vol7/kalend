@@ -3,6 +3,7 @@ import { Context } from '../../context/store';
 import { HeaderCalendarButtonProps } from './HeaderCalendarButtons.props';
 import { parseClassName } from '../../utils/common';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import ButtonBase from '../buttonBase/ButtonBase';
 
 const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
@@ -62,6 +63,8 @@ interface HeaderCalendarButtonsProps {
  * @constructor
  */
 const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
+  const { t } = useTranslation();
+
   const { disabledViews, setViewChanged, handleClose, isForcedMobile } = props;
   const [store] = useContext(Context);
 
@@ -77,7 +80,10 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
     >
       {!disabledViews?.includes(CALENDAR_VIEW.AGENDA) ? (
         <HeaderCalendarButton
-          buttonData={{ label: 'Agenda', value: CALENDAR_VIEW.AGENDA }}
+          buttonData={{
+            label: t('buttons:agenda'),
+            value: CALENDAR_VIEW.AGENDA,
+          }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
           isForcedMobile={isForcedMobile}
@@ -85,7 +91,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.DAY) ? (
         <HeaderCalendarButton
-          buttonData={{ label: 'Day', value: CALENDAR_VIEW.DAY }}
+          buttonData={{ label: t('buttons:day'), value: CALENDAR_VIEW.DAY }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
           isForcedMobile={isForcedMobile}
@@ -93,7 +99,10 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.THREE_DAYS) ? (
         <HeaderCalendarButton
-          buttonData={{ label: '3 Days', value: CALENDAR_VIEW.THREE_DAYS }}
+          buttonData={{
+            label: t('buttons:threeDays'),
+            value: CALENDAR_VIEW.THREE_DAYS,
+          }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
           isForcedMobile={isForcedMobile}
@@ -101,7 +110,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.WEEK) ? (
         <HeaderCalendarButton
-          buttonData={{ label: 'Week', value: CALENDAR_VIEW.WEEK }}
+          buttonData={{ label: t('buttons:week'), value: CALENDAR_VIEW.WEEK }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
           isForcedMobile={isForcedMobile}
@@ -109,7 +118,7 @@ const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
       ) : null}
       {!disabledViews?.includes(CALENDAR_VIEW.MONTH) ? (
         <HeaderCalendarButton
-          buttonData={{ label: 'Month', value: CALENDAR_VIEW.MONTH }}
+          buttonData={{ label: t('buttons:month'), value: CALENDAR_VIEW.MONTH }}
           setViewChanged={setViewChanged}
           handleClose={handleClose}
           isForcedMobile={isForcedMobile}
