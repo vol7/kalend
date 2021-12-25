@@ -21,7 +21,7 @@ const CalendarHeaderDays = (props: CalendarHeaderDaysProps) => {
       </CalendarHeaderColText>
       {!isMonthView ? (
         <CalendarHeaderColText>
-          <CalendarHeaderDates daysNum={daysNum} />
+          <CalendarHeaderDates calendarDays={calendarDays} daysNum={daysNum} />
         </CalendarHeaderColText>
       ) : null}
     </CalendarHeaderWrapper>

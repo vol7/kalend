@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CALENDAR_VIEW, TIME_FORMAT, WEEKDAY_START } from './enums';
+import { DateTime } from 'luxon';
 
 export interface Settings {
   selectedDate: string;
@@ -22,9 +23,9 @@ export interface CalendarEvent {
 }
 
 export interface EventLayoutMeta {
-  showTime: boolean;
-  isFullWidth: boolean;
-  centerText: boolean;
+  showTime?: boolean;
+  isFullWidth?: boolean;
+  centerText?: boolean;
 }
 
 export interface NormalEventPosition {
@@ -102,4 +103,9 @@ export interface Callbacks {
   onEventDragFinish?: OnEventDragFinishFunc;
   onNewEventClick: OnNewEventClickFunc;
   onEventClick: OnEventClickFunc;
+}
+
+export interface ShowMoreEvents {
+  day: DateTime;
+  events: CalendarEvent[];
 }

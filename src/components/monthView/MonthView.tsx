@@ -1,52 +1,102 @@
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
+
 import { MonthViewProps } from './MonthView.props';
+import {
+  calculateMonthPositions,
+  getMonthRows,
+} from './monthWeekRow/MonthWeekRow.utils';
+import { useContext, useEffect } from 'react';
+import { useHeight } from '../../utils/layout';
+import DaysViewVerticalLines from '../daysViewTable/daysViewVerticalLines/DaysViewVerticalLines';
+import MonthWeekRow from './monthWeekRow/MonthWeekRow';
 
-import { formatTimestampToDate } from '../../utils/common';
-import { useContext } from 'react';
-import MonthOneDay from './monthOneDay/MonthOneDay';
+const renderOneRow = (days: DateTime[]) => {
+  const rows: DateTime[][] = getMonthRows(days);
 
-const renderOneDay = (
-  data: DateTime[],
-  prefix: string,
-  tableHeight: number,
-  events: any
-) =>
-  data.map((calendarDay: DateTime, index: number) => {
-    const formattedDayString: string = formatTimestampToDate(calendarDay);
-
-    return (
-      <MonthOneDay
-        key={`${prefix}-${formattedDayString}`}
-        index={index}
-        day={calendarDay}
-        data={events ? events[formattedDayString] : []}
-      />
-    );
+  return rows.map((row: DateTime[], index: number) => {
+    return <MonthWeekRow key={row[0].toString()} days={row} index={index} />;
   });
+};
 
 const MonthView = (props: MonthViewProps) => {
-  const [store] = useContext(Context);
-  const { height, width, calendarDays } = store;
   const { events } = props;
+  const [store, dispatch] = useContext(Context);
+  const setContext = (type: string, payload: any) => {
+    dispatch({ type, payload });
+  };
 
-  // Calculate height for days table
+  const height: number = useHeight();
+  const { width, calendarDays, config } = store;
 
-  const daysWrapper: any = {
+  const style: any = {
     width,
-    height,
+    height: '100%',
   };
 
   // const onPageChange = async (isGoingForward?: boolean) => {
   //   await getNewCalendarDays(calendarDays, CALENDAR_VIEW.MONTH, isGoingForward);
   // };
 
-  const days: any = renderOneDay(calendarDays, 'month1', height, events);
+  useEffect(() => {
+    if (height !== 0) {
+      const monthPositions: any = calculateMonthPositions(
+        events,
+        width,
+        calendarDays,
+        config.timezone,
+        (height / 6 - 25) / 26 - 1,
+        setContext
+      );
+
+      setContext('monthLayout', monthPositions);
+    }
+  }, []);
+  useEffect(() => {
+    const monthPositions: any = calculateMonthPositions(
+      events,
+      width,
+      calendarDays,
+      config.timezone,
+      (height / 6 - 25) / 26 - 1,
+      setContext
+    );
+
+    setContext('monthLayout', monthPositions);
+  }, [height]);
+  useEffect(() => {
+    const monthPositions: any = calculateMonthPositions(
+      events,
+      width,
+      calendarDays,
+      config.timezone,
+      (height / 6 - 25) / 26 - 1,
+      setContext
+    );
+
+    setContext('monthLayout', monthPositions);
+  }, [calendarDays[0]]);
+  useEffect(() => {
+    const monthPositions: any = calculateMonthPositions(
+      events,
+      width,
+      calendarDays,
+      config.timezone,
+      (height / 6 - 25) / 26 - 1,
+      setContext
+    );
+
+    setContext('monthLayout', monthPositions);
+  }, [JSON.stringify(events)]);
+
+  // const days: any = renderOneDay(calendarDays, 'month1', height, events);
+  const rows: any = renderOneRow(calendarDays);
 
   return (
     // <Carousel onPageChange={onPageChange}>
-    <div className={'Kalend__MonthView__container'} style={daysWrapper}>
-      {days}
+    <div className={'Kalend__MonthView__container'} style={style}>
+      <DaysViewVerticalLines />
+      {store.monthLayout ? rows : null}
     </div>
     // </Carousel>
   );

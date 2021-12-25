@@ -42,7 +42,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   const style: any = {
     paddingLeft: CALENDAR_OFFSET_LEFT,
     width,
-    height: height,
+    height,
   };
 
   // const adjustScrollPosition = () => {
