@@ -9,6 +9,7 @@ import {
 } from '../../utils/getCalendarDays';
 import { parseClassName, parseCssDark } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import ButtonBase from '../buttonBase/ButtonBase';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
 import CalendarViewDropdown from '../calendarViewDropdown/CalendarViewDropdown';
@@ -23,6 +24,8 @@ import MobileLayout from '../mobileLayout/MobileLayout';
  * @constructor
  */
 const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
+  const { t } = useTranslation();
+
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
@@ -34,7 +37,10 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
 
   const [isFullNavigationHidden, setIsFullNavigationHidden] = useState(true);
 
-  const title: string = DateTime.fromISO(selectedDate).toFormat('MMMM yyyy');
+  const titleDate = DateTime.fromISO(selectedDate);
+  const title = `${t(
+    `months:${titleDate.toFormat('MMMM').toLowerCase()}`
+  )} ${titleDate.toFormat('yyyy')}`;
 
   const navigateBackwards = async (): Promise<void> =>
     await getNewCalendarDays(
@@ -71,7 +77,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
 
     if (element) {
       if (element) {
-        if (element.getBoundingClientRect().width <= 820) {
+        if (element.getBoundingClientRect().width <= 950) {
           setIsFullNavigationHidden(true);
         } else {
           setIsFullNavigationHidden(false);
@@ -103,7 +109,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 isDark={isDark}
                 onClick={navigateToTodayDate}
               >
-                Today
+                {t('buttons:today')}
               </ButtonBase>
               <ButtonIcon
                 isDark={isDark}
