@@ -1,3 +1,4 @@
+import './i18n';
 import { CALENDAR_VIEW } from './common/enums';
 import {
   CalendarEvent,
@@ -47,6 +48,7 @@ export interface KalendProps {
   timeFormat?: string;
   calendarIDsHidden?: string[];
   children?: any;
+  language?: string;
 }
 
 const Kalend = (props: KalendProps) => {

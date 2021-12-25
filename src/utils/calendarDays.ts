@@ -75,8 +75,16 @@ export const parseEventColor = (
     ? calendarColors[colorString][isDark ? 'dark' : 'light']
     : colorString;
 
-export const daysText = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-export const daysTextSundayStart = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+export const daysText = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+export const daysTextSundayStart = [
+  'Sun',
+  'Mon',
+  'Tue',
+  'Wed',
+  'Thu',
+  'Fri',
+  'Sat',
+];
 
 export const calculateOneDay = (date: DateTime): DateTime => {
   return date;
