@@ -70,7 +70,8 @@ export const onMoveMonthEvent = (
   eventWasChangedRef: any,
   offsetLeftRef: any,
   offsetTopRef: any,
-  setState: any
+  setState: any,
+  index: number
 ) => {
   const columnHeight: number = height / 6;
   if (!draggingRef.current) {
@@ -83,17 +84,11 @@ export const onMoveMonthEvent = (
 
   const tableElement: any = document.querySelector('.Kalend__Calendar__table');
   const tableElementRect = tableElement.getBoundingClientRect();
+
   const xTable = e.clientX - tableElementRect.x;
   const yTable = e.clientY - tableElementRect.y;
 
   // Get column element for day, where event is placed
-  const dayElement: any = document.getElementById(
-    `Kalend__day__${day.toString()}`
-  );
-  if (!dayElement) {
-    return;
-  }
-  const dayElementRect = dayElement.getBoundingClientRect();
 
   const touches: any = e.nativeEvent?.touches?.[0];
 
@@ -103,29 +98,31 @@ export const onMoveMonthEvent = (
 
   // handle touch movement
   if (touches) {
-    x = touches.clientX - dayElementRect.x;
-    y = touches.clientY - dayElementRect.y;
+    x = touches.clientX - tableElementRect.x;
+    y = touches.clientY - tableElementRect.y;
   } else {
     // calculate x coordinates while following mouse move
-    x = e.clientX - dayElementRect.x;
-    y = e.clientY - dayElementRect.y;
+    x = e.clientX - tableElementRect.x;
+    y = e.clientY - tableElementRect.y;
   }
+
+  const yReal = yTable - index * columnHeight;
 
   // prevent free dragging across columns with simple recalculation for
   const columnShiftX = Math.floor(x / columnWidth);
-  const columnShiftY = Math.floor(y / columnHeight);
+  const columnShiftY = Math.floor(yReal / columnHeight);
 
   const columnShiftXParsed = parseInt((xTable / columnWidth).toString());
   const columnShiftYParsed = parseInt((yTable / columnHeight).toString());
 
   const columnShiftTableX = Math.round(xTable / columnWidth);
-  const columnShiftTableY = Math.round(yTable / columnHeight);
 
   if (
     columnShiftTableX * columnWidth >= width ||
     xTable < 0 ||
-    columnShiftTableY * columnHeight >= height ||
-    yTable < 0
+    columnShiftY * columnHeight >= height ||
+    yTable < 0 ||
+    y >= height
   ) {
     return;
   }

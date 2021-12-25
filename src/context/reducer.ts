@@ -31,6 +31,21 @@ const Reducer = (state: any, action: any) => {
         ...state,
         headerLayout: action.payload,
       };
+    case 'monthLayout':
+      return {
+        ...state,
+        monthLayout: action.payload,
+      };
+    case 'monthOverflowEvents':
+      return {
+        ...state,
+        monthOverflowEvents: action.payload,
+      };
+    case 'showMoreEvents':
+      return {
+        ...state,
+        showMoreEvents: action.payload,
+      };
     case 'layoutUpdateSequence':
       return {
         ...state,

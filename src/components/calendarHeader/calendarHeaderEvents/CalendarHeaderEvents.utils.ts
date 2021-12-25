@@ -10,16 +10,20 @@ import {
   isEventInRange,
 } from '../../../utils/eventLayout';
 import { isAllDayEvent } from '../../../utils/common';
+import { parseToDateTime } from '../../../utils/dateTimeParser';
 
 // adjust start and end date for header event to full day for correct layout
 // calculations
-const stretchHeaderEventTimes = (event: CalendarEvent): CalendarEvent => {
+export const stretchHeaderEventTimes = (
+  event: CalendarEvent,
+  timezone: string
+): CalendarEvent => {
   return {
     ...event,
-    startAt: DateTime.fromISO(event.startAt)
+    startAt: parseToDateTime(event.startAt, event.timezoneStartAt || timezone)
       .set({ hour: 0, minute: 0, second: 1 })
       .toString(),
-    endAt: DateTime.fromISO(event.endAt)
+    endAt: parseToDateTime(event.endAt, event.timezoneStartAt || timezone)
       .set({ hour: 23, minute: 59, second: 59 })
       .toString(),
   };
@@ -143,8 +147,8 @@ export const calculatePositionForHeaderEvents = (
 
       // check if events are not overlapping
       const isOverlapping: boolean = checkOverlappingEvents(
-        stretchHeaderEventTimes(event),
-        stretchHeaderEventTimes(eventToCompare),
+        stretchHeaderEventTimes(event, timezone),
+        stretchHeaderEventTimes(eventToCompare, timezone),
         timezone
       );
 
@@ -154,8 +158,8 @@ export const calculatePositionForHeaderEvents = (
         // compare match with other stored events for same row
         rowWithNotOverlappingEvents.forEach((itemFromRow) => {
           const isOverlappingAll: boolean = checkOverlappingEvents(
-            stretchHeaderEventTimes(itemFromRow),
-            stretchHeaderEventTimes(eventToCompare),
+            stretchHeaderEventTimes(itemFromRow, timezone),
+            stretchHeaderEventTimes(eventToCompare, timezone),
             timezone
           );
 

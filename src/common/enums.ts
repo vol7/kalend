@@ -11,6 +11,7 @@ export enum EVENT_TYPE {
   MONTH = 'month',
   AGENDA = 'agenda',
   HEADER = 'header',
+  SHOW_MORE_MONTH = 'showMoreMonth',
 }
 
 export enum CALENDAR_NAVIGATION_DIRECTION {

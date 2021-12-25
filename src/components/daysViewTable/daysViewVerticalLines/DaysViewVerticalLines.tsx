@@ -11,14 +11,17 @@ const renderVerticalLines = (
   height: number,
   hourHeight: number,
   isDark: boolean,
-  isMobile: boolean
+  isMobile: boolean,
+  selectedView: CALENDAR_VIEW
 ) => {
   const columnWidth: number =
-    getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK) / calendarDays.length;
+    getCorrectWidth(width, isMobile, selectedView) / calendarDays.length;
 
   return calendarDays.map((calendarDay, index: number) => {
     const style: { left: number; height: number } = {
-      left: columnWidth * index + CALENDAR_OFFSET_LEFT,
+      left:
+        columnWidth * index +
+        (selectedView === CALENDAR_VIEW.MONTH ? 0 : CALENDAR_OFFSET_LEFT),
       height: hourHeight * 24,
     };
 
@@ -36,15 +39,26 @@ const renderVerticalLines = (
 
 const DaysViewVerticalLines = () => {
   const [store] = useContext(Context);
-  const { calendarDays, width, isDark, height, config, isMobile } = store;
+  const {
+    calendarDays,
+    width,
+    isDark,
+    height,
+    config,
+    isMobile,
+    selectedView,
+  } = store;
 
   const verticalLines: any = renderVerticalLines(
-    calendarDays,
+    selectedView === CALENDAR_VIEW.MONTH
+      ? calendarDays.slice(0, 7)
+      : calendarDays,
     width,
     height,
     config.hourHeight,
     isDark,
-    isMobile
+    isMobile,
+    selectedView
   );
 
   return (
