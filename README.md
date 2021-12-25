@@ -191,6 +191,34 @@ Callback returns array of CalendarEvent which did not fit inside day column in m
 
     };
 
+# Localization
+
+Support for languages:
+- english (en)
+- deutsch (de)
+- spanish (es)
+- french (fr)
+- chinese (zh)
+
+Usage:
+Pass prop language to Kalend 
+```
+<Kalend
+...
+language={'de'}
+/>
+```
+You can include your own translation with prop customLanguage. Create json locale file and import it to Kalend
+
+```
+import cz from 'cz.json'
+
+<Kalend
+...
+customLanguage={cz}
+/>
+```
+
 # Development
 
 ## Storybook Support
