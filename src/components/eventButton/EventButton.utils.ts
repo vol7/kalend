@@ -55,9 +55,10 @@ export const initEventButtonPosition = (
   day: DateTime | undefined,
   event: CalendarEvent,
   store: any,
-  setLayout: any
+  setLayout: any,
+  index?: number
 ) => {
-  const { daysViewLayout, headerLayout } = store;
+  const { daysViewLayout, headerLayout, monthLayout } = store;
 
   if (type === EVENT_TYPE.NORMAL && day) {
     const formattedDayString: string = formatDateTimeToString(day);
@@ -73,7 +74,21 @@ export const initEventButtonPosition = (
         setLayout(headerLayoutValue);
       }
     }
+  } else if (type === EVENT_TYPE.MONTH) {
+    if (store.monthLayout && index !== undefined) {
+      const monthLayoutValue: any = monthLayout?.[index]?.[event.id];
+
+      if (monthLayoutValue) {
+        setLayout(monthLayoutValue);
+      }
+    }
   } else {
     setLayout(createTempMonthEventsLayout());
   }
+};
+
+export const disableTouchDragging = (e: any): boolean => {
+  const touches: any = e.nativeEvent?.touches?.[0];
+
+  return !!touches;
 };

@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon';
 
-export interface CalendarHeaderDatesProps {
-  daysNum: number;
+export interface MonthViewButtonMoreProps {
   calendarDays: DateTime[];
 }

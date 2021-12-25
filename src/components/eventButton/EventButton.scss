@@ -53,6 +53,14 @@
     align-items: center;
     margin-bottom: 12px;
   }
+
+  &-showMoreMonth {
+    @extend .Kalend__Event;
+    height: 25px !important;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 8px;
+  }
 }
 
 .Kalend__EventButton__elevation {

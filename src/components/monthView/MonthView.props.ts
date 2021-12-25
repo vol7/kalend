@@ -1,3 +1,3 @@
 export interface MonthViewProps {
-  events?: any;
+  events: any;
 }
