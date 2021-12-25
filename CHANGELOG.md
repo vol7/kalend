@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+- refactor month events, fixed displaying multi day events
+- add modal for overflowing month events
+- add localizations
+- disabled dragging for touch events
+
 ## 0.5.0
 - add option to change time format to 12 hours (AM/PM) or 24 hours
 - add filtering events by calendarID
