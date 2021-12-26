@@ -52,7 +52,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
   const [store] = useContext(Context);
   const { width, selectedView, config, callbacks } = store;
-  const { handleNewEventClick } = callbacks;
+  const { onNewEventClick } = callbacks;
   const { isDark, hourHeight, timezone } = config;
 
   const oneDayStyle: any = {
@@ -85,12 +85,12 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   }, []);
 
   const handleEventClickInternal = (event: any) => {
-    if (handleNewEventClick) {
+    if (onNewEventClick) {
       const rect: { top: number } = event.target.getBoundingClientRect();
       const y: number = event.clientY - rect.top;
       // Get hour from click event
       const hour: number = y / hourHeight;
-      handleNewEventClick({ day: day.toJSDate(), hour, event });
+      onNewEventClick({ day: day.toJSDate(), hour, event });
     }
   };
 
