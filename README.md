@@ -215,6 +215,7 @@ import cz from 'cz.json'
 
 <Kalend
 ...
+language={'customLanguage'}
 customLanguage={cz}
 />
 ```
