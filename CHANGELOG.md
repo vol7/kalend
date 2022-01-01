@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.2
+- fixed event propagation after dragging calendar events
+- added original event to callback for dragging finish
+
 ## 0.6.0
 - refactor month events, fixed displaying multi day events
 - add modal for overflowing month events
