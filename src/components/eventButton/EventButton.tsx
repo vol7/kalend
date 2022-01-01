@@ -55,6 +55,14 @@ const EventButton = (props: EventButtonProps) => {
     dispatchState({ state, payload });
   };
 
+  // store values as refs to access them in event listener
+  const offsetTopRef = useRef(state.offsetTop);
+  const offsetLeftRef = useRef(state.offsetLeft);
+  const xShiftIndexRef = useRef(0);
+  const yShiftIndexRef = useRef(0);
+  const draggingRef = useRef(false);
+  const eventWasChangedRef = useRef(false);
+
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
@@ -92,6 +100,14 @@ const EventButton = (props: EventButtonProps) => {
   const handleEventClick = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    if (draggingRef.current) {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      draggingRef.current = false;
+      return;
+    }
+
     if (onEventClick) {
       onEventClick(event);
     }
@@ -128,14 +144,6 @@ const EventButton = (props: EventButtonProps) => {
     initEventButtonPosition(type, props.day, event, store, setLayout, index);
   }, [store.layoutUpdateSequence]);
 
-  // store values as refs to access them in event listener
-  const offsetTopRef = useRef(state.offsetTop);
-  const offsetLeftRef = useRef(state.offsetLeft);
-  const xShiftIndexRef = useRef(0);
-  const yShiftIndexRef = useRef(0);
-  const draggingRef = useRef(false);
-  const eventWasChangedRef = useRef(false);
-
   const initMove = () => {
     if (type === EVENT_TYPE.AGENDA) {
       return;
@@ -152,6 +160,9 @@ const EventButton = (props: EventButtonProps) => {
   };
 
   const onMove = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (disableTouchDragging(e)) {
       return;
     }
@@ -219,6 +230,7 @@ const EventButton = (props: EventButtonProps) => {
     if (!eventWasChangedRef.current) {
       setState('offsetLeft', state.offsetLeft);
       setState('width', state.width);
+      setState('isDragging', false);
       draggingRef.current = false;
 
       return;
@@ -230,7 +242,10 @@ const EventButton = (props: EventButtonProps) => {
       return;
     }
 
-    draggingRef.current = false;
+    setTimeout(() => {
+      draggingRef.current = false;
+      setState('isDragging', false);
+    }, 100);
 
     // add data to callback
     if (onEventDragFinish) {
@@ -261,6 +276,7 @@ const EventButton = (props: EventButtonProps) => {
 
       if (newEvent) {
         onFinishDraggingInternal(
+          event,
           newEvent,
           store,
           setContext,
@@ -283,6 +299,7 @@ const EventButton = (props: EventButtonProps) => {
     if (disableTouchDragging(e)) {
       return;
     }
+    setState('isDragging', true);
     draggingRef.current = true;
 
     e.preventDefault();
@@ -301,6 +318,9 @@ const EventButton = (props: EventButtonProps) => {
    * @param e
    */
   const onMouseDown = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     // add timeout to differentiate from normal clicks
     timeoutRef = setTimeout(() => {
       onMouseDownLong(e);
@@ -313,7 +333,7 @@ const EventButton = (props: EventButtonProps) => {
       isDark={isDark}
       style={style}
       className={`Kalend__Event-${type} ${
-        draggingRef.current ? 'Kalend__EventButton__elevation' : ''
+        state.isDragging ? 'Kalend__EventButton__elevation' : ''
       } ${store.layoutUpdateSequence === 1 ? 'Kalend__Event__animate' : ''}`}
       onClick={handleEventClick}
       onMouseDown={onMouseDown}

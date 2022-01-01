@@ -1,11 +1,12 @@
+import { CalendarEvent, OnEventDragFinish } from '../../../index';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
-import { OnEventDragFinish } from '../../../index';
 import { calculateDaysViewLayout } from '../../../utils/eventLayout';
 import { calculatePositionForHeaderEvents } from '../../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { parseAllDayEvents } from '../../../utils/allDayEvents';
 
 export const onFinishDraggingInternal = (
+  prevEvent: CalendarEvent,
   eventToUpdate: any,
   store: any,
   setContext: any,
@@ -69,6 +70,6 @@ export const onFinishDraggingInternal = (
 
   // return updated data with callback
   if (onEventDragFinish) {
-    onEventDragFinish(eventToUpdate, result);
+    onEventDragFinish(prevEvent, eventToUpdate, result);
   }
 };

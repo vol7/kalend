@@ -182,12 +182,13 @@ Callback returns array of CalendarEvent which did not fit inside day column in m
 ### onEventDragFinish
 
     const onEventDragFinish: OnEventDragFinish = (
+    prevEvent: CalendarEvent,
     updatedEvent: CalendarEvent,
     events: any
     ) => {
         // if you want just update whole state, you can just set events
         setState(events);
-        // OR you can handle logic for updating inside your app with access to "updatedEvent"
+        // OR you can handle logic for updating inside your app with access to "updatedEvent" and "prevEvent"
 
     };
 
