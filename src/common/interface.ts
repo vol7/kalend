@@ -91,6 +91,7 @@ export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;
 export type OnSelectViewFunc = (view: CALENDAR_VIEW) => void;
 export type OnEventClickFunc = (data: CalendarEvent) => void;
 export type OnEventDragFinishFunc = (
+  prevEvent: CalendarEvent,
   updatedEvent: CalendarEvent,
   events: any
 ) => void;

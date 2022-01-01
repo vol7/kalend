@@ -33,6 +33,7 @@ export interface EventButtonInitialState {
   zIndex: number;
   border: string;
   meta: any;
+  isDragging: boolean;
 }
 
 export const eventButtonInitialState: EventButtonInitialState = {
@@ -48,6 +49,7 @@ export const eventButtonInitialState: EventButtonInitialState = {
   zIndex: 2,
   border: '',
   meta: {},
+  isDragging: false,
 };
 
 export const initEventButtonPosition = (
