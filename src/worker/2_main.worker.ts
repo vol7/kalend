@@ -1,21 +1,149 @@
-import {
-  CalendarEvent,
-  Config,
-  EventLayout,
-  NormalEventPosition,
-} from '../../../common/interface';
-import { DateTime } from 'luxon';
-import { EVENT_TABLE_DELIMITER_SPACE } from '../../../common/constants';
-import {
-  checkOverlappingDatesForHeaderEvents,
-  checkOverlappingEvents,
-  isEventInRange,
-} from '../../../utils/eventLayout';
-import { formatDateTimeToString } from '../../../utils/common';
-import { parseToDateTime } from '../../../utils/dateTimeParser';
-import { stretchHeaderEventTimes } from '../../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
+/* eslint-disable */
+// @ts-nocheck
 
-const formatOverflowingEvents = (events: CalendarEvent[], timezone: string) => {
+// eslint-disable-next-line no-undef
+const DateTime = luxon.DateTime;
+// eslint-disable-next-line no-undef
+const Interval = luxon.Interval;
+
+// eslint-disable-next-line no-redeclare
+interface DateTime {
+  set: any;
+  setZone: any;
+  fromISO: any;
+  toUTC: any;
+  toFormat: any;
+  plus: any;
+  minus: any;
+}
+
+// constants
+const EVENT_TABLE_DELIMITER_SPACE = 8;
+const FLOATING_DATETIME = 'floating'; // fixed datetime without timezone
+const UTC_TIMEZONE = 'UTC';
+
+interface CalendarEvent {
+  id: any;
+  startAt: string;
+  endAt: string;
+  timezoneStartAt: string;
+  timezoneEndAt: string;
+  summary: string;
+  color: string;
+  [key: string]: any;
+}
+
+const parseToDate = (item: string | DateTime): DateTime =>
+  typeof item === 'string' ? DateTime.fromISO(item) : item;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const parseToDateTime = (
+  // @ts-ignore
+  date: DateTime | string,
+  zone: string,
+  deviceTimezone?: string
+  // @ts-ignore
+): DateTime => {
+  const dateString: string = typeof date === 'string' ? date : date.toString();
+
+  const isFloatingDatetime: boolean = zone === FLOATING_DATETIME;
+
+  // Adjust date with timezone so when converted to UTC it represents correct value with fixed time
+  if (isFloatingDatetime) {
+    // @ts-ignore
+    const dateFloating: DateTime = DateTime.fromISO(dateString, {
+      zone: UTC_TIMEZONE,
+    });
+
+    return dateFloating.toUTC();
+  }
+  // @ts-ignore
+  const thisDate: DateTime = DateTime.fromISO(dateString);
+
+  if (!zone) {
+    // Adjust datetime to device timezone
+    if (deviceTimezone) {
+      return thisDate.setZone(deviceTimezone);
+    } else {
+      return thisDate;
+    }
+  }
+
+  return thisDate.setZone(zone);
+};
+
+const checkOverlappingDatesForHeaderEvents = (
+  event: CalendarEvent,
+  day: any,
+  timezone: string
+): boolean => {
+  const dateStart = parseToDateTime(
+    event.startAt,
+    event.timezoneStartAt || timezone
+  );
+  const dateEnd = parseToDateTime(
+    event.endAt,
+    event.timezoneStartAt || timezone
+  );
+  const dayTruncated: number = parseToDate(day)
+    .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
+    .toMillis();
+
+  const eventStartTruncated: number = dateStart
+    .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
+    .toMillis();
+  const eventEndTruncated: number = dateEnd
+    .set({ hour: 0, minute: 0, millisecond: 0, second: 0 })
+    .toMillis();
+
+  // fix wrong positioning when external all day event ends in next day
+  if (event.externalID) {
+    return (
+      dayTruncated >= eventStartTruncated && dayTruncated < eventEndTruncated
+    );
+  } else {
+    return (
+      dayTruncated >= eventStartTruncated && dayTruncated <= eventEndTruncated
+    );
+  }
+};
+
+const formatDateTimeToString = (dateObj: DateTime): string =>
+  dateObj.toFormat('dd-MM-yyyy');
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const stretchHeaderEventTimes = (
+  event: CalendarEvent,
+  timezone: string
+): CalendarEvent => {
+  return {
+    ...event,
+    startAt: parseToDateTime(event.startAt, event.timezoneStartAt || timezone)
+      .set({ hour: 0, minute: 0, second: 1 })
+      .toString(),
+    endAt: parseToDateTime(event.endAt, event.timezoneStartAt || timezone)
+      .set({ hour: 23, minute: 59, second: 59 })
+      .toString(),
+  };
+};
+const isEventInRange = (
+  event: CalendarEvent,
+  days: DateTime[],
+  timezone: string
+): boolean => {
+  let hasMatch = false;
+
+  for (const day of days) {
+    if (checkOverlappingDatesForHeaderEvents(event, day, timezone)) {
+      hasMatch = true;
+      return true;
+      // return false;
+    }
+  }
+
+  return hasMatch;
+};
+
+const formatOverflowingEvents = (events: any[], timezone: string) => {
   const result: any = {};
 
   if (!events || events.length === 0) {
@@ -50,10 +178,10 @@ const formatOverflowingEvents = (events: CalendarEvent[], timezone: string) => {
   return result;
 };
 
-export const getMonthRows = (calendarDays: DateTime[]): DateTime[][] => {
-  const calendarDaysRows: DateTime[][] = [];
+const getMonthRows = (calendarDays: any[]): any => {
+  const calendarDaysRows: any[][] = [];
 
-  let tempArray: DateTime[] = [];
+  let tempArray: any[] = [];
 
   calendarDays.forEach((item, i) => {
     const index = i + 1;
@@ -69,7 +197,7 @@ export const getMonthRows = (calendarDays: DateTime[]): DateTime[][] => {
   return calendarDaysRows;
 };
 
-export const sortByLength = (events: CalendarEvent[]) => {
+const sortByLength = (events: any[]) => {
   return events.sort((a, b) => {
     const diffA: number =
       DateTime.fromISO(a.endAt).toMillis() -
@@ -86,6 +214,38 @@ export const sortByLength = (events: CalendarEvent[]) => {
 
     return 0;
   });
+};
+
+const checkOverlappingEvents = (
+  eventA: CalendarEvent,
+  eventB: CalendarEvent,
+  timezone: string
+): boolean => {
+  const startAtFirst: DateTime = parseToDateTime(
+    eventA.startAt,
+    eventA.timezoneStartAt,
+    timezone
+  );
+  const endAtFirst: DateTime = parseToDateTime(
+    eventA.endAt,
+    eventA.timezoneStartAt,
+    timezone
+  );
+  const startAtSecond: DateTime = parseToDateTime(
+    eventB.startAt,
+    eventB.timezoneStartAt,
+    timezone
+  );
+  const endAtSecond: DateTime = parseToDateTime(
+    eventB.endAt,
+    eventB.timezoneStartAt,
+    timezone
+  );
+  // @ts-ignore
+  return Interval.fromDateTimes(startAtFirst, endAtFirst).overlaps(
+    // @ts-ignore
+    Interval.fromDateTimes(startAtSecond, endAtSecond)
+  );
 };
 
 interface MonthRowResult {
@@ -130,7 +290,7 @@ const getMonthRowPosition = (
 
   // find all matching events to fit in one row
   sortedByLength?.forEach((event) => {
-    const eventPositionResult: NormalEventPosition[] = [];
+    const eventPositionResult: any[] = [];
     // check if event was used already
     // skip iteration if event was already resolved
     if (usedEvents.includes(event.id)) {
@@ -186,18 +346,6 @@ const getMonthRowPosition = (
       }
     });
 
-    // now we have row with only not overlapping events
-    // sort events in row by duration to fit more events in row
-    // const sortedResult: CalendarEvent[] = rowWithNotOverlappingEvents.sort(
-    //   (a, b) =>
-    //     DateTime.fromISO(a.endAt).toMillis() -
-    //     DateTime.fromISO(a.startAt).toMillis() -
-    //     (DateTime.fromISO(b.endAt).toMillis() -
-    //       DateTime.fromISO(b.startAt).toMillis())
-    // );
-
-    // const sortedResult = sortByLength(rowWithNotOverlappingEvents);
-
     // place events accordingly in row next to each other
     rowWithNotOverlappingEvents.forEach((item) => {
       let offset = 0;
@@ -220,7 +368,7 @@ const getMonthRowPosition = (
       const isOverflowing: boolean = result.length > maxEventsVisible;
       if (!isOverflowing) {
         // create event position data
-        const eventPositionData: NormalEventPosition = {
+        const eventPositionData: any = {
           event: item,
           width: Math.round(eventWidth - tableSpace),
           offsetLeft: offset,
@@ -250,16 +398,15 @@ const getMonthRowPosition = (
   return { positions: formattedResult, overflowingEvents: overflowEvents };
 };
 
-export const calculateMonthPositions = (
+const calculateMonthPositions = (
   events: any,
   width: number,
   calendarDays: DateTime[],
-  config: Config,
+  config: any,
   maxEventsVisible: number,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setContext?: any
 ): any => {
-  const result: EventLayout[] = [];
+  const result: any[] = [];
   let overflowingEvents: any = [];
 
   // TODO prefilter events for each row
@@ -280,17 +427,36 @@ export const calculateMonthPositions = (
     result.push(rowResult.positions);
     overflowingEvents = [...overflowingEvents, ...rowResult.overflowingEvents];
   });
-  //
-  // setContext(
-  //   'monthOverflowEvents',
-  //   formatOverflowingEvents(overflowingEvents, config.timezone)
-  // );
 
-  return {
-    result,
-    overflowingEvents: formatOverflowingEvents(
-      overflowingEvents,
-      config.timezone
-    ),
-  };
+  return { result, overflowingEvents };
 };
+
+addEventListener('message', (e) => {
+  const data = JSON.parse(e.data);
+
+  if (data.type === 'MONTH') {
+    const { events, width, calendarDays, config, maxEventsVisible } = data;
+    const dateTimeCalendarDays = calendarDays.map((item: any) =>
+      DateTime.fromISO(item)
+    );
+    const monthPositions = calculateMonthPositions(
+      events,
+      width,
+      dateTimeCalendarDays,
+      config,
+      maxEventsVisible
+    );
+
+    postMessage(
+      JSON.stringify({
+        type: 'monthPositions',
+        ...monthPositions,
+        calendarDays,
+        overflowingEvents: formatOverflowingEvents(
+          monthPositions.overflowingEvents,
+          config.timezone
+        ),
+      })
+    );
+  }
+});

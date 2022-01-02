@@ -65,6 +65,7 @@ export const createCallbacks = (props: KalendProps): Callbacks => {
     onEventDragFinish: props.onEventDragFinish || undefined,
     onPageChange: props.onPageChange || undefined,
     onSelectView: props.onSelectView || undefined,
+    onWorkerAction: props.onWorkerAction || undefined,
     onEventClick: props.onEventClick || emptyFunction,
     onNewEventClick: props.onNewEventClick || emptyFunction,
     showMoreMonth: props.showMoreMonth || emptyFunction,

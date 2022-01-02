@@ -7,6 +7,7 @@ import {
   OnNewEventClickFunc,
   OnPageChangeFunc,
   OnSelectViewFunc,
+  OnWorkerActionFunc,
   PageChangeData,
   ShowMoreMonthFunc,
 } from './common/interface';
@@ -42,6 +43,7 @@ export interface KalendProps {
   showMoreMonth?: ShowMoreMonthFunc;
   onPageChange?: OnPageChangeFunc;
   onEventDragFinish?: OnEventDragFinishFunc;
+  onWorkerAction?: OnWorkerActionFunc;
   disableMobileDropdown?: boolean;
   timezone?: string;
   weekDayStart?: string;
@@ -50,6 +52,7 @@ export interface KalendProps {
   children?: any;
   language?: string;
   customLanguage?: any;
+  eventLayouts?: any;
 }
 
 const Kalend = (props: KalendProps) => {
@@ -66,7 +69,10 @@ const Kalend = (props: KalendProps) => {
           <RootLayoutLayer>
             <ConfigLayer {...props}>
               <DimensionsLayoutLayer>
-                <Calendar events={props.events} />
+                <Calendar
+                  events={props.events}
+                  eventLayouts={props.eventLayouts}
+                />
               </DimensionsLayoutLayer>
             </ConfigLayer>
           </RootLayoutLayer>

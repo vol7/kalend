@@ -66,7 +66,7 @@ export const onFinishDraggingInternal = (
     setContext('headerLayout', headerPositions);
   }
 
-  setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+  // setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
   // return updated data with callback
   if (onEventDragFinish) {
