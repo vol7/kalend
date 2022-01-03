@@ -132,13 +132,11 @@ const Calendar = (props: CalendarProps) => {
     ) {
       callbacks.onPageChange({
         rangeFrom: calendarDays?.[0]
-          ?.set({ hour: 0, minute: 0 })
-          .minus({ days: 1 })
+          ?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
           .toUTC()
           .toString(),
         rangeTo: calendarDays?.[calendarDays?.length - 1]
-          ?.set({ hour: 23, minute: 59, second: 59 })
-          .plus({ days: 2 })
+          ?.set({ hour: 23, minute: 59, second: 59, millisecond: 59 })
           ?.toUTC()
           .toString(),
       });

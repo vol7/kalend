@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.6.3
+- fix date range in callback onPageChange
+
 ## 0.6.2
 - fixed event propagation after dragging calendar events
 - added original event to callback for dragging finish
