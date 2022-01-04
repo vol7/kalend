@@ -14,4 +14,5 @@ export interface CalendarProps {
   // timeFormat?: string;
   events: any;
   initialDate?: string;
+  eventLayouts?: any;
 }

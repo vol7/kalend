@@ -256,6 +256,7 @@ export const calculateMonthPositions = (
   calendarDays: DateTime[],
   config: Config,
   maxEventsVisible: number,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setContext?: any
 ): any => {
   const result: EventLayout[] = [];
@@ -279,11 +280,17 @@ export const calculateMonthPositions = (
     result.push(rowResult.positions);
     overflowingEvents = [...overflowingEvents, ...rowResult.overflowingEvents];
   });
+  //
+  // setContext(
+  //   'monthOverflowEvents',
+  //   formatOverflowingEvents(overflowingEvents, config.timezone)
+  // );
 
-  setContext(
-    'monthOverflowEvents',
-    formatOverflowingEvents(overflowingEvents, config.timezone)
-  );
-
-  return result;
+  return {
+    result,
+    overflowingEvents: formatOverflowingEvents(
+      overflowingEvents,
+      config.timezone
+    ),
+  };
 };

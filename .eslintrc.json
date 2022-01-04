@@ -42,6 +42,6 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["dist/*"],
+  "ignorePatterns": ["dist/*", "src/worker.*", "src/luxon.js"],
   "parser": "@typescript-eslint/parser"
 }

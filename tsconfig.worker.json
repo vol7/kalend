@@ -2,13 +2,13 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": [
-      "es2017",
+      "es5",
       "dom"
     ],
     "module": "commonjs",
-    "target": "ES6",
+    "target": "es5",
     "declaration": true,
-    "outDir": "dist",
+    "outDir": "dist/worker",
     "strict": true,
     "esModuleInterop": true,
     "allowJs": true,
@@ -18,15 +18,14 @@
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "noEmit": false,
     "noFallthroughCasesInSwitch": true
   },
   "exclude": [
     "node_modules",
     "dist",
-    "src/test",
-    "src/worker"
+    "src/test"
   ],
   "baseUrl": "src",
   "paths": {
@@ -35,9 +34,9 @@
     ]
   },
   "include": [
-    "src"
+    "src/worker"
   ],
   "linterOptions": {
-    "exclude": ["worker.*"]
+    "exclude": ["worker.*"],
   }
 }

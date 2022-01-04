@@ -156,13 +156,19 @@ const Calendar = (props: CalendarProps) => {
       <div className={'Kalend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
-            <MonthView events={events ? events : {}} />
+            <MonthView
+              events={events ? events : {}}
+              eventLayouts={props.eventLayouts}
+            />
           ) : null}
 
           {selectedView === CALENDAR_VIEW.DAY ||
           selectedView === CALENDAR_VIEW.THREE_DAYS ||
           selectedView === CALENDAR_VIEW.WEEK ? (
-            <DaysViewTable events={events ? events : {}} />
+            <DaysViewTable
+              events={events ? events : {}}
+              eventLayouts={props.eventLayouts}
+            />
           ) : null}
 
           {selectedView === CALENDAR_VIEW.AGENDA ? (

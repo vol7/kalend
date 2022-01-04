@@ -45,6 +45,24 @@ export interface NewEventClickData {
   hour: number;
 }
 
+export interface MonthViewWorkerResult {
+  type: string;
+  monthPositions: any;
+  calendarDays: any;
+  overflowingEvents: any;
+}
+
+export interface WorkerData {
+  calendarDays: any;
+  type: string;
+  events: any;
+  width: any;
+  config: any;
+  maxEventsVisible?: any;
+  selectedView?: any;
+  isMobile?: boolean;
+}
+
 export interface PageChangeData {
   rangeFrom: string;
   rangeTo: string;
@@ -96,6 +114,7 @@ export type OnEventDragFinishFunc = (
   events: any
 ) => void;
 export type OnNewEventClickFunc = (data: NewEventClickData) => void;
+export type OnWorkerActionFunc = (data: WorkerData) => void;
 
 export interface Callbacks {
   onSelectView?: OnSelectViewFunc;
@@ -104,6 +123,7 @@ export interface Callbacks {
   onEventDragFinish?: OnEventDragFinishFunc;
   onNewEventClick: OnNewEventClickFunc;
   onEventClick: OnEventClickFunc;
+  onWorkerAction?: OnWorkerActionFunc;
 }
 
 export interface ShowMoreEvents {
