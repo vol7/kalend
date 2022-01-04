@@ -15,37 +15,43 @@ const CalendarHeader = (props: CalendarHeaderProps) => {
     dispatch({ type, payload });
   };
 
-  const { isDark, width, selectedView, calendarDays, config } = store;
+  const { isDark, width, selectedView, calendarDays, config, callbacks } =
+    store;
   const { timezone } = config as Config;
 
   const isDayView: boolean = selectedView === CALENDAR_VIEW.DAY;
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
 
-  useEffect(() => {
-    const eventPositions: NormalEventPosition[][] =
-      calculatePositionForHeaderEvents(
-        events,
-        width / calendarDays.length,
-        calendarDays,
-        timezone,
-        setContext
-      );
+  const hasWorker = callbacks.onWorkerAction;
 
-    setContext('headerLayout', eventPositions);
+  useEffect(() => {
+    if (!hasWorker) {
+      const eventPositions: NormalEventPosition[][] =
+        calculatePositionForHeaderEvents(
+          events,
+          width / calendarDays.length,
+          calendarDays,
+          timezone,
+          setContext
+        );
+
+      setContext('headerLayout', eventPositions);
+    }
   }, []);
   useEffect(() => {
-    const eventPositions: NormalEventPosition[][] =
-      calculatePositionForHeaderEvents(
-        events,
-        width / calendarDays.length,
-        calendarDays,
-        timezone,
-        setContext
-      );
+    if (!hasWorker) {
+      const eventPositions: NormalEventPosition[][] =
+        calculatePositionForHeaderEvents(
+          events,
+          width / calendarDays.length,
+          calendarDays,
+          timezone,
+          setContext
+        );
 
-    setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
-
-    setContext('headerLayout', eventPositions);
+      setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+      setContext('headerLayout', eventPositions);
+    }
   }, [calendarDays[0]]);
 
   return (

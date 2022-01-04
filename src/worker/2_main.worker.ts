@@ -1,7 +1,6 @@
 /* eslint-disable */
 // @ts-nocheck
 
-// eslint-disable-next-line no-undef
 const DateTime = luxon.DateTime;
 // eslint-disable-next-line no-undef
 const Interval = luxon.Interval;
@@ -21,6 +20,108 @@ interface DateTime {
 const EVENT_TABLE_DELIMITER_SPACE = 8;
 const FLOATING_DATETIME = 'floating'; // fixed datetime without timezone
 const UTC_TIMEZONE = 'UTC';
+const CALENDAR_OFFSET_LEFT = 40;
+const EVENT_MIN_HEIGHT = 25;
+const SCROLLBAR_WIDTH = 15;
+const SHOW_TIME_THRESHOLD = 60;
+const ONE_DAY = 1;
+const THREE_DAYS = 3;
+const SEVEN_DAYS = 7;
+
+enum CALENDAR_VIEW {
+  AGENDA = 'agenda',
+  WEEK = 'week',
+  DAY = 'day',
+  THREE_DAYS = 'threeDays',
+  MONTH = 'month',
+}
+
+const adjustForMinimalHeight = (
+  eventA: any,
+  eventB: any,
+  hourHeight: number
+): { eventA: any; eventB: any } => {
+  const result: any = {
+    eventA: { ...eventA },
+    eventB: { ...eventB },
+  };
+
+  const eventADiff: number =
+    // @ts-ignore
+    DateTime.fromISO(eventA.endAt)
+      .diff(DateTime.fromISO(eventA.startAt))
+      .toObject().minutes /
+    (60 / hourHeight);
+  const eventBDiff: number =
+    // @ts-ignore
+    DateTime.fromISO(eventB.endAt)
+      .diff(DateTime.fromISO(eventB.startAt))
+      .toObject().minutes /
+    (60 / hourHeight);
+
+  if (eventADiff < EVENT_MIN_HEIGHT) {
+    result.eventA.endAt = DateTime.fromISO(result.eventA.endAt)
+      .plus({
+        minutes: EVENT_MIN_HEIGHT - eventADiff,
+      })
+      .toString();
+  }
+  if (eventBDiff < EVENT_MIN_HEIGHT) {
+    result.eventB.endAt = DateTime.fromISO(result.eventB.endAt)
+      .plus({
+        minutes: EVENT_MIN_HEIGHT - eventBDiff,
+      })
+      .toString();
+  }
+
+  return result;
+};
+
+const getDaysNum = (calendarView: CALENDAR_VIEW): number => {
+  switch (calendarView) {
+    case CALENDAR_VIEW.WEEK:
+      return SEVEN_DAYS;
+    case CALENDAR_VIEW.THREE_DAYS:
+      return THREE_DAYS;
+    case CALENDAR_VIEW.DAY:
+      return ONE_DAY;
+    default:
+      return SEVEN_DAYS;
+  }
+};
+
+const getCorrectWidth = (
+  width: number,
+  isMobile: boolean,
+  selectedView: CALENDAR_VIEW
+): number => {
+  if (
+    selectedView === CALENDAR_VIEW.WEEK ||
+    selectedView === CALENDAR_VIEW.DAY ||
+    selectedView === CALENDAR_VIEW.THREE_DAYS
+  ) {
+    if (isMobile) {
+      return width;
+    } else {
+      return width - SCROLLBAR_WIDTH;
+    }
+  }
+
+  return width;
+};
+
+const isAllDayEvent = (item: CalendarEvent): boolean => {
+  if (!item) {
+    return false;
+  }
+
+  return (
+    // @ts-ignore
+    parseToDateTime(item.endAt, item.timezoneStartAt)
+      .diff(parseToDateTime(item.startAt, item.timezoneStartAt), 'days')
+      .toObject().days > 1
+  );
+};
 
 interface CalendarEvent {
   id: any;
@@ -431,32 +532,397 @@ const calculateMonthPositions = (
   return { result, overflowingEvents };
 };
 
+// DAYS WORKER NORMAL
+const calculateNormalEventPositions = (
+  events: any,
+  baseWidth: number,
+  config: any,
+  selectedView: any,
+  dateKey: string
+): any[] => {
+  const result: any[] = [];
+
+  let offsetCount: any = []; //Store every event id of overlapping items
+  let offsetCountFinal: any; //Sort events by id number
+  const tableWidth: number = baseWidth / getDaysNum(selectedView);
+  const tableSpace: number = (tableWidth / 100) * EVENT_TABLE_DELIMITER_SPACE;
+
+  if (events) {
+    const eventsData: any = events;
+    // Filter all day events and multi day events
+    eventsData
+      .filter((item: any) => !item.allDay)
+      .map((event: any) => {
+        let width = 1; //Full width
+        let offsetLeft = 0;
+        // Compare events
+        eventsData.forEach((item2: any) => {
+          if (event.id !== item2.id && !item2.allDay) {
+            // adjust events to have at least minimal height to check
+            // overlapping
+            const { eventA, eventB } = adjustForMinimalHeight(
+              event,
+              item2,
+              config.hourHeight
+            );
+
+            if (
+              checkOverlappingEvents(eventA, eventB, config.timezone) &&
+              !eventB.allDay
+            ) {
+              width = width + 1; //add width for every overlapping item
+              offsetCount.push(item2.id); // set offset for positioning
+              offsetCount.push(event.id); // set offset for positioning
+            }
+          }
+        });
+
+        const offsetTop: any =
+          // @ts-ignore
+          parseToDateTime(event.startAt, event.timezoneStartAt, config.timezone)
+            .diff(
+              parseToDateTime(
+                event.startAt,
+                event.timezoneStartAt,
+                config.timezone
+              ).set({
+                hour: 0,
+                minute: 0,
+                second: 0,
+              }),
+              'minutes'
+            )
+            .toObject().minutes /
+          (60 / config.hourHeight); // adjust based on hour column height
+
+        const eventHeight: any =
+          // @ts-ignore
+          parseToDateTime(event.endAt, event.timezoneStartAt)
+            .diff(
+              parseToDateTime(event.startAt, event.timezoneStartAt),
+              'minutes'
+            )
+            .toObject().minutes /
+          (60 / config.hourHeight); // adjust based on hour column height
+
+        const eventWidth: number = tableWidth / width;
+
+        //sort items for proper calculations of offset by id
+        // prevent different order in loop
+        if (offsetCount.length > 0) {
+          offsetCountFinal = offsetCount.sort();
+        }
+
+        if (offsetCountFinal) {
+          offsetLeft = eventWidth * offsetCountFinal.indexOf(event.id); //count offset
+        }
+
+        //event.left
+        // Current status: events is displayed in wrong place
+        offsetCount = [];
+        offsetCountFinal = '';
+
+        result.push({
+          dateKey,
+          event,
+          height:
+            eventHeight < EVENT_MIN_HEIGHT ? EVENT_MIN_HEIGHT : eventHeight,
+          width: eventWidth,
+          offsetLeft,
+          offsetTop,
+          zIndex: 2,
+          meta: {
+            isFullWidth: width === 1,
+            showTime:
+              eventWidth >= SHOW_TIME_THRESHOLD &&
+              eventHeight >= SHOW_TIME_THRESHOLD,
+            centerText: eventHeight <= SHOW_TIME_THRESHOLD,
+          },
+        });
+      });
+  }
+
+  const partialResult: any[] = result.map((item: any) => {
+    // full event width
+    if (item.meta?.isFullWidth) {
+      return {
+        ...item,
+        width: Math.round(item.width - tableSpace), // add some padding,
+      };
+    } else if (item.offsetLeft > 0) {
+      return {
+        ...item,
+        width: Math.round(item.width),
+        offsetLeft: item.offsetLeft - tableSpace,
+        zIndex: item.zIndex ? item.zIndex + 2 : 2,
+      };
+    } else {
+      return { ...item, width: Math.round(item.width) };
+    }
+  });
+
+  return partialResult;
+};
+
+const calculateDaysViewLayout = (
+  calendarDays: DateTime[],
+  events: any,
+  baseWidth: number,
+  config: any,
+  selectedView: any
+) => {
+  const result: any = {};
+  calendarDays.forEach((calendarDay) => {
+    const formattedDayString: string = calendarDay.toFormat('dd-MM-yyyy');
+    const dayEvents: any = events[formattedDayString];
+
+    const groupedPositions: any = {};
+
+    const positions = calculateNormalEventPositions(
+      dayEvents,
+      baseWidth,
+      config,
+      selectedView,
+      formattedDayString
+    );
+
+    positions.forEach((item: any) => {
+      if (groupedPositions[item.event.id]) {
+        groupedPositions[item.event.id] = item;
+      } else {
+        groupedPositions[item.event.id] = item;
+      }
+    });
+
+    result[formattedDayString] = groupedPositions;
+  });
+
+  return result;
+};
+
+// DAYS WORKER HEADER
+const calculatePositionForHeaderEvents = (
+  events: any,
+  width: number,
+  calendarDays: DateTime[],
+  timezone: string,
+  setContext?: any
+): any => {
+  // TODO prefilter only relevant events
+  // TODO remove used events from main array
+  // const formattedDayString: string = formatTimestampToDate(day);
+  //
+  // const dataForDay: any = events ? events[formattedDayString] : [];
+  //
+  // const headerEvents: any = renderEvents(calendarBodyWidth, dataForDay);
+  //
+  // compare each event and find those which can be placed next to each
+  // other and are not overlapping
+  // form them to row
+
+  const tableSpace: number =
+    ((width + CALENDAR_OFFSET_LEFT) / 100) * EVENT_TABLE_DELIMITER_SPACE;
+  const result: any = [];
+  const usedEvents: string[] = [];
+
+  // filter only header events
+  const headerEventsFiltered: CalendarEvent[] = [];
+
+  if (!events) {
+    return [[]];
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  Object.entries(events)?.map(([key, items]) => {
+    // @ts-ignore
+    items.forEach((item: CalendarEvent) => {
+      // filter only relevant events
+      if (item.allDay || isAllDayEvent(item)) {
+        const isInRange: boolean = isEventInRange(item, calendarDays, timezone);
+        if (isInRange) {
+          // correct position when external event ends in next day
+          headerEventsFiltered.push(item);
+        }
+      }
+    });
+  });
+
+  // find all matching events to fit in one row
+  headerEventsFiltered?.forEach((event) => {
+    const eventPositionResult: any[] = [];
+    // check if event was used already
+    // skip iteration if event was already resolved
+    if (usedEvents.includes(event.id)) {
+      return true;
+    }
+
+    // set event to row
+    const rowWithNotOverlappingEvents: CalendarEvent[] = [event];
+    usedEvents.push(event.id);
+
+    // compare to rest of the events
+    headerEventsFiltered.forEach((eventToCompare) => {
+      // check if event was used already
+      // skip iteration if event was already resolved
+      if (usedEvents.includes(eventToCompare.id)) {
+        return true;
+      }
+
+      // don't compare to self // maybe remove?
+      if (event.id === eventToCompare.id) {
+        return true;
+      }
+
+      // check if events are not overlapping
+      const isOverlapping: boolean = checkOverlappingEvents(
+        stretchHeaderEventTimes(event, timezone),
+        stretchHeaderEventTimes(eventToCompare, timezone),
+        timezone
+      );
+
+      // found not overlapping matching event
+      if (!isOverlapping) {
+        let isMatchingAll = true;
+        // compare match with other stored events for same row
+        rowWithNotOverlappingEvents.forEach((itemFromRow) => {
+          const isOverlappingAll: boolean = checkOverlappingEvents(
+            stretchHeaderEventTimes(itemFromRow, timezone),
+            stretchHeaderEventTimes(eventToCompare, timezone),
+            timezone
+          );
+
+          // prevent merging if only one conflict exists
+          if (isOverlappingAll) {
+            isMatchingAll = false;
+          }
+        });
+
+        if (isMatchingAll) {
+          // store compared event in used array and add to row
+          usedEvents.push(eventToCompare.id);
+          rowWithNotOverlappingEvents.push(eventToCompare);
+        }
+      }
+    });
+
+    // now we have row with only not overlapping events
+    // sort events in row by start date
+    const sortedResult: CalendarEvent[] = rowWithNotOverlappingEvents.sort(
+      (a, b) =>
+        DateTime.fromISO(a.startAt).toMillis() -
+        DateTime.fromISO(b.startAt).toMillis()
+    );
+
+    // place events accordingly in row next to each other
+    sortedResult.forEach((item) => {
+      let offset = 0;
+      let eventWidth = 0;
+      let hasMatchingDay = false;
+
+      calendarDays.forEach((day) => {
+        if (checkOverlappingDatesForHeaderEvents(item, day, timezone)) {
+          // set base offset only for first item
+          eventWidth += width;
+          hasMatchingDay = true;
+        }
+
+        // increment offset only till we have matching day
+        if (!hasMatchingDay) {
+          offset += width;
+        }
+      });
+
+      // create event position data
+      const eventPositionData: any = {
+        event: item,
+        width: Math.round(eventWidth - tableSpace),
+        offsetLeft: offset + CALENDAR_OFFSET_LEFT,
+        offsetTop: 0,
+        height: 20,
+        zIndex: 2,
+      };
+
+      eventPositionResult.push(eventPositionData);
+    });
+
+    // save row to result
+    result.push(eventPositionResult);
+  });
+
+  const formattedResult: any = {};
+
+  result.forEach((events: any, index: number) => {
+    events.forEach((item: any) => {
+      formattedResult[item.event.id] = { ...item, offsetTop: index * 26 };
+    });
+  });
+
+  return { formattedResult, headerEventRowsCount: result.length };
+};
+
 addEventListener('message', (e) => {
   const data = JSON.parse(e.data);
 
-  if (data.type === 'MONTH') {
-    const { events, width, calendarDays, config, maxEventsVisible } = data;
+  if (data) {
+    const {
+      events,
+      width,
+      calendarDays,
+      config,
+      maxEventsVisible,
+      isMobile,
+      selectedView,
+    } = data;
+
     const dateTimeCalendarDays = calendarDays.map((item: any) =>
       DateTime.fromISO(item)
     );
-    const monthPositions = calculateMonthPositions(
-      events,
-      width,
-      dateTimeCalendarDays,
-      config,
-      maxEventsVisible
-    );
 
-    postMessage(
-      JSON.stringify({
-        type: 'monthPositions',
-        ...monthPositions,
-        calendarDays,
-        overflowingEvents: formatOverflowingEvents(
-          monthPositions.overflowingEvents,
-          config.timezone
-        ),
-      })
-    );
+    if (data.type === 'MONTH') {
+      const monthPositions = calculateMonthPositions(
+        events,
+        width,
+        dateTimeCalendarDays,
+        config,
+        maxEventsVisible
+      );
+
+      postMessage(
+        JSON.stringify({
+          type: 'monthPositions',
+          ...monthPositions,
+          calendarDays,
+          overflowingEvents: formatOverflowingEvents(
+            monthPositions.overflowingEvents,
+            config.timezone
+          ),
+        })
+      );
+    } else if (data.type === 'DAYS') {
+      const headerPositions: any = calculatePositionForHeaderEvents(
+        events,
+        getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK) /
+          calendarDays.length,
+        dateTimeCalendarDays,
+        config.timezone
+      );
+      const normalPositions: any = calculateDaysViewLayout(
+        dateTimeCalendarDays,
+        events,
+        getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
+        config,
+        selectedView
+      );
+
+      postMessage(
+        JSON.stringify({
+          type: 'daysPositions',
+          headerPositions: headerPositions.formattedResult,
+          headerEventRowsCount: headerPositions.headerEventRowsCount,
+          calendarDays,
+          normalPositions,
+        })
+      );
+    }
   }
 });

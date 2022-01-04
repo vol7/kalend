@@ -52,13 +52,15 @@ export interface MonthViewWorkerResult {
   overflowingEvents: any;
 }
 
-export interface MonthViewWorkerData {
+export interface WorkerData {
   calendarDays: any;
   type: string;
   events: any;
   width: any;
   config: any;
-  maxEventsVisible: any;
+  maxEventsVisible?: any;
+  selectedView?: any;
+  isMobile?: boolean;
 }
 
 export interface PageChangeData {
@@ -112,7 +114,7 @@ export type OnEventDragFinishFunc = (
   events: any
 ) => void;
 export type OnNewEventClickFunc = (data: NewEventClickData) => void;
-export type OnWorkerActionFunc = (data: MonthViewWorkerData) => void;
+export type OnWorkerActionFunc = (data: WorkerData) => void;
 
 export interface Callbacks {
   onSelectView?: OnSelectViewFunc;
