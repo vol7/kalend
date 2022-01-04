@@ -1,7 +1,10 @@
 # Changelog
 
+## 0.6.4
+- fixed width layout issue in days view
+
 ## 0.6.3
-- fix date range in callback onPageChange
+- fixed date range in callback onPageChange
 
 ## 0.6.2
 - fixed event propagation after dragging calendar events

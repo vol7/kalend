@@ -41,7 +41,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
 
   const style: any = {
     paddingLeft: CALENDAR_OFFSET_LEFT,
-    width,
+    // width: '100%',
     height,
   };
 
