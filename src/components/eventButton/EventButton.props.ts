@@ -1,9 +1,9 @@
-import { CalendarEvent, EventLayoutMeta } from '../../common/interface';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../common/enums';
+import { EventLayoutMeta } from '../../common/interface';
 
 export interface EventButtonProps {
-  event: CalendarEvent;
+  item: any;
   type: EVENT_TYPE;
   meta?: EventLayoutMeta;
   day?: DateTime;

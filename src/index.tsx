@@ -7,10 +7,10 @@ import {
   OnNewEventClickFunc,
   OnPageChangeFunc,
   OnSelectViewFunc,
-  OnWorkerActionFunc,
   PageChangeData,
   ShowMoreMonthFunc,
 } from './common/interface';
+import { getNewCalendarDays } from './utils/getCalendarDays';
 import { useEffect } from 'react';
 import { validateProps, validateStyle } from './utils/validator';
 import Calendar from './Calendar';
@@ -28,6 +28,7 @@ export type OnPageChangeData = PageChangeData;
 export type OnSelectViewData = CALENDAR_VIEW;
 export type ShowMoreMonthData = CalendarEvent[];
 export type OnEventDragFinish = OnEventDragFinishFunc;
+export const getNewCalendarDaysHelper = getNewCalendarDays;
 
 export interface KalendProps {
   initialDate?: string;
@@ -43,7 +44,7 @@ export interface KalendProps {
   showMoreMonth?: ShowMoreMonthFunc;
   onPageChange?: OnPageChangeFunc;
   onEventDragFinish?: OnEventDragFinishFunc;
-  onWorkerAction?: OnWorkerActionFunc;
+  onStateChange?: any;
   disableMobileDropdown?: boolean;
   timezone?: string;
   weekDayStart?: string;

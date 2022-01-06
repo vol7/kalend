@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { CALENDAR_VIEW, TIME_FORMAT, WEEKDAY_START } from './enums';
 import { DateTime } from 'luxon';
+import { OnPageChangeData } from '../index';
 
 export interface Settings {
   selectedDate: string;
@@ -19,6 +20,7 @@ export interface CalendarEvent {
   timezoneEndAt: string;
   summary: string;
   color: string;
+  internalID?: string; // for repeated event clones
   [key: string]: any;
 }
 
@@ -61,11 +63,13 @@ export interface WorkerData {
   maxEventsVisible?: any;
   selectedView?: any;
   isMobile?: boolean;
+  isDragging?: boolean;
 }
 
 export interface PageChangeData {
   rangeFrom: string;
   rangeTo: string;
+  direction: string;
 }
 
 export interface EventStyle {
@@ -101,6 +105,17 @@ export interface Config {
   disableMobileDropdown: boolean;
   disabledViews?: CALENDAR_VIEW[];
   calendarIDsHidden?: string[] | null;
+  hasExternalLayout: boolean;
+}
+
+export interface KalendState {
+  selectedView: CALENDAR_VIEW | null;
+  calendarDays: DateTime[];
+  range: OnPageChangeData;
+  width: number;
+  config: Config;
+  isMobile: boolean;
+  maxEventsVisible: number;
 }
 
 // functions
@@ -114,7 +129,7 @@ export type OnEventDragFinishFunc = (
   events: any
 ) => void;
 export type OnNewEventClickFunc = (data: NewEventClickData) => void;
-export type OnWorkerActionFunc = (data: WorkerData) => void;
+export type OnStateChangeFunc = (data: KalendState) => void;
 
 export interface Callbacks {
   onSelectView?: OnSelectViewFunc;
@@ -123,7 +138,7 @@ export interface Callbacks {
   onEventDragFinish?: OnEventDragFinishFunc;
   onNewEventClick: OnNewEventClickFunc;
   onEventClick: OnEventClickFunc;
-  onWorkerAction?: OnWorkerActionFunc;
+  onStateChange?: OnStateChangeFunc;
 }
 
 export interface ShowMoreEvents {

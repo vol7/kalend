@@ -419,3 +419,16 @@ export const calculateCalendarDays = (
     setSelectedDate
   );
 };
+
+export const getRange = (calendarDays: DateTime[]) => {
+  return {
+    rangeFrom: calendarDays?.[0]
+      ?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
+      .toUTC()
+      .toString(),
+    rangeTo: calendarDays?.[calendarDays?.length - 1]
+      ?.set({ hour: 23, minute: 59, second: 59, millisecond: 59 })
+      ?.toUTC()
+      .toString(),
+  };
+};

@@ -130,7 +130,7 @@ export const onMoveMonthEvent = (
   xShiftIndexRef.current = columnShiftXParsed;
   yShiftIndexRef.current = columnShiftYParsed;
 
-  setState('offsetLeft', columnShiftX * columnWidth);
+  setState('offsetLeft', columnShiftX * columnWidth + 1);
   setState('offsetTop', columnShiftY * columnHeight);
   eventWasChangedRef.current = true;
   offsetLeftRef.current = x;

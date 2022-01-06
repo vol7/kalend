@@ -7,7 +7,7 @@ import EventButton from '../../eventButton/EventButton';
 import MonthViewButtonMore from '../monthViewButtonMore/MonthViewButtonMore';
 
 const MonthWeekRow = (props: MonthWeekRowProps) => {
-  const { days, index } = props;
+  const { days, index, itemRows } = props;
 
   const [store] = useContext(Context);
   const { monthLayout, height } = store;
@@ -17,13 +17,13 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
       return [];
     }
 
-    return Object.entries(data[i])?.map((keyValue: any) => {
-      const item: any = keyValue[1];
-
+    return itemRows.map((item: any) => {
       return (
         <EventButton
-          key={item.event.id}
-          event={item.event}
+          key={`${item.event.id}${
+            item.event.internalID ? item.event.internalID : ''
+          }`}
+          item={{ ...item }}
           meta={item.meta}
           type={EVENT_TYPE.MONTH}
           index={i}

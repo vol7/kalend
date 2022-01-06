@@ -7,3 +7,4 @@ kalend-*
 calend-*
 .husky
 worker.sh
+/dist_worker

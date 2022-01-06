@@ -1,24 +1,26 @@
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
-import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { DaysViewTableProps } from './DaysViewTable.props';
-import { NormalEventPosition } from '../../common/interface';
-import { calculateDaysViewLayout } from '../../utils/eventLayout';
-import { calculatePositionForHeaderEvents } from '../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
-import { formatDateTimeToString, getCorrectWidth } from '../../utils/common';
-import { useContext, useEffect, useState } from 'react';
+import { formatDateTimeToString } from '../../utils/common';
+import { useContext, useLayoutEffect, useState } from 'react';
+import { useHeight } from '../../utils/layout';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import DaysViewVerticalLines from './daysViewVerticalLines/DaysViewVerticalLines';
+import KalendLayout from 'kalend-layout';
 
-const renderOneDay = (calendarDays: DateTime[], events: any) => {
+const renderOneDay = (
+  calendarDays: DateTime[],
+  events: any,
+  sequence?: number
+) => {
   return calendarDays.map((calendarDay: DateTime, index: number) => {
     const formattedDayString: string = formatDateTimeToString(calendarDay);
 
     return (
       <DaysViewOneDay
-        key={calendarDay.toString()}
+        key={formattedDayString + sequence}
         day={calendarDay}
         index={index}
         data={events ? events[formattedDayString] : []}
@@ -31,33 +33,21 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   const { events } = props;
 
   const [wasInit, setWasInit] = useState(false);
+  const [calendarContent, setCalendarContent] = useState(null);
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const cleanStateForWorker = () => {
-    setContext('headerLayout', {});
-    setContext('daysViewLayout', []);
-  };
+  // const height = useHeight();
+  const { isMobile, calendarDays, width, selectedView } = store;
 
-  const {
-    isMobile,
-    calendarDays,
-    width,
-    height,
-    selectedView,
-    config,
-    callbacks,
-  } = store;
-
-  const days: any = renderOneDay(calendarDays, events);
-
+  const height = useHeight();
   const style: any = {
     paddingLeft: CALENDAR_OFFSET_LEFT,
     // width: '100%',
-    height,
+    height: '100%',
   };
 
   // const adjustScrollPosition = () => {
@@ -75,115 +65,106 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   //   await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
   // };
 
-  const hasWorker = callbacks.onWorkerAction;
+  const hasExternalLayout = props.eventLayouts !== undefined;
 
   // recalculate event positions on calendarDays change
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (wasInit) {
-      if (hasWorker) {
-        cleanStateForWorker();
-        callbacks.onWorkerAction({
-          selectedView,
-          calendarDays,
-          type: 'DAYS',
+      if (!hasExternalLayout) {
+        KalendLayout({
           events,
           width,
-          config,
-          isMobile,
-        });
-      } else {
-        const positions: any = calculateDaysViewLayout(
+          height,
           calendarDays,
-          events,
-          getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-          config,
-          selectedView
-        );
+          config: store.config,
+          isMobile,
+          selectedView,
+        }).then((res: any) => {
+          setContext('headerLayout', res.headerPositions);
+          setContext('headerEventRowsCount', res.headerOffsetTop);
+          setContext('daysViewLayout', res.normalPositions);
+          setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
-        setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
-
-        setContext('daysViewLayout', positions);
+          const days: any = renderOneDay(
+            store.calendarDays,
+            res.normalPositions,
+            undefined
+          );
+          setCalendarContent(days);
+        });
       }
     }
   }, [calendarDays[0]]);
 
-  useEffect(() => {
-    if (wasInit) {
-      if (hasWorker) {
-        callbacks.onWorkerAction({
-          selectedView,
-          calendarDays,
-          type: 'DAYS',
-          events,
-          width,
-          config,
-          isMobile,
-        });
-      } else {
-        const positions: any = calculateDaysViewLayout(
-          calendarDays,
-          events,
-          getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-          config,
-          selectedView
+  useLayoutEffect(() => {
+    if (!hasExternalLayout) {
+      KalendLayout({
+        events,
+        width,
+        height,
+        calendarDays,
+        config: store.config,
+        isMobile,
+        selectedView,
+      }).then((res: any) => {
+        setContext('headerLayout', res.headerPositions);
+        setContext('headerEventRowsCount', res.headerOffsetTop);
+        setContext('daysViewLayout', res.normalPositions);
+        setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+
+        const days: any = renderOneDay(
+          store.calendarDays,
+          res.normalPositions,
+          store.layoutUpdateSequence + 1
         );
 
-        setContext('daysViewLayout', positions);
-        // recalculate positions
-        const eventPositions: NormalEventPosition[][] =
-          calculatePositionForHeaderEvents(
-            events,
-            getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK) /
-              calendarDays.length,
-            calendarDays,
-            config.timezone,
-            setContext
-          );
-        setContext('headerLayout', eventPositions);
-
-        // setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
-      }
+        setCalendarContent(days);
+      });
     }
   }, [JSON.stringify(events)]);
 
-  useEffect(() => {
-    if (hasWorker) {
-      cleanStateForWorker();
-      callbacks.onWorkerAction({
-        selectedView,
-        calendarDays,
-        type: 'DAYS',
+  useLayoutEffect(() => {
+    if (!hasExternalLayout) {
+      KalendLayout({
         events,
         width,
-        config,
-        isMobile,
-      });
-    } else {
-      const positions: any = calculateDaysViewLayout(
+        height,
         calendarDays,
-        events,
-        getCorrectWidth(width, isMobile, CALENDAR_VIEW.WEEK),
-        config,
-        selectedView
-      );
+        config: store.config,
+        isMobile,
+        selectedView,
+      }).then((res: any) => {
+        setContext('headerLayout', res.headerPositions);
+        setContext('headerEventRowsCount', res.headerOffsetTop);
+        setContext('daysViewLayout', res.normalPositions);
+        setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
-      setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
-
-      setContext('daysViewLayout', positions);
+        const days: any = renderOneDay(
+          store.calendarDays,
+          res.normalPositions,
+          store.layoutUpdateSequence + 1
+        );
+        setCalendarContent(days);
+      });
     }
     setWasInit(true);
   }, []);
 
-  useEffect(() => {
-    if (hasWorker && props.eventLayouts?.type === 'daysPositions') {
+  useLayoutEffect(() => {
+    if (hasExternalLayout && props.eventLayouts?.type === 'daysPositions') {
       setContext('headerLayout', props.eventLayouts.headerPositions);
-      setContext(
-        'headerEventRowsCount',
-        props.eventLayouts.headerEventRowsCount
-      );
+      setContext('headerEventRowsCount', props.eventLayouts.headerOffsetTop);
       setContext('daysViewLayout', props.eventLayouts.normalPositions);
+      setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+
+      const days: any = renderOneDay(
+        store.calendarDays,
+        props.eventLayouts.normalPositions,
+        store.layoutUpdateSequence + 1
+      );
+      setCalendarContent(days);
     }
-  }, [JSON.stringify(props.eventLayouts)]);
+  }, [props.eventLayouts, JSON.stringify(props.eventLayouts)]);
 
   return (
     // <Carousel onPageChange={onPageChange}>
@@ -195,7 +176,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     >
       <CalendarBodyHours />
       <DaysViewVerticalLines />
-      {days}
+      {calendarContent}
     </div>
     // </Carousel>
   );

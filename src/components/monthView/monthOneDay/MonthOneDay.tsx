@@ -39,8 +39,8 @@ const MonthOneDay = (props: MonthOneDayProps) => {
         if (eventsCount.length < maxEvents) {
           return (
             <EventButton
-              key={event.id}
-              event={event}
+              key={`${event.id}${event.internalID ? event.internalID : ''}`}
+              item={{ event }}
               type={EVENT_TYPE.MONTH}
               day={day}
             />

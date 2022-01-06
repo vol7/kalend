@@ -22,9 +22,10 @@
   &-month {
     @extend .Kalend__Event;
     padding-left: 1px;
-    margin-bottom: 1px;
     align-items: center;
     min-height: auto !important;
+    //border: solid 1px white !important;
+    border: none !important;
   }
 
   &-normal {
@@ -34,8 +35,9 @@
 
   &-header {
     @extend .Kalend__Event;
-    padding: 1px;
+    //padding: 1px;
     padding-left: 3px;
+    border: none !important;
     align-items: center;
     animation-duration: 0.3s;
     -webkit-animation-fill-mode: forwards;

@@ -16,6 +16,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isMobile: action.payload,
       };
+    case 'direction':
+      return {
+        ...state,
+        direction: action.payload,
+      };
     case 'daysViewLayout':
       return {
         ...state,
