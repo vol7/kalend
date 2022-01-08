@@ -8,6 +8,7 @@ import { calculateDaysViewLayout } from '../../utils/eventLayout';
 import { calculatePositionForHeaderEvents } from '../calendarHeader/calendarHeaderEvents/CalendarHeaderEvents.utils';
 import { formatDateTimeToString, getCorrectWidth } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
+import { useHeight } from '../../utils/layout';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import DaysViewVerticalLines from './daysViewVerticalLines/DaysViewVerticalLines';
@@ -42,15 +43,10 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     setContext('daysViewLayout', []);
   };
 
-  const {
-    isMobile,
-    calendarDays,
-    width,
-    height,
-    selectedView,
-    config,
-    callbacks,
-  } = store;
+  const { isMobile, calendarDays, width, selectedView, config, callbacks } =
+    store;
+
+  const height = useHeight();
 
   const days: any = renderOneDay(calendarDays, events);
 
