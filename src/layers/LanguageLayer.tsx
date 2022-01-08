@@ -6,6 +6,7 @@ import es from '../locales/es.json';
 import fr from '../locales/fr.json';
 import i18n from 'i18next';
 import zh from '../locales/zh.json';
+import ru from '../locales/ru.json';
 
 const LanguageLayer = (props: { children: any; customLanguage?: any }) => {
   useEffect(() => {
@@ -15,6 +16,7 @@ const LanguageLayer = (props: { children: any; customLanguage?: any }) => {
       fr,
       es,
       zh,
+      ru,
       customLanguage: props.customLanguage,
     };
 
