@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.5
+- added possible fix for missing height after init
+- added russian translation
+
 ## 0.6.4
 - fixed width layout issue in days view
 
