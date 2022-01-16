@@ -4,41 +4,23 @@ import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
 import { formatDateTimeToString, parseCssDark } from '../../../utils/common';
 import { getDaysNum } from '../../../utils/calendarDays';
-import { parseToDateTime } from '../../../utils/dateTimeParser';
 import { useContext, useEffect } from 'react';
 import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
 
-const renderEvents = (
-  dataset: CalendarEvent[],
-  day: DateTime,
-  timezone: string
-) => {
-  return dataset
-    .filter((item: CalendarEvent) => {
-      if (!item.allDay) {
-        const daysDiff: number = parseToDateTime(
-          item.endAt,
-          item.timezoneStartAt || timezone
-        ).diff(
-          parseToDateTime(item.startAt, item.timezoneStartAt || timezone)
-        ).days;
-        if (daysDiff < 1) {
-          return item;
-        }
-      }
-    })
-    .map((item: any) => {
-      return (
-        <EventButton
-          key={item.id}
-          event={item}
-          type={EVENT_TYPE.NORMAL}
-          meta={item.meta}
-          day={day}
-        />
-      );
-    });
+const renderEvents = (dataset: any[], day: DateTime) => {
+  return dataset.map((eventRaw: any) => {
+    const item: CalendarEvent = eventRaw.event;
+    return (
+      <EventButton
+        key={`${item.id}${item.internalID ? item.internalID : ''}`}
+        item={eventRaw}
+        type={EVENT_TYPE.NORMAL}
+        meta={item.meta}
+        day={day}
+      />
+    );
+  });
 };
 
 interface DaysViewOneDayProps {
@@ -53,7 +35,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   const [store] = useContext(Context);
   const { width, selectedView, config, callbacks } = store;
   const { onNewEventClick } = callbacks;
-  const { isDark, hourHeight, timezone } = config;
+  const { isDark, hourHeight } = config;
 
   const oneDayStyle: any = {
     width: width / getDaysNum(selectedView),
@@ -107,10 +89,22 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       onClick={handleEventClickInternal}
     >
       {dataForDay && dataForDay.length > 0
-        ? renderEvents(dataForDay, day, timezone)
+        ? renderEvents(dataForDay, day)
         : null}
     </div>
-  ) : null;
+  ) : (
+    <div
+      id={`Kalend__day__${day.toString()}`}
+      key={day.toString()}
+      style={oneDayStyle}
+      className={
+        !isFirstDay
+          ? parseCssDark('Kalend__DayViewOneDay', isDark)
+          : 'Kalend__DayViewOneDay'
+      }
+      onClick={handleEventClickInternal}
+    ></div>
+  );
 };
 
 export default DaysViewOneDay;

@@ -42,24 +42,39 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
     `months:${titleDate.toFormat('MMMM').toLowerCase()}`
   )} ${titleDate.toFormat('yyyy')}`;
 
-  const navigateBackwards = async (): Promise<void> =>
-    await getNewCalendarDays(
+  const navigateBackwards = async () => {
+    setContext('calendarContent', null);
+
+    setContext('direction', CALENDAR_NAVIGATION_DIRECTION.BACKWARDS);
+
+    getNewCalendarDays(
       calendarDays,
       selectedView,
       CALENDAR_NAVIGATION_DIRECTION.BACKWARDS,
       weekDayStart,
       setContext
     );
-  const navigateForward = async (): Promise<void> =>
-    await getNewCalendarDays(
+  };
+
+  const navigateForward = async () => {
+    setContext('calendarContent', null);
+
+    setContext('direction', CALENDAR_NAVIGATION_DIRECTION.FORWARD);
+
+    getNewCalendarDays(
       calendarDays,
       selectedView,
       CALENDAR_NAVIGATION_DIRECTION.FORWARD,
       weekDayStart,
       setContext
     );
+  };
 
   const navigateToTodayDate = async (): Promise<void> => {
+    setContext('calendarContent', null);
+
+    setContext('direction', CALENDAR_NAVIGATION_DIRECTION.TODAY);
+
     await navigateToToday(
       selectedView,
       setContext,

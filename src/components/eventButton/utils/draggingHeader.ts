@@ -58,31 +58,30 @@ export const onMoveHeader = (
     x = touches.clientX - tableElementRect.x;
   } else {
     // calculate x coordinates while following mouse move
-    x = e.clientX - tableElementRect.x;
+    x = e.clientX - tableElementRect.x - CALENDAR_OFFSET_LEFT;
   }
 
   // prevent free dragging across columns with simple recalculation for
   const columnShift = Math.floor(x / columnWidth);
 
-  const xTable = e.clientX - tableElementRect.x - CALENDAR_OFFSET_LEFT;
+  const xTable = e.clientX - tableElementRect.x; //- CALENDAR_OFFSET_LEFT;
 
   const columnShiftTable = Math.round(xTable / columnWidth);
 
   if (
-    columnShiftTable * columnWidth + CALENDAR_OFFSET_LEFT >= width ||
-    xTable < 0
+    columnShiftTable * columnWidth >= width ||
+    xTable < 0 ||
+    xTable < columnWidth / 2
   ) {
     return;
   }
 
   // prevent event overflowing on last day
   // TODO reset back after moving left again
-  // if (columnShift === calendarDays.length) {
-  //   setState('width', columnWidth)
-  // }
 
   xShiftIndexRef.current = columnShift;
-  setState('offsetLeft', columnShift * columnWidth + CALENDAR_OFFSET_LEFT);
+  setState('offsetLeft', columnShift * columnWidth + 1); // add 1 because 0
+  // was not working
   eventWasChangedRef.current = true;
   offsetLeftRef.current = x;
 };

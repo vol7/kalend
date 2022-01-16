@@ -16,11 +16,11 @@ const ShowMoreModal = () => {
       return [];
     }
 
-    return showMoreEvents.events.map((item: any) => {
+    return showMoreEvents.events.map((event: any) => {
       return (
         <EventButton
-          key={item.id}
-          event={item}
+          key={`${event.id}${event.internalID ? event.internalID : ''}`}
+          item={{ event }}
           type={EVENT_TYPE.SHOW_MORE_MONTH}
         />
       );

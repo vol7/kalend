@@ -24,12 +24,12 @@ export interface EventButtonInitialState {
   dragging: boolean;
   initialTop: number;
   initialLeft: number;
-  offsetTop: number;
-  offsetLeft: number;
+  offsetTop: number | null;
+  offsetLeft: number | null;
   xPosition: number;
   eventHasChanged: boolean;
-  width: number;
-  height: number;
+  width: number | null;
+  height: number | null;
   zIndex: number;
   border: string;
   meta: any;
@@ -40,12 +40,12 @@ export const eventButtonInitialState: EventButtonInitialState = {
   dragging: false,
   initialTop: 0,
   initialLeft: 0,
-  offsetTop: 0,
-  offsetLeft: 0,
+  offsetTop: null,
+  offsetLeft: null,
   xPosition: 0,
   eventHasChanged: false,
-  width: 0,
-  height: 0,
+  width: null,
+  height: null,
   zIndex: 2,
   border: '',
   meta: {},

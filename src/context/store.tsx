@@ -1,4 +1,4 @@
-import { CALENDAR_VIEW } from '../common/enums';
+import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 import {
   Callbacks,
   Config,
@@ -30,6 +30,7 @@ export interface Store {
   config: Config;
   callbacks: Callbacks;
   showMoreEvents: ShowMoreEvents | null;
+  direction: CALENDAR_NAVIGATION_DIRECTION;
 }
 
 export const Context: any = createContext({});
@@ -54,6 +55,7 @@ const StoreProvider = ({ children }: any) => {
     layoutUpdateSequence: 1,
     config: createConfig({}),
     callbacks: createCallbacks({}),
+    direction: CALENDAR_NAVIGATION_DIRECTION.TODAY,
   };
 
   const [store, dispatch] = useReducer(Reducer, initialContext);

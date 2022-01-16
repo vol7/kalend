@@ -14,15 +14,17 @@ import { calculateCalendarDays } from './calendarDays';
  * @param weekDayStart
  * @param dispatchContext
  */
-export const getNewCalendarDays = async (
+export const getNewCalendarDays = (
   calendarDays: DateTime[],
   calendarView: CALENDAR_VIEW,
   direction: CALENDAR_NAVIGATION_DIRECTION,
   weekDayStart: WEEKDAY_START,
   dispatchContext?: any
-): Promise<void> => {
+): DateTime[] => {
   const setSelectedDate = (date: DateTime) => {
-    dispatchContext('selectedDate', date);
+    if (dispatchContext) {
+      dispatchContext('selectedDate', date);
+    }
   };
 
   const newCalendarDays: DateTime[] = calculateCalendarDays(
@@ -33,7 +35,11 @@ export const getNewCalendarDays = async (
     weekDayStart
   );
 
-  dispatchContext('calendarDays', newCalendarDays);
+  if (dispatchContext) {
+    dispatchContext('calendarDays', newCalendarDays);
+  }
+
+  return newCalendarDays;
   // dispatchContext(
   //   'selectedDate',
   //   newCalendarDays[chooseSelectedDateIndex(calendarView)]
@@ -46,7 +52,7 @@ export const navigateToToday = async (
   weekDayStart: WEEKDAY_START,
   dateNow: DateTime = DateTime.now()
 ): Promise<void> => {
-  await getNewCalendarDays(
+  getNewCalendarDays(
     [dateNow],
     selectedView,
     CALENDAR_NAVIGATION_DIRECTION.TODAY,

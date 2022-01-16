@@ -14,18 +14,18 @@ const CalendarHeaderEvents = () => {
     dispatch({ type, payload });
   };
 
-  const [animation, setAnimation] = useState(
-    'Kalend__CalendarHeaderEvents_animationExpand'
-  );
-
-  const renderEvents = (data: any) => {
-    return Object.entries(data)?.map((keyValue: any) => {
-      const item: any = keyValue[1];
+  const renderEvents = (data: any, sequence: number) => {
+    return data?.map((item: any) => {
+      // const item: any = keyValue[1];
 
       return (
         <EventButton
-          key={item.event.id}
-          event={item.event}
+          key={
+            `${item.event.id}${
+              item.event.internalID ? item.event.internalID : ''
+            }` + sequence
+          }
+          item={item}
           type={EVENT_TYPE.HEADER}
         />
       );
@@ -48,37 +48,47 @@ const CalendarHeaderEvents = () => {
     );
   });
 
-  const headerEvents = renderEvents(store.headerLayout);
+  const [headerEvents, setHeaderEvents] = useState<any>(null);
 
   const headerStyle: any = {
     // paddingLeft: CALENDAR_OFFSET_LEFT,
-    height: store.headerEventRowsCount * 26,
-    transition: 'all 0.3s',
+    height: store.headerEventRowsCount + 20,
+    // transition: 'all 0.3s',
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setContext('height', getHeight());
-    }, 600);
+    // setTimeout(() => {
+    setContext('height', getHeight());
+    // }, 600);
   }, [store.headerEventRowsCount]);
 
+  // useEffect(() => {
+  //   // set animation
+  //   setAnimation('Kalend__CalendarHeaderEvents_animationExpand');
+  //   // clean animation
+  //   setTimeout(() => {
+  //     setAnimation('');
+  //   }, 600);
+  // }, [store.headerEventRowsCount]);
+
   useEffect(() => {
-    // set animation
-    setAnimation('Kalend__CalendarHeaderEvents_animationExpand');
-    // clean animation
-    setTimeout(() => {
-      setAnimation('');
-    }, 600);
-  }, [store.headerEventRowsCount]);
+    const headerEventsRaw = renderEvents(
+      store.headerLayout,
+      store.layoutUpdateSequence + 1
+    );
+    setHeaderEvents(headerEventsRaw);
+  }, [JSON.stringify(store.headerLayout)]);
 
   return (
     <div
-      className={`Kalend__CalendarHeaderEvents__container ${animation}`}
+      className={`Kalend__CalendarHeaderEvents__container`}
+      // className={`Kalend__CalendarHeaderEvents__container ${animation}`}
       style={headerStyle}
     >
       <div className={'Kalend__CalendarHeaderEvents__row'}>{daysNumbers}</div>
       {/*<div className={`Kalend__CalendarHeaderEvents__rows ${animation}`}></div>*/}
       {headerEvents}
+      {/*<MonthViewButtonMore calendarDays={calendarDays} />*/}
     </div>
   );
 };
