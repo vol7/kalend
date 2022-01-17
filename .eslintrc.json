@@ -1,4 +1,5 @@
 {
+  "root": true,
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -42,6 +43,6 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["dist/*"],
+  "ignorePatterns": ["dist/*", "example_app/*"],
   "parser": "@typescript-eslint/parser"
 }

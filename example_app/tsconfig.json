@@ -1,32 +1,30 @@
 {
   "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
     "jsx": "react-jsx",
     "lib": [
       "es2017",
+      "es7",
+      "es6",
       "dom"
     ],
-    "module": "commonjs",
-    "target": "ES6",
     "declaration": true,
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": false,
+    "noEmit": true,
     "noFallthroughCasesInSwitch": true
   },
   "exclude": [
     "node_modules",
-    "dist",
-    "src/test",
-    "example_app"
   ],
   "baseUrl": "src",
   "paths": {
