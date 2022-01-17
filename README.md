@@ -33,7 +33,7 @@ If you have any suggestion, feel free to open discussion or contact me directly 
         <Kalend
           onEventClick={onEventClick}
           onNewEventClick={onNewEventClick}
-          events={[]}
+          events={{}}
           initialDate={new Date().toISOString()}
           hourHeight={60}
           initialView={CalendarView.WEEK}
