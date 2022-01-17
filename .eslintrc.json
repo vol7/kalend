@@ -43,6 +43,6 @@
       "version": "detect"
     }
   },
-  "ignorePatterns": ["dist/*", "example_app/*"],
+  "ignorePatterns": ["dist/*", "example_app/*", "docs/*"],
   "parser": "@typescript-eslint/parser"
 }
