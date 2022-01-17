@@ -6,5 +6,8 @@
 kalend-*
 calend-*
 .husky
-worker.sh
-/dist_worker
+
+
+#example_app
+/example_app/node_modules
+/example_app/build
