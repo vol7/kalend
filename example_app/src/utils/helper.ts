@@ -2,8 +2,6 @@ import { DateTime } from 'luxon';
 import faker from 'faker';
 import { v4 } from 'uuid';
 
-const formatDay = (date: DateTime) => date.toFormat('dd-MM-yyyy');
-
 const colors: string[] = [
   'indigo',
   'blue',
@@ -23,7 +21,7 @@ export const generateDemoEvents = (
   date: DateTime = DateTime.now(),
   count = 190
 ) => {
-  const events: any = {};
+  const events: any = [];
 
   const monthStart: any = date
     .set({ day: 1 })
@@ -47,7 +45,6 @@ export const generateDemoEvents = (
     });
     const endDate: DateTime = startDate.plus({ minute: minuteDuration });
 
-    const key: string = formatDay(startDate);
     const event: any = {
       id: v4(),
       startAt: startDate.toUTC().toString(),
@@ -57,11 +54,7 @@ export const generateDemoEvents = (
       allDay: endDate.day !== startDate.day,
     };
 
-    if (events[key]) {
-      events[key] = [...events[key], ...[event]];
-    } else {
-      events[key] = [event];
-    }
+    events.push(event);
   }
 
   return events;
