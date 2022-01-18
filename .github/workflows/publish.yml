@@ -30,6 +30,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: szenius/set-timezone@v1.0
+        with:
+          timezoneLinux: "Europe/Vienna"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
