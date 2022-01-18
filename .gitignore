@@ -17,3 +17,5 @@ calend-*
 /docs/build
 /docs/.docusaurus
 /docs/.cache-loader
+
+/scripts
