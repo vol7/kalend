@@ -10,9 +10,21 @@ Kalend - calendar component for React with support for:
 - events
 - drag and drop
 
+### Versioning
+Until stable version 1 updates might include breaking changes
+
+**Breaking changes**:
+- 0.6.5 -> 0.7.0 - Kalend now accepts only array of events, you don't need to format them to dates like before
+
+##
+
+#
+
 ### LIVE DEMO: https://demo.kalend.org
 
 ### Storybook: https://storybook.kalend.org
+
+##
 
 ## Getting Started
 

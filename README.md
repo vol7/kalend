@@ -5,6 +5,13 @@
 - drag and drop (only mouse events)
 - mobile friendly
 
+### Versioning
+Until stable version 1 updates might include breaking changes  
+
+**Breaking changes**:
+- 0.6.5 -> 0.7.0 - Kalend now accepts only array of events, you don't need to format them to dates like before
+    
+# Links
 ### Documentation: https://docs.kalend.org
 
 ### LIVE demo: https://demo.kalend.org
@@ -12,12 +19,7 @@
 ### Storybook: https://storybook.kalend.org  
   
   
-  
-  
-
-### Versioning
-Until stable version 1 updates might include breaking changes
-
+#
 
 ![Alt text](screenshot.png?raw=true 'Title')
 
@@ -39,7 +41,7 @@ If you have any suggestion, feel free to open discussion or contact me directly 
         <Kalend
           onEventClick={onEventClick}
           onNewEventClick={onNewEventClick}
-          events={{}}
+          events={[]}
           initialDate={new Date().toISOString()}
           hourHeight={60}
           initialView={CalendarView.WEEK}
@@ -58,31 +60,25 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 Before passing events to calendar, adjust data to this format:
 Date key has to be in dd-MM-yyyy format
 
-    const events = {
-        '01-11-2021': [
+    const events = [
             {
-            id: 1,
-            startAt: '2021-11-21T18:00:00.000Z',
-            endAt: '2021-11-21T19:00:00.000Z',
-            timezoneStartAt: 'Europe/Berlin', // optional
-            summary: 'test',
-            color: 'blue',
-            calendarID: 'work'
-            }
-        ],
-        '21-11-2021': [
+                id: 1,
+                startAt: '2021-11-21T18:00:00.000Z',
+                endAt: '2021-11-21T19:00:00.000Z',
+                timezoneStartAt: 'Europe/Berlin', // optional
+                summary: 'test',
+                color: 'blue',
+                calendarID: 'work'
+            },
             {
-            id: 2,
-            startAt: '2021-11-21T18:00:00.000Z',
-            endAt: '2021-11-21T19:00:00.000Z',
-            timezoneStartAt: 'Europe/Berlin', // optional
-            summary: 'test',
-            color: 'blue',
+                id: 2,
+                startAt: '2021-11-21T18:00:00.000Z',
+                endAt: '2021-11-21T19:00:00.000Z',
+                timezoneStartAt: 'Europe/Berlin', // optional
+                summary: 'test',
+                color: 'blue',
             }
         ]
-    }
-
-Group events array under day when they occur and pass starting and ending date in ISO string format in UTC timezone.
 
 According to your needs, you can set timezone for each event and also set default timezone with "timezone" prop in IANA format.
 If you don't provide timezone prop, your system default timezone will be used.

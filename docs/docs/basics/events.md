@@ -22,35 +22,27 @@ If you don't provide timezone prop, your system default timezone will be used.
 You can keep other event properties, those will be ignored.
 
 # Events data
-Before passing events prop to Kalend, adjust data to this format:
-Date key has to be in dd-MM-yyyy format
+Breaking change after upgrading from versions 0.6.5 and older:
+Kalend now accepts only array of events, you don't need to format them to dates like before
 
-NOTE: This process will be simplified in future version, so you will just pass array of events and internal logic will handle all required processing 
-
-    const events = {
-        '01-11-2021': [
-            {
-            id: '1',
-            startAt: '2021-11-21T18:00:00.000Z',
-            endAt: '2021-11-21T19:00:00.000Z',
-            timezoneStartAt: 'Europe/Berlin', // optional
-            summary: 'test',
-            color: 'blue',
-            calendarID: 'work'
-            }
-        ],
-        '21-11-2021': [
-            {
-            id: '2',
-            startAt: '2021-11-21T18:00:00.000Z',
-            endAt: '2021-11-21T19:00:00.000Z',
-            timezoneStartAt: 'Europe/Berlin', // optional
-            summary: 'test',
-            color: 'blue',
-            }
-        ]
-    }
-
-Group events array under day when they occur and pass starting and ending date in ISO string format in UTC timezone.
+    const events = [
+                    {
+                        id: 1,
+                        startAt: '2021-11-21T18:00:00.000Z',
+                        endAt: '2021-11-21T19:00:00.000Z',
+                        timezoneStartAt: 'Europe/Berlin', // optional
+                        summary: 'test',
+                        color: 'blue',
+                        calendarID: 'work'
+                    },
+                    {
+                        id: 2,
+                        startAt: '2021-11-21T18:00:00.000Z',
+                        endAt: '2021-11-21T19:00:00.000Z',
+                        timezoneStartAt: 'Europe/Berlin', // optional
+                        summary: 'test',
+                        color: 'blue',
+                    }
+            ]
 
 
