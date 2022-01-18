@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0
+- performance improvements
+- support for server side calculations
+- breaking change: events prop accepts simple array of events now
+
 ## 0.6.5
 - added possible fix for missing height after init
 - added russian translation
