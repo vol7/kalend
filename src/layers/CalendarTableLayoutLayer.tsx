@@ -1,6 +1,6 @@
 import { Context, Store } from '../context/store';
 import { KalendState } from '../common/interface';
-import { getMaxEventsVisible } from '../../../kalend-layout/dist/utils/monthViewHelper';
+import { getMaxEventsVisible } from 'kalend-layout/utils/monthViewHelper';
 import { getRange } from '../utils/calendarDays';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 
