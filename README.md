@@ -9,9 +9,15 @@
 
 ### LIVE demo: https://demo.kalend.org
 
-### Storybook: https://storybook.kalend.org
+### Storybook: https://storybook.kalend.org  
+  
+  
+  
+  
 
-#
+### Versioning
+Until stable version 1 updates might include breaking changes
+
 
 ![Alt text](screenshot.png?raw=true 'Title')
 
