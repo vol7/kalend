@@ -1,12 +1,10 @@
 import { CALENDAR_VIEW } from './common/enums';
 import { CalendarProps } from './Calendar.props';
-import { Config } from './common/interface';
 import { Context, Store } from './context/store';
 import { DateTime } from 'luxon';
-import { getCalendarDays } from './utils/calendarDays';
+import { getCalendarDays, getRange } from './utils/calendarDays';
 import { getTableOffset } from './utils/common';
-import { parseAllDayEvents } from './utils/allDayEvents';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { useWidth } from './utils/layout';
 import AgendaView from './components/agendaView/AgendaView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
@@ -21,15 +19,8 @@ const Calendar = (props: CalendarProps) => {
     dispatch({ type, payload });
   };
 
-  const {
-    selectedDate,
-    calendarDays,
-    events,
-    selectedView,
-    callbacks,
-    config,
-  } = store as Store;
-  const { timezone } = config as Config;
+  const { selectedDate, calendarDays, selectedView, callbacks, config } =
+    store as Store;
 
   const width: any = useWidth();
   const [prevView, setPrevView] = useState('');
@@ -47,12 +38,12 @@ const Calendar = (props: CalendarProps) => {
     }
   }, []);
 
-  // init context
-  useEffect(() => {
-    // handle timezone and events
-    const eventsResult = parseAllDayEvents(props.events, timezone);
-    setContext('events', eventsResult);
-  }, []);
+  // // init context
+  // useEffect(() => {
+  //   // handle timezone and events
+  //   const eventsResult = parseAllDayEvents(props.events, timezone);
+  //   setContext('events', eventsResult);
+  // }, []);
 
   useEffect(() => {
     // if (props.selectedView && props.selectedView === selectedView) {
@@ -117,13 +108,11 @@ const Calendar = (props: CalendarProps) => {
     }
   }, [selectedView]);
 
-  useEffect(() => {
-    const result = parseAllDayEvents(props.events, timezone);
-
-    setContext('events', result);
+  useLayoutEffect(() => {
+    setContext('events', props.events);
   }, [JSON.stringify(props.events)]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       callbacks.onPageChange &&
       calendarDays &&
@@ -131,14 +120,8 @@ const Calendar = (props: CalendarProps) => {
       calendarDays.length > 0
     ) {
       callbacks.onPageChange({
-        rangeFrom: calendarDays?.[0]
-          ?.set({ hour: 0, minute: 0, second: 0, millisecond: 0 })
-          .toUTC()
-          .toString(),
-        rangeTo: calendarDays?.[calendarDays?.length - 1]
-          ?.set({ hour: 23, minute: 59, second: 59, millisecond: 59 })
-          ?.toUTC()
-          .toString(),
+        ...getRange(calendarDays),
+        direction: store.direction,
       });
     }
   }, [
@@ -150,23 +133,30 @@ const Calendar = (props: CalendarProps) => {
   return selectedView && calendarDays?.length > 0 && selectedDate ? (
     <>
       <CalendarDesktopNavigation setViewChanged={setViewChanged} />
-      {selectedView !== CALENDAR_VIEW.AGENDA ? (
-        <CalendarHeader events={events ? events : {}} />
-      ) : null}
+      {selectedView !== CALENDAR_VIEW.AGENDA ? <CalendarHeader /> : null}
       <div className={'Kalend__Calendar__table'}>
         <CalendarTableLayoutLayer>
           {selectedView === CALENDAR_VIEW.MONTH ? (
-            <MonthView events={events ? events : {}} />
+            <MonthView
+              events={props.events ? props.events : []}
+              eventLayouts={props.eventLayouts}
+            />
           ) : null}
 
           {selectedView === CALENDAR_VIEW.DAY ||
           selectedView === CALENDAR_VIEW.THREE_DAYS ||
           selectedView === CALENDAR_VIEW.WEEK ? (
-            <DaysViewTable events={events ? events : {}} />
+            <DaysViewTable
+              events={props.events ? props.events : []}
+              eventLayouts={props.eventLayouts}
+            />
           ) : null}
 
           {selectedView === CALENDAR_VIEW.AGENDA ? (
-            <AgendaView events={events ? events : {}} />
+            <AgendaView
+              events={props.events ? props.events : []}
+              eventLayouts={props.eventLayouts}
+            />
           ) : null}
         </CalendarTableLayoutLayer>
       </div>

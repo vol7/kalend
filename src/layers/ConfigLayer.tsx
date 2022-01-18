@@ -4,7 +4,6 @@ import { Context } from '../context/store';
 import { DEFAULT_HOUR_HEIGHT } from '../common/constants';
 import { DateTime } from 'luxon';
 import { KalendProps } from '../index';
-import { eventsToArray, eventsToDateKey } from '../utils/common';
 import { filterEventsByCalendarIDs } from '../utils/eventLayout';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -57,6 +56,7 @@ export const createConfig = (props: KalendProps): Config => {
     disableMobileDropdown: props.disableMobileDropdown || false,
     disabledViews: props.disabledViews,
     calendarIDsHidden: props.calendarIDsHidden || null,
+    hasExternalLayout: props.eventLayouts !== undefined,
   };
 };
 
@@ -68,6 +68,7 @@ export const createCallbacks = (props: KalendProps): Callbacks => {
     onEventClick: props.onEventClick || emptyFunction,
     onNewEventClick: props.onNewEventClick || emptyFunction,
     showMoreMonth: props.showMoreMonth || emptyFunction,
+    onStateChange: props.onStateChange || undefined,
   };
 };
 
@@ -76,7 +77,7 @@ const ConfigLayer = (props: KalendProps) => {
 
   const [isReady, setIsReady] = useState(false);
 
-  const [store, dispatch] = useContext(Context);
+  const [, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
@@ -115,14 +116,11 @@ const ConfigLayer = (props: KalendProps) => {
 
   useEffect(() => {
     const eventsFiltered: any = filterEventsByCalendarIDs(
-      eventsToArray(props.events),
+      props.events,
       props.calendarIDsHidden
     );
 
-    setContext(
-      'events',
-      eventsToDateKey(eventsFiltered, store.config.timezone)
-    );
+    setContext('events', eventsFiltered);
   }, [
     JSON.stringify(props.calendarIDsHidden),
     props.calendarIDsHidden?.length,

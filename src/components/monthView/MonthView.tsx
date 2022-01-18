@@ -1,104 +1,128 @@
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 
+import { CalendarView } from '../../index';
 import { MonthViewProps } from './MonthView.props';
-import {
-  calculateMonthPositions,
-  getMonthRows,
-} from './monthWeekRow/MonthWeekRow.utils';
-import { useContext, useEffect } from 'react';
+import { getMonthRows } from './monthWeekRow/MonthWeekRow.utils';
+import { useContext, useEffect, useState } from 'react';
 import { useHeight } from '../../utils/layout';
 import DaysViewVerticalLines from '../daysViewTable/daysViewVerticalLines/DaysViewVerticalLines';
+import KalendLayout from 'kalend-layout';
 import MonthWeekRow from './monthWeekRow/MonthWeekRow';
 
-const renderOneRow = (days: DateTime[]) => {
+const renderOneRow = (days: DateTime[], eventRows: any, sequence: number) => {
   const rows: DateTime[][] = getMonthRows(days);
 
   return rows.map((row: DateTime[], index: number) => {
-    return <MonthWeekRow key={row[0].toString()} days={row} index={index} />;
+    return (
+      <MonthWeekRow
+        key={row[0].toString() + sequence}
+        days={row}
+        index={index}
+        itemRows={eventRows ? eventRows[index] : []}
+        sequence={sequence}
+      />
+    );
   });
 };
 
 const MonthView = (props: MonthViewProps) => {
+  const [wasInit, setWasInit] = useState(false);
+  const [calendarContent, setCalendarContent] = useState(null);
+
   const { events } = props;
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const height: number = useHeight();
-  const { width, calendarDays, config } = store;
+  const { width, calendarDays } = store;
+  // const height: any = useHeight();
+
+  const height: number = store.height || useHeight();
 
   const style: any = {
     width,
-    height: '100%',
+    height: height, //'100%',
   };
 
-  // const onPageChange = async (isGoingForward?: boolean) => {
-  //   await getNewCalendarDays(calendarDays, CALENDAR_VIEW.MONTH, isGoingForward);
-  // };
+  const hasExternalLayout = props.eventLayouts !== undefined;
+
+  useEffect(() => {
+    if (wasInit && height !== 0) {
+      if (!hasExternalLayout) {
+        KalendLayout({
+          events,
+          width,
+          height,
+          calendarDays,
+          config: store.config,
+          selectedView: CalendarView.MONTH,
+        }).then((res: any) => {
+          setContext('monthLayout', res.positions);
+          setContext('monthOverflowEvents', res.overflowingEvents);
+          setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+
+          const content: any = renderOneRow(
+            calendarDays,
+            res.positions,
+            store.layoutUpdateSequence
+          );
+          setCalendarContent(content);
+        });
+      }
+    }
+  }, [height]);
 
   useEffect(() => {
     if (height !== 0) {
-      const monthPositions: any = calculateMonthPositions(
-        events,
-        width,
-        calendarDays,
-        config.timezone,
-        (height / 6 - 25) / 26 - 1,
-        setContext
-      );
+      if (!hasExternalLayout) {
+        KalendLayout({
+          events,
+          width,
+          height,
+          calendarDays,
+          config: store.config,
+          selectedView: CalendarView.MONTH,
+        }).then((res: any) => {
+          setContext('monthLayout', res.positions);
+          setContext('monthOverflowEvents', res.overflowingEvents);
+          setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+          const content: any = renderOneRow(
+            calendarDays,
+            res.positions,
+            store.layoutUpdateSequence
+          );
+          setCalendarContent(content);
+        });
+      }
 
-      setContext('monthLayout', monthPositions);
+      setWasInit(true);
     }
-  }, []);
+  }, [calendarDays[0], JSON.stringify(events)]);
+
   useEffect(() => {
-    const monthPositions: any = calculateMonthPositions(
-      events,
-      width,
-      calendarDays,
-      config.timezone,
-      (height / 6 - 25) / 26 - 1,
-      setContext
-    );
+    if (hasExternalLayout && props.eventLayouts?.type === 'monthPositions') {
+      // cleanStateForWorker();
+      setContext('monthLayout', props.eventLayouts.positions);
+      setContext('monthOverflowEvents', props.eventLayouts.overflowingEvents);
+      setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
-    setContext('monthLayout', monthPositions);
-  }, [height]);
-  useEffect(() => {
-    const monthPositions: any = calculateMonthPositions(
-      events,
-      width,
-      calendarDays,
-      config.timezone,
-      (height / 6 - 25) / 26 - 1,
-      setContext
-    );
-
-    setContext('monthLayout', monthPositions);
-  }, [calendarDays[0]]);
-  useEffect(() => {
-    const monthPositions: any = calculateMonthPositions(
-      events,
-      width,
-      calendarDays,
-      config.timezone,
-      (height / 6 - 25) / 26 - 1,
-      setContext
-    );
-
-    setContext('monthLayout', monthPositions);
-  }, [JSON.stringify(events)]);
-
-  // const days: any = renderOneDay(calendarDays, 'month1', height, events);
-  const rows: any = renderOneRow(calendarDays);
+      const content: any = renderOneRow(
+        calendarDays,
+        props.eventLayouts.positions,
+        store.layoutUpdateSequence
+      );
+      setCalendarContent(content);
+    }
+  }, [JSON.stringify(props.eventLayouts)]);
 
   return (
-    // <Carousel onPageChange={onPageChange}>
     <div className={'Kalend__MonthView__container'} style={style}>
       <DaysViewVerticalLines />
-      {store.monthLayout ? rows : null}
+      {/*{rows}*/}
+      {calendarContent}
     </div>
-    // </Carousel>
   );
 };
 

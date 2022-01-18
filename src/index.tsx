@@ -10,6 +10,7 @@ import {
   PageChangeData,
   ShowMoreMonthFunc,
 } from './common/interface';
+import { getNewCalendarDays } from './utils/getCalendarDays';
 import { useEffect } from 'react';
 import { validateProps, validateStyle } from './utils/validator';
 import Calendar from './Calendar';
@@ -27,6 +28,7 @@ export type OnPageChangeData = PageChangeData;
 export type OnSelectViewData = CALENDAR_VIEW;
 export type ShowMoreMonthData = CalendarEvent[];
 export type OnEventDragFinish = OnEventDragFinishFunc;
+export const getNewCalendarDaysHelper = getNewCalendarDays;
 
 export interface KalendProps {
   initialDate?: string;
@@ -42,6 +44,7 @@ export interface KalendProps {
   showMoreMonth?: ShowMoreMonthFunc;
   onPageChange?: OnPageChangeFunc;
   onEventDragFinish?: OnEventDragFinishFunc;
+  onStateChange?: any;
   disableMobileDropdown?: boolean;
   timezone?: string;
   weekDayStart?: string;
@@ -50,6 +53,7 @@ export interface KalendProps {
   children?: any;
   language?: string;
   customLanguage?: any;
+  eventLayouts?: any;
 }
 
 const Kalend = (props: KalendProps) => {
@@ -66,7 +70,10 @@ const Kalend = (props: KalendProps) => {
           <RootLayoutLayer>
             <ConfigLayer {...props}>
               <DimensionsLayoutLayer>
-                <Calendar events={props.events} />
+                <Calendar
+                  events={props.events}
+                  eventLayouts={props.eventLayouts}
+                />
               </DimensionsLayoutLayer>
             </ConfigLayer>
           </RootLayoutLayer>

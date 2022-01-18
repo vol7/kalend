@@ -21,7 +21,11 @@ const renderEvents = (events: CalendarEvent[]) => {
 
   return sortedEvents.map((event) => {
     return (
-      <EventButton key={event.id} event={event} type={EVENT_TYPE.AGENDA} />
+      <EventButton
+        key={`${event.id}${event.internalID ? event.internalID : ''}`}
+        item={{ event }}
+        type={EVENT_TYPE.AGENDA}
+      />
     );
   });
 };

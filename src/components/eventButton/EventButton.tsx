@@ -1,11 +1,6 @@
 import { useContext, useEffect, useReducer, useRef } from 'react';
 
-import {
-  CalendarEvent,
-  Config,
-  EventLayout,
-  EventStyle,
-} from '../../common/interface';
+import { CalendarEvent, Config, EventStyle } from '../../common/interface';
 import { Context, Store } from '../../context/store';
 import { DateTime } from 'luxon';
 import {
@@ -26,9 +21,7 @@ import {
 import {
   disableTouchDragging,
   eventButtonInitialState,
-  initEventButtonPosition,
 } from './EventButton.utils';
-import { formatDateTimeToString } from '../../utils/common';
 import { onFinishDraggingInternal } from './utils/draggingGeneral';
 import { parseEventColor } from '../../utils/calendarDays';
 import { useHeight } from '../../utils/layout';
@@ -43,7 +36,8 @@ import stateReducer from '../../utils/stateReducer';
 let timeoutRef: any;
 
 const EventButton = (props: EventButtonProps) => {
-  const { event, type, day = DateTime.now(), index } = props;
+  const { item, type, day = DateTime.now(), index } = props;
+  const { event } = item;
   const { startAt } = event;
 
   const [state, dispatchState]: any = useReducer(
@@ -68,8 +62,7 @@ const EventButton = (props: EventButtonProps) => {
     dispatch({ type, payload });
   };
 
-  const { width, calendarDays, config, daysViewLayout, callbacks } =
-    store as Store;
+  const { width, calendarDays, config, callbacks } = store as Store;
 
   const heightHook: number = useHeight();
 
@@ -78,22 +71,24 @@ const EventButton = (props: EventButtonProps) => {
 
   const columnWidth: number =
     width / (type === EVENT_TYPE.MONTH ? 7 : calendarDays.length);
-  const eventColor: string = parseEventColor(event.color as string, isDark);
+  const eventColor: string = event.color
+    ? parseEventColor(event.color as string, isDark)
+    : 'indigo';
 
-  const isLoaded: boolean = state.width !== 0 && state.height > 0;
   const style: EventStyle = {
     position:
       type === EVENT_TYPE.AGENDA || type === EVENT_TYPE.SHOW_MORE_MONTH
         ? 'relative'
         : 'absolute',
-    height: state.height || EVENT_MIN_HEIGHT,
-    width: state.width,
-    top: state.offsetTop,
-    left: state.offsetLeft,
-    zIndex: state.zIndex,
+    height:
+      state.height !== null ? state.height : item.height || EVENT_MIN_HEIGHT,
+    width: state.width !== null ? state.width : item.width || '100%',
+    top: state.offsetTop !== null ? state.offsetTop : item.offsetTop,
+    left: state.offsetLeft !== null ? state.offsetLeft : item.offsetLeft,
+    zIndex: state.zIndex || item.zIndex,
     border: state.zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
     backgroundColor: eventColor,
-    visibility: isLoaded ? 'visible' : 'hidden',
+    visibility: 'visible',
     // alignItems: meta?.centerText ? 'center' : 'inherit',
   };
 
@@ -113,7 +108,7 @@ const EventButton = (props: EventButtonProps) => {
     }
   };
 
-  const setLayout = (layout: EventLayout) => {
+  const setLayout = (layout: any) => {
     setState('initialTop', layout.offsetTop);
     setState('initialLeft', layout.offsetLeft);
     setState('offsetTop', layout.offsetTop);
@@ -128,21 +123,22 @@ const EventButton = (props: EventButtonProps) => {
   };
 
   useEffect(() => {
-    initEventButtonPosition(type, props.day, event, store, setLayout, index);
+    setLayout(item);
+    // initEventButtonPosition(type, props.day, event, store, setLayout, index);
   }, []);
 
-  useEffect(() => {
-    initEventButtonPosition(type, props.day, event, store, setLayout, index);
-  }, [
-    // @ts-ignore
-    daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
-      event.id
-    ],
-  ]);
+  // useEffect(() => {
+  //   initEventButtonPosition(type, props.day, event, store, setLayout, index);
+  // }, [
+  //   // @ts-ignore
+  //   daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
+  //     event.id
+  //   ],
+  // ]);
 
-  useEffect(() => {
-    initEventButtonPosition(type, props.day, event, store, setLayout, index);
-  }, [store.layoutUpdateSequence]);
+  // useEffect(() => {
+  //   initEventButtonPosition(type, props.day, event, store, setLayout, index);
+  // }, [store.layoutUpdateSequence]);
 
   const initMove = () => {
     if (type === EVENT_TYPE.AGENDA) {
@@ -154,8 +150,8 @@ const EventButton = (props: EventButtonProps) => {
     }
 
     if (type === EVENT_TYPE.NORMAL) {
-      setState('offsetLeft', 0);
       setState('width', columnWidth - EVENT_TABLE_DELIMITER_SPACE);
+      setState('offsetLeft', 0);
     }
   };
 
@@ -248,7 +244,7 @@ const EventButton = (props: EventButtonProps) => {
     }, 100);
 
     // add data to callback
-    if (onEventDragFinish) {
+    if (onEventDragFinish || config.hasExternalLayout) {
       let newEvent: CalendarEvent | null = null;
       if (type === EVENT_TYPE.NORMAL) {
         newEvent = calculateNewTimeWeekDay(
@@ -334,7 +330,7 @@ const EventButton = (props: EventButtonProps) => {
       style={style}
       className={`Kalend__Event-${type} ${
         state.isDragging ? 'Kalend__EventButton__elevation' : ''
-      } ${store.layoutUpdateSequence === 1 ? 'Kalend__Event__animate' : ''}`}
+      }`}
       onClick={handleEventClick}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
@@ -350,7 +346,7 @@ const EventButton = (props: EventButtonProps) => {
           event={event}
           isDark={isDark}
           type={type}
-          meta={state.meta}
+          meta={item.meta}
         />
       ) : null}
       {type === EVENT_TYPE.AGENDA ? (
