@@ -16,13 +16,13 @@ $month_view__height: math.div(100%, 6);
   margin: 0;
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: 1px;
   left: 0;
   right: 0;
 }
 
 .Kalend__Monthview_Event {
-  max-height: 16px !important;
-  min-height: 16px;
+  max-height: 17px !important;
+  min-height: 17px;
   margin-top: 1px;
 }
