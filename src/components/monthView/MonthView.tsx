@@ -103,7 +103,6 @@ const MonthView = (props: MonthViewProps) => {
 
   useEffect(() => {
     if (hasExternalLayout && props.eventLayouts?.type === 'monthPositions') {
-      // cleanStateForWorker();
       setContext('monthLayout', props.eventLayouts.positions);
       setContext('monthOverflowEvents', props.eventLayouts.overflowingEvents);
       setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);

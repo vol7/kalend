@@ -46,8 +46,8 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              paddingTop: 3,
-              paddingBottom: 3,
+              // paddingTop: 3,
+              // paddingBottom: 3,
               height: MONTH_EVENT_HEIGHT,
             }}
             onClick={() => handleClick(calendarDay, events)}
@@ -78,7 +78,7 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
         display: 'flex',
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 5,
+        bottom: 0,
         left: 0,
       }}
     >

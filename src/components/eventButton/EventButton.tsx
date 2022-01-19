@@ -3,12 +3,10 @@ import { useContext, useEffect, useReducer, useRef } from 'react';
 import { CalendarEvent, Config, EventStyle } from '../../common/interface';
 import { Context, Store } from '../../context/store';
 import { DateTime } from 'luxon';
-import {
-  EVENT_MIN_HEIGHT,
-  EVENT_TABLE_DELIMITER_SPACE,
-} from '../../common/constants';
+import { EVENT_TABLE_DELIMITER_SPACE } from '../../common/constants';
 import { EVENT_TYPE } from '../../common/enums';
 import { EventButtonProps } from './EventButton.props';
+import { MONTH_EVENT_HEIGHT } from 'kalend-layout/constants';
 import { calculateHeaderAfterDrag, onMoveHeader } from './utils/draggingHeader';
 import {
   calculateMonthEventAfterDrag,
@@ -81,7 +79,7 @@ const EventButton = (props: EventButtonProps) => {
         ? 'relative'
         : 'absolute',
     height:
-      state.height !== null ? state.height : item.height || EVENT_MIN_HEIGHT,
+      state.height !== null ? state.height : item.height || MONTH_EVENT_HEIGHT,
     width: state.width !== null ? state.width : item.width || '100%',
     top: state.offsetTop !== null ? state.offsetTop : item.offsetTop,
     left: state.offsetLeft !== null ? state.offsetLeft : item.offsetLeft,
