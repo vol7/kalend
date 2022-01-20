@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.2
+- Better detection for touch devices
+- Refactored overflowing events modal in month view
+
 ## 0.7.1
 - Fix for overflowing events in month view
 - Removed i18next from dependencies
