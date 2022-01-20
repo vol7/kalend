@@ -27,6 +27,7 @@
     min-height: auto !important;
     //border: solid 1px white !important;
     border: none !important;
+    white-space: nowrap;
   }
 
   &-normal {
@@ -59,11 +60,13 @@
   }
 
   &-showMoreMonth {
-    @extend .Kalend__Event;
-    height: 25px !important;
+    @extend .Kalend__Event-month;
+    height: 20px !important;
+    //width: 100%;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
+    padding: 2px;
   }
 }
 

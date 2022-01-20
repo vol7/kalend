@@ -1,12 +1,12 @@
 import { CalendarEvent } from '../../../common/interface';
 import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
-import { MONTH_EVENT_HEIGHT } from '../../../common/constants';
+import { EVENT_TYPE } from '../../../common/enums';
 import { MonthViewButtonMoreProps } from './MonthViewButtonMore.props';
 import { formatDateTimeToString } from '../../../utils/common';
 import { useContext } from 'react';
-import ButtonBase from '../../buttonBase/ButtonBase';
-import ShowMoreModal from '../showMoreModal/ShowMoreModal';
+import Dropdown from '../../dropdown/Dropdown';
+import EventButton from '../../eventButton/EventButton';
 
 const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
   const [store, dispatch] = useContext(Context);
@@ -14,8 +14,7 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
     dispatch({ type, payload });
   };
 
-  const { width, monthOverflowEvents, config, showMoreEvents, translations } =
-    store;
+  const { width, monthOverflowEvents } = store;
 
   const { calendarDays } = props;
 
@@ -31,30 +30,42 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
     }
 
     return calendarDays.map((calendarDay: DateTime) => {
-      const dateKey = formatDateTimeToString(calendarDay);
+      const dateKey: string = formatDateTimeToString(calendarDay);
       const events: CalendarEvent[] | undefined = monthOverflowEvents[dateKey];
 
       if (events) {
         return (
-          <ButtonBase
-            key={calendarDay.toString()}
-            className={'Kalend__Monthview_Event'}
-            style={{
-              width: colWidth,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              // paddingTop: 3,
-              // paddingBottom: 3,
-              height: MONTH_EVENT_HEIGHT,
-            }}
+          <Dropdown
             onClick={() => handleClick(calendarDay, events)}
-            isDark={config.isDark}
+            width={colWidth}
+            key={calendarDay.toString()}
           >
-            <p className={'Kalend__text'} style={{ fontSize: 11 }}>
-              {translations['buttons']['showMore']}
-            </p>
-          </ButtonBase>
+            <>
+              <h6
+                style={{
+                  fontSize: 16,
+                  padding: 0,
+                  margin: 4,
+                  marginBottom: 8,
+                  textAlign: 'center',
+                }}
+              >
+                {calendarDay.toFormat('dd. MMM')}
+              </h6>
+              {/*// @ts-ignore*/}
+              {events?.map((event: any) => {
+                return (
+                  <EventButton
+                    key={`${event.id}${
+                      event.internalID ? event.internalID : ''
+                    }`}
+                    item={{ event }}
+                    type={EVENT_TYPE.SHOW_MORE_MONTH}
+                  />
+                );
+              })}
+            </>
+          </Dropdown>
         );
       } else {
         return (
@@ -76,12 +87,12 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
         display: 'flex',
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 0,
+        bottom: 3,
         left: 0,
       }}
     >
       {showMoreButtons}
-      {showMoreEvents ? <ShowMoreModal /> : null}
+      {/*{showMoreEvents ? <ShowMoreModal /> : null}*/}
     </div>
   );
 };
