@@ -1,8 +1,12 @@
 import { CALENDAR_OFFSET_LEFT } from '../../common/constants';
+import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { DaysViewTableProps } from './DaysViewTable.props';
-import { formatDateTimeToString } from '../../utils/common';
+import {
+  formatDateTimeToString,
+  getSelectedViewType,
+} from '../../utils/common';
 import { useContext, useLayoutEffect, useState } from 'react';
 import { useHeight } from '../../utils/layout';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
@@ -151,7 +155,11 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   }, []);
 
   useLayoutEffect(() => {
-    if (hasExternalLayout && props.eventLayouts?.type === 'daysPositions') {
+    if (
+      hasExternalLayout &&
+      getSelectedViewType(props.eventLayouts.selectedView) ===
+        CALENDAR_VIEW.WEEK
+    ) {
       setContext('headerLayout', props.eventLayouts.headerPositions);
       setContext('headerEventRowsCount', props.eventLayouts.headerOffsetTop);
       setContext('daysViewLayout', props.eventLayouts.normalPositions);

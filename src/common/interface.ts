@@ -115,7 +115,7 @@ export interface KalendState {
   width: number;
   config: Config;
   isMobile: boolean;
-  maxEventsVisible: number;
+  height: number;
 }
 
 // functions
