@@ -58,7 +58,6 @@ If you have any suggestion, feel free to open discussion or contact me directly 
 ### Events
 
 Before passing events to calendar, adjust data to this format:
-Date key has to be in dd-MM-yyyy format
 
     const events = [
             {
