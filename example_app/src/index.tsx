@@ -12,7 +12,7 @@ const CalendComponent = () => {
 
   // Create and load demo events
   useEffect(() => {
-    setDemoEvents(generateDemoEvents(DateTime.now(), 120));
+    setDemoEvents(generateDemoEvents(DateTime.now(), 80));
   }, []);
 
   const onNewEventClick = (data: any) => {

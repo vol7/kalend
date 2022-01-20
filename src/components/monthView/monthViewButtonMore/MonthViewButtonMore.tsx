@@ -5,19 +5,17 @@ import { MONTH_EVENT_HEIGHT } from '../../../common/constants';
 import { MonthViewButtonMoreProps } from './MonthViewButtonMore.props';
 import { formatDateTimeToString } from '../../../utils/common';
 import { useContext } from 'react';
-import { useTranslation } from 'react-i18next';
 import ButtonBase from '../../buttonBase/ButtonBase';
 import ShowMoreModal from '../showMoreModal/ShowMoreModal';
 
 const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
-  const { t } = useTranslation();
-
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const { width, monthOverflowEvents, config, showMoreEvents } = store;
+  const { width, monthOverflowEvents, config, showMoreEvents, translations } =
+    store;
 
   const { calendarDays } = props;
 
@@ -54,7 +52,7 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
             isDark={config.isDark}
           >
             <p className={'Kalend__text'} style={{ fontSize: 11 }}>
-              {t('buttons:showMore')}
+              {translations['buttons']['showMore']}
             </p>
           </ButtonBase>
         );

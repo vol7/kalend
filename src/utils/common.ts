@@ -70,19 +70,20 @@ export const isAllDayEvent = (item: CalendarEvent): boolean => {
 };
 
 export const parseCalendarViewToText = (
-  calendarView: CALENDAR_VIEW
+  calendarView: CALENDAR_VIEW,
+  translations: any
 ): string => {
   switch (calendarView) {
     case CALENDAR_VIEW.AGENDA:
-      return 'buttons:agenda';
+      return translations['buttons']['agenda'];
     case CALENDAR_VIEW.DAY:
-      return 'buttons:day';
+      return translations['buttons']['day'];
     case CALENDAR_VIEW.THREE_DAYS:
-      return 'buttons:threeDays';
+      return translations['buttons']['threeDays'];
     case CALENDAR_VIEW.WEEK:
-      return 'buttons:week';
+      return translations['buttons']['week'];
     case CALENDAR_VIEW.MONTH:
-      return 'buttons:month';
+      return translations['buttons']['month'];
     default:
       return '';
   }

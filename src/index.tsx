@@ -65,8 +65,11 @@ const Kalend = (props: KalendProps) => {
 
   return (
     <div className={'Kalend__Calendar__root Kalend__main'}>
-      <LanguageLayer customLanguage={props.customLanguage}>
-        <StoreProvider>
+      <StoreProvider>
+        <LanguageLayer
+          language={props.language || 'en'}
+          customLanguage={props.customLanguage}
+        >
           <RootLayoutLayer>
             <ConfigLayer {...props}>
               <DimensionsLayoutLayer>
@@ -77,8 +80,8 @@ const Kalend = (props: KalendProps) => {
               </DimensionsLayoutLayer>
             </ConfigLayer>
           </RootLayoutLayer>
-        </StoreProvider>
-      </LanguageLayer>
+        </LanguageLayer>
+      </StoreProvider>
     </div>
   );
 };

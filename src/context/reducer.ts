@@ -16,6 +16,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isMobile: action.payload,
       };
+    case 'translations':
+      return {
+        ...state,
+        translations: action.payload,
+      };
     case 'direction':
       return {
         ...state,
