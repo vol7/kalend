@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+- Fix for overflowing events in month view
+- Removed i18next from dependencies
+
 ## 0.7.0
 - performance improvements
 - support for server side calculations
