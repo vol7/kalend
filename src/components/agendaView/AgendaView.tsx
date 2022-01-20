@@ -3,6 +3,7 @@ import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
+import { getSelectedViewType } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
 import AgendaDayRow from './agendaDayRow/AgendaDayRow';
 import KalendLayout from 'kalend-layout';
@@ -77,7 +78,11 @@ const AgendaView = (props: AgendaViewProps) => {
   }, [JSON.stringify(events)]);
 
   useEffect(() => {
-    if (hasExternalLayout && props.eventLayouts?.type === 'agenda') {
+    if (
+      hasExternalLayout &&
+      getSelectedViewType(props.eventLayouts.selectedView) ===
+        CALENDAR_VIEW.AGENDA
+    ) {
       setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
       const content: any = renderAgendaEvents(

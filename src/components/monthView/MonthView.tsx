@@ -1,9 +1,11 @@
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 
+import { CALENDAR_VIEW } from '../../common/enums';
 import { CalendarView } from '../../index';
 import { MonthViewProps } from './MonthView.props';
 import { getMonthRows } from './monthWeekRow/MonthWeekRow.utils';
+import { getSelectedViewType } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
 import { useHeight } from '../../utils/layout';
 import DaysViewVerticalLines from '../daysViewTable/daysViewVerticalLines/DaysViewVerticalLines';
@@ -102,7 +104,11 @@ const MonthView = (props: MonthViewProps) => {
   }, [calendarDays[0], JSON.stringify(events)]);
 
   useEffect(() => {
-    if (hasExternalLayout && props.eventLayouts?.type === 'monthPositions') {
+    if (
+      hasExternalLayout &&
+      getSelectedViewType(props.eventLayouts.selectedView) ===
+        CALENDAR_VIEW.MONTH
+    ) {
       setContext('monthLayout', props.eventLayouts.positions);
       setContext('monthOverflowEvents', props.eventLayouts.overflowingEvents);
       setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);

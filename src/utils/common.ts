@@ -89,6 +89,23 @@ export const parseCalendarViewToText = (
   }
 };
 
+export const getSelectedViewType = (calendarView: CALENDAR_VIEW): string => {
+  switch (calendarView) {
+    case CALENDAR_VIEW.AGENDA:
+      return CALENDAR_VIEW.AGENDA;
+    case CALENDAR_VIEW.DAY:
+      return CALENDAR_VIEW.WEEK;
+    case CALENDAR_VIEW.THREE_DAYS:
+      return CALENDAR_VIEW.WEEK;
+    case CALENDAR_VIEW.WEEK:
+      return CALENDAR_VIEW.WEEK;
+    case CALENDAR_VIEW.MONTH:
+      return CALENDAR_VIEW.MONTH;
+    default:
+      return '';
+  }
+};
+
 export const eventsToArray = (events: any): CalendarEvent[] => {
   let result: CalendarEvent[] = [];
 

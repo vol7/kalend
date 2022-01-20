@@ -1,6 +1,5 @@
 import { Context, Store } from '../context/store';
 import { KalendState } from '../common/interface';
-import { getMaxEventsVisible } from 'kalend-layout/utils/monthViewHelper';
 import { getRange } from '../utils/calendarDays';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 
@@ -30,7 +29,7 @@ const CalendarTableLayoutLayer = (props: { children: any }) => {
         width,
         config,
         isMobile: store.isMobile,
-        maxEventsVisible: getMaxEventsVisible(store.height),
+        height: store.height,
       };
       callbacks.onStateChange(data);
     }
@@ -53,7 +52,7 @@ const CalendarTableLayoutLayer = (props: { children: any }) => {
         width,
         config,
         isMobile: store.isMobile,
-        maxEventsVisible: getMaxEventsVisible(store.height),
+        height: store.height,
       };
       callbacks.onStateChange(data);
     }
