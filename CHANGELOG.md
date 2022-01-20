@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.3
+- Fixed loading events with kalend-layout
+
 ## 0.7.2
 - Better detection for touch devices
 - Refactored overflowing events modal in month view
