@@ -139,7 +139,10 @@ export const getCorrectWidth = (
     selectedView === CALENDAR_VIEW.DAY ||
     selectedView === CALENDAR_VIEW.THREE_DAYS
   ) {
-    if (isMobile) {
+    if (
+      isMobile &&
+      ('ontouchstart' in window || window.navigator.maxTouchPoints)
+    ) {
       return width;
     } else {
       return width - SCROLLBAR_WIDTH;
