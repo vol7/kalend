@@ -9,7 +9,6 @@ import {
 } from '../../utils/getCalendarDays';
 import { parseClassName, parseCssDark } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import ButtonBase from '../buttonBase/ButtonBase';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
 import CalendarViewDropdown from '../calendarViewDropdown/CalendarViewDropdown';
@@ -24,23 +23,28 @@ import MobileLayout from '../mobileLayout/MobileLayout';
  * @constructor
  */
 const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
-  const { t } = useTranslation();
-
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
 
-  const { config, calendarDays, selectedView, selectedDate, isMobile, width } =
-    store;
+  const {
+    config,
+    calendarDays,
+    selectedView,
+    selectedDate,
+    isMobile,
+    width,
+    translations,
+  } = store;
   const { weekDayStart, isDark } = config;
 
   const [isFullNavigationHidden, setIsFullNavigationHidden] = useState(true);
 
   const titleDate = DateTime.fromISO(selectedDate);
-  const title = `${t(
-    `months:${titleDate.toFormat('MMMM').toLowerCase()}`
-  )} ${titleDate.toFormat('yyyy')}`;
+  const title = `${
+    translations['months'][`${titleDate.toFormat('MMMM').toLowerCase()}`]
+  } ${titleDate.toFormat('yyyy')}`;
 
   const navigateBackwards = async () => {
     setContext('calendarContent', null);
@@ -124,7 +128,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
                 isDark={isDark}
                 onClick={navigateToTodayDate}
               >
-                {t('buttons:today')}
+                {translations['buttons']['today']}
               </ButtonBase>
               <ButtonIcon
                 isDark={isDark}

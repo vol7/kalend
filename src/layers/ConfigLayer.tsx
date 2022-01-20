@@ -6,7 +6,6 @@ import { DateTime } from 'luxon';
 import { KalendProps } from '../index';
 import { filterEventsByCalendarIDs } from '../utils/eventLayout';
 import { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const emptyFunction = () => {};
@@ -73,8 +72,6 @@ export const createCallbacks = (props: KalendProps): Callbacks => {
 };
 
 const ConfigLayer = (props: KalendProps) => {
-  const { i18n } = useTranslation();
-
   const [isReady, setIsReady] = useState(false);
 
   const [, dispatch] = useContext(Context);
@@ -125,14 +122,6 @@ const ConfigLayer = (props: KalendProps) => {
     JSON.stringify(props.calendarIDsHidden),
     props.calendarIDsHidden?.length,
   ]);
-
-  useEffect(() => {
-    i18n.changeLanguage(props.language || 'en');
-  }, []);
-
-  useEffect(() => {
-    i18n.changeLanguage(props.language || 'en');
-  }, [props.language]);
 
   return isReady ? props.children : null;
 };

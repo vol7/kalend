@@ -9,6 +9,7 @@ import { DateTime } from 'luxon';
 import { createCallbacks, createConfig } from '../layers/ConfigLayer';
 import { createContext, useReducer } from 'react';
 import Reducer from './reducer';
+import en from '../locales/en.json';
 
 export interface Store {
   isLoading: boolean;
@@ -31,6 +32,7 @@ export interface Store {
   callbacks: Callbacks;
   showMoreEvents: ShowMoreEvents | null;
   direction: CALENDAR_NAVIGATION_DIRECTION;
+  translations: any;
 }
 
 export const Context: any = createContext({});
@@ -56,6 +58,7 @@ const StoreProvider = ({ children }: any) => {
     config: createConfig({}),
     callbacks: createCallbacks({}),
     direction: CALENDAR_NAVIGATION_DIRECTION.TODAY,
+    translations: en,
   };
 
   const [store, dispatch] = useReducer(Reducer, initialContext);

@@ -4,7 +4,6 @@ import { Context } from '../../context/store';
 import { EvaIcons } from '../eva-icons';
 import { parseCalendarViewToText, parseCssDark } from '../../utils/common';
 import { useContext, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import ButtonBase from '../buttonBase/ButtonBase';
 import ButtonIcon from '../buttonIcon/ButtonIcon';
 import HeaderCalendarButtons, {
@@ -12,14 +11,12 @@ import HeaderCalendarButtons, {
 } from '../headerCalendarButtons/HeaderCalendarButtons';
 
 const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
-  const { t } = useTranslation();
-
   const { setViewChanged } = props;
 
   const [isOpen, setOpen] = useState(false);
 
   const [store] = useContext(Context);
-  const { config, isMobile, selectedView } = store;
+  const { config, isMobile, selectedView, translations } = store;
   const { isDark, disabledViews, disableMobileDropdown } = config as Config;
 
   const handleOpen = () => setOpen(true);
@@ -43,7 +40,7 @@ const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
             isDark={isDark}
             className={'Kalend__ButtonBase-border'}
             onClick={handleOpen}
-            text={t(parseCalendarViewToText(selectedView))}
+            text={parseCalendarViewToText(selectedView, translations)}
           />
         )}
         {isOpen ? (
