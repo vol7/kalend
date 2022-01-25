@@ -19,7 +19,7 @@ export interface Store {
   selectedDate: DateTime;
   calendarDays: DateTime[];
   width: number;
-  height: number;
+  // height: number;
   isMobile: boolean;
   events: any;
   // layouts
@@ -46,7 +46,7 @@ const StoreProvider = ({ children }: any) => {
     selectedDate: DateTime.now(),
     calendarDays: [],
     width: 0,
-    height: 0,
+    // height: 0,
     isMobile: false,
     events: {},
     daysViewLayout: null,

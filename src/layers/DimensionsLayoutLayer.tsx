@@ -1,6 +1,6 @@
 import { Context } from '../context/store';
-import { getHeight, getWidth, useHeight, useWidth } from '../utils/layout';
 import { getTableOffset } from '../utils/common';
+import { getWidth, useWidth } from '../utils/layout';
 import { useContext, useEffect } from 'react';
 
 const DimensionsLayoutLayer = (props: { children: any }) => {
@@ -11,11 +11,9 @@ const DimensionsLayoutLayer = (props: { children: any }) => {
   const { selectedView } = store;
 
   const width: any = useWidth();
-  const height: any = useHeight();
 
   // init context
   useEffect(() => {
-    setContext('height', height);
     setContext('width', width - getTableOffset(selectedView));
 
     if (width < 750) {
@@ -34,14 +32,6 @@ const DimensionsLayoutLayer = (props: { children: any }) => {
       setContext('isMobile', false);
     }
   }, [width]);
-  useEffect(() => {
-    setContext('height', getHeight());
-  }, [height]);
-
-  // needs to be separate due to inconsistency for month view
-  useEffect(() => {
-    setContext('height', getHeight());
-  }, [selectedView, selectedView]);
 
   return props.children;
 };

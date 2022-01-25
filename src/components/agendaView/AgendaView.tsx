@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
 import { getSelectedViewType } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
+import { useHeight } from '../../utils/layout';
 import AgendaDayRow from './agendaDayRow/AgendaDayRow';
 import KalendLayout from 'kalend-layout';
 
@@ -33,7 +34,9 @@ const AgendaView = (props: AgendaViewProps) => {
     dispatch({ type, payload });
   };
 
-  const { calendarDays, height, width } = store;
+  const { calendarDays, width } = store;
+
+  const height = useHeight();
 
   const hasExternalLayout = eventLayouts !== undefined;
 
@@ -49,7 +52,7 @@ const AgendaView = (props: AgendaViewProps) => {
       }).then((res: any) => {
         setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
-        const content: any = renderAgendaEvents(res, calendarDays);
+        const content: any = renderAgendaEvents(res.events, calendarDays);
         setCalendarContent(content);
       });
       setWasInit(true);
@@ -70,7 +73,7 @@ const AgendaView = (props: AgendaViewProps) => {
         }).then((res: any) => {
           setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
 
-          const content: any = renderAgendaEvents(res, calendarDays);
+          const content: any = renderAgendaEvents(res.events, calendarDays);
           setCalendarContent(content);
         });
       }

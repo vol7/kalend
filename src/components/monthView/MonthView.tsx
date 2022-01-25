@@ -39,13 +39,12 @@ const MonthView = (props: MonthViewProps) => {
   };
 
   const { width, calendarDays } = store;
-  // const height: any = useHeight();
 
-  const height: number = store.height || useHeight();
+  const height: number = useHeight();
 
   const style: any = {
     width,
-    height: height, //'100%',
+    height: '100%',
   };
 
   const hasExternalLayout = props.eventLayouts !== undefined;
@@ -74,7 +73,7 @@ const MonthView = (props: MonthViewProps) => {
         });
       }
     }
-  }, [height]);
+  }, [height, width]);
 
   useEffect(() => {
     if (height !== 0) {
