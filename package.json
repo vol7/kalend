@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@swc/helpers": "0.2.14",
-    "kalend-layout": "0.0.7",
+    "kalend-layout": "0.0.8",
     "luxon": "2.1.1",
     "regenerator-runtime": "0.13.9"
   },

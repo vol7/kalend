@@ -3,6 +3,7 @@ import { Context } from '../../../../context/store';
 import { TIME_FORMAT } from '../../../../common/enums';
 import { createVerticalHours, parseCssDark } from '../../../../utils/common';
 import { useContext } from 'react';
+import { useHeight } from '../../../../utils/layout';
 
 const renderHours = (
   width: number,
@@ -44,8 +45,10 @@ const renderHours = (
 
 const CalendarBodyHours = () => {
   const [store] = useContext(Context);
-  const { width, height, config, isDark } = store;
+  const { width, config, isDark } = store;
   const { hourHeight, timeFormat } = config;
+
+  const height = useHeight();
 
   const hours: any = renderHours(width, hourHeight, isDark, timeFormat);
 
