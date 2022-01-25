@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.4
+- Fixed error on resize
+- Fixed recalculating event positions after resize event
+
 ## 0.7.3
 - Fixed loading events with kalend-layout
 
