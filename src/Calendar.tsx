@@ -65,8 +65,9 @@ const Calendar = (props: CalendarProps) => {
     setContext('selectedView', viewChanged);
 
     // use either passed value or internal state
-    const setSelectedDate = (date: DateTime) =>
+    const setSelectedDate = (date: DateTime) => {
       setContext('selectedDate', date);
+    };
 
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChanged,
@@ -77,7 +78,6 @@ const Calendar = (props: CalendarProps) => {
 
     setContext('calendarDays', calendarDaysNew);
 
-    setContext('selectedDate', selectedDate);
     setContext('width', width - getTableOffset(viewChanged));
     setPrevView(viewChanged);
     setViewChanged(null);
