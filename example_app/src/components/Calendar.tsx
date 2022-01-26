@@ -41,7 +41,7 @@ const CalendComponent = () => {
   return (
     <Kalend
       onNewEventClick={onNewEventClick}
-      initialView={CalendarView.MONTH}
+      initialView={CalendarView.WEEK}
       disabledViews={[]}
       onEventClick={onEventClick}
       events={demoEvents}
