@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.5
+- Fixed changing date in header after switching views
+
 ## 0.7.4
 - Fixed error on resize
 - Fixed recalculating event positions after resize event
