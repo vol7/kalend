@@ -1,14 +1,8 @@
 import React from 'react';
-// @ts-ignore
-import GithubIcon from '../assets/github.svg';
 
 const GithubButton = () => {
   return (
-    <a
-      href={'https://github.com/nibdo/calend'}
-      target="_blank"
-      rel="noreferrer"
-    >
+    <a href={'/full'} rel="noreferrer">
       <div
         style={{
           display: 'flex',
@@ -21,15 +15,6 @@ const GithubButton = () => {
           borderRadius: 12,
         }}
       >
-        <div
-          style={{
-            width: 20,
-            marginRight: 10,
-            fill: 'whitesmoke',
-          }}
-        >
-          <img src={GithubIcon} alt={'github-icon'} />
-        </div>
         <p
           style={{
             color: 'whitesmoke',
@@ -38,7 +23,7 @@ const GithubButton = () => {
             fontWeight: 500,
           }}
         >
-          Github
+          Full screen
         </p>
       </div>
     </a>
