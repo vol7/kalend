@@ -15,4 +15,6 @@ export interface CalendarProps {
   events: any;
   initialDate?: string;
   eventLayouts?: any;
+  kalendRef?: any;
+  selectedView?: any;
 }

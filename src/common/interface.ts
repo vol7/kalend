@@ -116,6 +116,7 @@ export interface KalendState {
   config: Config;
   isMobile: boolean;
   height: number;
+  selectedDate: string;
 }
 
 // functions

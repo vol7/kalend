@@ -105,7 +105,27 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
     }
   }, [width]);
 
-  return (
+  // add funcs to ref
+  useEffect(() => {
+    if (props.kalendRef) {
+      props.kalendRef.current = {
+        navigateToTodayDate,
+        navigateForward,
+        navigateBackwards,
+      };
+    }
+  }, []);
+  useEffect(() => {
+    if (props.kalendRef) {
+      props.kalendRef.current = {
+        navigateToTodayDate,
+        navigateForward,
+        navigateBackwards,
+      };
+    }
+  }, [selectedView, calendarDays[0].toString()]);
+
+  return props.kalendRef ? null : (
     <div
       className={parseClassName(
         'Kalend__CalendarDesktopNavigation__container',

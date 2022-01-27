@@ -18,4 +18,4 @@ calend-*
 /docs/.docusaurus
 /docs/.cache-loader
 
-/scripts
+/example_app/scripts

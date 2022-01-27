@@ -54,6 +54,7 @@ export interface KalendProps {
   language?: string;
   customLanguage?: any;
   eventLayouts?: any;
+  kalendRef?: any;
 }
 
 const Kalend = (props: KalendProps) => {
@@ -74,8 +75,10 @@ const Kalend = (props: KalendProps) => {
             <ConfigLayer {...props}>
               <DimensionsLayoutLayer>
                 <Calendar
+                  kalendRef={props.kalendRef}
                   events={props.events}
                   eventLayouts={props.eventLayouts}
+                  selectedView={props.selectedView}
                 />
               </DimensionsLayoutLayer>
             </ConfigLayer>
