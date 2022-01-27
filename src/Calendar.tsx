@@ -46,23 +46,24 @@ const Calendar = (props: CalendarProps) => {
   // }, []);
 
   useEffect(() => {
+    const viewChangedValue = props.selectedView || viewChanged;
     // if (props.selectedView && props.selectedView === selectedView) {
     //   return;
     // }
-    if (prevView === viewChanged) {
+    if (prevView === viewChangedValue) {
       return;
     }
     // prevent infinit loop
     if (!selectedView && callbacks.onSelectView) {
-      callbacks.onSelectView(viewChanged);
+      callbacks.onSelectView(viewChangedValue);
       return;
     }
-    if (!viewChanged) {
+    if (!viewChangedValue) {
       return;
     }
 
     setContext('calendarDays', calendarDays[0]);
-    setContext('selectedView', viewChanged);
+    setContext('selectedView', viewChangedValue);
 
     // use either passed value or internal state
     const setSelectedDate = (date: DateTime) => {
@@ -70,7 +71,7 @@ const Calendar = (props: CalendarProps) => {
     };
 
     const calendarDaysNew: DateTime[] = getCalendarDays(
-      viewChanged,
+      viewChangedValue,
       DateTime.now(),
       config.weekDayStart,
       setSelectedDate
@@ -79,24 +80,26 @@ const Calendar = (props: CalendarProps) => {
     setContext('calendarDays', calendarDaysNew);
 
     setContext('width', width - getTableOffset(viewChanged));
-    setPrevView(viewChanged);
+    setPrevView(viewChangedValue);
     setViewChanged(null);
-  }, [viewChanged]);
+  }, [viewChanged, props.selectedView]);
 
   useEffect(() => {
-    if (prevView === selectedView) {
+    const selectedViewValue = props.selectedView || selectedView;
+
+    if (prevView === selectedViewValue) {
       return;
     }
-    if (selectedView && selectedView !== selectedView) {
+    if (selectedViewValue && selectedViewValue !== selectedViewValue) {
       setContext('calendarDays', calendarDays[0]);
-      setContext('selectedView', selectedView);
-      setPrevView(selectedView);
+      setContext('selectedView', selectedViewValue);
+      setPrevView(selectedViewValue);
 
       const setSelectedDate = (date: DateTime) =>
         setContext('selectedDate', date);
 
       const calendarDaysNew: DateTime[] = getCalendarDays(
-        selectedView,
+        selectedViewValue,
         DateTime.now(),
         config.weekDayStart,
         setSelectedDate
@@ -104,7 +107,7 @@ const Calendar = (props: CalendarProps) => {
 
       setContext('calendarDays', calendarDaysNew);
 
-      setContext('width', width - getTableOffset(selectedView));
+      setContext('width', width - getTableOffset(selectedViewValue));
     }
   }, [selectedView]);
 
@@ -132,7 +135,10 @@ const Calendar = (props: CalendarProps) => {
 
   return selectedView && calendarDays?.length > 0 && selectedDate ? (
     <>
-      <CalendarDesktopNavigation setViewChanged={setViewChanged} />
+      <CalendarDesktopNavigation
+        setViewChanged={setViewChanged}
+        kalendRef={props.kalendRef}
+      />
       {selectedView !== CALENDAR_VIEW.AGENDA ? <CalendarHeader /> : null}
       <div className={'Kalend__Calendar__table'}>
         <CalendarTableLayoutLayer>

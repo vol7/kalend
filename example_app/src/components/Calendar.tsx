@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import Kalend, { CalendarView, OnEventDragFinish } from 'kalend';
 import 'kalend/dist/styles/index.css';
 
-const CalendComponent = () => {
+const CalendComponent = (props: any) => {
   const [demoEvents, setDemoEvents] = useState({});
 
   // Create and load demo events
@@ -40,6 +40,7 @@ const CalendComponent = () => {
 
   return (
     <Kalend
+      kalendRef={props.kalendRef}
       onNewEventClick={onNewEventClick}
       initialView={CalendarView.WEEK}
       disabledViews={[]}
@@ -49,6 +50,8 @@ const CalendComponent = () => {
       hourHeight={60}
       timezone={'Europe/Berlin'}
       onEventDragFinish={onEventDragFinish}
+      onStateChange={props.onStateChange}
+      selectedView={props.selectedView}
       // disableMobileDropdown={true}
     />
   );

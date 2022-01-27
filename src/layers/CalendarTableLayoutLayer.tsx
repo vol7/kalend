@@ -30,6 +30,7 @@ const CalendarTableLayoutLayer = (props: { children: any }) => {
         config,
         isMobile: store.isMobile,
         height: store.height,
+        selectedDate: store.selectedDate.toUTC().toString(),
       };
       callbacks.onStateChange(data);
     }
@@ -53,6 +54,7 @@ const CalendarTableLayoutLayer = (props: { children: any }) => {
         config,
         isMobile: store.isMobile,
         height: store.height,
+        selectedDate: store.selectedDate.toUTC().toString(),
       };
       callbacks.onStateChange(data);
     }
