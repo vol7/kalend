@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.0
+- Added support to replace built in header with custom components
+
 ## 0.7.5
 - Fixed changing date in header after switching views
 
