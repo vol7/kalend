@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.0
+- Added support to change primary colors
+
 ## 0.8.0
 - Added support to replace built in header with custom components
 
