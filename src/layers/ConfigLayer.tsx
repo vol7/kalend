@@ -93,6 +93,10 @@ const ConfigLayer = (props: KalendProps) => {
       props.initialDate ? DateTime.fromISO(props.initialDate) : DateTime.now()
     );
 
+    if (props.style) {
+      setContext('style', props.style);
+    }
+
     setIsReady(true);
   };
   useEffect(() => {

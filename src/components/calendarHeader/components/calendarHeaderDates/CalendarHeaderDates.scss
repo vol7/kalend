@@ -25,26 +25,26 @@
     height: 20px;
     width: 20px;
 
-    &-today {
-      @extend .Kalend__CalendarHeaderDates__circle-small;
-      background: $PRIMARY_LIGHT;
-
-      &-dark {
-        @extend .Kalend__CalendarHeaderDates__circle-small-today;
-        background: $PRIMARY_DARK;
-      }
-    }
+    //&-today {
+    //  @extend .Kalend__CalendarHeaderDates__circle-small;
+    //  background: $PRIMARY_LIGHT;
+    //
+    //  &-dark {
+    //    @extend .Kalend__CalendarHeaderDates__circle-small-today;
+    //    background: $PRIMARY_DARK;
+    //  }
+    //}
   }
 
-  &-today {
-    @extend .Kalend__CalendarHeaderDates__circle;
-    background: $PRIMARY_LIGHT;
-
-    &-dark {
-      @extend .Kalend__CalendarHeaderDates__circle-today;
-      background: $PRIMARY_DARK;
-    }
-  }
+  //&-today {
+  //  @extend .Kalend__CalendarHeaderDates__circle;
+  //  background: $PRIMARY_LIGHT;
+  //
+  //  &-dark {
+  //    @extend .Kalend__CalendarHeaderDates__circle-today;
+  //    background: $PRIMARY_DARK;
+  //  }
+  //}
 }
 
 
