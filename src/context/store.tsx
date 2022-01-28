@@ -4,6 +4,7 @@ import {
   Config,
   EventLayout,
   ShowMoreEvents,
+  Style,
 } from '../common/interface';
 import { DateTime } from 'luxon';
 import { createCallbacks, createConfig } from '../layers/ConfigLayer';
@@ -33,6 +34,7 @@ export interface Store {
   showMoreEvents: ShowMoreEvents | null;
   direction: CALENDAR_NAVIGATION_DIRECTION;
   translations: any;
+  style: Style;
 }
 
 export const Context: any = createContext({});
@@ -59,6 +61,11 @@ const StoreProvider = ({ children }: any) => {
     callbacks: createCallbacks({}),
     direction: CALENDAR_NAVIGATION_DIRECTION.TODAY,
     translations: en,
+    style: {
+      primaryColor: '#ec407a',
+      baseColor: '#424242FF',
+      inverseBaseColor: '#E5E5E5FF',
+    },
   };
 
   const [store, dispatch] = useReducer(Reducer, initialContext);

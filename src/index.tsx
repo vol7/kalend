@@ -9,6 +9,7 @@ import {
   OnSelectViewFunc,
   PageChangeData,
   ShowMoreMonthFunc,
+  Style,
 } from './common/interface';
 import { getNewCalendarDays } from './utils/getCalendarDays';
 import { useEffect } from 'react';
@@ -55,6 +56,7 @@ export interface KalendProps {
   customLanguage?: any;
   eventLayouts?: any;
   kalendRef?: any;
+  style?: Style;
 }
 
 const Kalend = (props: KalendProps) => {

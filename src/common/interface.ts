@@ -146,3 +146,9 @@ export interface ShowMoreEvents {
   day: DateTime;
   events: CalendarEvent[];
 }
+
+export interface Style {
+  primaryColor: string;
+  baseColor: string;
+  inverseBaseColor: string;
+}

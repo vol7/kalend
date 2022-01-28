@@ -8,7 +8,7 @@ const DateWeekDay = (props: DateWeekDayProps) => {
   const { width, day } = props;
 
   const [store] = useContext(Context);
-  const { isDark, selectedView } = store;
+  const { selectedView, style } = store;
 
   const isDayToday: boolean = LuxonHelper.isToday(day);
 
@@ -19,16 +19,20 @@ const DateWeekDay = (props: DateWeekDayProps) => {
       <div
         className={`Kalend__CalendarHeaderDates__circle${
           isMonthView ? '-small' : ''
-        }${isDayToday ? '-today' : ''}${isDark ? '-dark' : ''}`}
+        }`}
+        style={{
+          background: isDayToday ? style.primaryColor : 'transparent',
+        }}
       >
         <p
-          className={`Kalend__text Kalend__CalendarHeaderDates__text${
-            isDayToday ? '-today' : ''
-          }${isDark ? '-dark' : ''} ${
+          className={`Kalend__text Kalend__CalendarHeaderDates__text ${
             selectedView === CALENDAR_VIEW.MONTH
               ? 'Kalend__CalendarHeaderDates__text-size-small'
               : ''
           }`}
+          style={{
+            color: isDayToday ? style.inverseBaseColor : style.baseColor,
+          }}
         >
           {day.day}
         </p>

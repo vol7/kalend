@@ -21,6 +21,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         translations: action.payload,
       };
+    case 'style':
+      return {
+        ...state,
+        style: action.payload,
+      };
     case 'direction':
       return {
         ...state,
