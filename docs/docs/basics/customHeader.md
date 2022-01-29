@@ -4,8 +4,6 @@ sidebar_position: 7
 
 # Custom header
 
-If tou want to replace built in header with controllers, you can modify 
-
 If you would like to use your own calendar header, you can hide built in controls and connect your own components
 
 You can find working example in 
