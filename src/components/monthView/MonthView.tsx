@@ -2,7 +2,6 @@ import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
 
 import { CALENDAR_VIEW } from '../../common/enums';
-import { CalendarView } from '../../index';
 import { MonthViewProps } from './MonthView.props';
 import { getMonthRows } from './monthWeekRow/MonthWeekRow.utils';
 import { getSelectedViewType } from '../../utils/common';
@@ -58,7 +57,7 @@ const MonthView = (props: MonthViewProps) => {
           height,
           calendarDays,
           config: store.config,
-          selectedView: CalendarView.MONTH,
+          selectedView: CALENDAR_VIEW.MONTH,
         }).then((res: any) => {
           setContext('monthLayout', res.positions);
           setContext('monthOverflowEvents', res.overflowingEvents);
@@ -84,7 +83,7 @@ const MonthView = (props: MonthViewProps) => {
           height,
           calendarDays,
           config: store.config,
-          selectedView: CalendarView.MONTH,
+          selectedView: CALENDAR_VIEW.MONTH,
         }).then((res: any) => {
           setContext('monthLayout', res.positions);
           setContext('monthOverflowEvents', res.overflowingEvents);

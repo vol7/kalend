@@ -1,5 +1,6 @@
+import { CALENDAR_VIEW } from 'kalend-layout';
 import { Meta, Story } from '@storybook/react';
-import Kalend, { CalendarView, KalendProps } from './index';
+import Kalend, { KalendProps } from './index';
 
 export default {
   title: 'Kalend',
@@ -14,7 +15,7 @@ const Template: Story<KalendProps> = (args) => (
 
 export const Primary = Template.bind({});
 Primary.args = {
-  initialView: CalendarView.MONTH,
+  initialView: CALENDAR_VIEW.MONTH,
   // @ts-ignore
   events: {},
   // eslint-disable-next-line no-console

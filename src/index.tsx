@@ -20,6 +20,7 @@ import LanguageLayer from './layers/LanguageLayer';
 import RootLayoutLayer from './layers/RootLayoutLayer';
 import StoreProvider from './context/store';
 
+export type { CALENDAR_VIEW };
 export const CalendarView = CALENDAR_VIEW;
 export type { CalendarEvent };
 export type OnEventClickData = CalendarEvent;
@@ -57,7 +58,8 @@ export interface KalendProps {
   style?: Style;
 }
 
-const Kalend = (props: KalendProps) => {
+// use any as JSX was causing errors for some cases
+const Kalend = (props: KalendProps): any => {
   // basic validation
   useEffect(() => {
     validateProps(props);
