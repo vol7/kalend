@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.2
+- Fixed another index import, remove JSX type from main Kalend func
+
 ## 0.9.1
 - Fixed index imports
 
