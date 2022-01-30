@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.1
+- Fixed index imports
+
 ## 0.9.0
 - Added support to change primary colors
 
