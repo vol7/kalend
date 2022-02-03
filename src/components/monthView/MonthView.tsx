@@ -46,7 +46,7 @@ const MonthView = (props: MonthViewProps) => {
   const hasExternalLayout = props.eventLayouts !== undefined;
 
   useEffect(() => {
-    if (wasInit && height !== 0) {
+    if (height !== 0) {
       if (!hasExternalLayout) {
         KalendLayout({
           events,
@@ -56,6 +56,7 @@ const MonthView = (props: MonthViewProps) => {
           config: store.config,
           selectedView: CALENDAR_VIEW.MONTH,
         }).then((res: any) => {
+          setWasInit(true);
           setContext('monthLayout', res.positions);
           setContext('monthOverflowEvents', res.overflowingEvents);
           setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
@@ -72,7 +73,7 @@ const MonthView = (props: MonthViewProps) => {
   }, [height, rawWidth]);
 
   useEffect(() => {
-    if (height !== 0) {
+    if (wasInit && height !== 0) {
       if (!hasExternalLayout) {
         KalendLayout({
           events,
@@ -93,8 +94,6 @@ const MonthView = (props: MonthViewProps) => {
           setCalendarContent(content);
         });
       }
-
-      setWasInit(true);
     }
   }, [calendarDays[0], JSON.stringify(events)]);
 
