@@ -2,14 +2,13 @@
 import { CarouselProps } from './Carousel.props';
 import { EvaIcons } from '../eva-icons';
 import { useEffect, useState } from 'react';
-import { useWidth } from '../../utils/layout';
 
 const SCREEN_PORTION = 6;
 
 const Carousel = (props: CarouselProps) => {
   const [swipeAnimation, setSwipeAnimation] = useState('');
   const { onPageChange } = props;
-  const baseWidth: number = useWidth();
+  const baseWidth: number = 0;
   const [isSwiping, setSwiping] = useState(0);
   const [initTouchX, setInitTouchX] = useState(0);
   const [initTouchY, setInitTouchY] = useState(0);

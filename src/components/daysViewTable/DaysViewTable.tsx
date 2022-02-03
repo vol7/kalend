@@ -6,10 +6,8 @@ import { DaysViewTableProps } from './DaysViewTable.props';
 import {
   formatDateTimeToString,
   getSelectedViewType,
-  getTableOffset,
 } from '../../utils/common';
 import { useContext, useLayoutEffect, useState } from 'react';
-import { useHeight, useWidth } from '../../utils/layout';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import DaysViewVerticalLines from './daysViewVerticalLines/DaysViewVerticalLines';
@@ -45,10 +43,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     dispatch({ type, payload });
   };
 
-  const { isMobile, calendarDays, width, selectedView } = store;
-
-  const height = useHeight();
-  const widthHook = useWidth();
+  const { isMobile, calendarDays, width, selectedView, height } = store;
 
   const style: any = {
     paddingLeft: CALENDAR_OFFSET_LEFT,
@@ -107,7 +102,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       if (!hasExternalLayout) {
         KalendLayout({
           events,
-          width: widthHook - getTableOffset(selectedView),
+          width,
           height,
           calendarDays,
           config: store.config,
@@ -128,7 +123,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
         });
       }
     }
-  }, [widthHook]);
+  }, [width]);
 
   useLayoutEffect(() => {
     if (!hasExternalLayout) {
@@ -205,7 +200,6 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   }, [props.eventLayouts, JSON.stringify(props.eventLayouts)]);
 
   return (
-    // <Carousel onPageChange={onPageChange}>
     <div
       style={style}
       className={'Kalend__CalendarBody'}
@@ -216,7 +210,6 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       <DaysViewVerticalLines />
       {calendarContent}
     </div>
-    // </Carousel>
   );
 };
 

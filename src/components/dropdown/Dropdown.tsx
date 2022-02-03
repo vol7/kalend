@@ -1,17 +1,14 @@
 import { Context } from '../../context/store';
 import { useContext, useLayoutEffect, useState } from 'react';
-import { useHeight } from '../../utils/layout';
 import ButtonBase from '../buttonBase/ButtonBase';
 
 const Dropdown = (props: any) => {
   const [store] = useContext(Context);
 
-  const { translations } = store;
+  const { translations, height } = store;
 
   const [isVisible, setVisible] = useState(false);
   const [layout, setLayout] = useState<any>({ x: null, y: null });
-
-  const height = useHeight();
 
   const handleClick = (e: any) => {
     const { x, y } = e.nativeEvent;

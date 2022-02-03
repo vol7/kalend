@@ -2,17 +2,12 @@ import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
 import { getDaysNum } from '../../../utils/calendarDays';
-import { getHeight } from '../../../utils/layout';
 import { useContext, useEffect, useState } from 'react';
 import EventButton from '../../eventButton/EventButton';
 
 const CalendarHeaderEvents = () => {
-  const [store, dispatch] = useContext(Context);
+  const [store] = useContext(Context);
   const { selectedView, width, calendarDays } = store;
-
-  const setContext = (type: string, payload: any) => {
-    dispatch({ type, payload });
-  };
 
   const renderEvents = (data: any, sequence: number) => {
     return data?.map((item: any) => {
@@ -56,11 +51,11 @@ const CalendarHeaderEvents = () => {
     // transition: 'all 0.3s',
   };
 
-  useEffect(() => {
-    // setTimeout(() => {
-    setContext('height', getHeight());
-    // }, 600);
-  }, [store.headerEventRowsCount]);
+  // useEffect(() => {
+  //   // setTimeout(() => {
+  //   setContext('height', getHeight());
+  //   // }, 600);
+  // }, [store.headerEventRowsCount]);
 
   // useEffect(() => {
   //   // set animation

@@ -22,7 +22,6 @@ import {
 } from './EventButton.utils';
 import { onFinishDraggingInternal } from './utils/draggingGeneral';
 import { parseEventColor } from '../../utils/calendarDays';
-import { useHeight } from '../../utils/layout';
 import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
 import EventMonth from './eventMonth/EventMonth';
@@ -60,9 +59,7 @@ const EventButton = (props: EventButtonProps) => {
     dispatch({ type, payload });
   };
 
-  const { width, calendarDays, config, callbacks } = store as Store;
-
-  const heightHook: number = useHeight();
+  const { width, calendarDays, config, callbacks, height } = store as Store;
 
   const { hourHeight, isDark } = config as Config;
   const { onEventClick, onEventDragFinish } = callbacks;
@@ -189,7 +186,7 @@ const EventButton = (props: EventButtonProps) => {
       case EVENT_TYPE.MONTH:
         onMoveMonthEvent(
           e,
-          heightHook,
+          height,
           draggingRef,
           day,
           columnWidth,

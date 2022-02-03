@@ -86,6 +86,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isLoading: action.payload,
       };
+    case 'rawWidth':
+      return {
+        ...state,
+        rawWidth: action.payload,
+      };
     case 'width':
       return {
         ...state,
