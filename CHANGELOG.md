@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.4
+- Fixed loading month view
+
 ## 0.9.3
 - Refactored initial layout and resizing events
 
