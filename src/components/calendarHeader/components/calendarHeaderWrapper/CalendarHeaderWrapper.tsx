@@ -12,7 +12,7 @@ const CalendarHeaderWrapper = (props: CalendarHeaderWrapperProps) => {
 
   const headerStyle = {
     paddingLeft: isMonthView ? 0 : CALENDAR_OFFSET_LEFT,
-    width,
+    width: width,
   };
 
   return (

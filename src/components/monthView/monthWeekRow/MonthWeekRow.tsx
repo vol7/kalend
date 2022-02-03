@@ -2,7 +2,6 @@ import { Context } from '../../../context/store';
 import { EVENT_TYPE } from '../../../common/enums';
 import { MonthWeekRowProps } from './MonthWeekRow.props';
 import { useContext } from 'react';
-import { useHeight } from '../../../utils/layout';
 import CalendarHeaderDates from '../../calendarHeader/components/calendarHeaderDates/CalendarHeaderDates';
 import EventButton from '../../eventButton/EventButton';
 import MonthViewButtonMore from '../monthViewButtonMore/MonthViewButtonMore';
@@ -11,9 +10,8 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
   const { days, index, itemRows } = props;
 
   const [store] = useContext(Context);
-  const { monthLayout } = store;
+  const { monthLayout, height } = store;
 
-  const height = useHeight();
   const renderEvents = (data: any, i: number) => {
     if (!data || !data?.[i]) {
       return [];

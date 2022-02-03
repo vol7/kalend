@@ -1,6 +1,5 @@
 import { Context } from '../context/store';
 import { getTableOffset } from '../utils/common';
-import { getWidth, useWidth } from '../utils/layout';
 import { useContext, useEffect } from 'react';
 
 const DimensionsLayoutLayer = (props: { children: any }) => {
@@ -8,30 +7,89 @@ const DimensionsLayoutLayer = (props: { children: any }) => {
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
-  const { selectedView } = store;
+  const { selectedView, headerEventRowsCount } = store;
 
-  const width: any = useWidth();
-
-  // init context
   useEffect(() => {
-    setContext('width', width - getTableOffset(selectedView));
+    const el = document?.querySelector('.Kalend__Calendar__root');
 
-    if (width < 750) {
-      setContext('isMobile', true);
-    } else {
-      setContext('isMobile', false);
+    if (!el) {
+      return;
     }
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entryRect = entries[0].contentRect;
+
+      const width = entryRect.width;
+
+      if (width < 750) {
+        setContext('isMobile', true);
+      } else {
+        setContext('isMobile', false);
+      }
+
+      setContext('rawWidth', entryRect.width);
+      setContext('width', entryRect.width - getTableOffset(selectedView));
+    });
+
+    resizeObserver.observe(el);
+  }, [document?.querySelector('.Kalend__Calendar__root'), selectedView]);
+
+  useEffect(() => {
+    const el = document?.querySelector('.Kalend__Calendar__root');
+
+    if (!el) {
+      return;
+    }
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entryRect = entries[0].contentRect;
+
+      const width = entryRect.width;
+
+      if (width < 750) {
+        setContext('isMobile', true);
+      } else {
+        setContext('isMobile', false);
+      }
+
+      setContext('rawWidth', entryRect.width);
+      setContext('width', entryRect.width - getTableOffset(selectedView));
+    });
+
+    resizeObserver.observe(el);
   }, []);
 
   useEffect(() => {
-    setContext('width', getWidth() - getTableOffset(selectedView));
+    const el = document?.querySelector('.Kalend__Calendar__table');
 
-    if (width < 750) {
-      setContext('isMobile', true);
-    } else {
-      setContext('isMobile', false);
+    if (!el) {
+      return;
     }
-  }, [width]);
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entryRect = entries[0].contentRect;
+
+      setContext('height', entryRect.height);
+    });
+
+    resizeObserver.observe(el);
+  }, [
+    document?.querySelector('.Kalend__Calendar__table'),
+    selectedView,
+    headerEventRowsCount,
+  ]);
+
+  useEffect(() => {
+    const el = document?.querySelector('.Kalend__Calendar__table');
+
+    if (!el) {
+      return;
+    }
+    const resizeObserver = new ResizeObserver((entries) => {
+      const entryRect = entries[0].contentRect;
+
+      setContext('height', entryRect.height);
+    });
+
+    resizeObserver.observe(el);
+  }, []);
 
   return props.children;
 };

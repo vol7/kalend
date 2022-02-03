@@ -6,7 +6,6 @@ import { MonthViewProps } from './MonthView.props';
 import { getMonthRows } from './monthWeekRow/MonthWeekRow.utils';
 import { getSelectedViewType } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
-import { useHeight } from '../../utils/layout';
 import DaysViewVerticalLines from '../daysViewTable/daysViewVerticalLines/DaysViewVerticalLines';
 import KalendLayout from 'kalend-layout';
 import MonthWeekRow from './monthWeekRow/MonthWeekRow';
@@ -37,12 +36,10 @@ const MonthView = (props: MonthViewProps) => {
     dispatch({ type, payload });
   };
 
-  const { width, calendarDays } = store;
-
-  const height: number = useHeight();
+  const { rawWidth, calendarDays, height } = store;
 
   const style: any = {
-    width,
+    width: rawWidth,
     height: '100%',
   };
 
@@ -53,7 +50,7 @@ const MonthView = (props: MonthViewProps) => {
       if (!hasExternalLayout) {
         KalendLayout({
           events,
-          width,
+          width: rawWidth,
           height,
           calendarDays,
           config: store.config,
@@ -72,14 +69,14 @@ const MonthView = (props: MonthViewProps) => {
         });
       }
     }
-  }, [height, width]);
+  }, [height, rawWidth]);
 
   useEffect(() => {
     if (height !== 0) {
       if (!hasExternalLayout) {
         KalendLayout({
           events,
-          width,
+          width: rawWidth,
           height,
           calendarDays,
           config: store.config,

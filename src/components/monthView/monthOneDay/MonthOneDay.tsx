@@ -10,7 +10,6 @@ import {
 import { MonthOneDayProps } from './MonthOneDay.props';
 import { getBorderClassName } from './MonthOneDayUtils';
 import { parseCssDark } from '../../../utils/common';
-import { useHeight } from '../../../utils/layout';
 import ButtonBase from '../../buttonBase/ButtonBase';
 import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
@@ -18,10 +17,8 @@ import LuxonHelper from '../../../utils/luxonHelper';
 const MonthOneDay = (props: MonthOneDayProps) => {
   const { index, data, day } = props;
 
-  const height = useHeight();
-
   const [store] = useContext(Context);
-  const { isDark, selectedDate, callbacks } = store;
+  const { isDark, selectedDate, callbacks, height } = store;
   const { showMoreMonth } = callbacks;
 
   const renderEvents = (dataset: any) => {

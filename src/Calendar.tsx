@@ -3,9 +3,7 @@ import { CalendarProps } from './Calendar.props';
 import { Context, Store } from './context/store';
 import { DateTime } from 'luxon';
 import { getCalendarDays, getRange } from './utils/calendarDays';
-import { getTableOffset } from './utils/common';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { useWidth } from './utils/layout';
 import AgendaView from './components/agendaView/AgendaView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
 import CalendarHeader from './components/calendarHeader/CalendarHeader';
@@ -19,10 +17,9 @@ const Calendar = (props: CalendarProps) => {
     dispatch({ type, payload });
   };
 
-  const { selectedDate, calendarDays, selectedView, callbacks, config } =
+  const { selectedDate, calendarDays, selectedView, callbacks, config, width } =
     store as Store;
 
-  const width: any = useWidth();
   const [prevView, setPrevView] = useState('');
   const [viewChanged, setViewChanged] = useState<any>(null);
 
@@ -37,13 +34,6 @@ const Calendar = (props: CalendarProps) => {
       setContext('calendarDays', calendarDaysInitial);
     }
   }, []);
-
-  // // init context
-  // useEffect(() => {
-  //   // handle timezone and events
-  //   const eventsResult = parseAllDayEvents(props.events, timezone);
-  //   setContext('events', eventsResult);
-  // }, []);
 
   useEffect(() => {
     const viewChangedValue = props.selectedView || viewChanged;
@@ -79,7 +69,6 @@ const Calendar = (props: CalendarProps) => {
 
     setContext('calendarDays', calendarDaysNew);
 
-    setContext('width', width - getTableOffset(viewChanged));
     setPrevView(viewChangedValue);
     setViewChanged(null);
   }, [viewChanged, props.selectedView]);
@@ -106,8 +95,6 @@ const Calendar = (props: CalendarProps) => {
       );
 
       setContext('calendarDays', calendarDaysNew);
-
-      setContext('width', width - getTableOffset(selectedViewValue));
     }
   }, [selectedView]);
 
@@ -133,7 +120,7 @@ const Calendar = (props: CalendarProps) => {
     calendarDays?.[calendarDays?.length - 1],
   ]);
 
-  return selectedView && calendarDays?.length > 0 && selectedDate ? (
+  return selectedView && calendarDays?.length > 0 && selectedDate && width ? (
     <>
       <CalendarDesktopNavigation
         setViewChanged={setViewChanged}
