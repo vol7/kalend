@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.5
+- Update kalend-layout package - fixed wrong entry
+
 ## 0.9.4
 - Fixed loading month view
 
