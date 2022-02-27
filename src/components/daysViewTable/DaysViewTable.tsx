@@ -43,7 +43,7 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     dispatch({ type, payload });
   };
 
-  const { isMobile, calendarDays, width, selectedView, height } = store;
+  const { isMobile, calendarDays, width, selectedView, height, config } = store;
 
   const style: any = {
     paddingLeft: CALENDAR_OFFSET_LEFT,
@@ -151,6 +151,33 @@ const DaysViewTable = (props: DaysViewTableProps) => {
       });
     }
   }, [JSON.stringify(events)]);
+
+  useLayoutEffect(() => {
+    if (!hasExternalLayout) {
+      KalendLayout({
+        events,
+        width,
+        height,
+        calendarDays,
+        config: store.config,
+        isMobile,
+        selectedView,
+      }).then((res: any) => {
+        setContext('headerLayout', res.headerPositions);
+        setContext('headerEventRowsCount', res.headerOffsetTop);
+        setContext('daysViewLayout', res.normalPositions);
+        setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
+
+        const days: any = renderOneDay(
+          store.calendarDays,
+          res.normalPositions,
+          store.layoutUpdateSequence + 1
+        );
+
+        setCalendarContent(days);
+      });
+    }
+  }, [config.hourHeight]);
 
   useLayoutEffect(() => {
     if (!hasExternalLayout) {

@@ -74,7 +74,7 @@ export const createCallbacks = (props: KalendProps): Callbacks => {
 const ConfigLayer = (props: KalendProps) => {
   const [isReady, setIsReady] = useState(false);
 
-  const [, dispatch] = useContext(Context);
+  const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
@@ -107,13 +107,20 @@ const ConfigLayer = (props: KalendProps) => {
   useEffect(() => {
     initFromProps();
   }, [
-    props.hourHeight,
     props.timeFormat,
     props.timezone,
     // props.disabledViews, // keeps re-rendering without any change
     props.isDark,
     props.disableMobileDropdown,
   ]);
+
+  useEffect(() => {
+    const newConfig = { ...store.config };
+
+    newConfig.hourHeight = props.hourHeight;
+
+    setContext('config', newConfig);
+  }, [props.hourHeight]);
 
   useEffect(() => {
     const eventsFiltered: any = filterEventsByCalendarIDs(
