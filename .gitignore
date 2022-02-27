@@ -19,3 +19,4 @@ calend-*
 /docs/.cache-loader
 
 /example_app/scripts
+/dev.sh
