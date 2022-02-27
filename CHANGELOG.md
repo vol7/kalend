@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.6
+- Fixed resizing events on hour height change
+
 ## 0.9.5
 - Update kalend-layout package - fixed wrong entry
 
