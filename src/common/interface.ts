@@ -123,13 +123,13 @@ export interface KalendState {
 export type OnPageChangeFunc = (data: PageChangeData) => void;
 export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;
 export type OnSelectViewFunc = (view: CALENDAR_VIEW) => void;
-export type OnEventClickFunc = (data: CalendarEvent) => void;
+export type OnEventClickFunc = (data: CalendarEvent, e: any) => void;
 export type OnEventDragFinishFunc = (
   prevEvent: CalendarEvent,
   updatedEvent: CalendarEvent,
   events: any
 ) => void;
-export type OnNewEventClickFunc = (data: NewEventClickData) => void;
+export type OnNewEventClickFunc = (data: NewEventClickData, e: any) => void;
 export type OnStateChangeFunc = (data: KalendState) => void;
 
 export interface Callbacks {

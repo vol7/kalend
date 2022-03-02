@@ -99,7 +99,7 @@ const EventButton = (props: EventButtonProps) => {
     }
 
     if (onEventClick) {
-      onEventClick(event);
+      onEventClick(event, e);
     }
   };
 
