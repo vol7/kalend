@@ -72,7 +72,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       const y: number = event.clientY - rect.top;
       // Get hour from click event
       const hour: number = y / hourHeight;
-      onNewEventClick({ day: day.toJSDate(), hour, event });
+      onNewEventClick({ day: day.toJSDate(), hour, event }, event);
     }
   };
 
