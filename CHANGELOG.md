@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.7
+- Updated event click callbacks 
+
 ## 0.9.6
 - Fixed resizing events on hour height change
 
