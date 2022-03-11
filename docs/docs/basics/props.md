@@ -22,5 +22,5 @@ sidebar_position: 2
 | `weekDayStart`          | `string`                                      | Monday             | Monday or Sunday   | false    | starting date for week                                                          |
 | `timeFormat`            | `string`                                      | 24                 | 24 or 12           | false    | time format - 24 hours or 12 hours AM/PM                                        |
 | `calendarIDsHidden`     | `string[]`                                    |                    |                    | false    | ids in array will be used to filter all events with matchin calendarID property |
-| `language`              | `string`                                      | en                 | en, de, es, fr, zh | false    | translate texts to different languages                                          |
+| `language`              | `string`                                      | en                 | en, de, es, fr, ptBR, ru, zh | false    | translate texts to different languages                                          |
 | `customLanguage`        | `json`                                        |                  |  | false    | import your own translation     
