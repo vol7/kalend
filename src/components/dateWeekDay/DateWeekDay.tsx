@@ -7,15 +7,34 @@ import LuxonHelper from '../../utils/luxonHelper';
 const DateWeekDay = (props: DateWeekDayProps) => {
   const { width, day } = props;
 
-  const [store] = useContext(Context);
+  const [store, dispatch] = useContext(Context);
+  const setContext = (type: string, payload: any) => {
+    dispatch({ type, payload });
+  };
+
   const { selectedView, style } = store;
 
   const isDayToday: boolean = LuxonHelper.isToday(day);
 
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
 
+  const navigateToDay = (e: any) => {
+    if (props.setViewChanged) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      props.setViewChanged(CALENDAR_VIEW.DAY);
+      setContext('selectedDate', day);
+      setContext('calendarDays', [day]);
+    }
+  };
+
   return (
-    <div className={'Kalend__CalendarHeaderDates__col'} style={{ width }}>
+    <div
+      className={'Kalend__CalendarHeaderDates__col'}
+      style={{ width, cursor: props.setViewChanged ? 'pointer' : 'normal' }}
+      onClick={navigateToDay}
+    >
       <div
         className={`Kalend__CalendarHeaderDates__circle${
           isMonthView ? '-small' : ''

@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import CalendarHeaderDays from './calendarHeaderDays/CalendarHeaderDays';
 import CalendarHeaderEvents from './calendarHeaderEvents/CalendarHeaderEvents';
 
-const CalendarHeader = () => {
+const CalendarHeader = (props: any) => {
   const [store] = useContext(Context);
 
   const { isDark, width, selectedView } = store;
@@ -18,7 +18,11 @@ const CalendarHeader = () => {
         isDayView ? '-day' : ''
       }${isMonthView ? '-small' : ''}${isDark ? '-dark' : ''}`}
     >
-      <CalendarHeaderDays width={width} isMonthView={isMonthView} />
+      <CalendarHeaderDays
+        width={width}
+        isMonthView={isMonthView}
+        setViewChanged={props.setViewChanged}
+      />
       {!isMonthView && store.headerLayout ? <CalendarHeaderEvents /> : null}
     </div>
   );

@@ -62,7 +62,7 @@ const Calendar = (props: CalendarProps) => {
 
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChangedValue,
-      DateTime.now(),
+      selectedDate || DateTime.now(),
       config.weekDayStart,
       setSelectedDate
     );
@@ -133,6 +133,7 @@ const Calendar = (props: CalendarProps) => {
             <MonthView
               events={props.events ? props.events : []}
               eventLayouts={props.eventLayouts}
+              setViewChanged={setViewChanged}
             />
           ) : null}
 

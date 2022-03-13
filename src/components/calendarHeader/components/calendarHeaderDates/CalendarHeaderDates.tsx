@@ -29,6 +29,7 @@ const CalendarHeaderDates = (props: CalendarHeaderDatesProps) => {
           key={calendarDay.toString()}
           width={colWidth}
           day={calendarDay}
+          setViewChanged={props.setViewChanged}
         />
       );
     });
