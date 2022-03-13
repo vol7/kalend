@@ -10,6 +10,8 @@ Support for languages:
 - deutsch (de)
 - spanish (es)
 - french (fr)
+- portuguese Brazil (ptBR)
+- russian (ru)
 - chinese (zh)
 
 Usage:
