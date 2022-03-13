@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.8
+- Added navigation to day view from month view
+- Keep selected date state when switching views
+
 ## 0.9.7
 - Updated event click callbacks 
 
