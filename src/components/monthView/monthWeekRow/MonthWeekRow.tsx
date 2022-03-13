@@ -39,7 +39,11 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
   return (
     <div className={'Kalend__MonthWeekRow__container'}>
       <div className={'Kalend__MonthWeekRow__day'}>
-        <CalendarHeaderDates calendarDays={days} daysNum={7} />
+        <CalendarHeaderDates
+          calendarDays={days}
+          daysNum={7}
+          setViewChanged={props.setViewChanged}
+        />
       </div>
       <div className={'Kalend__MonthWeekRow__container-events'} style={style}>
         {events}

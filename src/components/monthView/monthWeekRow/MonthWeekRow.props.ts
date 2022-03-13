@@ -5,4 +5,5 @@ export interface MonthWeekRowProps {
   index: number;
   itemRows: any;
   sequence: number;
+  setViewChanged: any;
 }

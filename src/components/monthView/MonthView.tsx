@@ -10,7 +10,12 @@ import DaysViewVerticalLines from '../daysViewTable/daysViewVerticalLines/DaysVi
 import KalendLayout from 'kalend-layout';
 import MonthWeekRow from './monthWeekRow/MonthWeekRow';
 
-const renderOneRow = (days: DateTime[], eventRows: any, sequence: number) => {
+const renderOneRow = (
+  days: DateTime[],
+  eventRows: any,
+  sequence: number,
+  setViewChanged: any
+) => {
   const rows: DateTime[][] = getMonthRows(days);
 
   return rows.map((row: DateTime[], index: number) => {
@@ -21,6 +26,7 @@ const renderOneRow = (days: DateTime[], eventRows: any, sequence: number) => {
         index={index}
         itemRows={eventRows ? eventRows[index] : []}
         sequence={sequence}
+        setViewChanged={setViewChanged}
       />
     );
   });
@@ -64,7 +70,8 @@ const MonthView = (props: MonthViewProps) => {
           const content: any = renderOneRow(
             calendarDays,
             res.positions,
-            store.layoutUpdateSequence
+            store.layoutUpdateSequence,
+            props.setViewChanged
           );
           setCalendarContent(content);
         });
@@ -89,7 +96,8 @@ const MonthView = (props: MonthViewProps) => {
           const content: any = renderOneRow(
             calendarDays,
             res.positions,
-            store.layoutUpdateSequence
+            store.layoutUpdateSequence,
+            props.setViewChanged
           );
           setCalendarContent(content);
         });
@@ -110,7 +118,8 @@ const MonthView = (props: MonthViewProps) => {
       const content: any = renderOneRow(
         calendarDays,
         props.eventLayouts.positions,
-        store.layoutUpdateSequence
+        store.layoutUpdateSequence,
+        props.setViewChanged
       );
       setCalendarContent(content);
     }
