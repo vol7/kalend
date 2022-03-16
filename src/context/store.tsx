@@ -40,7 +40,7 @@ export interface Store {
 
 export const Context: any = createContext({});
 
-const StoreProvider = ({ children }: any) => {
+const StoreProvider = ({ children, ...props }: any) => {
   const initialContext: Store = {
     isLoading: false,
     headerEventRowsCount: 0,
@@ -59,7 +59,7 @@ const StoreProvider = ({ children }: any) => {
     monthOverflowEvents: null,
     showMoreEvents: null,
     layoutUpdateSequence: 1,
-    config: createConfig({}),
+    config: createConfig(props),
     callbacks: createCallbacks({}),
     direction: CALENDAR_NAVIGATION_DIRECTION.TODAY,
     translations: en,

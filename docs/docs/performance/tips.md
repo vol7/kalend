@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Kalend should have no problem processing few hundred events loaded at once, but if you experience any performance issues, you can try more two more advanced methods described here.
 
-**1. Pre-caulculating layouts on server**
+**1. Pre-calculating layouts on server**
 
 For layout calculations, Kalend uses separate package "kalend-layout", which can be used to pre-calculate layouts directly on the server. This could offset some load from your app, which could just load event layouts directly. Using this technic, you can even cache pages in advance.
 
