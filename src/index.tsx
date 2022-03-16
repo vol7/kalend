@@ -68,7 +68,7 @@ const Kalend = (props: KalendProps): any => {
 
   return (
     <div className={'Kalend__Calendar__root Kalend__main'}>
-      <StoreProvider>
+      <StoreProvider {...props}>
         <LanguageLayer
           language={props.language || 'en'}
           customLanguage={props.customLanguage}

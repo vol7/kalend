@@ -62,10 +62,11 @@ interface HeaderCalendarButtonsProps {
  * @constructor
  */
 const HeaderCalendarButtons = (props: HeaderCalendarButtonsProps) => {
-  const { disabledViews, setViewChanged, handleClose, isForcedMobile } = props;
+  const { setViewChanged, handleClose, isForcedMobile } = props;
   const [store] = useContext(Context);
 
-  const { isDark, isMobile, translations } = store;
+  const { isDark, isMobile, translations, config } = store;
+  const { disabledViews } = config;
 
   return isSingleView(disabledViews) ? null : (
     <div
