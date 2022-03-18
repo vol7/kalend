@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.10
+- Fixed event layout after switching views
+
 ## 0.9.9
 - Fixed bug with not working disabled views and related problems in config, thanks to @vyamashiro
 
