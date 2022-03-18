@@ -89,13 +89,13 @@ const DaysViewTable = (props: DaysViewTableProps) => {
           const days: any = renderOneDay(
             store.calendarDays,
             res.normalPositions,
-            undefined
+            store.layoutUpdateSequence + 1
           );
           setCalendarContent(days);
         });
       }
     }
-  }, [calendarDays[0]]);
+  }, [calendarDays[0], selectedView]);
 
   useLayoutEffect(() => {
     if (wasInit) {
