@@ -69,6 +69,7 @@ const Calendar = (props: CalendarProps) => {
 
     setContext('calendarDays', calendarDaysNew);
 
+    setContext('layoutUpdateSequence', store.layoutUpdateSequence + 1);
     setPrevView(viewChangedValue);
     setViewChanged(null);
   }, [viewChanged, props.selectedView]);
@@ -79,7 +80,7 @@ const Calendar = (props: CalendarProps) => {
     if (prevView === selectedViewValue) {
       return;
     }
-    if (selectedViewValue && selectedViewValue !== selectedViewValue) {
+    if (selectedViewValue && selectedViewValue !== prevView) {
       setContext('calendarDays', calendarDays[0]);
       setContext('selectedView', selectedViewValue);
       setPrevView(selectedViewValue);
