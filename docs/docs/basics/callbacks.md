@@ -24,6 +24,8 @@ Passing data for creating new event
         event: CalendarEvent;
         day: Date;
         hour: number;
+        startAt: string;
+        endAt: string;
     }
 
     const onNewEventClick = (data: OnNewEventClickData) => {

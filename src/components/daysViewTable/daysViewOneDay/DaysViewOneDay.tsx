@@ -42,8 +42,8 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
   const [offsetTop, setOffsetTop] = useState<any>(null);
   const [offsetTopEnd, setOffsetTopEnd] = useState<any>(null);
-  const [startAt, setStartAt] = useState<any>(null);
-  const [endAt, setEndAt] = useState<any>(null);
+  const [startAt, setStartAt] = useState<DateTime | null>(null);
+  const [endAt, setEndAt] = useState<DateTime | null>(null);
 
   const [isDraggingNewEvent, setIsDraggingNewEvent] = useState(false);
   const newEventStartOffset: any = useRef(null);
@@ -172,7 +172,13 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       const startValue: number = offsetTop / hourHeight;
 
       onNewEventClick(
-        { day: day.toJSDate(), hour: startValue, event, startAt, endAt },
+        {
+          day: day.toJSDate(),
+          hour: startValue,
+          event,
+          startAt: startAt?.toUTC().toString(),
+          endAt: endAt?.toUTC().toString(),
+        },
         event
       );
     }
@@ -263,8 +269,8 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
         {
           day: day.toJSDate(),
           hour,
-          startAt: startAtOnClick,
-          endAt: endAtOnClick,
+          startAt: startAtOnClick?.toUTC().toString(),
+          endAt: endAtOnClick?.toUTC().toString(),
           event,
         },
         event
