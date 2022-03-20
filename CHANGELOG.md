@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0
+- Added dragging to create new event
+- Added prop isNewEventOpen to control new event dragging element visibility 
+
 ## 0.9.10
 - Fixed event layout after switching views
 
