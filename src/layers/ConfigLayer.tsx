@@ -93,6 +93,7 @@ const ConfigLayer = (props: KalendProps) => {
       props.initialDate ? DateTime.fromISO(props.initialDate) : DateTime.now()
     );
 
+    setContext('isNewEventOpen', true);
     if (props.style) {
       setContext('style', props.style);
     }
@@ -103,6 +104,10 @@ const ConfigLayer = (props: KalendProps) => {
     initFromProps();
     setIsReady(true);
   }, []);
+
+  useEffect(() => {
+    setContext('isNewEventOpen', props.isNewEventOpen);
+  }, [props.isNewEventOpen]);
 
   useEffect(() => {
     initFromProps();

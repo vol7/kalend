@@ -16,6 +16,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isMobile: action.payload,
       };
+    case 'isNewEventOpen':
+      return {
+        ...state,
+        isNewEventOpen: action.payload,
+      };
     case 'translations':
       return {
         ...state,
