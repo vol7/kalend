@@ -45,6 +45,8 @@ export interface NewEventClickData {
   event: any;
   day: Date;
   hour: number;
+  startAt?: string;
+  endAt?: string;
 }
 
 export interface MonthViewWorkerResult {

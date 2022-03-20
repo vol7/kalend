@@ -44,6 +44,7 @@ export interface KalendProps {
   showMoreMonth?: ShowMoreMonthFunc;
   onPageChange?: OnPageChangeFunc;
   onEventDragFinish?: OnEventDragFinishFunc;
+  isNewEventOpen?: boolean;
   onStateChange?: any;
   disableMobileDropdown?: boolean;
   timezone?: string;

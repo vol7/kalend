@@ -35,6 +35,7 @@ export interface Store {
   showMoreEvents: ShowMoreEvents | null;
   direction: CALENDAR_NAVIGATION_DIRECTION;
   translations: any;
+  isNewEventOpen: boolean;
   style: Style;
 }
 
@@ -63,6 +64,7 @@ const StoreProvider = ({ children, ...props }: any) => {
     callbacks: createCallbacks({}),
     direction: CALENDAR_NAVIGATION_DIRECTION.TODAY,
     translations: en,
+    isNewEventOpen: false,
     style: {
       primaryColor: '#ec407a',
       baseColor: '#424242FF',

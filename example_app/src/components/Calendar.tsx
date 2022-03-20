@@ -16,6 +16,8 @@ const CalendComponent = (props: any) => {
     const msg = `New event click action\n\n Callback data:\n\n${JSON.stringify({
       hour: data.hour,
       day: data.day,
+      startAt: data.startAt,
+      endAt: data.endAt,
       event: 'click event ',
     })}`;
     console.log(msg);
