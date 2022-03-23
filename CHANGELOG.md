@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.10.2
+- Fix German translation, thanks to @aliesenli
+
 ## 0.10.1
 - Fix floating all day header events
 
