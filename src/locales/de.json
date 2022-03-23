@@ -3,7 +3,7 @@
     "today": "Heute",
     "agenda": "Agenda",
     "day": "Tag",
-    "threeDays": "3 Tags",
+    "threeDays": "3 Tage",
     "week": "Woche",
     "month": "Monat",
     "showMore": "Mehr"
@@ -23,12 +23,12 @@
     "december": "Dezember"
   },
   "weekDays": {
-    "Mon": "Mon",
-    "Tue": "Die",
-    "Wed": "Mit",
-    "Thu": "Don",
-    "Fri": "Fre",
-    "Sat": "Sam",
-    "Sun": "Son"
+    "Mon": "Mo",
+    "Tue": "Di",
+    "Wed": "Mi",
+    "Thu": "Do",
+    "Fri": "Fr",
+    "Sat": "Sa",
+    "Sun": "So"
   }
 }
