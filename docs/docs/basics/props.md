@@ -25,4 +25,5 @@ sidebar_position: 2
 | `language`              | `string`                                      | en                 | en, de, es, fr, ptBR, ru, zh | false    | translate texts to different languages                                          |
 | `customLanguage`        | `json`                                        |                  |  | false    | import your own translation    
 | `isNewEventOpen`        | `boolean`                                     |                  |  | false    | show/hide new event dragging element     
+| `draggingDisabledConditions`        | `object`                                      |                  |  | false    | define rules for disabling event dragging with key value object     
 
