@@ -21,10 +21,14 @@
 
   &-small {
     @extend .Kalend__CalendarHeaderDates__circle;
-    margin-top: 2px;
-    height: 20px;
-    width: 20px;
-
+    margin-top: 1px;
+    height: 20px !important;
+    width: 20px !important;
+    border-radius: 10px;
+    &:hover {
+      @extend .Kalend__CalendarHeaderDates__circle-small;
+      background-color: $GRAY_300 !important;
+    }
     //&-today {
     //  @extend .Kalend__CalendarHeaderDates__circle-small;
     //  background: $PRIMARY_LIGHT;
