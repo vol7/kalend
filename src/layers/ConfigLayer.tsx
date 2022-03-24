@@ -98,6 +98,13 @@ const ConfigLayer = (props: KalendProps) => {
       setContext('style', props.style);
     }
 
+    if (props.draggingDisabledConditions) {
+      setContext(
+        'draggingDisabledConditions',
+        props.draggingDisabledConditions
+      );
+    }
+
     setIsReady(true);
   };
   useEffect(() => {

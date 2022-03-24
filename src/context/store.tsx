@@ -2,6 +2,7 @@ import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 import {
   Callbacks,
   Config,
+  DraggingDisabledConditions,
   EventLayout,
   ShowMoreEvents,
   Style,
@@ -34,6 +35,7 @@ export interface Store {
   callbacks: Callbacks;
   showMoreEvents: ShowMoreEvents | null;
   direction: CALENDAR_NAVIGATION_DIRECTION;
+  draggingDisabledConditions: DraggingDisabledConditions | null;
   translations: any;
   isNewEventOpen: boolean;
   style: Style;
@@ -65,6 +67,7 @@ const StoreProvider = ({ children, ...props }: any) => {
     direction: CALENDAR_NAVIGATION_DIRECTION.TODAY,
     translations: en,
     isNewEventOpen: false,
+    draggingDisabledConditions: null,
     style: {
       primaryColor: '#ec407a',
       baseColor: '#424242FF',

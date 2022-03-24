@@ -1,6 +1,6 @@
 import { CALENDAR_OFFSET_LEFT, SCROLLBAR_WIDTH } from '../common/constants';
 import { CALENDAR_VIEW, TIME_FORMAT } from '../common/enums';
-import { CalendarEvent } from '../common/interface';
+import { CalendarEvent, DraggingDisabledConditions } from '../common/interface';
 import { DateTime } from 'luxon';
 import { parseToDateTime } from './dateTimeParser';
 
@@ -191,6 +191,28 @@ export const createVerticalHours = (timeFormat: TIME_FORMAT): string[] => {
       }
     }
   }
+
+  return result;
+};
+
+export const checkIfDraggable = (
+  draggingDisabledConditions: DraggingDisabledConditions | null,
+  event: CalendarEvent
+) => {
+  if (!draggingDisabledConditions) {
+    return true;
+  }
+
+  let result = true;
+
+  Object.entries(draggingDisabledConditions).forEach(([key, value]) => {
+    if (event[key]) {
+      if (event[key] === value) {
+        result = false;
+        return false;
+      }
+    }
+  });
 
   return result;
 };

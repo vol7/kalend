@@ -121,6 +121,10 @@ export interface KalendState {
   selectedDate: string;
 }
 
+export interface DraggingDisabledConditions {
+  [key: string]: boolean | string | number;
+}
+
 // functions
 export type OnPageChangeFunc = (data: PageChangeData) => void;
 export type ShowMoreMonthFunc = (data: CalendarEvent[]) => void;

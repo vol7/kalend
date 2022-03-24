@@ -16,6 +16,7 @@ import {
   calculateNewTimeWeekDay,
   onMoveNormalEvent,
 } from './utils/draggingWeek';
+import { checkIfDraggable } from '../../utils/common';
 import {
   disableTouchDragging,
   eventButtonInitialState,
@@ -59,7 +60,14 @@ const EventButton = (props: EventButtonProps) => {
     dispatch({ type, payload });
   };
 
-  const { width, calendarDays, config, callbacks, height } = store as Store;
+  const {
+    width,
+    calendarDays,
+    config,
+    callbacks,
+    height,
+    draggingDisabledConditions,
+  } = store as Store;
 
   const { hourHeight, isDark } = config as Config;
   const { onEventClick, onEventDragFinish } = callbacks;
@@ -290,6 +298,12 @@ const EventButton = (props: EventButtonProps) => {
     if (disableTouchDragging(e)) {
       return;
     }
+
+    const isDraggable = checkIfDraggable(draggingDisabledConditions, event);
+    if (!isDraggable) {
+      return;
+    }
+
     setState('isDragging', true);
     draggingRef.current = true;
 
