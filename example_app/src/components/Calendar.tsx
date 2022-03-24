@@ -51,6 +51,11 @@ const CalendComponent = (props: any) => {
       initialDate={new Date().toISOString()}
       hourHeight={60}
       timezone={'Europe/Berlin'}
+      draggingDisabledConditions={{
+        summary: 'Computers',
+        allDay: false,
+        color: 'pink',
+      }}
       onEventDragFinish={onEventDragFinish}
       onStateChange={props.onStateChange}
       selectedView={props.selectedView}
