@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.10.4
+- Added option to define rules for disabling dragging events
+
 ## 0.10.3
 - Added new event click in month view (on empty space in header) 
 
