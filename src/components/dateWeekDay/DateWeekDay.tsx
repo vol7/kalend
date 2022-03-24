@@ -12,7 +12,7 @@ const DateWeekDay = (props: DateWeekDayProps) => {
     dispatch({ type, payload });
   };
 
-  const { selectedView, style } = store;
+  const { selectedView, style, callbacks } = store;
 
   const isDayToday: boolean = LuxonHelper.isToday(day);
 
@@ -29,16 +29,32 @@ const DateWeekDay = (props: DateWeekDayProps) => {
     }
   };
 
+  const handleNewEventClick = (event: any) => {
+    if (callbacks.onNewEventClick) {
+      callbacks.onNewEventClick(
+        {
+          day: day.toJSDate(),
+          hour: day.toUTC().hour,
+          startAt: day?.startOf('day').toUTC().toString(),
+          endAt: day?.endOf('day').toUTC().toString(),
+          event,
+        },
+        event
+      );
+    }
+  };
+
   return (
     <div
       className={'Kalend__CalendarHeaderDates__col'}
       style={{ width, cursor: props.setViewChanged ? 'pointer' : 'normal' }}
-      onClick={navigateToDay}
+      onClick={handleNewEventClick}
     >
       <div
         className={`Kalend__CalendarHeaderDates__circle${
           isMonthView ? '-small' : ''
         }`}
+        onClick={navigateToDay}
         style={{
           background: isDayToday ? style.primaryColor : 'transparent',
         }}
