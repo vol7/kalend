@@ -35,9 +35,18 @@ const DateWeekDay = (props: DateWeekDayProps) => {
         {
           day: day.toJSDate(),
           hour: day.toUTC().hour,
-          startAt: day?.startOf('day').toUTC().toString(),
-          endAt: day?.endOf('day').toUTC().toString(),
+          startAt: day
+            ?.setZone(store.config.timezone)
+            .startOf('day')
+            .toUTC()
+            .toString(),
+          endAt: day
+            ?.setZone(store.config.timezone)
+            .endOf('day')
+            .toUTC()
+            .toString(),
           event,
+          view: selectedView,
         },
         event
       );
