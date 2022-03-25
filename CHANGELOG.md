@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.10.5
+- Added selected view to onNewEventClick callback
+
 ## 0.10.4
 - Added option to define rules for disabling dragging events
 
