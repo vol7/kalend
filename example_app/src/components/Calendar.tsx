@@ -18,6 +18,7 @@ const CalendComponent = (props: any) => {
       day: data.day,
       startAt: data.startAt,
       endAt: data.endAt,
+      view: data.view,
       event: 'click event ',
     })}`;
     console.log(msg);

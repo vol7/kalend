@@ -178,6 +178,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
           event,
           startAt: startAt?.toUTC().toString(),
           endAt: endAt?.toUTC().toString(),
+          view: selectedView,
         },
         event
       );
@@ -272,6 +273,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
           startAt: startAtOnClick?.toUTC().toString(),
           endAt: endAtOnClick?.toUTC().toString(),
           event,
+          view: selectedView,
         },
         event
       );
