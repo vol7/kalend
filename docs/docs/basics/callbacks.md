@@ -26,6 +26,7 @@ Passing data for creating new event
         hour: number;
         startAt: string;
         endAt: string;
+        view: string;
     }
 
     const onNewEventClick = (data: OnNewEventClickData) => {
