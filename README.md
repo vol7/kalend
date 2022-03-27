@@ -30,55 +30,65 @@ If given interface and controls is not enough for you, you can use callbacks to 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 
 # Install
-
-    npm i kalend
-
+```
+npm i kalend
+```
 # Example
 
-    import Kalend, { CalendarView } from 'kalend' // import component
-    import 'kalend/dist/styles/index.css'; // import styles
+```js
+import Kalend, { CalendarView } from 'kalend' // import component
+import 'kalend/dist/styles/index.css'; // import styles
 
-        <Kalend
-          onEventClick={onEventClick}
-          onNewEventClick={onNewEventClick}
-          events={[]}
-          initialDate={new Date().toISOString()}
-          hourHeight={60}
-          initialView={CalendarView.WEEK}
-          disabledViews={[CalendarView.DAY]}
-          onSelectView={onSelectView}
-          selectedView={selectedView}
-          onPageChange={onPageChange}
-          timeFormat={'24'}
-          weekDayStart={'Monday'}
-          calendarIDsHidden={['work']}
-          language={'en'}
-        />
+function App() {
+  return (
+    <>
+      <Kalend
+        onEventClick={onEventClick}
+        onNewEventClick={onNewEventClick}
+        events={[]}
+        initialDate={new Date().toISOString()}
+        hourHeight={60}
+        initialView={CalendarView.WEEK}
+        disabledViews={[CalendarView.DAY]}
+        onSelectView={onSelectView}
+        selectedView={selectedView}
+        onPageChange={onPageChange}
+        timeFormat={'24'}
+        weekDayStart={'Monday'}
+        calendarIDsHidden={['work']}
+        language={'en'}
+      />
+    </>
+  );
+}
+
+export default App;
+```
 
 ### Events
 
 Before passing events to calendar, adjust data to this format:
-
-    const events = [
-            {
-                id: 1,
-                startAt: '2021-11-21T18:00:00.000Z',
-                endAt: '2021-11-21T19:00:00.000Z',
-                timezoneStartAt: 'Europe/Berlin', // optional
-                summary: 'test',
-                color: 'blue',
-                calendarID: 'work'
-            },
-            {
-                id: 2,
-                startAt: '2021-11-21T18:00:00.000Z',
-                endAt: '2021-11-21T19:00:00.000Z',
-                timezoneStartAt: 'Europe/Berlin', // optional
-                summary: 'test',
-                color: 'blue',
-            }
-        ]
-
+```js
+const events = [
+    {
+        id: 1,
+        startAt: '2021-11-21T18:00:00.000Z',
+        endAt: '2021-11-21T19:00:00.000Z',
+        timezoneStartAt: 'Europe/Berlin', // optional
+        summary: 'test',
+        color: 'blue',
+        calendarID: 'work'
+    },
+    {
+        id: 2,
+        startAt: '2021-11-21T18:00:00.000Z',
+        endAt: '2021-11-21T19:00:00.000Z',
+        timezoneStartAt: 'Europe/Berlin', // optional
+        summary: 'test',
+        color: 'blue'
+    }
+]
+```
 According to your needs, you can set timezone for each event and also set default timezone with "timezone" prop in IANA format.
 If you don't provide timezone prop, your system default timezone will be used.
 
