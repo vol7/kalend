@@ -7,7 +7,7 @@ import {
   formatDateTimeToString,
   getSelectedViewType,
 } from '../../utils/common';
-import { useContext, useLayoutEffect, useState } from 'react';
+import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import CalendarBodyHours from './daysViewOneDay/calendarBodyHours/CalendarBodyHours';
 import DaysViewOneDay from './daysViewOneDay/DaysViewOneDay';
 import DaysViewVerticalLines from './daysViewVerticalLines/DaysViewVerticalLines';
@@ -51,20 +51,17 @@ const DaysViewTable = (props: DaysViewTableProps) => {
     height: '100%',
   };
 
-  // const adjustScrollPosition = () => {
-  //   const currentElement: any = document.getElementById(`Kalend__timetable`);
-  //
-  //   (currentElement.scrollTop = DateTime.now().hour * config.hourHeight) -
-  //     config.hourHeight;
-  // };
-  //
-  // useEffect(() => {
-  //   adjustScrollPosition();
-  // }, []);
+  const adjustScrollPosition = () => {
+    const currentElement: any = document.getElementById(`Kalend__timetable`);
 
-  // const onPageChange = async (isGoingForward?: boolean) => {
-  //   await getNewCalendarDays(calendarDays, selectedView, isGoingForward);
-  // };
+    const shift = config.focusHour ? config.focusHour : DateTime.now().hour;
+
+    currentElement.scrollTop = shift * config.hourHeight - config.hourHeight;
+  };
+
+  useEffect(() => {
+    adjustScrollPosition();
+  }, []);
 
   const hasExternalLayout = props.eventLayouts !== undefined;
 

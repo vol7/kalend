@@ -6,6 +6,7 @@ import { disableTouchDragging } from '../../eventButton/EventButton.utils';
 import { formatDateTimeToString, parseCssDark } from '../../../utils/common';
 import { getDaysNum } from '../../../utils/calendarDays';
 import { useContext, useEffect, useRef, useState } from 'react';
+import CurrentHourLine from '../../currentHourLine/CurrentHourLine';
 import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
 
@@ -219,7 +220,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     // add timeout to differentiate from normal clicks
     timeoutRef = setTimeout(() => {
       onMouseDownLong(e);
-    }, 120);
+    }, 100);
   };
 
   const oneDayStyle: any = {
@@ -318,6 +319,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       }
       onClick={handleEventClickInternal}
     >
+      {isToday && config.showTimeLine ? <CurrentHourLine /> : null}
       {store.daysViewLayout?.[formatDateTimeToString(day)] &&
       dataForDay &&
       dataForDay.length > 0

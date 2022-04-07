@@ -109,6 +109,8 @@ export interface Config {
   disabledViews?: CALENDAR_VIEW[];
   calendarIDsHidden?: string[] | null;
   hasExternalLayout: boolean;
+  focusHour: number | null;
+  showTimeLine: boolean;
 }
 
 export interface KalendState {

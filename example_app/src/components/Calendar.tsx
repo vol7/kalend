@@ -60,6 +60,7 @@ const CalendComponent = (props: any) => {
       onEventDragFinish={onEventDragFinish}
       onStateChange={props.onStateChange}
       selectedView={props.selectedView}
+      showTimeLine={true}
     />
   );
 };
