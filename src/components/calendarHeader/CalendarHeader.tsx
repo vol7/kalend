@@ -23,7 +23,9 @@ const CalendarHeader = (props: any) => {
         isMonthView={isMonthView}
         setViewChanged={props.setViewChanged}
       />
-      {!isMonthView && store.headerLayout ? <CalendarHeaderEvents /> : null}
+      {!isMonthView && store.headerLayout && store.headerLayout.length ? (
+        <CalendarHeaderEvents />
+      ) : null}
     </div>
   );
 };
