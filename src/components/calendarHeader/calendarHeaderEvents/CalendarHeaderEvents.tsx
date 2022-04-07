@@ -77,13 +77,10 @@ const CalendarHeaderEvents = () => {
   return (
     <div
       className={`Kalend__CalendarHeaderEvents__container`}
-      // className={`Kalend__CalendarHeaderEvents__container ${animation}`}
       style={headerStyle}
     >
       <div className={'Kalend__CalendarHeaderEvents__row'}>{daysNumbers}</div>
-      {/*<div className={`Kalend__CalendarHeaderEvents__rows ${animation}`}></div>*/}
       {headerEvents}
-      {/*<MonthViewButtonMore calendarDays={calendarDays} />*/}
     </div>
   );
 };
