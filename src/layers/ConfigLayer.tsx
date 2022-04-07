@@ -56,6 +56,8 @@ export const createConfig = (props: KalendProps): Config => {
     disabledViews: props.disabledViews,
     calendarIDsHidden: props.calendarIDsHidden || null,
     hasExternalLayout: props.eventLayouts !== undefined,
+    focusHour: props.focusHour || null,
+    showTimeLine: props.showTimeLine || false,
   };
 };
 

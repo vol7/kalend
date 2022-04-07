@@ -58,6 +58,8 @@ export interface KalendProps {
   eventLayouts?: any;
   kalendRef?: any;
   style?: Style;
+  focusHour?: number;
+  showTimeLine?: boolean;
 }
 
 // use any as JSX was causing errors for some cases

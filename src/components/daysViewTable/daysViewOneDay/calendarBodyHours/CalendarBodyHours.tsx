@@ -28,6 +28,10 @@ const renderHours = (
             'Kalend__text Kalend__CalendarBodyHours__text',
             isDark
           )}
+          style={{
+            top: parseInt(hour) * hourHeight - 4,
+            left: 10,
+          }}
         >
           {hour}
         </p>
