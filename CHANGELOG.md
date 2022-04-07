@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.11.1
+- Polished header with events
+
 ## 0.11.0
 - Added timeline for current hour (prop ```showTimeLine```)
 - Added auto-scroll to current time
