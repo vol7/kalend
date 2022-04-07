@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0
+- Added timeline for current hour (prop ```showTimeLine```)
+- Added auto-scroll to current time
+- Added prop ```focusHour``` for scrolling to selected hour
+
 ## 0.10.5
 - Added selected view to onNewEventClick callback
 
