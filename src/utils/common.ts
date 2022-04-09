@@ -186,6 +186,8 @@ export const createVerticalHours = (timeFormat: TIME_FORMAT): string[] => {
         result.push(`${i} AM`);
       } else if (i === 12) {
         result.push(`${i} PM`);
+      } else if (i === 24) {
+        result.push(`24 PM`);
       } else {
         result.push(`${i - 12} PM`);
       }
