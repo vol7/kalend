@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.11.2
+- Fixed bug with wrong layout in 12-hour format
+
 ## 0.11.1
 - Polished header with events
 
