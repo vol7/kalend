@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.12.1
+- Fixed multi day events in agenda view
+- Fixed all day text layout
+- Fixed wrong calendar days in agenda view
+
 ## 0.12.0
 - Refactored agenda view
 - Added week numbers to month and day views
