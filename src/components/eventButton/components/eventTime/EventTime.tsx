@@ -87,17 +87,27 @@ const EventTime = (props: EventTimeProps) => {
   const { config } = store as Store;
   const { timezone, timeFormat } = config as Config;
 
-  // const time: string = formatEventTime(event);
   return type === EVENT_TYPE.AGENDA && event.allDay ? (
-    <p
-      className={`Kalend__text ${parseCssDark(
-        'Kalend__Event__time',
-        isDark
-      )} Kalend__Event__time__type-${type}`}
-      style={{ width: 100.188 }}
-    >
-      All day
-    </p>
+    <>
+      <p
+        className={`Kalend__text ${parseCssDark(
+          'Kalend__Event__time',
+          isDark
+        )} Kalend__Event__time__type-${type}`}
+      >
+        All day
+      </p>
+      <p
+        style={{
+          color: 'transparent',
+          padding: 0,
+          margin: 0,
+          fontSize: '0.8em',
+        }}
+      >
+        123 12
+      </p>
+    </>
   ) : (
     normalTime(timeFormat, event, timezone, type, isDark)
   );

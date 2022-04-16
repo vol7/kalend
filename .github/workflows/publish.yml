@@ -5,27 +5,6 @@ on:
     types: [published]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - uses: szenius/set-timezone@v1.0
-        with:
-          timezoneLinux: "Europe/Vienna"
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14
-      - run: npm i
-      - run: npm ci
-      - name: Run tests
-        run: npm run test
-      - name: Build
-        run: npm run package
-
   publish-npm:
     needs: build
     runs-on: ubuntu-latest
@@ -40,6 +19,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm i
       - run: npm ci
+      - name: Run tests
+        run: npm run test
       - run: npm run package
       - run: npm publish kalend-*.tgz
         env:
