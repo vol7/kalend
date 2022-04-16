@@ -1,3 +1,4 @@
+import { CALENDAR_VIEW } from '../../../common/enums';
 import { CalendarHeaderDaysProps } from './CalendarHeaderDays.props';
 import { Context } from '../../../context/store';
 import { useContext } from 'react';
@@ -10,12 +11,28 @@ const CalendarHeaderDays = (props: CalendarHeaderDaysProps) => {
   const { isMonthView } = props;
 
   const [store] = useContext(Context);
-  const { calendarDays } = store;
+  const {
+    calendarDays,
+    selectedDate,
+    selectedView,
+    showWeekNumbers,
+    translations,
+  } = store;
 
   const daysNum: number = isMonthView ? 7 : calendarDays.length;
 
   return (
     <CalendarHeaderWrapper isMonthView={isMonthView}>
+      {!isMonthView &&
+      selectedView !== CALENDAR_VIEW.AGENDA &&
+      showWeekNumbers ? (
+        <div style={{ position: 'absolute', left: 8 }}>
+          <p className={'Kalend__WeekNumbersCol__text-weekdays'}>
+            {translations['weekShort']}
+            {selectedDate.weekNumber}
+          </p>
+        </div>
+      ) : null}
       <CalendarHeaderColText>
         <CalendarHeaderWeekDays daysNum={daysNum} days={calendarDays} />
       </CalendarHeaderColText>

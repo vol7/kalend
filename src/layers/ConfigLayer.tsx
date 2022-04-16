@@ -100,6 +100,8 @@ const ConfigLayer = (props: KalendProps) => {
       setContext('style', props.style);
     }
 
+    setContext('showWeekNumbers', props.showWeekNumbers || false);
+
     if (props.draggingDisabledConditions) {
       setContext(
         'draggingDisabledConditions',
@@ -123,6 +125,7 @@ const ConfigLayer = (props: KalendProps) => {
   }, [
     props.timeFormat,
     props.timezone,
+    props.showWeekNumbers,
     // props.disabledViews, // keeps re-rendering without any change
     props.isDark,
     props.disableMobileDropdown,

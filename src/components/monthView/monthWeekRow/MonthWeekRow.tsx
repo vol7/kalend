@@ -10,7 +10,7 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
   const { days, index, itemRows } = props;
 
   const [store] = useContext(Context);
-  const { monthLayout, height } = store;
+  const { monthLayout } = store;
 
   const renderEvents = (data: any, i: number) => {
     if (!data || !data?.[i]) {
@@ -34,10 +34,14 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
 
   const events: any = renderEvents(monthLayout, index);
 
-  const style: { height: number } = { height: height / 6 - 25 };
+  // const style: { maxHeight: number } = { maxHeight: height / 6 - 30 };
 
   return (
-    <div className={'Kalend__MonthWeekRow__container'}>
+    <div
+      className={`Kalend__MonthWeekRow__container${
+        index > 4 ? '--no-border' : ''
+      }`}
+    >
       <div className={'Kalend__MonthWeekRow__day'}>
         <CalendarHeaderDates
           calendarDays={days}
@@ -45,9 +49,7 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
           setViewChanged={props.setViewChanged}
         />
       </div>
-      <div className={'Kalend__MonthWeekRow__container-events'} style={style}>
-        {events}
-      </div>
+      <div className={'Kalend__MonthWeekRow__container-events'}>{events}</div>
       <MonthViewButtonMore calendarDays={days} />
     </div>
   );

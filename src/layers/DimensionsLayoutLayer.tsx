@@ -7,7 +7,7 @@ const DimensionsLayoutLayer = (props: { children: any }) => {
   const setContext = (type: string, payload: any) => {
     dispatch({ type, payload });
   };
-  const { selectedView, headerEventRowsCount } = store;
+  const { selectedView, headerEventRowsCount, showWeekNumbers } = store;
 
   useEffect(() => {
     const el = document?.querySelector('.Kalend__Calendar__root');
@@ -27,7 +27,10 @@ const DimensionsLayoutLayer = (props: { children: any }) => {
       }
 
       setContext('rawWidth', entryRect.width);
-      setContext('width', entryRect.width - getTableOffset(selectedView));
+      setContext(
+        'width',
+        entryRect.width - getTableOffset(selectedView, showWeekNumbers)
+      );
     });
 
     resizeObserver.observe(el);
@@ -51,7 +54,10 @@ const DimensionsLayoutLayer = (props: { children: any }) => {
       }
 
       setContext('rawWidth', entryRect.width);
-      setContext('width', entryRect.width - getTableOffset(selectedView));
+      setContext(
+        'width',
+        entryRect.width - getTableOffset(selectedView, showWeekNumbers)
+      );
     });
 
     resizeObserver.observe(el);

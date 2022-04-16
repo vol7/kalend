@@ -36,8 +36,16 @@ export const formatDateTimeToString = (dateObj: DateTime): string =>
 /**
  * Get left offset for timetable when hours column in used
  * @param calendarView
+ * @param showWeekNumbers
  */
-export const getTableOffset = (calendarView: CALENDAR_VIEW): number => {
+export const getTableOffset = (
+  calendarView: CALENDAR_VIEW,
+  showWeekNumbers?: boolean
+): number => {
+  if (calendarView === CALENDAR_VIEW.MONTH && showWeekNumbers) {
+    return 30;
+  }
+
   if (
     calendarView === CALENDAR_VIEW.THREE_DAYS ||
     calendarView === CALENDAR_VIEW.DAY ||

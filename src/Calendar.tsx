@@ -10,6 +10,7 @@ import CalendarHeader from './components/calendarHeader/CalendarHeader';
 import CalendarTableLayoutLayer from './layers/CalendarTableLayoutLayer';
 import DaysViewTable from './components/daysViewTable/DaysViewTable';
 import MonthView from './components/monthView/MonthView';
+import WeekNumbersCol from './components/weekNumbersCol/WeekNumbersCol';
 
 const Calendar = (props: CalendarProps) => {
   const [store, dispatch] = useContext(Context);
@@ -24,10 +25,16 @@ const Calendar = (props: CalendarProps) => {
   const [viewChanged, setViewChanged] = useState<any>(null);
 
   useEffect(() => {
+    const initialDate = props.initialDate
+      ? DateTime.fromISO(props.initialDate)
+      : DateTime.now();
+
+    setContext('selectedDate', initialDate);
+
     if (selectedView) {
       const calendarDaysInitial: DateTime[] = getCalendarDays(
         selectedView,
-        selectedDate,
+        initialDate,
         config.weekDayStart
       );
 
@@ -62,7 +69,7 @@ const Calendar = (props: CalendarProps) => {
 
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChangedValue,
-      selectedDate || DateTime.now(),
+      selectedDate || props.initialDate || DateTime.now(),
       config.weekDayStart,
       setSelectedDate
     );
@@ -90,7 +97,7 @@ const Calendar = (props: CalendarProps) => {
 
       const calendarDaysNew: DateTime[] = getCalendarDays(
         selectedViewValue,
-        DateTime.now(),
+        selectedDate || props.initialDate || DateTime.now(),
         config.weekDayStart,
         setSelectedDate
       );
@@ -127,34 +134,54 @@ const Calendar = (props: CalendarProps) => {
         setViewChanged={setViewChanged}
         kalendRef={props.kalendRef}
       />
-      {selectedView !== CALENDAR_VIEW.AGENDA ? <CalendarHeader /> : null}
-      <div className={'Kalend__Calendar__table'}>
-        <CalendarTableLayoutLayer>
-          {selectedView === CALENDAR_VIEW.MONTH ? (
-            <MonthView
-              events={props.events ? props.events : []}
-              eventLayouts={props.eventLayouts}
-              setViewChanged={setViewChanged}
-            />
-          ) : null}
+      {selectedView !== CALENDAR_VIEW.AGENDA &&
+      selectedView !== CALENDAR_VIEW.MONTH ? (
+        <CalendarHeader />
+      ) : null}
+      {selectedView === CALENDAR_VIEW.MONTH ? (
+        <>
+          <CalendarHeader />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            {store.showWeekNumbers ? <WeekNumbersCol /> : null}
+            <div className={'Kalend__Calendar__table'}>
+              <CalendarTableLayoutLayer>
+                <MonthView
+                  events={props.events ? props.events : []}
+                  eventLayouts={props.eventLayouts}
+                  setViewChanged={setViewChanged}
+                />
+              </CalendarTableLayoutLayer>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className={'Kalend__Calendar__table'}>
+          <CalendarTableLayoutLayer>
+            {selectedView === CALENDAR_VIEW.DAY ||
+            selectedView === CALENDAR_VIEW.THREE_DAYS ||
+            selectedView === CALENDAR_VIEW.WEEK ? (
+              <DaysViewTable
+                events={props.events ? props.events : []}
+                eventLayouts={props.eventLayouts}
+              />
+            ) : null}
 
-          {selectedView === CALENDAR_VIEW.DAY ||
-          selectedView === CALENDAR_VIEW.THREE_DAYS ||
-          selectedView === CALENDAR_VIEW.WEEK ? (
-            <DaysViewTable
-              events={props.events ? props.events : []}
-              eventLayouts={props.eventLayouts}
-            />
-          ) : null}
-
-          {selectedView === CALENDAR_VIEW.AGENDA ? (
-            <AgendaView
-              events={props.events ? props.events : []}
-              eventLayouts={props.eventLayouts}
-            />
-          ) : null}
-        </CalendarTableLayoutLayer>
-      </div>
+            {selectedView === CALENDAR_VIEW.AGENDA ? (
+              <AgendaView
+                events={props.events ? props.events : []}
+                eventLayouts={props.eventLayouts}
+              />
+            ) : null}
+          </CalendarTableLayoutLayer>
+        </div>
+      )}
     </>
   ) : null;
 };
