@@ -5,6 +5,7 @@
   flex-direction: row;
   width: 100%;
   //height: 100%;
+  border-bottom: solid $GRAY_300 0.4px;
 }
 
 .Kalend__AgendaDayRow__events {
@@ -21,6 +22,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 60px;
+  height: 53px;
   width: auto;
 }

@@ -332,7 +332,7 @@ const EventButton = (props: EventButtonProps) => {
     }, 120);
   };
 
-  return (
+  return type !== EVENT_TYPE.AGENDA ? (
     <ButtonBase
       id={event.id}
       isDark={isDark}
@@ -358,12 +358,18 @@ const EventButton = (props: EventButtonProps) => {
           meta={item.meta}
         />
       ) : null}
-      {type === EVENT_TYPE.AGENDA ? (
-        <EventAgenda event={event} isDark={isDark} type={type} />
-      ) : null}
       {type === EVENT_TYPE.SHOW_MORE_MONTH ? (
         <EventShowMoreMonth event={event} isDark={isDark} type={type} />
       ) : null}
+    </ButtonBase>
+  ) : (
+    <ButtonBase
+      id={event.id}
+      isDark={isDark}
+      className={`Kalend__Event-${type}`}
+      onClick={handleEventClick}
+    >
+      <EventAgenda event={event} isDark={isDark} type={type} />
     </ButtonBase>
   );
 };

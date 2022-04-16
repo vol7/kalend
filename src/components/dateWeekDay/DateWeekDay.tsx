@@ -66,6 +66,8 @@ const DateWeekDay = (props: DateWeekDayProps) => {
         onClick={navigateToDay}
         style={{
           background: isDayToday ? style.primaryColor : 'transparent',
+          width: 28,
+          height: 28,
         }}
       >
         <p
