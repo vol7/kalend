@@ -14,8 +14,26 @@ const EventAgenda = (props: EventAgendaProps) => {
 
   return (
     <div className={'Kalend__EventAgenda__container'}>
-      <EventSummary summary={event.summary} isDark={isDark} type={type} />
       <EventTime isDark={isDark} event={event} type={type} />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <div
+          style={{
+            width: 20,
+            height: 20,
+            borderRadius: '50%',
+            background: event.color,
+            marginLeft: 8,
+            marginRight: 8,
+          }}
+        />
+      </div>
+      <EventSummary summary={event.summary} isDark={isDark} type={type} />
     </div>
   );
 };

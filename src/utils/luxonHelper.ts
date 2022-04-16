@@ -96,6 +96,16 @@ const LuxonHelper = {
     );
   },
 
+  isTodayOrInFuture: (dateA: DateTime): boolean => {
+    const todayDate: DateTime = DateTime.local();
+
+    return (
+      dateA.day >= todayDate.day &&
+      dateA.month >= todayDate.month &&
+      dateA.year >= todayDate.year
+    );
+  },
+
   parseToString: (date: DateTime | string): string => {
     if (typeof date !== 'string') {
       if (date.isValid) {

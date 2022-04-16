@@ -53,10 +53,12 @@
 
   &-agenda {
     @extend .Kalend__Event;
-    height: 65px !important;
+    height: 55px !important;
     justify-content: flex-start;
     align-items: center;
-    margin-bottom: 12px;
+    color: $GRAY_800 !important;
+    position: relative;
+    width: 100%;
   }
 
   &-showMoreMonth {

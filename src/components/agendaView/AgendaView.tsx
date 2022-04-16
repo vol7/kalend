@@ -2,19 +2,26 @@ import { AgendaViewProps } from './AgendaView.props';
 import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
-import { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
 import { getSelectedViewType } from '../../utils/common';
 import { useContext, useEffect, useState } from 'react';
 import AgendaDayRow from './agendaDayRow/AgendaDayRow';
 import KalendLayout from 'kalend-layout';
+import LuxonHelper, { EVENTS_DAY_FORMAT } from '../../utils/luxonHelper';
 
 const renderAgendaEvents = (events: any, calendarDays: DateTime[]) => {
+  let scrollToSet = false;
   return calendarDays.map((calendarDay: DateTime) => {
     const hasEvents = !!events[calendarDay.toFormat(EVENTS_DAY_FORMAT)];
+    let scrollToThis = false;
     if (hasEvents) {
+      if (!scrollToSet && LuxonHelper.isTodayOrInFuture(calendarDay)) {
+        scrollToSet = true;
+        scrollToThis = true;
+      }
       return (
         <AgendaDayRow
           key={calendarDay.toString()}
+          scrollToThis={scrollToThis}
           day={calendarDay}
           events={events[calendarDay.toFormat(EVENTS_DAY_FORMAT)]}
         />

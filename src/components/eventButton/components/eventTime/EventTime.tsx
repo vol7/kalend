@@ -48,15 +48,15 @@ interface EventTimeProps {
   type: EVENT_TYPE;
 }
 
-const EventTime = (props: EventTimeProps) => {
-  const { isDark, event, type } = props;
-
-  const [store] = useContext(Context);
-  const { config } = store as Store;
-  const { timezone, timeFormat } = config as Config;
-
+const normalTime = (
+  timeFormat: TIME_FORMAT,
+  event: CalendarEvent,
+  timezone: string,
+  type: EVENT_TYPE,
+  isDark: boolean
+) => {
   const timeV2: any = formatEventTimeV2(event, timeFormat, timezone);
-  // const time: string = formatEventTime(event);
+
   return timeFormat === TIME_FORMAT.H_12 ? (
     <p
       className={`Kalend__text ${parseCssDark(
@@ -77,6 +77,29 @@ const EventTime = (props: EventTimeProps) => {
     >
       {timeV2.start} - {timeV2.end}
     </p>
+  );
+};
+
+const EventTime = (props: EventTimeProps) => {
+  const { isDark, event, type } = props;
+
+  const [store] = useContext(Context);
+  const { config } = store as Store;
+  const { timezone, timeFormat } = config as Config;
+
+  // const time: string = formatEventTime(event);
+  return type === EVENT_TYPE.AGENDA && event.allDay ? (
+    <p
+      className={`Kalend__text ${parseCssDark(
+        'Kalend__Event__time',
+        isDark
+      )} Kalend__Event__time__type-${type}`}
+      style={{ width: 100.188 }}
+    >
+      All day
+    </p>
+  ) : (
+    normalTime(timeFormat, event, timezone, type, isDark)
   );
 };
 
