@@ -42,10 +42,10 @@ const MonthView = (props: MonthViewProps) => {
     dispatch({ type, payload });
   };
 
-  const { rawWidth, calendarDays, height } = store;
+  const { rawWidth, width, calendarDays, height, showWeekNumbers } = store;
 
   const style: any = {
-    width: rawWidth,
+    width: showWeekNumbers ? width : rawWidth,
     height: '100%',
   };
 
@@ -56,7 +56,7 @@ const MonthView = (props: MonthViewProps) => {
       if (!hasExternalLayout) {
         KalendLayout({
           events,
-          width: rawWidth,
+          width: showWeekNumbers ? width : rawWidth,
           height,
           calendarDays,
           config: store.config,
@@ -84,7 +84,7 @@ const MonthView = (props: MonthViewProps) => {
       if (!hasExternalLayout) {
         KalendLayout({
           events,
-          width: rawWidth,
+          width: showWeekNumbers ? width : rawWidth,
           height,
           calendarDays,
           config: store.config,

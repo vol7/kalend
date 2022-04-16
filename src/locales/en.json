@@ -30,5 +30,6 @@
     "Fri": "Fri",
     "Sat": "Sat",
     "Sun": "Sun"
-  }
+  },
+  "weekShort": "W"
 }

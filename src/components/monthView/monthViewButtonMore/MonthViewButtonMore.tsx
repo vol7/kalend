@@ -87,7 +87,7 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
         display: 'flex',
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 3,
+        bottom: 1,
         left: 0,
       }}
     >

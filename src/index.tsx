@@ -60,6 +60,7 @@ export interface KalendProps {
   style?: Style;
   focusHour?: number;
   showTimeLine?: boolean;
+  showWeekNumbers?: boolean;
 }
 
 // use any as JSX was causing errors for some cases
@@ -85,6 +86,7 @@ const Kalend = (props: KalendProps): any => {
                   events={props.events}
                   eventLayouts={props.eventLayouts}
                   selectedView={props.selectedView}
+                  initialDate={props.initialDate}
                 />
               </DimensionsLayoutLayer>
             </ConfigLayer>

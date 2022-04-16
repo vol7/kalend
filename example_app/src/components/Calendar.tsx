@@ -51,6 +51,7 @@ const CalendComponent = (props: any) => {
       events={demoEvents}
       initialDate={new Date().toISOString()}
       hourHeight={60}
+      // showWeekNumbers={true}
       timezone={'Europe/Berlin'}
       draggingDisabledConditions={{
         summary: 'Computers',

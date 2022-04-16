@@ -39,6 +39,7 @@ export interface Store {
   translations: any;
   isNewEventOpen: boolean;
   style: Style;
+  showWeekNumbers: boolean;
 }
 
 export const Context: any = createContext({});
@@ -61,6 +62,7 @@ const StoreProvider = ({ children, ...props }: any) => {
     monthLayout: null,
     monthOverflowEvents: null,
     showMoreEvents: null,
+    showWeekNumbers: false,
     layoutUpdateSequence: 1,
     config: createConfig(props),
     callbacks: createCallbacks({}),

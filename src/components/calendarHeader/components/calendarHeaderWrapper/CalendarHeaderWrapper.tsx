@@ -8,11 +8,15 @@ const CalendarHeaderWrapper = (props: CalendarHeaderWrapperProps) => {
   const { children, isMonthView } = props;
 
   const [store] = useContext(Context);
-  const { width, rawWidth, isDark } = store;
+  const { width, rawWidth, isDark, showWeekNumbers } = store;
 
   const headerStyle = {
-    paddingLeft: isMonthView ? 0 : CALENDAR_OFFSET_LEFT,
-    width: isMonthView ? rawWidth : width,
+    paddingLeft: isMonthView
+      ? showWeekNumbers
+        ? 30
+        : 0
+      : CALENDAR_OFFSET_LEFT,
+    width: isMonthView && !showWeekNumbers ? rawWidth : width,
   };
 
   return (

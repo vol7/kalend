@@ -30,5 +30,6 @@
     "Fri": "Ven",
     "Sat": "Sam",
     "Sun": "Dim"
-  }
+  },
+  "weekShort": "S"
 }
