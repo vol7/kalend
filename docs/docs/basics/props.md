@@ -28,3 +28,4 @@ sidebar_position: 2
 | `draggingDisabledConditions` | `object`                                      |                    |  | false    | define rules for disabling event dragging with key value object     
 | `showTimeLine`               | `boolean`                                     | false              |  | false    | show timeline representing current time     
 `focusHour`               | `number`                                      |               |  | false    | initial focus to hour    
+`showWeekNumbers`               | `boolean`                                     |               |  | false    | show week numbers in month and day views    

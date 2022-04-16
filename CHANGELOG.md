@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.12.0
+- Refactored agenda view
+- Added week numbers to month and day views
+- Fix initialDate prop not working 
+
 ## 0.11.2
 - Fixed bug with wrong layout in 12-hour format
 
