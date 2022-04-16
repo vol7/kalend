@@ -228,7 +228,7 @@ export const calculateAgendaDays = (refDate: DateTime): DateTime[] => {
   const monthDays: DateTime[] = [];
 
   // Add missing days to month view
-  for (let i = 0; i <= daysInMonth; i += 1) {
+  for (let i = 0; i < daysInMonth; i += 1) {
     const day: DateTime = firstDayInMonth.plus({ days: i });
     monthDays.push(day);
   }
