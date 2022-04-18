@@ -32,6 +32,11 @@
     white-space: nowrap;
   }
 
+  &-showMoreMonth {
+    @extend .Kalend__Event__summary__type-month;
+  }
+
+
   &-agenda {
     padding: 8px;
     font-weight: 600;

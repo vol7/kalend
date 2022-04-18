@@ -103,6 +103,11 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
         day,
         config
       );
+
+      if (!startAtOnClick?.toUTC()?.toString()) {
+        return;
+      }
+
       const endAtOnClick = startAtOnClick.plus({ hour: 1 });
       // Get hour from click event
       const hour: number = y / hourHeight;
@@ -213,9 +218,19 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
    * @param event
    */
   const onMouseUp = (event: any) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     // clean listeners
     document.removeEventListener('mouseup', onMouseUp, true);
     document.removeEventListener('mousemove', onMove, true);
+
+    const targetClass = event.target.className;
+
+    // prevent propagating when clicking on event due to listeners
+    if (targetClass.indexOf('Kalend__Event') !== -1) {
+      return;
+    }
 
     if (!isDraggingRef.current) {
       handleEventClickInternal(event);
@@ -237,6 +252,12 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       const startValue: number = offsetTop / hourHeight;
       isUpdating.current = true;
 
+      if (!startAt?.current?.toUTC()?.toString()) {
+        isDraggingRef.current = false;
+        isUpdating.current = false;
+        return;
+      }
+
       onNewEventClick(
         {
           day: day.toJSDate(),
@@ -249,6 +270,9 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
         event
       );
     }
+
+    isDraggingRef.current = false;
+    isUpdating.current = false;
   };
 
   /**
@@ -276,10 +300,10 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isDraggingRef.current) {
-      onMouseUp(e);
-      return;
-    }
+    // if (isDraggingRef.current) {
+    //   onMouseUp(e);
+    //   return;
+    // }
 
     onMouseDownLong(e);
   };

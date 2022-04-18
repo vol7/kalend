@@ -13,6 +13,10 @@ import {
   onMoveMonthEvent,
 } from './utils/draggingMonth';
 import {
+  calculateMonthEventMoreAfterDrag,
+  onMoveMonthEventMore,
+} from './utils/draggingMonthMore';
+import {
   calculateNewTimeWeekDay,
   onMoveNormalEvent,
   onResizeNormalEvent,
@@ -28,7 +32,6 @@ import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
 import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
-import EventShowMoreMonth from './eventShowMoreMonth/EventShowMoreMonth';
 import stateReducer from '../../utils/stateReducer';
 
 // ref to cancel timout
@@ -81,11 +84,19 @@ const EventButton = (props: EventButtonProps) => {
     ? parseEventColor(event.color as string, isDark)
     : 'indigo';
 
+  const getPosition = () => {
+    if (type === EVENT_TYPE.AGENDA) {
+      return 'relative';
+    } else if (type === EVENT_TYPE.SHOW_MORE_MONTH && !draggingRef.current) {
+      return 'relative';
+    } else if (type === EVENT_TYPE.SHOW_MORE_MONTH) {
+      return 'fixed';
+    } else {
+      return 'absolute';
+    }
+  };
   const style: EventStyle = {
-    position:
-      type === EVENT_TYPE.AGENDA || type === EVENT_TYPE.SHOW_MORE_MONTH
-        ? 'relative'
-        : 'absolute',
+    position: getPosition(),
     height:
       state.height !== null ? state.height : item.height || MONTH_EVENT_HEIGHT,
     width: state.width !== null ? state.width : item.width || '100%',
@@ -131,21 +142,7 @@ const EventButton = (props: EventButtonProps) => {
   useEffect(() => {
     setLayout(item);
     setState('endAt', endAt);
-    // initEventButtonPosition(type, props.day, event, store, setLayout, index);
   }, []);
-
-  // useEffect(() => {
-  //   initEventButtonPosition(type, props.day, event, store, setLayout, index);
-  // }, [
-  //   // @ts-ignore
-  //   daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
-  //     event.id
-  //   ],
-  // ]);
-
-  // useEffect(() => {
-  //   initEventButtonPosition(type, props.day, event, store, setLayout, index);
-  // }, [store.layoutUpdateSequence]);
 
   const initMove = () => {
     if (type === EVENT_TYPE.AGENDA) {
@@ -230,6 +227,21 @@ const EventButton = (props: EventButtonProps) => {
           offsetTopRef,
           setState,
           index || 0
+        );
+        break;
+      case EVENT_TYPE.SHOW_MORE_MONTH:
+        onMoveMonthEventMore(
+          e,
+          height,
+          draggingRef,
+          day,
+          width,
+          xShiftIndexRef,
+          yShiftIndexRef,
+          eventWasChangedRef,
+          offsetLeftRef,
+          offsetTopRef,
+          setState
         );
         break;
       default:
@@ -317,9 +329,15 @@ const EventButton = (props: EventButtonProps) => {
           event,
           xShiftIndexRef
         );
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
       } else if (type === EVENT_TYPE.MONTH) {
         newEvent = calculateMonthEventAfterDrag(
+          calendarDays,
+          yShiftIndexRef,
+          xShiftIndexRef,
+          event
+        );
+      } else if (type === EVENT_TYPE.SHOW_MORE_MONTH) {
+        newEvent = calculateMonthEventMoreAfterDrag(
           calendarDays,
           yShiftIndexRef,
           xShiftIndexRef,
@@ -348,8 +366,6 @@ const EventButton = (props: EventButtonProps) => {
       return;
     }
 
-    isResizing.current = true;
-
     const isDraggable = checkIfDraggable(draggingDisabledConditions, event);
     if (!isDraggable) {
       return;
@@ -357,6 +373,8 @@ const EventButton = (props: EventButtonProps) => {
 
     e.preventDefault();
     e.stopPropagation();
+
+    isResizing.current = true;
 
     if (e.button !== 0) return;
     document.addEventListener('mousemove', onResize, true);
@@ -411,61 +429,63 @@ const EventButton = (props: EventButtonProps) => {
   };
 
   return type !== EVENT_TYPE.AGENDA ? (
-    <>
-      {isResizing.current ? (
-        <div className={'Kalend__EventButton__resizing_wrapper'} />
+    <ButtonBase
+      id={event.id}
+      isDark={isDark}
+      style={style}
+      className={`Kalend__Event-${type} ${
+        state.isDragging ? 'Kalend__EventButton__elevation' : ''
+      }`}
+      onClick={handleEventClick}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      // onTouchStart={onMouseDown}
+      // onTouchMove={onMove}
+      // onTouchEnd={onMouseUp}
+    >
+      {type === EVENT_TYPE.MONTH ||
+      type === EVENT_TYPE.HEADER ||
+      type === EVENT_TYPE.SHOW_MORE_MONTH ? (
+        <EventMonth event={event} isDark={isDark} type={type} />
       ) : null}
-      <ButtonBase
-        id={event.id}
-        isDark={isDark}
-        style={style}
-        className={`Kalend__Event-${type} ${
-          state.isDragging ? 'Kalend__EventButton__elevation' : ''
-        }`}
-        onClick={handleEventClick}
-        onMouseDown={onMouseDown}
-        onMouseUp={onMouseUp}
-        // onTouchStart={onMouseDown}
-        // onTouchMove={onMove}
-        // onTouchEnd={onMouseUp}
-      >
-        {type === EVENT_TYPE.MONTH || type === EVENT_TYPE.HEADER ? (
-          <EventMonth event={event} isDark={isDark} type={type} />
-        ) : null}
-        {type === EVENT_TYPE.NORMAL ? (
-          <EventNormal
-            event={event}
-            isDark={isDark}
-            type={type}
-            meta={item.meta}
-            endAt={state.endAt}
-          />
-        ) : null}
-        {type === EVENT_TYPE.SHOW_MORE_MONTH ? (
-          <EventShowMoreMonth event={event} isDark={isDark} type={type} />
-        ) : null}
-        {type === EVENT_TYPE.NORMAL ? (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              height: 5,
-              width: '100%',
-              background: 'transparent',
-              zIndex: isResizing.current ? 999 : 9,
-              cursor: 'n-resize',
-            }}
-            onClick={(e: any) => {
-              e.preventDefault();
-              e.stopPropagation();
-              isResizing.current = true;
-            }}
-            onMouseDown={onMouseDownResize}
-            onMouseUp={onMouseUpResize}
-          />
-        ) : null}
-      </ButtonBase>
-    </>
+      {type === EVENT_TYPE.NORMAL ? (
+        <EventNormal
+          event={event}
+          isDark={isDark}
+          type={type}
+          meta={item.meta}
+          endAt={state.endAt}
+        />
+      ) : null}
+      {isResizing.current ? (
+        <div
+          className={'Kalend__EventButton__resizing_wrapper'}
+          onClick={() => {
+            isResizing.current = false;
+          }}
+        />
+      ) : null}
+      {type === EVENT_TYPE.NORMAL ? (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            height: 5,
+            width: '100%',
+            background: 'transparent',
+            zIndex: isResizing.current ? 999 : 9,
+            cursor: 'n-resize',
+          }}
+          onClick={(e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
+            isResizing.current = true;
+          }}
+          onMouseDown={onMouseDownResize}
+          onMouseUp={onMouseUpResize}
+        />
+      ) : null}
+    </ButtonBase>
   ) : (
     <ButtonBase
       id={event.id}

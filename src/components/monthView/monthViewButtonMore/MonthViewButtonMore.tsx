@@ -39,6 +39,7 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
             onClick={() => handleClick(calendarDay, events)}
             width={colWidth}
             key={calendarDay.toString()}
+            day={calendarDay}
           >
             <>
               <h6

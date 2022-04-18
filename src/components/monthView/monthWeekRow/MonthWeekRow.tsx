@@ -16,7 +16,6 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
     if (!data || !data?.[i]) {
       return [];
     }
-
     return itemRows.map((item: any) => {
       return (
         <EventButton
