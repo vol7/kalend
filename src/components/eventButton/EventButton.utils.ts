@@ -34,6 +34,7 @@ export interface EventButtonInitialState {
   border: string;
   meta: any;
   isDragging: boolean;
+  endAt: string | undefined;
 }
 
 export const eventButtonInitialState: EventButtonInitialState = {
@@ -50,6 +51,7 @@ export const eventButtonInitialState: EventButtonInitialState = {
   border: '',
   meta: {},
   isDragging: false,
+  endAt: undefined,
 };
 
 export const initEventButtonPosition = (

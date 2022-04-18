@@ -21,7 +21,8 @@ const parseTimeFormat = (day: DateTime, timeFormat: TIME_FORMAT): string => {
 const formatEventTimeV2 = (
   event: CalendarEvent,
   timeFormat: TIME_FORMAT,
-  timezone?: string
+  timezone?: string,
+  endAtState?: string
 ): { start: string; end: string } => {
   const { startAt, endAt, timezoneStartAt } = event;
 
@@ -31,7 +32,7 @@ const formatEventTimeV2 = (
     timezone
   );
   const endAtDateTime: DateTime = parseToDateTime(
-    endAt,
+    endAtState || endAt,
     timezoneStartAt,
     timezone
   );
@@ -46,6 +47,7 @@ interface EventTimeProps {
   isDark: boolean;
   event: CalendarEvent;
   type: EVENT_TYPE;
+  endAt?: string;
 }
 
 const normalTime = (
@@ -53,9 +55,10 @@ const normalTime = (
   event: CalendarEvent,
   timezone: string,
   type: EVENT_TYPE,
-  isDark: boolean
+  isDark: boolean,
+  endAt?: string
 ) => {
-  const timeV2: any = formatEventTimeV2(event, timeFormat, timezone);
+  const timeV2: any = formatEventTimeV2(event, timeFormat, timezone, endAt);
 
   return timeFormat === TIME_FORMAT.H_12 ? (
     <p
@@ -81,7 +84,7 @@ const normalTime = (
 };
 
 const EventTime = (props: EventTimeProps) => {
-  const { isDark, event, type } = props;
+  const { isDark, event, type, endAt } = props;
 
   const [store] = useContext(Context);
   const { config } = store as Store;
@@ -109,7 +112,7 @@ const EventTime = (props: EventTimeProps) => {
       </p>
     </>
   ) : (
-    normalTime(timeFormat, event, timezone, type, isDark)
+    normalTime(timeFormat, event, timezone, type, isDark, endAt)
   );
 };
 

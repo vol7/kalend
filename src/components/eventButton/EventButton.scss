@@ -63,12 +63,15 @@
 
   &-showMoreMonth {
     @extend .Kalend__Event-month;
-    height: 20px !important;
+    height: 17px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    padding-left: 1px !important;
     //width: 100%;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 4px;
-    padding: 2px;
+    //justify-content: flex-start;
+    //align-items: center;
+    margin-bottom: 2px !important;
+    //padding: 2px;
   }
 }
 
@@ -76,6 +79,17 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4) !important;
   z-index: 9999 !important;
   cursor: grab !important;
+}
+
+.Kalend__EventButton__resizing_wrapper {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: transparent;
+  z-index: 99;
+  cursor: n-resize;
 }
 
 @keyframes Kalend__EventDetailHeader_animationShow {

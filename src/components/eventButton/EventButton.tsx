@@ -13,8 +13,13 @@ import {
   onMoveMonthEvent,
 } from './utils/draggingMonth';
 import {
+  calculateMonthEventMoreAfterDrag,
+  onMoveMonthEventMore,
+} from './utils/draggingMonthMore';
+import {
   calculateNewTimeWeekDay,
   onMoveNormalEvent,
+  onResizeNormalEvent,
 } from './utils/draggingWeek';
 import { checkIfDraggable } from '../../utils/common';
 import {
@@ -27,7 +32,6 @@ import ButtonBase from '../buttonBase/ButtonBase';
 import EventAgenda from './eventAgenda/EventAgenda';
 import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
-import EventShowMoreMonth from './eventShowMoreMonth/EventShowMoreMonth';
 import stateReducer from '../../utils/stateReducer';
 
 // ref to cancel timout
@@ -36,7 +40,7 @@ let timeoutRef: any;
 const EventButton = (props: EventButtonProps) => {
   const { item, type, day = DateTime.now(), index } = props;
   const { event } = item;
-  const { startAt } = event;
+  const { startAt, endAt } = event;
 
   const [state, dispatchState]: any = useReducer(
     stateReducer,
@@ -53,7 +57,9 @@ const EventButton = (props: EventButtonProps) => {
   const xShiftIndexRef = useRef(0);
   const yShiftIndexRef = useRef(0);
   const draggingRef = useRef(false);
+  const isResizing = useRef(false);
   const eventWasChangedRef = useRef(false);
+  const endAtRef = useRef(null);
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -78,11 +84,19 @@ const EventButton = (props: EventButtonProps) => {
     ? parseEventColor(event.color as string, isDark)
     : 'indigo';
 
+  const getPosition = () => {
+    if (type === EVENT_TYPE.AGENDA) {
+      return 'relative';
+    } else if (type === EVENT_TYPE.SHOW_MORE_MONTH && !draggingRef.current) {
+      return 'relative';
+    } else if (type === EVENT_TYPE.SHOW_MORE_MONTH) {
+      return 'fixed';
+    } else {
+      return 'absolute';
+    }
+  };
   const style: EventStyle = {
-    position:
-      type === EVENT_TYPE.AGENDA || type === EVENT_TYPE.SHOW_MORE_MONTH
-        ? 'relative'
-        : 'absolute',
+    position: getPosition(),
     height:
       state.height !== null ? state.height : item.height || MONTH_EVENT_HEIGHT,
     width: state.width !== null ? state.width : item.width || '100%',
@@ -127,21 +141,8 @@ const EventButton = (props: EventButtonProps) => {
 
   useEffect(() => {
     setLayout(item);
-    // initEventButtonPosition(type, props.day, event, store, setLayout, index);
+    setState('endAt', endAt);
   }, []);
-
-  // useEffect(() => {
-  //   initEventButtonPosition(type, props.day, event, store, setLayout, index);
-  // }, [
-  //   // @ts-ignore
-  //   daysViewLayout?.[formatDateTimeToString(props.day || DateTime.now())]?.[
-  //     event.id
-  //   ],
-  // ]);
-
-  // useEffect(() => {
-  //   initEventButtonPosition(type, props.day, event, store, setLayout, index);
-  // }, [store.layoutUpdateSequence]);
 
   const initMove = () => {
     if (type === EVENT_TYPE.AGENDA) {
@@ -156,6 +157,26 @@ const EventButton = (props: EventButtonProps) => {
       setState('width', columnWidth - EVENT_TABLE_DELIMITER_SPACE);
       setState('offsetLeft', 0);
     }
+  };
+
+  const onResize = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (disableTouchDragging(e)) {
+      return;
+    }
+
+    isResizing.current = true;
+
+    onResizeNormalEvent(
+      e,
+      endAtRef,
+      day,
+      config,
+      state.offsetTop,
+      state.height,
+      setState
+    );
   };
 
   const onMove = (e: any) => {
@@ -208,9 +229,54 @@ const EventButton = (props: EventButtonProps) => {
           index || 0
         );
         break;
+      case EVENT_TYPE.SHOW_MORE_MONTH:
+        onMoveMonthEventMore(
+          e,
+          height,
+          draggingRef,
+          day,
+          width,
+          xShiftIndexRef,
+          yShiftIndexRef,
+          eventWasChangedRef,
+          offsetLeftRef,
+          offsetTopRef,
+          setState
+        );
+        break;
       default:
         return;
     }
+  };
+
+  const onMouseUpResize = (e: any) => {
+    // clean listeners
+    document.removeEventListener('mouseup', onMouseUpResize, true);
+    document.removeEventListener('mousemove', onResize, true);
+
+    // add data to callback
+    if (onEventDragFinish) {
+      if (type === EVENT_TYPE.NORMAL) {
+        const updatedEvent = {
+          ...event,
+          endAt: endAtRef.current || state.endAt,
+        };
+        const result: any = store.events?.map((item: any) => {
+          if (item.id === updatedEvent.id) {
+            return updatedEvent;
+          } else {
+            return item;
+          }
+        });
+
+        onEventDragFinish(event, updatedEvent, result);
+      }
+    }
+
+    endAtRef.current = null;
+    isResizing.current = false;
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   /**
@@ -263,9 +329,15 @@ const EventButton = (props: EventButtonProps) => {
           event,
           xShiftIndexRef
         );
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
       } else if (type === EVENT_TYPE.MONTH) {
         newEvent = calculateMonthEventAfterDrag(
+          calendarDays,
+          yShiftIndexRef,
+          xShiftIndexRef,
+          event
+        );
+      } else if (type === EVENT_TYPE.SHOW_MORE_MONTH) {
+        newEvent = calculateMonthEventMoreAfterDrag(
           calendarDays,
           yShiftIndexRef,
           xShiftIndexRef,
@@ -287,6 +359,26 @@ const EventButton = (props: EventButtonProps) => {
 
     e.preventDefault();
     e.stopPropagation();
+  };
+
+  const onMouseDownResize = (e: any) => {
+    if (disableTouchDragging(e) || !onEventDragFinish) {
+      return;
+    }
+
+    const isDraggable = checkIfDraggable(draggingDisabledConditions, event);
+    if (!isDraggable) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    isResizing.current = true;
+
+    if (e.button !== 0) return;
+    document.addEventListener('mousemove', onResize, true);
+    document.addEventListener('mouseup', onMouseUpResize, true);
   };
 
   /**
@@ -326,6 +418,10 @@ const EventButton = (props: EventButtonProps) => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (isResizing.current) {
+      return;
+    }
+
     // add timeout to differentiate from normal clicks
     timeoutRef = setTimeout(() => {
       onMouseDownLong(e);
@@ -343,11 +439,13 @@ const EventButton = (props: EventButtonProps) => {
       onClick={handleEventClick}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
-      onTouchStart={onMouseDown}
-      onTouchMove={onMove}
-      onTouchEnd={onMouseUp}
+      // onTouchStart={onMouseDown}
+      // onTouchMove={onMove}
+      // onTouchEnd={onMouseUp}
     >
-      {type === EVENT_TYPE.MONTH || type === EVENT_TYPE.HEADER ? (
+      {type === EVENT_TYPE.MONTH ||
+      type === EVENT_TYPE.HEADER ||
+      type === EVENT_TYPE.SHOW_MORE_MONTH ? (
         <EventMonth event={event} isDark={isDark} type={type} />
       ) : null}
       {type === EVENT_TYPE.NORMAL ? (
@@ -356,10 +454,36 @@ const EventButton = (props: EventButtonProps) => {
           isDark={isDark}
           type={type}
           meta={item.meta}
+          endAt={state.endAt}
         />
       ) : null}
-      {type === EVENT_TYPE.SHOW_MORE_MONTH ? (
-        <EventShowMoreMonth event={event} isDark={isDark} type={type} />
+      {isResizing.current ? (
+        <div
+          className={'Kalend__EventButton__resizing_wrapper'}
+          onClick={() => {
+            isResizing.current = false;
+          }}
+        />
+      ) : null}
+      {type === EVENT_TYPE.NORMAL ? (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            height: 5,
+            width: '100%',
+            background: 'transparent',
+            zIndex: isResizing.current ? 999 : 9,
+            cursor: 'n-resize',
+          }}
+          onClick={(e: any) => {
+            e.preventDefault();
+            e.stopPropagation();
+            isResizing.current = true;
+          }}
+          onMouseDown={onMouseDownResize}
+          onMouseUp={onMouseUpResize}
+        />
       ) : null}
     </ButtonBase>
   ) : (

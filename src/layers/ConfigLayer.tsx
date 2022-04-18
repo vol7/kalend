@@ -44,9 +44,23 @@ const parseWeekDayStart = (
   }
 };
 
+const parseHourHeight = (hourHeightOrigin: number) => {
+  const remainder = hourHeightOrigin % 4;
+
+  if (remainder === 0) {
+    return hourHeightOrigin;
+  }
+
+  const result = hourHeightOrigin - remainder;
+
+  return result >= 10 ? result : DEFAULT_HOUR_HEIGHT;
+};
+
 export const createConfig = (props: KalendProps): Config => {
   return {
-    hourHeight: props.hourHeight || DEFAULT_HOUR_HEIGHT,
+    hourHeight: props.hourHeight
+      ? parseHourHeight(props.hourHeight)
+      : DEFAULT_HOUR_HEIGHT,
     timeFormat: parseTimeFormat(props.timeFormat) || TIME_FORMAT.H_24,
     timezone:
       props.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -134,7 +148,9 @@ const ConfigLayer = (props: KalendProps) => {
   useEffect(() => {
     const newConfig = { ...store.config };
 
-    newConfig.hourHeight = props.hourHeight;
+    if (props.hourHeight) {
+      newConfig.hourHeight = parseHourHeight(props.hourHeight);
+    }
 
     setContext('config', newConfig);
   }, [props.hourHeight]);

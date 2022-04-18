@@ -1,4 +1,4 @@
-import { CalendarEvent } from '../../../common/interface';
+import { CalendarEvent, Config } from '../../../common/interface';
 import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
@@ -9,9 +9,6 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import CurrentHourLine from '../../currentHourLine/CurrentHourLine';
 import EventButton from '../../eventButton/EventButton';
 import LuxonHelper from '../../../utils/luxonHelper';
-
-// ref to cancel timout
-let timeoutRef: any;
 
 const renderEvents = (dataset: any[], day: DateTime) => {
   return dataset.map((eventRaw: any) => {
@@ -28,6 +25,32 @@ const renderEvents = (dataset: any[], day: DateTime) => {
   });
 };
 
+export const HOUR_DIVIDER = 4;
+
+export const getDateFromPosition = (
+  value: number,
+  day: DateTime,
+  config: Config
+): DateTime => {
+  let stringValue = String(value);
+
+  stringValue = stringValue.includes('.') ? stringValue : `${stringValue}.0`;
+
+  const [hourStart, minuteStart] = stringValue.split('.');
+
+  return day
+    .set({
+      hour: Number(hourStart),
+      minute: Number(`0.${minuteStart}`) * 60,
+      second: 0,
+      millisecond: 0,
+    })
+    .setZone(config.timezone);
+};
+
+export const getHourHeightPartialUnit = (config: Config) =>
+  Number((config.hourHeight / HOUR_DIVIDER).toFixed(0));
+
 interface DaysViewOneDayProps {
   key: string;
   day: DateTime;
@@ -43,33 +66,17 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
   const [offsetTop, setOffsetTop] = useState<any>(null);
   const [offsetTopEnd, setOffsetTopEnd] = useState<any>(null);
-  const [startAt, setStartAt] = useState<DateTime | null>(null);
-  const [endAt, setEndAt] = useState<DateTime | null>(null);
+  const startAt: any = useRef(null);
+  const endAt: any = useRef(null);
+  const [startAtState, setStartAt] = useState<DateTime | null>(null);
+  const [endAtState, setEndAt] = useState<DateTime | null>(null);
 
-  const [isDraggingNewEvent, setIsDraggingNewEvent] = useState(false);
+  // const [isDraggingNewEvent, setIsDraggingNewEvent] = useState(false);
   const newEventStartOffset: any = useRef(null);
   const newEventEndOffset: any = useRef(null);
   const startAtRef: any = useRef(null);
-
-  const getHourHeightPartialUnit = () =>
-    Number((config.hourHeight / 2).toFixed(0));
-
-  const getDateFromPosition = (value: number): DateTime => {
-    let stringValue = String(value);
-
-    stringValue = stringValue.includes('.') ? stringValue : `${stringValue}.0`;
-
-    const [hourStart, minuteStart] = stringValue.split('.');
-
-    return day
-      .set({
-        hour: Number(hourStart),
-        minute: Number(`0.${minuteStart}`) * 60,
-        second: 0,
-        millisecond: 0,
-      })
-      .setZone(config.timezone);
-  };
+  const isDraggingRef: any = useRef(null);
+  const isUpdating: any = useRef(false);
 
   const style: any = {
     position: 'absolute',
@@ -82,7 +89,46 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     opacity: 0.8,
   };
 
+  const handleEventClickInternal = (event: any) => {
+    if (isDraggingRef.current || isUpdating.current) {
+      return;
+    }
+
+    if (onNewEventClick) {
+      const rect: { top: number } = event.target.getBoundingClientRect();
+      const y: number = event.clientY - rect.top;
+
+      const startAtOnClick = getDateFromPosition(
+        Number((y / hourHeight).toFixed(0)),
+        day,
+        config
+      );
+
+      if (!startAtOnClick?.toUTC()?.toString()) {
+        return;
+      }
+
+      const endAtOnClick = startAtOnClick.plus({ hour: 1 });
+      // Get hour from click event
+      const hour: number = y / hourHeight;
+      onNewEventClick(
+        {
+          day: day.toJSDate(),
+          hour,
+          startAt: startAtOnClick?.toUTC().toString(),
+          endAt: endAtOnClick?.toUTC().toString(),
+          event,
+          view: selectedView,
+        },
+        event
+      );
+    }
+  };
+
   const onMove = (e: any) => {
+    isDraggingRef.current = true;
+    // setIsDraggingNewEvent(true);
+
     e.preventDefault();
     e.stopPropagation();
 
@@ -106,47 +152,64 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       y = e.clientY - dayElementRect.top;
     }
 
+    // initial dragging
     if (newEventStartOffset.current === null) {
-      const yString = (y / getHourHeightPartialUnit()).toFixed(0).split('.');
-      let yValue = Number(yString[0]) * getHourHeightPartialUnit();
-      if (Number(yString[1]) > config.hourHeight / 2) {
-        yValue = yValue + config.hourHeight / 2;
-      }
+      const yString = (y / getHourHeightPartialUnit(config))
+        .toFixed(0)
+        .split('.');
+      const yValue = Number(yString[0]) * getHourHeightPartialUnit(config);
       setOffsetTop(yValue);
-      setOffsetTopEnd(yValue + config.hourHeight / 2);
-      newEventStartOffset.current = yValue;
-      newEventEndOffset.current = yValue + config.hourHeight / 2;
+      const startAtValue = getDateFromPosition(
+        yValue / hourHeight,
+        day,
+        config
+      );
+      startAtRef.current = startAtValue;
+      startAt.current = startAtValue;
+      setStartAt(startAtValue);
 
-      const startAtValue = getDateFromPosition(yValue / hourHeight);
+      setOffsetTop(yValue);
+      setOffsetTopEnd(yValue);
+      newEventStartOffset.current = yValue;
+      newEventEndOffset.current = yValue;
 
       startAtRef.current = startAtValue;
-      setStartAt(startAtValue);
-      setEndAt(startAtValue.plus({ minute: 30 }));
+      endAt.current = startAtValue;
+      setEndAt(startAtValue);
+
       return;
     }
 
-    const yStringEndValue = (y / getHourHeightPartialUnit())
+    // handle dragging up
+    if (newEventStartOffset.current && y < newEventStartOffset.current) {
+      const yString = (y / getHourHeightPartialUnit(config))
+        .toFixed(0)
+        .split('.');
+
+      const yValue = Number(yString[0]) * getHourHeightPartialUnit(config);
+      setOffsetTop(yValue);
+      const startAtValue = getDateFromPosition(
+        yValue / hourHeight,
+        day,
+        config
+      );
+
+      startAtRef.current = startAtValue;
+      startAt.current = startAtValue;
+      setStartAt(startAtValue);
+      return;
+    }
+
+    // handle dragging down
+    const yString = (y / getHourHeightPartialUnit(config))
       .toFixed(0)
       .split('.');
-    let yValueEnd = Number(yStringEndValue[0]) * getHourHeightPartialUnit();
-    if (Number(yStringEndValue[1]) > config.hourHeight / 2) {
-      yValueEnd = yValueEnd + config.hourHeight / 2;
-    }
-    const endValueNew = getDateFromPosition(yValueEnd / hourHeight);
+    const yValue = Number(yString[0]) * getHourHeightPartialUnit(config);
+    setOffsetTopEnd(yValue);
 
-    if (endValueNew.minute % 30 !== 0) {
-      newEventEndOffset.current = y;
-      setOffsetTopEnd(y);
-      return;
-    }
-    // restrict draggable space for timetable
-    if (y < config.hourHeight / 2) {
-      return;
-    }
-
-    newEventEndOffset.current = y;
-    setOffsetTopEnd(y);
-    setEndAt(endValueNew);
+    const endAtValue = getDateFromPosition(yValue / hourHeight, day, config);
+    endAt.current = endAtValue;
+    setEndAt(endAtValue);
   };
 
   /**
@@ -155,12 +218,24 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
    * @param event
    */
   const onMouseUp = (event: any) => {
+    event.stopPropagation();
+    event.preventDefault();
+
     // clean listeners
     document.removeEventListener('mouseup', onMouseUp, true);
     document.removeEventListener('mousemove', onMove, true);
 
-    // clear timeout
-    clearTimeout(timeoutRef);
+    const targetClass = event.target.className;
+
+    // prevent propagating when clicking on event due to listeners
+    if (targetClass.indexOf('Kalend__Event') !== -1) {
+      return;
+    }
+
+    if (!isDraggingRef.current) {
+      handleEventClickInternal(event);
+      return;
+    }
 
     // correct layout with actual value from endAt date
     if (endAt) {
@@ -169,21 +244,35 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       setOffsetTopEnd(correctedValue);
     }
 
-    if (onNewEventClick && isDraggingNewEvent) {
+    if (isUpdating.current) {
+      return;
+    }
+
+    if (onNewEventClick && isDraggingRef.current) {
       const startValue: number = offsetTop / hourHeight;
+      isUpdating.current = true;
+
+      if (!startAt?.current?.toUTC()?.toString()) {
+        isDraggingRef.current = false;
+        isUpdating.current = false;
+        return;
+      }
 
       onNewEventClick(
         {
           day: day.toJSDate(),
           hour: startValue,
           event,
-          startAt: startAt?.toUTC().toString(),
-          endAt: endAt?.toUTC().toString(),
+          startAt: startAt.current?.toUTC().toString(),
+          endAt: endAt.current?.toUTC().toString(),
           view: selectedView,
         },
         event
       );
     }
+
+    isDraggingRef.current = false;
+    isUpdating.current = false;
   };
 
   /**
@@ -195,7 +284,6 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     if (disableTouchDragging(e)) {
       return;
     }
-    setIsDraggingNewEvent(true);
     e.preventDefault();
     e.stopPropagation();
 
@@ -212,15 +300,12 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (isDraggingNewEvent) {
-      onMouseUp(e);
-      return;
-    }
+    // if (isDraggingRef.current) {
+    //   onMouseUp(e);
+    //   return;
+    // }
 
-    // add timeout to differentiate from normal clicks
-    timeoutRef = setTimeout(() => {
-      onMouseDownLong(e);
-    }, 100);
+    onMouseDownLong(e);
   };
 
   const oneDayStyle: any = {
@@ -252,35 +337,6 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     }
   }, []);
 
-  const handleEventClickInternal = (event: any) => {
-    if (isDraggingNewEvent) {
-      return;
-    }
-
-    if (onNewEventClick) {
-      const rect: { top: number } = event.target.getBoundingClientRect();
-      const y: number = event.clientY - rect.top;
-
-      const startAtOnClick = getDateFromPosition(
-        Number((y / hourHeight).toFixed(0))
-      );
-      const endAtOnClick = startAtOnClick.plus({ hour: 1 });
-      // Get hour from click event
-      const hour: number = y / hourHeight;
-      onNewEventClick(
-        {
-          day: day.toJSDate(),
-          hour,
-          startAt: startAtOnClick?.toUTC().toString(),
-          endAt: endAtOnClick?.toUTC().toString(),
-          event,
-          view: selectedView,
-        },
-        event
-      );
-    }
-  };
-
   const handleCloseNewEventDrag = (e?: any) => {
     if (e) {
       e.preventDefault();
@@ -289,11 +345,16 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
     setOffsetTopEnd(null);
     setOffsetTop(null);
-    setIsDraggingNewEvent(false);
+    // setIsDraggingNewEvent(false);
+    isDraggingRef.current = false;
     newEventStartOffset.current = null;
     newEventEndOffset.current = null;
+    startAt.current = null;
+    endAt.current = null;
     setStartAt(null);
     setEndAt(null);
+
+    isUpdating.current = false;
   };
 
   useEffect(() => {
@@ -309,15 +370,15 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       style={oneDayStyle}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
-      onTouchStart={onMouseDown}
-      onTouchMove={onMove}
-      onTouchEnd={onMouseUp}
+      // onTouchStart={onMouseDown}
+      // onTouchMove={onMove}
+      // onTouchEnd={onMouseUp}
       className={
         !isFirstDay
           ? parseCssDark('Kalend__DayViewOneDay', isDark)
           : 'Kalend__DayViewOneDay'
       }
-      onClick={handleEventClickInternal}
+      // onClick={handleEventClickInternal}
     >
       {isToday && config.showTimeLine ? <CurrentHourLine /> : null}
       {store.daysViewLayout?.[formatDateTimeToString(day)] &&
@@ -326,7 +387,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
         ? renderEvents(dataForDay, day)
         : null}
 
-      {isDraggingNewEvent ? (
+      {isDraggingRef.current ? (
         <div
           style={{
             width: '100%',
@@ -340,7 +401,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
           onClick={handleCloseNewEventDrag}
         />
       ) : null}
-      {isDraggingNewEvent ? (
+      {isDraggingRef.current ? (
         <div style={style}>
           <div
             style={{
@@ -351,8 +412,8 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
           >
             <p style={{ color: 'white' }}>New event</p>
             <p style={{ color: 'white' }}>
-              {startAt ? startAt.toFormat('HH:mm') : ''} -{' '}
-              {endAt ? endAt.toFormat('HH:mm') : ''}
+              {startAtState ? startAtState.toFormat('HH:mm') : ''} -{' '}
+              {endAtState ? endAtState.toFormat('HH:mm') : ''}
             </p>
           </div>
         </div>

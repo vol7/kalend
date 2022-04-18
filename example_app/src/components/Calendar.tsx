@@ -13,6 +13,8 @@ const CalendComponent = (props: any) => {
   }, []);
 
   const onNewEventClick = (data: any) => {
+    console.log(data.event);
+
     const msg = `New event click action\n\n Callback data:\n\n${JSON.stringify({
       hour: data.hour,
       day: data.day,
@@ -53,11 +55,11 @@ const CalendComponent = (props: any) => {
       hourHeight={60}
       // showWeekNumbers={true}
       timezone={'Europe/Berlin'}
-      draggingDisabledConditions={{
-        summary: 'Computers',
-        allDay: false,
-        color: 'pink',
-      }}
+      // draggingDisabledConditions={{
+      //   summary: 'Computers',
+      //   allDay: false,
+      //   color: 'pink',
+      // }}
       onEventDragFinish={onEventDragFinish}
       onStateChange={props.onStateChange}
       selectedView={props.selectedView}
