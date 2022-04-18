@@ -1,4 +1,4 @@
-import { CalendarEvent } from '../../../common/interface';
+import { CalendarEvent, Config } from '../../../common/interface';
 import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
@@ -25,7 +25,31 @@ const renderEvents = (dataset: any[], day: DateTime) => {
   });
 };
 
-const HOUR_DIVIDER = 4;
+export const HOUR_DIVIDER = 4;
+
+export const getDateFromPosition = (
+  value: number,
+  day: DateTime,
+  config: Config
+): DateTime => {
+  let stringValue = String(value);
+
+  stringValue = stringValue.includes('.') ? stringValue : `${stringValue}.0`;
+
+  const [hourStart, minuteStart] = stringValue.split('.');
+
+  return day
+    .set({
+      hour: Number(hourStart),
+      minute: Number(`0.${minuteStart}`) * 60,
+      second: 0,
+      millisecond: 0,
+    })
+    .setZone(config.timezone);
+};
+
+export const getHourHeightPartialUnit = (config: Config) =>
+  Number((config.hourHeight / HOUR_DIVIDER).toFixed(0));
 
 interface DaysViewOneDayProps {
   key: string;
@@ -54,26 +78,6 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
   const isDraggingRef: any = useRef(null);
   const isUpdating: any = useRef(false);
 
-  const getHourHeightPartialUnit = () =>
-    Number((config.hourHeight / HOUR_DIVIDER).toFixed(0));
-
-  const getDateFromPosition = (value: number): DateTime => {
-    let stringValue = String(value);
-
-    stringValue = stringValue.includes('.') ? stringValue : `${stringValue}.0`;
-
-    const [hourStart, minuteStart] = stringValue.split('.');
-
-    return day
-      .set({
-        hour: Number(hourStart),
-        minute: Number(`0.${minuteStart}`) * 60,
-        second: 0,
-        millisecond: 0,
-      })
-      .setZone(config.timezone);
-  };
-
   const style: any = {
     position: 'absolute',
     top: offsetTop,
@@ -95,7 +99,9 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
       const y: number = event.clientY - rect.top;
 
       const startAtOnClick = getDateFromPosition(
-        Number((y / hourHeight).toFixed(0))
+        Number((y / hourHeight).toFixed(0)),
+        day,
+        config
       );
       const endAtOnClick = startAtOnClick.plus({ hour: 1 });
       // Get hour from click event
@@ -143,10 +149,16 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
     // initial dragging
     if (newEventStartOffset.current === null) {
-      const yString = (y / getHourHeightPartialUnit()).toFixed(0).split('.');
-      const yValue = Number(yString[0]) * getHourHeightPartialUnit();
+      const yString = (y / getHourHeightPartialUnit(config))
+        .toFixed(0)
+        .split('.');
+      const yValue = Number(yString[0]) * getHourHeightPartialUnit(config);
       setOffsetTop(yValue);
-      const startAtValue = getDateFromPosition(yValue / hourHeight);
+      const startAtValue = getDateFromPosition(
+        yValue / hourHeight,
+        day,
+        config
+      );
       startAtRef.current = startAtValue;
       startAt.current = startAtValue;
       setStartAt(startAtValue);
@@ -165,11 +177,17 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
 
     // handle dragging up
     if (newEventStartOffset.current && y < newEventStartOffset.current) {
-      const yString = (y / getHourHeightPartialUnit()).toFixed(0).split('.');
+      const yString = (y / getHourHeightPartialUnit(config))
+        .toFixed(0)
+        .split('.');
 
-      const yValue = Number(yString[0]) * getHourHeightPartialUnit();
+      const yValue = Number(yString[0]) * getHourHeightPartialUnit(config);
       setOffsetTop(yValue);
-      const startAtValue = getDateFromPosition(yValue / hourHeight);
+      const startAtValue = getDateFromPosition(
+        yValue / hourHeight,
+        day,
+        config
+      );
 
       startAtRef.current = startAtValue;
       startAt.current = startAtValue;
@@ -178,11 +196,13 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     }
 
     // handle dragging down
-    const yString = (y / getHourHeightPartialUnit()).toFixed(0).split('.');
-    const yValue = Number(yString[0]) * getHourHeightPartialUnit();
+    const yString = (y / getHourHeightPartialUnit(config))
+      .toFixed(0)
+      .split('.');
+    const yValue = Number(yString[0]) * getHourHeightPartialUnit(config);
     setOffsetTopEnd(yValue);
 
-    const endAtValue = getDateFromPosition(yValue / hourHeight);
+    const endAtValue = getDateFromPosition(yValue / hourHeight, day, config);
     endAt.current = endAtValue;
     setEndAt(endAtValue);
   };

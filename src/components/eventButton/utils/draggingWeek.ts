@@ -2,8 +2,12 @@ import {
   CALENDAR_OFFSET_LEFT,
   EVENT_MIN_HEIGHT,
 } from '../../../common/constants';
-import { CalendarEvent } from '../../../common/interface';
+import { CalendarEvent, Config } from '../../../common/interface';
 import { DateTime } from 'luxon';
+import {
+  getDateFromPosition,
+  getHourHeightPartialUnit,
+} from '../../daysViewTable/daysViewOneDay/DaysViewOneDay';
 
 export const calculateNewTimeWeekDay = (
   offsetTopValue: number,
@@ -134,4 +138,57 @@ export const onMoveNormalEvent = (
   xShiftIndexRef.current = columnShift;
   setState('offsetLeft', columnShift * columnWidth);
   offsetLeftRef.current = x;
+};
+
+export const onResizeNormalEvent = (
+  e: any,
+  endAtRef: any,
+  day: DateTime,
+  config: Config,
+  offsetTop: number,
+  height: number,
+  setState: any
+) => {
+  if (!day) {
+    return;
+  }
+
+  // Get column element for day, where event is placed
+  const dayElement: any = document.getElementById(
+    `Kalend__day__${day.toString()}`
+  );
+  if (!dayElement) {
+    return;
+  }
+  const dayElementRect = dayElement.getBoundingClientRect();
+
+  const touches: any = e.nativeEvent?.touches?.[0];
+
+  // set basic coordinates from movement
+  let y: number;
+
+  // handle touch movement
+  if (touches) {
+    y = touches.clientY - dayElementRect.top;
+  } else {
+    // handle mouse movement
+    y = e.clientY - dayElementRect.top;
+  }
+
+  // restrict draggable space for timetable
+  if (y < 0) {
+    return;
+  }
+
+  const yString = (y / getHourHeightPartialUnit(config)).toFixed(0).split('.');
+  const yValue = Number(yString[0]) * getHourHeightPartialUnit(config);
+  const endAtValue = getDateFromPosition(
+    yValue / config.hourHeight,
+    day,
+    config
+  );
+
+  setState('height', Number(((y - offsetTop) / 15).toFixed(0)) * 15);
+  setState('endAt', endAtValue);
+  endAtRef.current = endAtValue.toUTC().toString();
 };

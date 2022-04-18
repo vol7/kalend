@@ -15,6 +15,7 @@ import {
 import {
   calculateNewTimeWeekDay,
   onMoveNormalEvent,
+  onResizeNormalEvent,
 } from './utils/draggingWeek';
 import { checkIfDraggable } from '../../utils/common';
 import {
@@ -36,7 +37,7 @@ let timeoutRef: any;
 const EventButton = (props: EventButtonProps) => {
   const { item, type, day = DateTime.now(), index } = props;
   const { event } = item;
-  const { startAt } = event;
+  const { startAt, endAt } = event;
 
   const [state, dispatchState]: any = useReducer(
     stateReducer,
@@ -53,7 +54,9 @@ const EventButton = (props: EventButtonProps) => {
   const xShiftIndexRef = useRef(0);
   const yShiftIndexRef = useRef(0);
   const draggingRef = useRef(false);
+  const isResizing = useRef(false);
   const eventWasChangedRef = useRef(false);
+  const endAtRef = useRef(null);
 
   const [store, dispatch] = useContext(Context);
   const setContext = (type: string, payload: any) => {
@@ -127,6 +130,7 @@ const EventButton = (props: EventButtonProps) => {
 
   useEffect(() => {
     setLayout(item);
+    setState('endAt', endAt);
     // initEventButtonPosition(type, props.day, event, store, setLayout, index);
   }, []);
 
@@ -156,6 +160,26 @@ const EventButton = (props: EventButtonProps) => {
       setState('width', columnWidth - EVENT_TABLE_DELIMITER_SPACE);
       setState('offsetLeft', 0);
     }
+  };
+
+  const onResize = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (disableTouchDragging(e)) {
+      return;
+    }
+
+    isResizing.current = true;
+
+    onResizeNormalEvent(
+      e,
+      endAtRef,
+      day,
+      config,
+      state.offsetTop,
+      state.height,
+      setState
+    );
   };
 
   const onMove = (e: any) => {
@@ -211,6 +235,36 @@ const EventButton = (props: EventButtonProps) => {
       default:
         return;
     }
+  };
+
+  const onMouseUpResize = (e: any) => {
+    // clean listeners
+    document.removeEventListener('mouseup', onMouseUpResize, true);
+    document.removeEventListener('mousemove', onResize, true);
+
+    // add data to callback
+    if (onEventDragFinish) {
+      if (type === EVENT_TYPE.NORMAL) {
+        const updatedEvent = {
+          ...event,
+          endAt: endAtRef.current || state.endAt,
+        };
+        const result: any = store.events?.map((item: any) => {
+          if (item.id === updatedEvent.id) {
+            return updatedEvent;
+          } else {
+            return item;
+          }
+        });
+
+        onEventDragFinish(event, updatedEvent, result);
+      }
+    }
+
+    endAtRef.current = null;
+    isResizing.current = false;
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   /**
@@ -289,6 +343,26 @@ const EventButton = (props: EventButtonProps) => {
     e.stopPropagation();
   };
 
+  const onMouseDownResize = (e: any) => {
+    if (disableTouchDragging(e) || !onEventDragFinish) {
+      return;
+    }
+
+    isResizing.current = true;
+
+    const isDraggable = checkIfDraggable(draggingDisabledConditions, event);
+    if (!isDraggable) {
+      return;
+    }
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (e.button !== 0) return;
+    document.addEventListener('mousemove', onResize, true);
+    document.addEventListener('mouseup', onMouseUpResize, true);
+  };
+
   /**
    * Start event dragging on long press/touch
    * Set listeners
@@ -326,6 +400,10 @@ const EventButton = (props: EventButtonProps) => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (isResizing.current) {
+      return;
+    }
+
     // add timeout to differentiate from normal clicks
     timeoutRef = setTimeout(() => {
       onMouseDownLong(e);
@@ -333,35 +411,61 @@ const EventButton = (props: EventButtonProps) => {
   };
 
   return type !== EVENT_TYPE.AGENDA ? (
-    <ButtonBase
-      id={event.id}
-      isDark={isDark}
-      style={style}
-      className={`Kalend__Event-${type} ${
-        state.isDragging ? 'Kalend__EventButton__elevation' : ''
-      }`}
-      onClick={handleEventClick}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
-      onTouchStart={onMouseDown}
-      onTouchMove={onMove}
-      onTouchEnd={onMouseUp}
-    >
-      {type === EVENT_TYPE.MONTH || type === EVENT_TYPE.HEADER ? (
-        <EventMonth event={event} isDark={isDark} type={type} />
+    <>
+      {isResizing.current ? (
+        <div className={'Kalend__EventButton__resizing_wrapper'} />
       ) : null}
-      {type === EVENT_TYPE.NORMAL ? (
-        <EventNormal
-          event={event}
-          isDark={isDark}
-          type={type}
-          meta={item.meta}
-        />
-      ) : null}
-      {type === EVENT_TYPE.SHOW_MORE_MONTH ? (
-        <EventShowMoreMonth event={event} isDark={isDark} type={type} />
-      ) : null}
-    </ButtonBase>
+      <ButtonBase
+        id={event.id}
+        isDark={isDark}
+        style={style}
+        className={`Kalend__Event-${type} ${
+          state.isDragging ? 'Kalend__EventButton__elevation' : ''
+        }`}
+        onClick={handleEventClick}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        // onTouchStart={onMouseDown}
+        // onTouchMove={onMove}
+        // onTouchEnd={onMouseUp}
+      >
+        {type === EVENT_TYPE.MONTH || type === EVENT_TYPE.HEADER ? (
+          <EventMonth event={event} isDark={isDark} type={type} />
+        ) : null}
+        {type === EVENT_TYPE.NORMAL ? (
+          <EventNormal
+            event={event}
+            isDark={isDark}
+            type={type}
+            meta={item.meta}
+            endAt={state.endAt}
+          />
+        ) : null}
+        {type === EVENT_TYPE.SHOW_MORE_MONTH ? (
+          <EventShowMoreMonth event={event} isDark={isDark} type={type} />
+        ) : null}
+        {type === EVENT_TYPE.NORMAL ? (
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              height: 5,
+              width: '100%',
+              background: 'transparent',
+              zIndex: isResizing.current ? 999 : 9,
+              cursor: 'n-resize',
+            }}
+            onClick={(e: any) => {
+              e.preventDefault();
+              e.stopPropagation();
+              isResizing.current = true;
+            }}
+            onMouseDown={onMouseDownResize}
+            onMouseUp={onMouseUpResize}
+          />
+        ) : null}
+      </ButtonBase>
+    </>
   ) : (
     <ButtonBase
       id={event.id}
