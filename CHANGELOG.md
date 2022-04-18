@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0
+- Added option to resize event in days view
+- Added reverse dragging new event
+- Added dragging for overflowing month events
+- Fixed delay when dragging new event
+
 ## 0.12.1
 - Fixed multi day events in agenda view
 - Fixed all day text layout
