@@ -111,6 +111,7 @@ export interface Config {
   hasExternalLayout: boolean;
   focusHour: number | null;
   showTimeLine: boolean;
+  autoScroll: boolean;
 }
 
 export interface KalendState {

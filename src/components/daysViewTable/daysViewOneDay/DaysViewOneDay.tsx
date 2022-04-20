@@ -326,6 +326,10 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     (60 / hourHeight);
 
   useEffect(() => {
+    if (!store.config.autoScroll) {
+      return;
+    }
+
     if (isToday) {
       const elements: any = document.querySelectorAll(
         '.calendar-body__wrapper'
