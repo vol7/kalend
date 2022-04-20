@@ -64,6 +64,7 @@ const CalendComponent = (props: any) => {
       onStateChange={props.onStateChange}
       selectedView={props.selectedView}
       showTimeLine={true}
+      // autoScroll={true}
     />
   );
 };

@@ -60,6 +60,10 @@ const DaysViewTable = (props: DaysViewTableProps) => {
   };
 
   useEffect(() => {
+    if (!store.config.autoScroll) {
+      return;
+    }
+
     adjustScrollPosition();
   }, []);
 

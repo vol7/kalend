@@ -72,6 +72,7 @@ export const createConfig = (props: KalendProps): Config => {
     hasExternalLayout: props.eventLayouts !== undefined,
     focusHour: props.focusHour || null,
     showTimeLine: props.showTimeLine || false,
+    autoScroll: props.autoScroll || false,
   };
 };
 
