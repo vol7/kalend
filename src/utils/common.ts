@@ -7,7 +7,13 @@ import { parseToDateTime } from './dateTimeParser';
 export const parseCssDark = (
   className: string,
   isDark: boolean | undefined
-): string => (isDark ? `${className}-dark` : className);
+): string => {
+  if (isDark) {
+    return `${className}-dark`;
+  }
+
+  return className;
+};
 
 export const parseIsMobile = (className: string, isMobile: boolean): string => {
   return isMobile ? `${className}-mobile` : className;

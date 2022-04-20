@@ -21,6 +21,11 @@ const Reducer = (state: any, action: any) => {
         ...state,
         isMobile: action.payload,
       };
+    case 'isDark':
+      return {
+        ...state,
+        isDark: action.payload,
+      };
     case 'isNewEventOpen':
       return {
         ...state,
@@ -55,6 +60,11 @@ const Reducer = (state: any, action: any) => {
       return {
         ...state,
         config: action.payload,
+      };
+    case 'colors':
+      return {
+        ...state,
+        colors: action.payload,
       };
     case 'headerLayout':
       return {

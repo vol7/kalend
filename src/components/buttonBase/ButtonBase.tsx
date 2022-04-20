@@ -1,4 +1,5 @@
 import { ButtonBaseProps } from './ButtonBase.props';
+import { parseCssDark } from '../../utils/common';
 import { useRef, useState } from 'react';
 
 let timeout: any;
@@ -18,6 +19,7 @@ const ButtonBase = (props: ButtonBaseProps) => {
     onMouseUp,
     onMouseMove,
     onTouchEnd,
+    isDark,
   } = props;
 
   const buttonRef: any = useRef(null);
@@ -103,8 +105,11 @@ const ButtonBase = (props: ButtonBaseProps) => {
 
   const buttonText: string = text ? text : '';
   const buttonClassName: string = className
-    ? `Kalend__button ${className} Kalend__ButtonBase`
-    : 'Kalend__button Kalend__ButtonBase';
+    ? `Kalend__button ${className} ${parseCssDark(
+        'Kalend__ButtonBase',
+        isDark
+      )}`
+    : `Kalend__button ${parseCssDark('Kalend__ButtonBase', isDark)}`;
 
   return (
     <button

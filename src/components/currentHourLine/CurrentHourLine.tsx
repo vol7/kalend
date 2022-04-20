@@ -1,10 +1,11 @@
 import { Context } from '../../context/store';
 import { DateTime } from 'luxon';
+import { parseCssDark } from '../../utils/common';
 import { useContext } from 'react';
 
 const CurrentHourLine = () => {
   const [store] = useContext(Context);
-  const { config, style } = store;
+  const { config, colors } = store;
 
   const currentTime = DateTime.now();
 
@@ -14,19 +15,26 @@ const CurrentHourLine = () => {
       (currentTime.minute / 60) * config.hourHeight,
   };
 
-  const backgroundStyle: any = {
-    background: style.primaryColor,
-  };
-
   return (
     <div style={wrapperStyle} className={'Kalend__CurrentHourLine'}>
       <div
-        style={backgroundStyle}
-        className={'Kalend__CurrentHourLine__circle'}
+        className={parseCssDark(
+          'Kalend__CurrentHourLine__circle',
+          store.isDark
+        )}
+        style={{
+          background: store.isDark
+            ? colors.dark.primaryColor
+            : colors.light.primaryColor,
+        }}
       />
       <div
-        style={backgroundStyle}
-        className={'Kalend__CurrentHourLine__line'}
+        style={{
+          background: store.isDark
+            ? colors.dark.primaryColor
+            : colors.light.primaryColor,
+        }}
+        className={parseCssDark('Kalend__CurrentHourLine__line', store.isDark)}
       />
     </div>
   );

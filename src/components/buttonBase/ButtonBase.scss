@@ -19,6 +19,18 @@
     background-color: $GRAY_200;
   }
 
+  &-dark {
+    @extend .Kalend__ButtonBase;
+    color: $GRAY_100;
+
+    &:hover {
+      @extend .Kalend__ButtonBase-dark;
+      background-color: $GRAY_700;
+      color: $GRAY_100
+    }
+  }
+
+
   &-normal {
     @extend .Kalend__ButtonBase;
     border: none;
@@ -157,4 +169,15 @@
   border: solid 0.4px $GRAY_300;
   margin-right: 12px;
   margin-left: 12px;
+
+  &-dark {
+    @extend .Kalend__ButtonBase-border;
+    border: solid 0.4px $GRAY_500;
+    color: $GRAY_200;
+
+    &:hover {
+      border: solid 0.4px $GRAY_600;
+      background-color: $GRAY_600;
+    }
+  }
 }

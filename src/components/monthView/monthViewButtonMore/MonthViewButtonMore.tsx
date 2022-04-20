@@ -3,7 +3,7 @@ import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
 import { MonthViewButtonMoreProps } from './MonthViewButtonMore.props';
-import { formatDateTimeToString } from '../../../utils/common';
+import { formatDateTimeToString, parseCssDark } from '../../../utils/common';
 import { useContext } from 'react';
 import Dropdown from '../../dropdown/Dropdown';
 import EventButton from '../../eventButton/EventButton';
@@ -43,13 +43,10 @@ const MonthViewButtonMore = (props: MonthViewButtonMoreProps) => {
           >
             <>
               <h6
-                style={{
-                  fontSize: 16,
-                  padding: 0,
-                  margin: 4,
-                  marginBottom: 8,
-                  textAlign: 'center',
-                }}
+                className={parseCssDark(
+                  'Kalend__MonthView_more_title',
+                  store.isDark
+                )}
               >
                 {calendarDay.toFormat('dd. MMM')}
               </h6>

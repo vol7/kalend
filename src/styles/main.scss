@@ -1,9 +1,16 @@
+@import './colors';
+
 .Kalend__text {
   padding: 0;
   margin: 0;
   //font-size: 10px;
   font-family: MONOSPACE, SansSerif, sans-serif, serif;
   font-size: 1em;
+
+  &-dark {
+    @extend .Kalend__text;
+    color: $GRAY_100;
+  }
 }
 
 .Kalend__Calendar__root {
@@ -14,6 +21,11 @@
   font-size: 10px;
   overflow-x: hidden;
   //overflow-y: scroll;
+
+  &-dark {
+    @extend .Kalend__Calendar__root;
+    background-color: $GRAY_900;
+  }
 }
 
 .Kalend__main * {
@@ -27,6 +39,34 @@
   width: 100%;
   height: 100% !important;
   position: relative;
+
+  &-dark {
+    @extend .Kalend__Calendar__table;
+    background-color: $GRAY_900;
+  }
+}
+
+.Kalend__Calendar__header-surface {
+  display: inherit;
+  overflow: hidden;
+  width: 100%;
+  height: auto;
+  &-dark {
+    @extend .Kalend__Calendar__table-surface;
+    background-color: $GRAY_900;
+  }
+}
+
+.Kalend__Calendar__table-surface {
+  display: inherit;
+  overflow: hidden;
+  width: 100%;
+  height: 100% !important;
+  position: relative;
+  &-dark {
+    @extend .Kalend__Calendar__table-surface;
+    background-color: $GRAY_900;
+  }
 }
 
 .Kalend__button {

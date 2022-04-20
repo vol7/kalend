@@ -63,9 +63,9 @@ const normalTime = (
   return timeFormat === TIME_FORMAT.H_12 ? (
     <p
       className={`Kalend__text ${parseCssDark(
-        'Kalend__Event__time',
+        `Kalend__Event__time__type-${type}`,
         isDark
-      )} Kalend__Event__time__type-${type}`}
+      )} Kalend__Event__time`}
     >
       {timeV2.start}
       <br />
@@ -74,9 +74,9 @@ const normalTime = (
   ) : (
     <p
       className={`Kalend__text ${parseCssDark(
-        'Kalend__Event__time',
+        `Kalend__Event__time__type-${type}`,
         isDark
-      )} Kalend__Event__time__type-${type}`}
+      )} Kalend__Event__time`}
     >
       {timeV2.start} - {timeV2.end}
     </p>
@@ -94,9 +94,9 @@ const EventTime = (props: EventTimeProps) => {
     <>
       <p
         className={`Kalend__text ${parseCssDark(
-          'Kalend__Event__time',
+          `Kalend__Event__time__type-${type}`,
           isDark
-        )} Kalend__Event__time__type-${type}`}
+        )} Kalend__Event__time`}
       >
         All day
       </p>

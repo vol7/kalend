@@ -64,6 +64,15 @@ const CalendComponent = (props: any) => {
       onStateChange={props.onStateChange}
       selectedView={props.selectedView}
       showTimeLine={true}
+      isDark={false}
+      // colors={{
+      //   light: {
+      //     primaryColor: 'blue',
+      //   },
+      //   dark: {
+      //     primaryColor: 'orange',
+      //   },
+      // }}
     />
   );
 };

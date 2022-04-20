@@ -13,17 +13,39 @@
 }
 
 .Kalend__Event__time__type {
+  &-normal {
+    padding: 1px;
+
+    &-dark {
+      @extend .Kalend__Event__time__type-normal;
+      color: $GRAY_900;
+    }
+  }
+
   &-header {
     padding: 1px;
+
+    &-dark {
+      @extend .Kalend__Event__time__type-header;
+      color: $GRAY_900;
+    }
   }
 
   &-month {
     padding: 1px;
+    &-dark {
+      @extend .Kalend__Event__time__type-month;
+      color: $GRAY_900;
+    }
   }
 
   &-agenda {
     padding: 8px;
     font-size: 0.8em;
     color: $GRAY_700;
+    &-dark {
+      @extend .Kalend__Event__time__type-agenda;
+      color: $GRAY_300 !important;
+    }
   }
 }

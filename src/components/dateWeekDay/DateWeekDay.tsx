@@ -1,6 +1,7 @@
 import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
 import { DateWeekDayProps } from './DateWeekDay.props';
+import { parseCssDark } from '../../utils/common';
 import { useContext } from 'react';
 import LuxonHelper from '../../utils/luxonHelper';
 
@@ -12,7 +13,7 @@ const DateWeekDay = (props: DateWeekDayProps) => {
     dispatch({ type, payload });
   };
 
-  const { selectedView, style, callbacks } = store;
+  const { selectedView, callbacks } = store;
 
   const isDayToday: boolean = LuxonHelper.isToday(day);
 
@@ -53,6 +54,18 @@ const DateWeekDay = (props: DateWeekDayProps) => {
     }
   };
 
+  const getBackgroundColor = () => {
+    if (!store.isDark) {
+      if (isDayToday) {
+        return store.colors.light.primaryColor;
+      }
+    } else {
+      if (isDayToday) {
+        return store.colors.dark.primaryColor;
+      }
+    }
+  };
+
   return (
     <div
       className={'Kalend__CalendarHeaderDates__col'}
@@ -60,14 +73,13 @@ const DateWeekDay = (props: DateWeekDayProps) => {
       onClick={handleNewEventClick}
     >
       <div
-        className={`Kalend__CalendarHeaderDates__circle${
-          isMonthView ? '-small' : ''
-        }`}
+        className={`${parseCssDark(
+          `Kalend__CalendarHeaderDates__circle${isMonthView ? '-small' : ''}`,
+          true
+        )} ${isDayToday ? 'Kalend__CalendarHeaderDates__primary' : ''}`}
         onClick={navigateToDay}
         style={{
-          background: isDayToday ? style.primaryColor : 'transparent',
-          width: 28,
-          height: 28,
+          background: getBackgroundColor(),
         }}
       >
         <p
@@ -75,10 +87,11 @@ const DateWeekDay = (props: DateWeekDayProps) => {
             selectedView === CALENDAR_VIEW.MONTH
               ? 'Kalend__CalendarHeaderDates__text-size-small'
               : ''
+          } ${
+            isDayToday
+              ? parseCssDark('Kalend__color-text-base', !store.isDark)
+              : parseCssDark('Kalend__color-text-base', store.isDark)
           }`}
-          style={{
-            color: isDayToday ? style.inverseBaseColor : style.baseColor,
-          }}
         >
           {day.day}
         </p>

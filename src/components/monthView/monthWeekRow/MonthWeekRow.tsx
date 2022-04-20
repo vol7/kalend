@@ -1,6 +1,7 @@
 import { Context } from '../../../context/store';
 import { EVENT_TYPE } from '../../../common/enums';
 import { MonthWeekRowProps } from './MonthWeekRow.props';
+import { parseCssDark } from '../../../utils/common';
 import { useContext } from 'react';
 import CalendarHeaderDates from '../../calendarHeader/components/calendarHeaderDates/CalendarHeaderDates';
 import EventButton from '../../eventButton/EventButton';
@@ -37,9 +38,10 @@ const MonthWeekRow = (props: MonthWeekRowProps) => {
 
   return (
     <div
-      className={`Kalend__MonthWeekRow__container${
-        index > 4 ? '--no-border' : ''
-      }`}
+      className={`${parseCssDark(
+        'Kalend__MonthWeekRow__container',
+        store.isDark
+      )} ${index > 4 ? '--no-border' : ''}`}
     >
       <div className={'Kalend__MonthWeekRow__day'}>
         <CalendarHeaderDates

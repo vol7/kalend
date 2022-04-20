@@ -11,11 +11,12 @@ $BORDER_DARK_COLOR: $GRAY_900;
 
 .Kalend__DaysViewVerticalLine__line {
   position: absolute;
-  width: 1px;
+  width: 0.4px;
   background-color: $BORDER_COLOR;
 
   &-dark {
     @extend .Kalend__DaysViewVerticalLine__line;
-    background-color: $BORDER_DARK_COLOR;
+    background-color: $GRAY_700;
+    z-index: 2;
   }
 }

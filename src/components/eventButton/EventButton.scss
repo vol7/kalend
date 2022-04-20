@@ -28,11 +28,23 @@
     //border: solid 1px white !important;
     border: none !important;
     white-space: nowrap;
+
+    &-dark {
+      @extend .Kalend__Event-month;
+      border: solid 1px $GRAY_900 !important;
+      filter: saturate(60%) brightness(120%);
+    }
   }
 
   &-normal {
     @extend .Kalend__Event;
     border: solid 1px white !important;
+
+    &-dark {
+      @extend .Kalend__Event-normal;
+      border: solid 1px $GRAY_900 !important;
+      filter: saturate(60%) brightness(120%);
+    }
   }
 
   &-header {
@@ -49,6 +61,11 @@
     -ms-animation-fill-mode: forwards;
     animation-name: Kalend__EventDetailHeader_animationShow;
     animation-delay: 0.5s;
+
+    &-dark {
+      @extend .Kalend__Event-header;
+      filter: saturate(60%) brightness(120%);
+    }
   }
 
   &-agenda {
@@ -59,6 +76,14 @@
     color: $GRAY_800 !important;
     position: relative;
     width: 100%;
+    &-dark {
+      @extend .Kalend__Event-agenda;
+      filter: saturate(60%) brightness(120%);
+      &:hover {
+        @extend .Kalend__Event-agenda-dark;
+        background: $GRAY_800 !important;
+      }
+    }
   }
 
   &-showMoreMonth {
@@ -72,6 +97,10 @@
     //align-items: center;
     margin-bottom: 2px !important;
     //padding: 2px;
+
+    &-dark {
+      @extend .Kalend__Event-showMoreMonth;
+    }
   }
 }
 

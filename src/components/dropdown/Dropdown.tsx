@@ -1,4 +1,5 @@
 import { Context } from '../../context/store';
+import { parseCssDark } from '../../utils/common';
 import { useContext, useLayoutEffect, useState } from 'react';
 import ButtonBase from '../buttonBase/ButtonBase';
 
@@ -65,7 +66,7 @@ const Dropdown = (props: any) => {
   return (
     <>
       <ButtonBase
-        className={'Kalend__Monthview_Event'}
+        className={parseCssDark('Kalend__Monthview_Event', store.isDark)}
         style={{
           width: props.width,
           display: 'flex',
@@ -74,9 +75,12 @@ const Dropdown = (props: any) => {
           height: 20,
         }}
         onClick={handleClick}
-        isDark={false}
+        isDark={store.isDark}
       >
-        <p className={'Kalend__text'} style={{ fontSize: 11 }}>
+        <p
+          className={parseCssDark('Kalend__text', store.isDark)}
+          style={{ fontSize: 11 }}
+        >
           {translations['buttons']['showMore']}
         </p>
       </ButtonBase>
@@ -86,7 +90,10 @@ const Dropdown = (props: any) => {
           onClick={() => setVisible(false)}
         >
           <div
-            className={'Kalend__Dropdown__container'}
+            className={parseCssDark(
+              'Kalend__Dropdown__container',
+              store.isDark
+            )}
             id="Kalend__Dropdown__container"
             style={style}
           >

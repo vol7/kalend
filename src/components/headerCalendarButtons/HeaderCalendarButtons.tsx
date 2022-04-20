@@ -28,7 +28,11 @@ const HeaderCalendarButton = (props: HeaderCalendarButtonProps) => {
 
   return (
     <ButtonBase
-      className={parseClassName(buttonClassName, isMobile || isForcedMobile)}
+      className={parseClassName(
+        buttonClassName,
+        isMobile || isForcedMobile,
+        isDark
+      )}
       isDark={isDark}
       onClick={navigateFunction}
     >

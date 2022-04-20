@@ -23,11 +23,17 @@
     width: 100%;
     min-width: 80px;
     border: none;
+
+    &-dark {
+      @extend .Kalend__header_calendar_buttons__container-mobile;
+      //background-color: $GRAY_600;
+    }
   }
 
   &-dark {
     @extend .Kalend__header_calendar_buttons__container;
-    background-color: $GRAY_600;
+    background-color: $GRAY_700;
+    border: solid 0.4px transparent;
   }
 }
 
@@ -50,6 +56,15 @@
     @extend .Kalend__header_calendar_button;
   }
 
+  &-dark {
+    @extend .Kalend__header_calendar_button;
+
+    &:hover {
+      @extend .Kalend__header_calendar_button-dark;
+      background-color: $GRAY_800 !important;
+    }
+  }
+
   &-mobile {
     @extend .Kalend__header_calendar_button;
     border: none;
@@ -57,6 +72,15 @@
     width: 100%;
     padding: 8px;
     justify-content: flex-start;
+
+    &-dark {
+      @extend .Kalend__header_calendar_button-mobile;
+
+      &:hover {
+        @extend .Kalend__header_calendar_button-mobile-dark;
+        background-color: $GRAY_600;
+      }
+    }
 
     &:hover {
       @extend .Kalend__header_calendar_button-mobile;
@@ -65,23 +89,43 @@
 
     &-dark {
     @extend .Kalend__header_calendar_button;
-    background-color: $GRAY_600;
-    border: $GRAY_600 solid 0.5px;
+    background-color: $GRAY_700;
+    border: $GRAY_700 solid 0.5px;
   }
 }
 
 .Kalend__header_calendar_button-selected {
   @extend .Kalend__header_calendar_button;
   //background: $SURFACE_LIGHT;
+  &-dark{
+    @extend .Kalend__header_calendar_button-selected;
+    background-color: $GRAY_800;
+    border: $GRAY_800 solid 0.5px;
+
+    &:hover {
+      @extend .Kalend__header_calendar_button-selected-dark;
+      background-color: $GRAY_800;
+    }
+  }
 
   &-mobile {
-    @extend .Kalend__header_calendar_button;
+    @extend .Kalend__header_calendar_button-selected;
     background: whitesmoke;
     border: none;
     font-size: 1.5em;
     width: 100%;
     padding: 8px;
     justify-content: flex-start;
+
+    &-dark {
+      @extend .Kalend__header_calendar_button-selected-mobile;
+      background: $GRAY_700;
+
+      &:hover {
+        @extend .Kalend__header_calendar_button-selected-mobile-dark;
+        background: $GRAY_600;
+      }
+    }
 
     &:hover {
       @extend .Kalend__header_calendar_button-mobile;
@@ -112,6 +156,6 @@
 
   &-dark {
     @extend .Kalend__header_calendar_button-text-selected;
-    color: $PRIMARY_DARK;
+    color: $PRIMARY_DARK !important;
   }
 }

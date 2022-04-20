@@ -13,7 +13,7 @@ const MainPage = () => {
         <h5 className={'subtitle'}>React component with support for events</h5>
       </div>
       <div className={'Calendar__wrapper'}>
-        <CalendComponent />
+        <CalendComponent isDark={false} />
       </div>
       <div style={{ margin: '0 auto', paddingTop: 32 }}>
         <p style={{ color: 'whitesmoke', fontSize: 15 }}>

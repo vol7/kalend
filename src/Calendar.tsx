@@ -3,6 +3,7 @@ import { CalendarProps } from './Calendar.props';
 import { Context, Store } from './context/store';
 import { DateTime } from 'luxon';
 import { getCalendarDays, getRange } from './utils/calendarDays';
+import { parseCssDark } from './utils/common';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import AgendaView from './components/agendaView/AgendaView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
@@ -151,35 +152,49 @@ const Calendar = (props: CalendarProps) => {
           >
             {store.showWeekNumbers ? <WeekNumbersCol /> : null}
             <div className={'Kalend__Calendar__table'}>
-              <CalendarTableLayoutLayer>
-                <MonthView
-                  events={props.events ? props.events : []}
-                  eventLayouts={props.eventLayouts}
-                  setViewChanged={setViewChanged}
-                />
-              </CalendarTableLayoutLayer>
+              <div
+                className={parseCssDark(
+                  'Kalend__Calendar__table-surface',
+                  store.isDark
+                )}
+              >
+                <CalendarTableLayoutLayer>
+                  <MonthView
+                    events={props.events ? props.events : []}
+                    eventLayouts={props.eventLayouts}
+                    setViewChanged={setViewChanged}
+                  />
+                </CalendarTableLayoutLayer>
+              </div>
             </div>
           </div>
         </>
       ) : (
         <div className={'Kalend__Calendar__table'}>
-          <CalendarTableLayoutLayer>
-            {selectedView === CALENDAR_VIEW.DAY ||
-            selectedView === CALENDAR_VIEW.THREE_DAYS ||
-            selectedView === CALENDAR_VIEW.WEEK ? (
-              <DaysViewTable
-                events={props.events ? props.events : []}
-                eventLayouts={props.eventLayouts}
-              />
-            ) : null}
+          <div
+            className={parseCssDark(
+              'Kalend__Calendar__table-surface',
+              store.isDark
+            )}
+          >
+            <CalendarTableLayoutLayer>
+              {selectedView === CALENDAR_VIEW.DAY ||
+              selectedView === CALENDAR_VIEW.THREE_DAYS ||
+              selectedView === CALENDAR_VIEW.WEEK ? (
+                <DaysViewTable
+                  events={props.events ? props.events : []}
+                  eventLayouts={props.eventLayouts}
+                />
+              ) : null}
 
-            {selectedView === CALENDAR_VIEW.AGENDA ? (
-              <AgendaView
-                events={props.events ? props.events : []}
-                eventLayouts={props.eventLayouts}
-              />
-            ) : null}
-          </CalendarTableLayoutLayer>
+              {selectedView === CALENDAR_VIEW.AGENDA ? (
+                <AgendaView
+                  events={props.events ? props.events : []}
+                  eventLayouts={props.eventLayouts}
+                />
+              ) : null}
+            </CalendarTableLayoutLayer>
+          </div>
         </div>
       )}
     </>
