@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.0
+- Add dark theme support with prop ```isDark```
+
 ## 0.13.1
 - Make auto scrolling to current time optional with prop autoScroll
 
