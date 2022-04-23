@@ -29,3 +29,4 @@ sidebar_position: 2
 | `showTimeLine`               | `boolean`                                     | false              |  | false    | show timeline representing current time     
 `focusHour`               | `number`                                      |               |  | false    | initial focus to hour    
 `showWeekNumbers`               | `boolean`                                     |               |  | false    | show week numbers in month and day views    
+`autoScroll`               | `boolean`                                     |               |  | false    | scroll to current time on load    

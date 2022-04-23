@@ -65,6 +65,7 @@ const CalendComponent = (props: any) => {
       selectedView={props.selectedView}
       showTimeLine={true}
       isDark={false}
+      autoScroll={true}
       // colors={{
       //   light: {
       //     primaryColor: 'blue',

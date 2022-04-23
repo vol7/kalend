@@ -55,6 +55,10 @@ const AgendaDayRow = (props: AgendaDayRowProps) => {
   const dayEvents: ReactNode = renderEvents(events, store.config.timezone);
 
   useEffect(() => {
+    if (!store.config.autoScroll) {
+      return;
+    }
+
     if (scrollToThis) {
       const element = document.getElementById(day.toString());
       if (element) {

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.13.1
+- Make auto scrolling to current time optional with prop autoScroll
+
 ## 0.13.0
 - Added option to resize event in days view
 - Added reverse dragging new event
