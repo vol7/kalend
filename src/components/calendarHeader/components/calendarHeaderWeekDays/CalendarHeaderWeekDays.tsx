@@ -3,7 +3,7 @@ import { CalendarHeaderWeekDaysProps } from './CalendarHeaderWeekDays.props';
 import { Context } from '../../../../context/store';
 import { DateTime } from 'luxon';
 import { daysText, daysTextSundayStart } from '../../../../utils/calendarDays';
-import { getCorrectWidth } from '../../../../utils/common';
+import { getCorrectWidth, parseCssDark } from '../../../../utils/common';
 import { useContext } from 'react';
 import DayOfWeekText from '../../../dayOfWeekText/DayOfWeekText';
 
@@ -41,7 +41,12 @@ const CalendarHeaderWeekDays = (props: CalendarHeaderWeekDaysProps) => {
           className={'Kalend__CalendarHeaderWeekDays__col'}
           style={dayTextColumnWidth}
         >
-          <p className={'Kalend__text Kalend__CalendarHeaderWeekDays__text'}>
+          <p
+            className={parseCssDark(
+              'Kalend__text Kalend__CalendarHeaderWeekDays__text',
+              store.isDark
+            )}
+          >
             {translations['weekDays'][`${day}`]}
           </p>
         </div>

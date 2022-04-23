@@ -18,12 +18,20 @@
     @extend .Kalend__CalendarDesktopNavigation__container;
     //width: 100%;
     flex-direction: column;
+    min-height: 0;
+
+    &-dark {
+      @extend .Kalend__CalendarDesktopNavigation__container-mobile;
+      background: $GRAY_800;
+      border-radius: 0;
+    }
   }
   }
 
 .Kalend__CalendarDesktopNavigation__container-dark {
   @extend .Kalend__CalendarDesktopNavigation__container;
-  background-color: $MODAL_DARK;
+  background-color: $GRAY_800;
+  border-radius: 0;
 }
 
 .Kalend__CalendarDesktopNavigation__buttons {

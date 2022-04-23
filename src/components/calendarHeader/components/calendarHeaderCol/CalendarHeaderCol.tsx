@@ -1,3 +1,4 @@
+import { CALENDAR_VIEW } from '../../../../common/enums';
 import { CalendarHeaderColProps } from './CalendarHeaderCol.props';
 import { Context } from '../../../../context/store';
 import { parseCssDark } from '../../../../utils/common';
@@ -7,10 +8,14 @@ const CalendarHeaderCol = (props: CalendarHeaderColProps) => {
   const { children } = props;
 
   const [store] = useContext(Context);
-  const { isDark } = store;
+  const { isDark, selectedView } = store;
 
   return (
-    <div className={parseCssDark('Kalend__CalendarHeaderCol', isDark)}>
+    <div
+      className={`${parseCssDark('Kalend__CalendarHeaderCol', isDark)}${
+        selectedView === CALENDAR_VIEW.MONTH ? '-month' : ''
+      }`}
+    >
       {children}
     </div>
   );

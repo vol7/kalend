@@ -22,10 +22,11 @@
 
   &-dark {
     @extend .Kalend__CalendarHeader;
-    background-color: $MODAL_DARK;
+    background-color: $GRAY_800;
     box-shadow: none;
     @media (max-width: 750px) {
       border-radius: 0 0 8px 8px !important;
+      box-shadow: none;
     }
   }
 
@@ -34,7 +35,9 @@
     height: auto;
     &-dark {
       @extend .Kalend__CalendarHeader;
-      background-color: $MODAL_DARK;
+      background-color: $GRAY_800;
+      box-shadow: none;
+      border-radius: 0;
     }
   }
 

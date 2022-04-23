@@ -162,3 +162,12 @@ export interface Style {
   baseColor: string;
   inverseBaseColor: string;
 }
+
+export interface ColorItems {
+  primaryColor: string;
+}
+
+export interface Colors {
+  dark: ColorItems;
+  light: ColorItems;
+}

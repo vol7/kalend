@@ -20,6 +20,16 @@ $month_view__height: math.div(100%, 6);
   &--no-border {
     @extend .Kalend__MonthWeekRow__container;
     border-bottom: solid 1px transparent;
+
+    &-dark {
+      @extend .Kalend__MonthWeekRow__container--no-border;
+      border-bottom: solid 1px transparent;
+    }
+  }
+
+  &-dark {
+    @extend .Kalend__MonthWeekRow__container;
+    border-bottom: solid 1px $GRAY_700;
   }
 }
 

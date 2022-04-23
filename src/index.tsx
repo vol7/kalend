@@ -1,6 +1,7 @@
 import { CALENDAR_VIEW } from './common/enums';
 import {
   CalendarEvent,
+  Colors,
   NewEventClickData,
   OnEventClickFunc,
   OnEventDragFinishFunc,
@@ -61,6 +62,7 @@ export interface KalendProps {
   focusHour?: number;
   showTimeLine?: boolean;
   showWeekNumbers?: boolean;
+  colors?: Colors;
   autoScroll?: boolean;
 }
 

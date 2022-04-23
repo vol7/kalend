@@ -39,9 +39,10 @@ const ButtonIcon = (props: ButtonIconProps) => {
     : `${disabled ? 'Kalend__ButtonIcon__disabled ' : ''}Kalend__ButtonIcon`;
 
   const IconElement: any = React.cloneElement(children, {
-    className: `Kalend__ButtonIcon__svg${
-      iconSize ? `-${iconSize}` : '-normal'
-    }`,
+    className: parseCssDark(
+      `Kalend__ButtonIcon__svg${iconSize ? `-${iconSize}` : '-normal'}`,
+      isDark
+    ),
   });
 
   return (

@@ -65,7 +65,7 @@ export const createConfig = (props: KalendProps): Config => {
     timezone:
       props.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
     weekDayStart: parseWeekDayStart(props.weekDayStart) || WEEKDAY_START.MONDAY,
-    isDark: false, //props.isDark,
+    isDark: props.isDark || false,
     disableMobileDropdown: props.disableMobileDropdown || false,
     disabledViews: props.disabledViews,
     calendarIDsHidden: props.calendarIDsHidden || null,
@@ -100,7 +100,11 @@ const ConfigLayer = (props: KalendProps) => {
     const config = createConfig(props);
     const callbacks = createCallbacks(props);
     setContext('config', config);
+    if (props.colors) {
+      setContext('colors', props.colors);
+    }
     setContext('callbacks', callbacks);
+    setContext('isDark', props.isDark || false);
     setContext(
       'selectedView',
       props.selectedView || props.initialView || CALENDAR_VIEW.WEEK

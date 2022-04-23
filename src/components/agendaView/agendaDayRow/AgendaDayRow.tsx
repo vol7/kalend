@@ -4,6 +4,7 @@ import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
 import { ReactNode, useContext, useEffect } from 'react';
+import { parseCssDark } from '../../../utils/common';
 import DateWeekDay from '../../dateWeekDay/DateWeekDay';
 import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
 import EventButton from '../../eventButton/EventButton';
@@ -67,7 +68,10 @@ const AgendaDayRow = (props: AgendaDayRowProps) => {
   }, []);
 
   return (
-    <div className={'Kalend__AgendaDayRow__container'} id={day.toString()}>
+    <div
+      className={parseCssDark('Kalend__AgendaDayRow__container', store.isDark)}
+      id={day.toString()}
+    >
       <div className={'Kalend__AgendaDayRow__container-day'}>
         <DayOfWeekText day={day} width={50} />
         <DateWeekDay width={50} day={day} />

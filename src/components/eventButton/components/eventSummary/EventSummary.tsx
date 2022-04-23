@@ -15,7 +15,7 @@ const EventSummary = (props: EventSummaryProps) => {
       className={`Kalend__text ${parseCssDark(
         'Kalend__Event__summary',
         isDark
-      )} Kalend__Event__summary__type-${type}`}
+      )} ${parseCssDark(`Kalend__Event__summary__type-${type}`, isDark)}`}
     >
       {summary}{' '}
     </p>

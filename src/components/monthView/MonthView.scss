@@ -25,4 +25,19 @@ $month_view__height: math.div(100%, 6);
   max-height: 17px !important;
   min-height: 17px;
   margin-top: 1px;
+
+
+}
+
+.Kalend__MonthView_more_title {
+  font-size: 16px;
+  padding: 0;
+  margin: 4px;
+  margin-bottom: 8px;
+  text-align: center;
+
+  &-dark {
+    @extend .Kalend__MonthView_more_title;
+    color: $GRAY_200;
+  }
 }

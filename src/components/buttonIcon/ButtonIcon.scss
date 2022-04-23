@@ -54,6 +54,12 @@
   &-dark {
     @extend .Kalend__ButtonIcon;
     fill: $GRAY_400;
+
+    &:hover {
+      @extend .Kalend__ButtonIcon-dark;
+      opacity: 0.9;
+      background-color: $GRAY_700;
+    }
   }
 
   &-inactive {
@@ -93,6 +99,16 @@
     @extend .Kalend__ButtonIcon__svg;
     width: 2.2em;
     height: 2.2em;
+
+    &-dark {
+      @extend .Kalend__ButtonIcon__svg-normal;
+      fill: $GRAY_300;
+    }
+  }
+
+  &-dark {
+    @extend .Kalend__ButtonIcon__svg;
+    fill: $GRAY_300;
   }
 }
 

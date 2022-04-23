@@ -30,6 +30,7 @@ const EventAgenda = (props: EventAgendaProps) => {
             background: event.color,
             marginLeft: 8,
             marginRight: 8,
+            filter: isDark ? 'saturate(60%) brightness(120%)' : 'none',
           }}
         />
       </div>

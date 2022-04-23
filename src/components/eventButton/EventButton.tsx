@@ -21,7 +21,7 @@ import {
   onMoveNormalEvent,
   onResizeNormalEvent,
 } from './utils/draggingWeek';
-import { checkIfDraggable } from '../../utils/common';
+import { checkIfDraggable, parseCssDark } from '../../utils/common';
 import {
   disableTouchDragging,
   eventButtonInitialState,
@@ -433,7 +433,7 @@ const EventButton = (props: EventButtonProps) => {
       id={event.id}
       isDark={isDark}
       style={style}
-      className={`Kalend__Event-${type} ${
+      className={`${parseCssDark(`Kalend__Event-${type}`, store.isDark)} ${
         state.isDragging ? 'Kalend__EventButton__elevation' : ''
       }`}
       onClick={handleEventClick}
@@ -489,8 +489,8 @@ const EventButton = (props: EventButtonProps) => {
   ) : (
     <ButtonBase
       id={event.id}
-      isDark={isDark}
-      className={`Kalend__Event-${type}`}
+      isDark={false}
+      className={parseCssDark(`Kalend__Event-${type}`, isDark)}
       onClick={handleEventClick}
     >
       <EventAgenda event={event} isDark={isDark} type={type} />

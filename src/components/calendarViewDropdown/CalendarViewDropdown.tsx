@@ -38,7 +38,7 @@ const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
         ) : (
           <ButtonBase
             isDark={isDark}
-            className={'Kalend__ButtonBase-border'}
+            className={parseCssDark('Kalend__ButtonBase-border', isDark)}
             onClick={handleOpen}
             text={parseCalendarViewToText(selectedView, translations)}
           />
@@ -50,7 +50,12 @@ const CalendarViewDropdown = (props: CalendarViewDropdownProps) => {
           />
         ) : null}
         {isOpen ? (
-          <div className={'Kalend__CalendarViewDropdown__container'}>
+          <div
+            className={parseCssDark(
+              'Kalend__CalendarViewDropdown__container',
+              isDark
+            )}
+          >
             <div
               className={'Kalend__CalendarViewDropdown__container-content'}
               onClick={preventDefault}

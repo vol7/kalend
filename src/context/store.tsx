@@ -1,6 +1,7 @@
 import { CALENDAR_NAVIGATION_DIRECTION, CALENDAR_VIEW } from '../common/enums';
 import {
   Callbacks,
+  Colors,
   Config,
   DraggingDisabledConditions,
   EventLayout,
@@ -40,6 +41,8 @@ export interface Store {
   isNewEventOpen: boolean;
   style: Style;
   showWeekNumbers: boolean;
+  isDark: boolean;
+  colors: Colors;
 }
 
 export const Context: any = createContext({});
@@ -70,10 +73,19 @@ const StoreProvider = ({ children, ...props }: any) => {
     translations: en,
     isNewEventOpen: false,
     draggingDisabledConditions: null,
+    isDark: false,
     style: {
       primaryColor: '#ec407a',
       baseColor: '#424242FF',
       inverseBaseColor: '#E5E5E5FF',
+    },
+    colors: {
+      light: {
+        primaryColor: '#ec407a',
+      },
+      dark: {
+        primaryColor: '#f48fb1',
+      },
     },
   };
 

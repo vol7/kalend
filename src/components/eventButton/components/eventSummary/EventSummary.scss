@@ -15,6 +15,11 @@
     font-size: 0.8em;
   }
   white-space: inherit;
+
+  &-dark {
+    @extend .Kalend__Event__summary;
+    color: $GRAY_900;
+  }
 }
 
 .Kalend__Event__summary__type {
@@ -23,6 +28,10 @@
     padding-left: 3px;
     font-weight: 500;
     white-space: nowrap;
+
+    &-dark {
+      @extend .Kalend__Event__summary__type-header;
+    }
   }
 
   &-month {
@@ -42,5 +51,10 @@
     font-weight: 600;
     font-size: 0.8em;
     color: $GRAY_700;
+
+    &-dark {
+      @extend .Kalend__Event__summary__type-agenda;
+      color: $GRAY_100;
+    }
   }
 }

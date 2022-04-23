@@ -91,7 +91,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
   // different screen size
   useEffect(() => {
     const element: any = document.querySelector(
-      '.Kalend__CalendarDesktopNavigation__container'
+      parseCssDark('.Kalend__CalendarDesktopNavigation__container', isDark)
     );
 
     if (element) {
@@ -144,7 +144,7 @@ const CalendarDesktopNavigation = (props: CalendarDesktopNavigationProps) => {
           <div className={'Kalend__CalendarDesktopNavigation__buttons'}>
             <>
               <ButtonBase
-                className={'Kalend__ButtonBase-border'}
+                className={parseCssDark('Kalend__ButtonBase-border', isDark)}
                 isDark={isDark}
                 onClick={navigateToTodayDate}
               >

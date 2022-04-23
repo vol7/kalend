@@ -28,4 +28,9 @@
   align-self: center;
   text-align: center;
   color: $GRAY_500;
+
+  &-dark {
+    @extend .Kalend__CalendarHeaderWeekDays__text;
+    color: $GRAY_300;
+  }
 }

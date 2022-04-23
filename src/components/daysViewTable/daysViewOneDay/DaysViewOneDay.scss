@@ -6,6 +6,10 @@ $BORDER_DARK_COLOR: $GRAY_900;
 .Kalend__DayViewOneDay {
   position: relative;
   flex-direction: column;
+
+  &-dark {
+    @extend .Kalend__DayViewOneDay;
+  }
 }
 
 .Kalend__DayViewOneDay__border-left {

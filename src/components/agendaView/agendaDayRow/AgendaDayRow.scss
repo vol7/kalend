@@ -6,6 +6,11 @@
   width: 100%;
   //height: 100%;
   border-bottom: solid $GRAY_300 0.4px;
+
+  &-dark {
+    @extend .Kalend__AgendaDayRow__container;
+    border-bottom: solid $GRAY_700 0.4px;
+  }
 }
 
 .Kalend__AgendaDayRow__events {
