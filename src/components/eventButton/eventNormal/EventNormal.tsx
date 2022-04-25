@@ -9,10 +9,11 @@ interface EventNormalProps {
   type: EVENT_TYPE;
   meta?: EventLayoutMeta;
   endAt?: string;
+  isDarkColor?: boolean;
 }
 
 const EventNormal = (props: EventNormalProps) => {
-  const { isDark, event, type, meta, endAt } = props;
+  const { isDark, event, type, meta, endAt, isDarkColor } = props;
 
   return (
     <div
@@ -22,7 +23,12 @@ const EventNormal = (props: EventNormalProps) => {
         maxWidth: '-webkit-fill-available',
       }}
     >
-      <EventSummary summary={event.summary} isDark={isDark} type={type} />
+      <EventSummary
+        summary={event.summary}
+        isDark={isDark}
+        type={type}
+        isDarkColor={isDarkColor}
+      />
 
       {meta?.showTime ? (
         <EventTime
@@ -30,6 +36,7 @@ const EventNormal = (props: EventNormalProps) => {
           event={event}
           type={EVENT_TYPE.NORMAL}
           endAt={endAt}
+          isDarkColor={isDarkColor}
         />
       ) : null}
     </div>

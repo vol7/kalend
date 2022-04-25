@@ -13,8 +13,8 @@ const colors: string[] = [
   'brown',
   'purple',
   'tomato',
-  'MediumPurple',
   'salmon',
+  'gray',
 ];
 
 export const generateDemoEvents = (

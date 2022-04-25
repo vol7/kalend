@@ -48,6 +48,7 @@ interface EventTimeProps {
   event: CalendarEvent;
   type: EVENT_TYPE;
   endAt?: string;
+  isDarkColor?: boolean;
 }
 
 const normalTime = (
@@ -56,7 +57,8 @@ const normalTime = (
   timezone: string,
   type: EVENT_TYPE,
   isDark: boolean,
-  endAt?: string
+  endAt?: string,
+  isDarkColor?: boolean
 ) => {
   const timeV2: any = formatEventTimeV2(event, timeFormat, timezone, endAt);
 
@@ -65,7 +67,9 @@ const normalTime = (
       className={`Kalend__text ${parseCssDark(
         `Kalend__Event__time__type-${type}`,
         isDark
-      )} Kalend__Event__time`}
+      )} Kalend__Event__time ${
+        isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
+      }`}
     >
       {timeV2.start}
       <br />
@@ -76,7 +80,9 @@ const normalTime = (
       className={`Kalend__text ${parseCssDark(
         `Kalend__Event__time__type-${type}`,
         isDark
-      )} Kalend__Event__time`}
+      )} Kalend__Event__time ${
+        isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
+      }`}
     >
       {timeV2.start} - {timeV2.end}
     </p>
@@ -84,7 +90,7 @@ const normalTime = (
 };
 
 const EventTime = (props: EventTimeProps) => {
-  const { isDark, event, type, endAt } = props;
+  const { isDark, event, type, endAt, isDarkColor } = props;
 
   const [store] = useContext(Context);
   const { config } = store as Store;
@@ -96,7 +102,9 @@ const EventTime = (props: EventTimeProps) => {
         className={`Kalend__text ${parseCssDark(
           `Kalend__Event__time__type-${type}`,
           isDark
-        )} Kalend__Event__time`}
+        )} Kalend__Event__time ${
+          isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
+        }`}
       >
         All day
       </p>
@@ -112,7 +120,7 @@ const EventTime = (props: EventTimeProps) => {
       </p>
     </>
   ) : (
-    normalTime(timeFormat, event, timezone, type, isDark, endAt)
+    normalTime(timeFormat, event, timezone, type, isDark, endAt, isDarkColor)
   );
 };
 

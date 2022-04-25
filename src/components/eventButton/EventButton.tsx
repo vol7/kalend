@@ -29,6 +29,7 @@ import {
 import { onFinishDraggingInternal } from './utils/draggingGeneral';
 import { parseEventColor } from '../../utils/calendarDays';
 import ButtonBase from '../buttonBase/ButtonBase';
+import Color from 'color';
 import EventAgenda from './eventAgenda/EventAgenda';
 import EventMonth from './eventMonth/EventMonth';
 import EventNormal from './eventNormal/EventNormal';
@@ -36,6 +37,16 @@ import stateReducer from '../../utils/stateReducer';
 
 // ref to cancel timout
 let timeoutRef: any;
+
+export const checkIfColorDark = (colorString: string): boolean => {
+  try {
+    const color = Color(colorString);
+
+    return color.isDark();
+  } catch (e) {
+    return false;
+  }
+};
 
 const EventButton = (props: EventButtonProps) => {
   const { item, type, day = DateTime.now(), index } = props;
@@ -95,6 +106,9 @@ const EventButton = (props: EventButtonProps) => {
       return 'absolute';
     }
   };
+
+  const isDarkColor = checkIfColorDark(eventColor);
+
   const style: EventStyle = {
     position: getPosition(),
     height:
@@ -446,7 +460,12 @@ const EventButton = (props: EventButtonProps) => {
       {type === EVENT_TYPE.MONTH ||
       type === EVENT_TYPE.HEADER ||
       type === EVENT_TYPE.SHOW_MORE_MONTH ? (
-        <EventMonth event={event} isDark={isDark} type={type} />
+        <EventMonth
+          event={event}
+          isDark={isDark}
+          type={type}
+          isDarkColor={isDarkColor}
+        />
       ) : null}
       {type === EVENT_TYPE.NORMAL ? (
         <EventNormal
@@ -455,6 +474,7 @@ const EventButton = (props: EventButtonProps) => {
           type={type}
           meta={item.meta}
           endAt={state.endAt}
+          isDarkColor={isDarkColor}
         />
       ) : null}
       {isResizing.current ? (
