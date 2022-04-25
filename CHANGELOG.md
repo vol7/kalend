@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.1
+- Optimization for better contrast between event color and text
+
 ## 0.14.0
 - Add dark theme support with prop ```isDark```
 
