@@ -7,10 +7,10 @@
   font-family: MONOSPACE, SansSerif, sans-serif, serif;
   font-size: 1em;
 
-  &-dark {
-    @extend .Kalend__text;
-    color: $GRAY_100;
-  }
+  //&-dark {
+  //  @extend .Kalend__text;
+  //  color: $GRAY_100;
+  //}
 }
 
 .Kalend__Calendar__root {
@@ -93,4 +93,12 @@
   border-style: inherit;
   border-color: inherit;
   border-image: inherit;
+}
+
+.Kalend__text-light {
+  color: $GRAY_100
+}
+
+.Kalend__text-dark {
+  color: $GRAY_900
 }

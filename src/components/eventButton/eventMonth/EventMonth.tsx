@@ -6,12 +6,20 @@ interface EventMonthProps {
   event: CalendarEvent;
   isDark: boolean;
   type: EVENT_TYPE;
+  isDarkColor?: boolean;
 }
 
 const EventMonth = (props: EventMonthProps) => {
-  const { isDark, event, type } = props;
+  const { isDark, event, type, isDarkColor } = props;
 
-  return <EventSummary summary={event.summary} isDark={isDark} type={type} />;
+  return (
+    <EventSummary
+      summary={event.summary}
+      isDark={isDark}
+      type={type}
+      isDarkColor={isDarkColor}
+    />
+  );
 };
 
 export default EventMonth;

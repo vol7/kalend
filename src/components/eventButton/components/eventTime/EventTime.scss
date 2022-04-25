@@ -8,7 +8,7 @@
   padding: 2px 1px 0 4px;
   opacity: 1;
   overflow: hidden;
-  color: #f6f4f4;
+  //color: #f6f4f4;
   font-size: 0.7em;
 }
 
@@ -18,7 +18,7 @@
 
     &-dark {
       @extend .Kalend__Event__time__type-normal;
-      color: $GRAY_900;
+      //color: $GRAY_900;
     }
   }
 
