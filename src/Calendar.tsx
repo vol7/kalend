@@ -137,7 +137,7 @@ const Calendar = (props: CalendarProps) => {
       />
       {selectedView !== CALENDAR_VIEW.AGENDA &&
       selectedView !== CALENDAR_VIEW.MONTH ? (
-        <CalendarHeader />
+        <CalendarHeader setViewChanged={setViewChanged} />
       ) : null}
       {selectedView === CALENDAR_VIEW.MONTH ? (
         <>

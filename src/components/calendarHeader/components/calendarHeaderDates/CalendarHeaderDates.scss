@@ -13,9 +13,31 @@
   height: 28px;
   //background-color: $PRIMARY_LIGHT;
 
+  &:hover {
+    @extend .Kalend__CalendarHeaderDates__primary;
+    opacity: 1;
+  }
+
   &-dark {
     @extend .Kalend__CalendarHeaderDates__primary;
     //background-color: $PRIMARY_DARK;
+    &:hover {
+      @extend .Kalend__CalendarHeaderDates__primary-dark;
+      opacity: 1;
+    }
+  }
+}
+
+.Kalend__CalendarHeaderDates__agenda {
+  &:hover {
+    background: transparent !important;
+    cursor: default !important;
+  }
+}
+
+.Kalend__CalendarHeaderDates__agenda-primary {
+  &:hover {
+    cursor: default !important;
   }
 }
 
@@ -30,9 +52,18 @@
   justify-content: center;
   color: $GRAY_900;
 
+  &:hover {
+    @extend .Kalend__CalendarHeaderDates__circle;
+    background-color: $GRAY_300;
+  }
+
   &-dark {
     @extend .Kalend__CalendarHeaderDates__circle;
     color: $GRAY_100;
+    &:hover {
+      @extend .Kalend__CalendarHeaderDates__circle-dark;
+      background-color: $GRAY_700;
+    }
   }
 
   &-small {
@@ -44,13 +75,13 @@
 
     &:hover {
       @extend .Kalend__CalendarHeaderDates__circle-small;
-      background-color: $GRAY_300 !important;
+      background-color: $GRAY_300;
     }
     &-dark {
       @extend .Kalend__CalendarHeaderDates__circle-small;
       &:hover {
         @extend .Kalend__CalendarHeaderDates__circle-small-dark;
-        background-color: $GRAY_700 !important;
+        background-color: $GRAY_700;
       }
     }
 
