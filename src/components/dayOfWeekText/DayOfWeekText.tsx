@@ -1,5 +1,6 @@
 import { Context } from '../../context/store';
 import { DayOfWeekTextProps } from './DayOfWeekText.props';
+import { parseCssDark } from '../../utils/common';
 import { useContext } from 'react';
 
 const DayOfWeekText = (props: DayOfWeekTextProps) => {
@@ -11,7 +12,12 @@ const DayOfWeekText = (props: DayOfWeekTextProps) => {
 
   return (
     <div className={'Kalend__CalendarHeaderWeekDays__col'} style={{ width }}>
-      <p className={'Kalend__text Kalend__CalendarHeaderWeekDays__text'}>
+      <p
+        className={parseCssDark(
+          'Kalend__text Kalend__CalendarHeaderWeekDays__text',
+          store.isDark
+        )}
+      >
         {translations['weekDays'][`${day.toFormat('EEE')}`]}
       </p>
     </div>

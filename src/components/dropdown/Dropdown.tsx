@@ -78,7 +78,7 @@ const Dropdown = (props: any) => {
         isDark={store.isDark}
       >
         <p
-          className={parseCssDark('Kalend__text', store.isDark)}
+          className={parseCssDark('Kalend__text', !store.isDark)}
           style={{ fontSize: 11 }}
         >
           {translations['buttons']['showMore']}

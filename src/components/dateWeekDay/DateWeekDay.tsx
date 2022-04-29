@@ -18,6 +18,7 @@ const DateWeekDay = (props: DateWeekDayProps) => {
   const isDayToday: boolean = LuxonHelper.isToday(day);
 
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
+  const isAgendaView: boolean = selectedView === CALENDAR_VIEW.AGENDA;
 
   const navigateToDay = (e: any) => {
     if (props.setViewChanged) {
@@ -69,17 +70,24 @@ const DateWeekDay = (props: DateWeekDayProps) => {
   return (
     <div
       className={'Kalend__CalendarHeaderDates__col'}
-      style={{ width, cursor: props.setViewChanged ? 'pointer' : 'normal' }}
+      style={{ width }}
       onClick={handleNewEventClick}
     >
       <div
         className={`${parseCssDark(
           `Kalend__CalendarHeaderDates__circle${isMonthView ? '-small' : ''}`,
-          true
-        )} ${isDayToday ? 'Kalend__CalendarHeaderDates__primary' : ''}`}
+          store.isDark
+        )} ${isDayToday ? 'Kalend__CalendarHeaderDates__primary' : ''} ${
+          isAgendaView
+            ? isDayToday
+              ? 'Kalend__CalendarHeaderDates__agenda-primary'
+              : 'Kalend__CalendarHeaderDates__agenda'
+            : ''
+        }`}
         onClick={navigateToDay}
         style={{
-          background: getBackgroundColor(),
+          backgroundColor: getBackgroundColor(),
+          cursor: props.setViewChanged ? 'pointer' : 'normal',
         }}
       >
         <p
