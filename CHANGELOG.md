@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.2
+- Fixed layout and style issues
+- Added click on day in days view
+
 ## 0.14.1
 - Optimization for better contrast between event color and text
 
