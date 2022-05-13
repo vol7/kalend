@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.3
+- Added resetting func for dragging callback
+- Added option to disable dragging and resizing
+
 ## 0.14.2
 - Fixed layout and style issues
 - Added click on day in days view
@@ -27,7 +31,7 @@
 ## 0.12.0
 - Refactored agenda view
 - Added week numbers to month and day views
-- Fix initialDate prop not working 
+- Fix initialDate prop not working
 
 ## 0.11.2
 - Fixed bug with wrong layout in 12-hour format
@@ -47,7 +51,7 @@
 - Added option to define rules for disabling dragging events
 
 ## 0.10.3
-- Added new event click in month view (on empty space in header) 
+- Added new event click in month view (on empty space in header)
 
 ## 0.10.2
 - Fixed German translation, thanks to @aliesenli
@@ -57,7 +61,7 @@
 
 ## 0.10.0
 - Added dragging to create new event
-- Added prop isNewEventOpen to control new event dragging element visibility 
+- Added prop isNewEventOpen to control new event dragging element visibility
 
 ## 0.9.10
 - Fixed event layout after switching views
@@ -70,7 +74,7 @@
 - Keep selected date state when switching views
 
 ## 0.9.7
-- Updated event click callbacks 
+- Updated event click callbacks
 
 ## 0.9.6
 - Fixed resizing events on hour height change
@@ -142,7 +146,7 @@
 ## 0.5.0
 - add option to change time format to 12 hours (AM/PM) or 24 hours
 - add filtering events by calendarID
-- fix calculating event after dragging when hourHeight wasn't default value 
+- fix calculating event after dragging when hourHeight wasn't default value
 
 ## 0.4.0
 - add option to set Sunday as start of the week
