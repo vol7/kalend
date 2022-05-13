@@ -31,4 +31,5 @@ sidebar_position: 2
 `showWeekNumbers`               | `boolean`                                               |               |  | false    | show week numbers in month and day views    
 `autoScroll`               | `boolean`                                               |               |  | false    | scroll to current time on load    
 `isDark`               | `boolean`                                               |               |  | false    | set dark theme
+`disabledDragging`               | `boolean`                                               |               |  | false    | disable dragging and resizing globally
 `colors`               | [see more](https://docs.kalend.org/docs/basics/styling) |               |  | false    | set custom colors for dark/light theme

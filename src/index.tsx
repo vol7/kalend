@@ -64,6 +64,7 @@ export interface KalendProps {
   showWeekNumbers?: boolean;
   colors?: Colors;
   autoScroll?: boolean;
+  disabledDragging?: boolean;
 }
 
 // use any as JSX was causing errors for some cases

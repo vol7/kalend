@@ -38,7 +38,8 @@ const CalendComponent = (props: any) => {
   const onEventDragFinish: OnEventDragFinish = (
     prev: any,
     current: any,
-    data: any
+    data: any,
+    resetPosition: any
   ) => {
     setDemoEvents(data);
   };
@@ -66,6 +67,7 @@ const CalendComponent = (props: any) => {
       showTimeLine={true}
       isDark={false}
       autoScroll={true}
+      // disabledDragging={true}
       // colors={{
       //   light: {
       //     primaryColor: 'blue',

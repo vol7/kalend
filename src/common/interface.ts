@@ -112,6 +112,7 @@ export interface Config {
   focusHour: number | null;
   showTimeLine: boolean;
   autoScroll: boolean;
+  disabledDragging: boolean;
 }
 
 export interface KalendState {
@@ -137,7 +138,8 @@ export type OnEventClickFunc = (data: CalendarEvent, e: any) => void;
 export type OnEventDragFinishFunc = (
   prevEvent: CalendarEvent,
   updatedEvent: CalendarEvent,
-  events: any
+  events: any,
+  resetPosition?: any
 ) => void;
 export type OnNewEventClickFunc = (data: NewEventClickData, e: any) => void;
 export type OnStateChangeFunc = (data: KalendState) => void;
