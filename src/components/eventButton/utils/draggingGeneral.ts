@@ -7,7 +7,8 @@ export const onFinishDraggingInternal = (
   store: any,
   setContext: any,
   type: EVENT_TYPE,
-  onEventDragFinish?: OnEventDragFinish
+  onEventDragFinish?: OnEventDragFinish,
+  resetPosition?: any
 ) => {
   const events = store.events;
   const result: any = events?.map((item: any) => {
@@ -20,6 +21,6 @@ export const onFinishDraggingInternal = (
 
   // return updated data with callback
   if (onEventDragFinish) {
-    onEventDragFinish(prevEvent, eventToUpdate, result);
+    onEventDragFinish(prevEvent, eventToUpdate, result, resetPosition);
   }
 };

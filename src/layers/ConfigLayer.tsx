@@ -73,6 +73,7 @@ export const createConfig = (props: KalendProps): Config => {
     focusHour: props.focusHour || null,
     showTimeLine: props.showTimeLine || false,
     autoScroll: props.autoScroll || false,
+    disabledDragging: props.disabledDragging || false,
   };
 };
 

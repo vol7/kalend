@@ -176,7 +176,7 @@ const EventButton = (props: EventButtonProps) => {
   const onResize = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
-    if (disableTouchDragging(e)) {
+    if (disableTouchDragging(e) || config.disabledDragging) {
       return;
     }
 
@@ -366,7 +366,10 @@ const EventButton = (props: EventButtonProps) => {
           store,
           setContext,
           type,
-          onEventDragFinish
+          onEventDragFinish,
+          () => {
+            setLayout(item);
+          }
         );
       }
     }
@@ -406,7 +409,7 @@ const EventButton = (props: EventButtonProps) => {
     }
 
     const isDraggable = checkIfDraggable(draggingDisabledConditions, event);
-    if (!isDraggable) {
+    if (!isDraggable || config.disabledDragging) {
       return;
     }
 
