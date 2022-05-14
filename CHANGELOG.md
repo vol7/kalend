@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.4
+- You can now overwrite each event style by adding style object to event
+
 ## 0.14.3
 - Added resetting func for dragging callback
 - Added option to disable dragging and resizing
