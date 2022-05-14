@@ -6,10 +6,15 @@ interface EventSummaryProps {
   summary: string;
   type: EVENT_TYPE;
   isDarkColor?: boolean;
+  event: any;
 }
 
 const EventSummary = (props: EventSummaryProps) => {
-  const { isDark, summary, type, isDarkColor } = props;
+  const { isDark, summary, type, isDarkColor, event } = props;
+
+  const style = {
+    color: event.style?.color ? event.style.color : 'inherit',
+  };
 
   return (
     <p
@@ -19,6 +24,7 @@ const EventSummary = (props: EventSummaryProps) => {
       )} ${parseCssDark(`Kalend__Event__summary__type-${type}`, isDark)} ${
         isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
       }`}
+      style={style}
     >
       {summary}{' '}
     </p>

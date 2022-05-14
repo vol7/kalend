@@ -28,6 +28,7 @@ const EventNormal = (props: EventNormalProps) => {
         isDark={isDark}
         type={type}
         isDarkColor={isDarkColor}
+        event={event}
       />
 
       {meta?.showTime ? (

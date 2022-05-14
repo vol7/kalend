@@ -38,6 +38,14 @@ import stateReducer from '../../utils/stateReducer';
 // ref to cancel timout
 let timeoutRef: any;
 
+const parseAdditionalEventStyle = (event: any) => {
+  if (event.style) {
+    return event.style;
+  }
+
+  return {};
+};
+
 export const checkIfColorDark = (colorString: string): boolean => {
   try {
     const color = Color(colorString);
@@ -117,9 +125,12 @@ const EventButton = (props: EventButtonProps) => {
     top: state.offsetTop !== null ? state.offsetTop : item.offsetTop,
     left: state.offsetLeft !== null ? state.offsetLeft : item.offsetLeft,
     zIndex: state.zIndex || item.zIndex,
-    border: state.zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
+    border: isDark ? 'solid 1px #1d1f26' : 'solid 1px white',
+    // border: state.zIndex > 2 ? `solid 1px white` : `solid 1px ${eventColor}`,
     backgroundColor: eventColor,
     visibility: 'visible',
+    color: isDarkColor ? 'white' : 'black',
+    ...parseAdditionalEventStyle(item.event),
     // alignItems: meta?.centerText ? 'center' : 'inherit',
   };
 

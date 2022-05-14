@@ -62,6 +62,10 @@ const normalTime = (
 ) => {
   const timeV2: any = formatEventTimeV2(event, timeFormat, timezone, endAt);
 
+  const style = {
+    color: event.style?.color ? event.style.color : 'inherit',
+  };
+
   return timeFormat === TIME_FORMAT.H_12 ? (
     <p
       className={`Kalend__text ${parseCssDark(
@@ -70,6 +74,7 @@ const normalTime = (
       )} Kalend__Event__time ${
         isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
       }`}
+      style={style}
     >
       {timeV2.start}
       <br />
@@ -83,6 +88,7 @@ const normalTime = (
       )} Kalend__Event__time ${
         isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
       }`}
+      style={style}
     >
       {timeV2.start} - {timeV2.end}
     </p>
@@ -96,6 +102,10 @@ const EventTime = (props: EventTimeProps) => {
   const { config } = store as Store;
   const { timezone, timeFormat } = config as Config;
 
+  const style = {
+    color: event.style?.color ? event.style.color : 'inherit',
+  };
+
   return type === EVENT_TYPE.AGENDA && event.allDay ? (
     <>
       <p
@@ -105,6 +115,7 @@ const EventTime = (props: EventTimeProps) => {
         )} Kalend__Event__time ${
           isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
         }`}
+        style={style}
       >
         All day
       </p>
