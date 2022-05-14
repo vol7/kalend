@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.5
+- Fixed missing vertical lines in some browsers 
+
 ## 0.14.4
 - You can now overwrite each event style by adding style object to event
 
