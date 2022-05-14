@@ -87,6 +87,7 @@ export interface EventStyle {
   border: string;
   alignItems?: string;
   visibility: string;
+  color: string;
 }
 
 export interface EventLayout {

@@ -13,7 +13,12 @@ const EventShowMoreMonth = (props: EventShowMoreMonthProps) => {
 
   return (
     <div className={'Kalend__EventShowMoreMonth__container'}>
-      <EventSummary summary={event.summary} isDark={isDark} type={type} />
+      <EventSummary
+        summary={event.summary}
+        isDark={isDark}
+        type={type}
+        event={event}
+      />
       {/*<EventTime isDark={isDark} event={event} type={type} />*/}
     </div>
   );

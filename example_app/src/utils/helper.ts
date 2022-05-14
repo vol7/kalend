@@ -52,6 +52,12 @@ export const generateDemoEvents = (
       summary: faker.commerce.department(),
       color: colors[Math.floor(Math.random() * colors.length - 1) + 1],
       allDay: endDate.day !== startDate.day,
+      // style: {
+      //   textDecoration: 'line-through',
+      //   border: 'solid 1px red',
+      //   background: 'white',
+      //   color: 'black',
+      // },
     };
 
     events.push(event);

@@ -44,6 +44,7 @@ const EventAgenda = (props: EventAgendaProps) => {
         isDark={isDark}
         type={type}
         isDarkColor={isDark}
+        event={event}
       />
     </div>
   );
