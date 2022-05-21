@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.7
+- Updated React peer dependency to 18
+- Fixed minor bugs
+
 ## 0.14.5
 - Fixed missing vertical lines in some browsers 
 
