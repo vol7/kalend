@@ -47,5 +47,13 @@ $GRAY_900: #1D1F26;
   &-dark {
     color: $GRAY_200;
   }
+
+  &-grayed {
+    color: $GRAY_600;
+
+    &-dark {
+      color: $GRAY_400;
+    }
+  }
 }
 
