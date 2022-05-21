@@ -1,6 +1,4 @@
-import { ReactNode } from 'react';
-
 export interface CalendarHeaderWrapperProps {
-  children: ReactNode;
+  children: any;
   isMonthView: boolean;
 }

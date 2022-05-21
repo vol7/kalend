@@ -232,3 +232,12 @@ export const checkIfDraggable = (
 
   return result;
 };
+
+export const isSameMonth = (date?: DateTime) => {
+  if (!date) {
+    return false;
+  }
+
+  const currentDate = DateTime.now();
+  return date.month === currentDate.month && date.year === currentDate.year;
+};

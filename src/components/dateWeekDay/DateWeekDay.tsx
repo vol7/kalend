@@ -1,5 +1,6 @@
 import { CALENDAR_VIEW } from '../../common/enums';
 import { Context } from '../../context/store';
+import { DateTime } from 'luxon';
 import { DateWeekDayProps } from './DateWeekDay.props';
 import { parseCssDark } from '../../utils/common';
 import { useContext } from 'react';
@@ -19,6 +20,8 @@ const DateWeekDay = (props: DateWeekDayProps) => {
 
   const isMonthView: boolean = selectedView === CALENDAR_VIEW.MONTH;
   const isAgendaView: boolean = selectedView === CALENDAR_VIEW.AGENDA;
+
+  const isInPast = isMonthView && !day.hasSame(DateTime.now(), 'month');
 
   const navigateToDay = (e: any) => {
     if (props.setViewChanged) {
@@ -98,7 +101,10 @@ const DateWeekDay = (props: DateWeekDayProps) => {
           } ${
             isDayToday
               ? parseCssDark('Kalend__color-text-base', !store.isDark)
-              : parseCssDark('Kalend__color-text-base', store.isDark)
+              : parseCssDark(
+                  `Kalend__color-text-base${isInPast ? '-grayed' : ''}`,
+                  store.isDark
+                )
           }`}
         >
           {day.day}

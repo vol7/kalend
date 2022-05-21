@@ -3,8 +3,8 @@ import { CalendarEvent } from '../../../common/interface';
 import { Context } from '../../../context/store';
 import { DateTime } from 'luxon';
 import { EVENT_TYPE } from '../../../common/enums';
-import { ReactNode, useContext, useEffect } from 'react';
 import { parseCssDark } from '../../../utils/common';
+import { useContext, useEffect } from 'react';
 import DateWeekDay from '../../dateWeekDay/DateWeekDay';
 import DayOfWeekText from '../../dayOfWeekText/DayOfWeekText';
 import EventButton from '../../eventButton/EventButton';
@@ -52,7 +52,7 @@ const renderEvents = (events: CalendarEvent[], timezone: string) => {
 const AgendaDayRow = (props: AgendaDayRowProps) => {
   const { day, events, scrollToThis } = props;
   const [store] = useContext(Context);
-  const dayEvents: ReactNode = renderEvents(events, store.config.timezone);
+  const dayEvents = renderEvents(events, store.config.timezone);
 
   useEffect(() => {
     if (!store.config.autoScroll) {

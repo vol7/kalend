@@ -3,7 +3,7 @@ import { CalendarProps } from './Calendar.props';
 import { Context, Store } from './context/store';
 import { DateTime } from 'luxon';
 import { getCalendarDays, getRange } from './utils/calendarDays';
-import { parseCssDark } from './utils/common';
+import { isSameMonth, parseCssDark } from './utils/common';
 import { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import AgendaView from './components/agendaView/AgendaView';
 import CalendarDesktopNavigation from './components/CalendarDesktopNavigation/CalendarDesktopNavigation';
@@ -70,7 +70,9 @@ const Calendar = (props: CalendarProps) => {
 
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChangedValue,
-      selectedDate || props.initialDate || DateTime.now(),
+      selectedDate && isSameMonth(selectedDate)
+        ? DateTime.now()
+        : selectedDate || props.initialDate || DateTime.now(),
       config.weekDayStart,
       setSelectedDate
     );
