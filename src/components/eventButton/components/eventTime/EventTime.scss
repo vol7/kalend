@@ -43,9 +43,17 @@
     padding: 8px;
     font-size: 0.8em;
     color: $GRAY_700;
+    flex: none;
+    @media (max-width: 750px) {
+      padding: 0 8px 0 8px;
+      margin-top: 4px;
+    }
     &-dark {
       @extend .Kalend__Event__time__type-agenda;
       color: $GRAY_300 !important;
+    }
+    @media (max-width: 750px) {
+      width: 100%;
     }
   }
 }

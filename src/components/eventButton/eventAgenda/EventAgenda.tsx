@@ -1,5 +1,7 @@
 import { CalendarEvent } from '../../../common/interface';
+import { Context } from '../../../context/store';
 import { EVENT_TYPE } from '../../../common/enums';
+import { useContext } from 'react';
 import EventSummary from '../components/eventSummary/EventSummary';
 import EventTime from '../components/eventTime/EventTime';
 
@@ -11,8 +13,10 @@ interface EventAgendaProps {
 
 const EventAgenda = (props: EventAgendaProps) => {
   const { isDark, event, type } = props;
+  const [store] = useContext(Context);
+  const { isMobile } = store;
 
-  return (
+  return !isMobile ? (
     <div className={'Kalend__EventAgenda__container'}>
       <EventTime
         isDark={isDark}
@@ -46,6 +50,33 @@ const EventAgenda = (props: EventAgendaProps) => {
         isDarkColor={isDark}
         event={event}
       />
+    </div>
+  ) : (
+    <div className={'Kalend__EventAgenda__container'}>
+      <div
+        style={{
+          width: 8,
+          height: 55,
+          borderRadius: 4,
+          background: event.color,
+          filter: isDark ? 'saturate(60%) brightness(120%)' : 'none',
+        }}
+      />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <EventSummary
+          summary={event.summary}
+          isDark={isDark}
+          type={type}
+          isDarkColor={isDark}
+          event={event}
+        />
+        <EventTime
+          isDark={isDark}
+          event={event}
+          type={type}
+          isDarkColor={isDark}
+        />
+      </div>
     </div>
   );
 };
