@@ -99,7 +99,7 @@ const EventTime = (props: EventTimeProps) => {
   const { isDark, event, type, endAt, isDarkColor } = props;
 
   const [store] = useContext(Context);
-  const { config } = store as Store;
+  const { config, isMobile } = store as Store;
   const { timezone, timeFormat } = config as Config;
 
   const style = {
@@ -119,16 +119,18 @@ const EventTime = (props: EventTimeProps) => {
       >
         All day
       </p>
-      <p
-        style={{
-          color: 'transparent',
-          padding: 0,
-          margin: 0,
-          fontSize: '0.8em',
-        }}
-      >
-        123 12
-      </p>
+      {!isMobile ? (
+        <p
+          style={{
+            color: 'transparent',
+            padding: 0,
+            margin: 0,
+            fontSize: '0.8em',
+          }}
+        >
+          123 12
+        </p>
+      ) : null}
     </>
   ) : (
     normalTime(timeFormat, event, timezone, type, isDark, endAt, isDarkColor)

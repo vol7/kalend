@@ -76,6 +76,11 @@
     color: $GRAY_800 !important;
     position: relative;
     width: 100%;
+
+    @media (max-width: 750px) {
+      margin-bottom: 2px;
+    }
+
     &-dark {
       @extend .Kalend__Event-agenda;
       filter: saturate(60%) brightness(120%);

@@ -46,13 +46,19 @@
 
   &-agenda {
     padding: 8px;
+    margin-right: 8px;
     font-weight: 600;
     font-size: 0.8em;
-    color: $GRAY_700;
-
+    color: $GRAY_700 !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    @media (max-width: 750px) {
+      padding: 0 8px 0 8px;
+    }
     &-dark {
       @extend .Kalend__Event__summary__type-agenda;
-      color: $GRAY_100;
+      color: $GRAY_100 !important;
     }
   }
 }
