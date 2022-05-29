@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.9
+- Fixed parsing event summary
+
 ## 0.14.8
 - Fixed problems in agenda view layout
 
