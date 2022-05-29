@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.8
+- Fixed problems in agenda view layout
+
 ## 0.14.7
 - Updated React peer dependency to 18
 - Fixed minor bugs
