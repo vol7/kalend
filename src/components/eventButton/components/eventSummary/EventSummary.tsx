@@ -1,5 +1,6 @@
 import { EVENT_TYPE } from '../../../../common/enums';
 import { parseCssDark } from '../../../../utils/common';
+import { parseEventString } from '../../../../utils/reactUtils';
 
 interface EventSummaryProps {
   isDark: boolean;
@@ -16,18 +17,15 @@ const EventSummary = (props: EventSummaryProps) => {
     color: event.style?.color ? event.style.color : 'inherit',
   };
 
-  return (
-    <p
-      className={` Kalend__text ${parseCssDark(
-        'Kalend__Event__summary',
-        isDark
-      )} ${parseCssDark(`Kalend__Event__summary__type-${type}`, isDark)} ${
-        isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
-      }`}
-      style={style}
-    >
-      {summary}{' '}
-    </p>
+  return parseEventString(
+    summary,
+    ` Kalend__text ${parseCssDark(
+      'Kalend__Event__summary',
+      isDark
+    )} ${parseCssDark(`Kalend__Event__summary__type-${type}`, isDark)} ${
+      isDarkColor ? 'Kalend__text-light' : 'Kalend__text-dark'
+    }`,
+    style
   );
 };
 
