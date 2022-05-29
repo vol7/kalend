@@ -48,11 +48,11 @@
     padding: 8px;
     font-weight: 600;
     font-size: 0.8em;
-    color: $GRAY_700;
+    color: $GRAY_700 !important;
 
     &-dark {
       @extend .Kalend__Event__summary__type-agenda;
-      color: $GRAY_100;
+      color: $GRAY_100 !important;
     }
   }
 }
