@@ -51,7 +51,7 @@ const Calendar = (props: CalendarProps) => {
     if (prevView === viewChangedValue) {
       return;
     }
-    // prevent infinit loop
+    // prevent infinite loop
     if (!selectedView && callbacks.onSelectView) {
       callbacks.onSelectView(viewChangedValue);
       return;
@@ -71,7 +71,7 @@ const Calendar = (props: CalendarProps) => {
     const calendarDaysNew: DateTime[] = getCalendarDays(
       viewChangedValue,
       selectedDate && isSameMonth(selectedDate)
-        ? DateTime.now()
+        ? selectedDate
         : selectedDate || props.initialDate || DateTime.now(),
       config.weekDayStart,
       setSelectedDate
