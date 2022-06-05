@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.10
+- Fixed navigating to day view
+
 ## 0.14.9
 - Fixed parsing event summary
 
