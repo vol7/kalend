@@ -51,13 +51,13 @@ const Calendar = (props: CalendarProps) => {
     if (prevView === viewChangedValue) {
       return;
     }
-    // prevent infinite loop
-    if (!selectedView && callbacks.onSelectView) {
-      callbacks.onSelectView(viewChangedValue);
-      return;
-    }
+
     if (!viewChangedValue) {
       return;
+    }
+
+    if (callbacks.onSelectView) {
+      callbacks.onSelectView(viewChangedValue);
     }
 
     setContext('calendarDays', calendarDays[0]);
