@@ -7,7 +7,10 @@ const renderCols = (calendarDays: DateTime[], translations: any) => {
     if (index % 7 === 0 && index < 7 * 5) {
       const weekNum = item.weekNumber;
       return (
-        <div className={'Kalend__WeekNumbersCol__container'}>
+        <div
+          className={'Kalend__WeekNumbersCol__container'}
+          key={item.toString()}
+        >
           <p className={'Kalend__WeekNumbersCol__text'}>
             {translations['weekShort']}
             {weekNum}
@@ -17,7 +20,10 @@ const renderCols = (calendarDays: DateTime[], translations: any) => {
     } else if (index % 7 === 0 && index >= 7 * 5) {
       const weekNum = item.weekNumber;
       return (
-        <div className={'Kalend__WeekNumbersCol__container--no-border'}>
+        <div
+          className={'Kalend__WeekNumbersCol__container--no-border'}
+          key={item.toString()}
+        >
           <p className={'Kalend__WeekNumbersCol__text'}>
             {translations['weekShort']}
             {weekNum}

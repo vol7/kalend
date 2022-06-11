@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.14.13
+- fixed multi day events in header for day view
+- add missing prop for mapped elements
+
 ## 0.14.12
 - fixed all day event in day view
 

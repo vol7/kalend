@@ -1,6 +1,6 @@
 {
   "name": "kalend",
-  "version": "0.14.12",
+  "version": "0.14.13",
   "author": "nibdo",
   "license": "MIT",
   "private": false,
@@ -24,7 +24,7 @@
   "dependencies": {
     "@swc/helpers": "0.2.14",
     "color": "4.2.3",
-    "kalend-layout": "0.0.13",
+    "kalend-layout": "0.0.14",
     "luxon": "2.4.0",
     "regenerator-runtime": "0.13.9"
   },
