@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.12
+- fixed all day event in day view
+
 ## 0.14.11
 - fixed positioning for overnight events (thanks to @cazfletch)
 - fixed onSelectView callback
