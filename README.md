@@ -25,7 +25,7 @@ Until stable version 1 updates might include breaking changes
 
 #
 
-If given interface and controls is not enough for you, you can use callbacks to access internal state and expand functionality to your ui.
+If given interface and controls is not enough for you, you can use callbacks to access internal state and expand the functionality of your ui.
 
 If you have any suggestion, feel free to open discussion or contact me directly at hello@nibdo.com
 
