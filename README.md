@@ -93,3 +93,9 @@ According to your needs, you can set timezone for each event and also set defaul
 If you don't provide timezone prop, your system default timezone will be used.
 
 You can keep other event properties, those will be ignored.
+
+### Troubleshooting
+
+#### Q: Calendar does not show timetable
+
+A: Your parent element has to have some height, so Kalend will inherit it and fit accordingly. For more information, refer to issue https://github.com/nibdo/kalend/issues/84#issuecomment-1003228182
