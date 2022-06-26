@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.14
+- added props flag "testMode" to disable style validation for testing 
+
 ## 0.14.13
 - fixed multi day events in header for day view
 - add missing prop for mapped elements
