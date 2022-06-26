@@ -64,13 +64,17 @@ export const validateProps = (props: KalendProps): void => {
   }
 };
 
-export const validateStyle = (): void => {
+export const validateStyle = (testMode?: boolean): void => {
+  if (testMode) {
+    return;
+  }
+
   const el: Element | null = document.querySelector('.Kalend__Calendar__root');
 
   if (el) {
     if (window.getComputedStyle(el).display !== 'flex') {
       throw Error(
-        `[Calend]: CSS file not imported.
+        `[Kalend]: CSS file not imported.
          Reason: You probably forgot to import css file in your app as
          import 'kalend/dist/styles/index.css';
 
