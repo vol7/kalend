@@ -65,6 +65,7 @@ export interface KalendProps {
   colors?: Colors;
   autoScroll?: boolean;
   disabledDragging?: boolean;
+  testMode?: boolean;
 }
 
 // use any as JSX was causing errors for some cases
@@ -72,7 +73,7 @@ const Kalend = (props: KalendProps): any => {
   // basic validation
   useEffect(() => {
     validateProps(props);
-    validateStyle();
+    validateStyle(props.testMode);
   }, []);
 
   return (

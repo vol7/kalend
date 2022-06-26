@@ -33,3 +33,5 @@ sidebar_position: 2
 `isDark`               | `boolean`                                               |               |  | false    | set dark theme
 `disabledDragging`               | `boolean`                                               |               |  | false    | disable dragging and resizing globally
 `colors`               | [see more](https://docs.kalend.org/docs/basics/styling) |               |  | false    | set custom colors for dark/light theme
+`testMode`               | boolean                                                 |               |  | false    | disable validations for testing
+
