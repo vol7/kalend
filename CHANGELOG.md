@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.16
+- fixed text position in event
+
 ## 0.14.15
 - fixed stacking events in days view, adjust font size based on event height
 

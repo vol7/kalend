@@ -34,10 +34,11 @@ const EventSummary = (props: EventSummaryProps) => {
     style.fontSize = parseFontSize(height);
 
     // adjust for smaller event container
-    if (height <= 10) {
+    if (height <= 20) {
       style.paddingTop = 0;
       style.lineHeight = 'normal';
       style.height = '100%';
+      style.padding = '0px 0px 6px 4px !important';
     }
   }
 
