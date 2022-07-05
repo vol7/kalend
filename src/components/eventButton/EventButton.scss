@@ -18,7 +18,7 @@
   align-items: flex-start;
   color: white;
   opacity: 1 !important;
-  min-height: 17px !important;
+  min-height: 6px !important;
 
   &-month {
     @extend .Kalend__Event;
@@ -70,7 +70,7 @@
 
   &-agenda {
     @extend .Kalend__Event;
-    height: 55px !important;
+    min-height: 55px !important;
     justify-content: flex-start;
     align-items: center;
     color: $GRAY_800 !important;
