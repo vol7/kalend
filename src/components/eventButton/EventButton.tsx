@@ -489,6 +489,7 @@ const EventButton = (props: EventButtonProps) => {
           meta={item.meta}
           endAt={state.endAt}
           isDarkColor={isDarkColor}
+          height={style.height}
         />
       ) : null}
       {isResizing.current ? (

@@ -10,10 +10,11 @@ interface EventNormalProps {
   meta?: EventLayoutMeta;
   endAt?: string;
   isDarkColor?: boolean;
+  height: number;
 }
 
 const EventNormal = (props: EventNormalProps) => {
-  const { isDark, event, type, meta, endAt, isDarkColor } = props;
+  const { isDark, event, type, meta, endAt, isDarkColor, height } = props;
 
   return (
     <div
@@ -29,6 +30,7 @@ const EventNormal = (props: EventNormalProps) => {
         type={type}
         isDarkColor={isDarkColor}
         event={event}
+        height={height}
       />
 
       {meta?.showTime ? (

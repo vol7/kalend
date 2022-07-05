@@ -8,14 +8,38 @@ interface EventSummaryProps {
   type: EVENT_TYPE;
   isDarkColor?: boolean;
   event: any;
+  height?: number;
 }
 
-const EventSummary = (props: EventSummaryProps) => {
-  const { isDark, summary, type, isDarkColor, event } = props;
+const parseFontSize = (height: number) => {
+  if (height < 10) {
+    return 7;
+  } else if (height < 15) {
+    return 9;
+  } else if (height < 20) {
+    return 11;
+  } else {
+    return 13;
+  }
+};
 
-  const style = {
+const EventSummary = (props: EventSummaryProps) => {
+  const { isDark, summary, type, isDarkColor, event, height } = props;
+
+  const style: any = {
     color: event.style?.color ? event.style.color : 'inherit',
   };
+
+  if (height) {
+    style.fontSize = parseFontSize(height);
+
+    // adjust for smaller event container
+    if (height <= 10) {
+      style.paddingTop = 0;
+      style.lineHeight = 'normal';
+      style.height = '100%';
+    }
+  }
 
   return parseEventString(
     summary,
