@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.14.17
+- fixed event stacking
+
 ## 0.14.16
 - fixed text position in event
 
