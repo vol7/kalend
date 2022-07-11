@@ -280,17 +280,17 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
    * Set listeners
    * @param e
    */
-  const onMouseDownLong = (e: any) => {
-    if (disableTouchDragging(e)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopPropagation();
+  // const onMouseDownLong = (e: any) => {
+  //   if (disableTouchDragging(e)) {
+  //     return;
+  //   }
+  //   e.preventDefault();
+  //   e.stopPropagation();
 
-    if (e.button !== 0) return;
-    document.addEventListener('mousemove', onMove, true);
-    document.addEventListener('mouseup', onMouseUp, true);
-  };
+  //   if (e.button !== 0) return;
+  //   document.addEventListener('mousemove', onMove, true);
+  //   document.addEventListener('mouseup', onMouseUp, true);
+  // };
 
   /**
    * Initial long press click/touch on event
@@ -305,7 +305,7 @@ const DaysViewOneDay = (props: DaysViewOneDayProps) => {
     //   return;
     // }
 
-    onMouseDownLong(e);
+    // onMouseDownLong(e);
   };
 
   const oneDayStyle: any = {
